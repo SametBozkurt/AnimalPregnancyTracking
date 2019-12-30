@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/margin_kategori_1">
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardView"
+            app:cardBackgroundColor="@color/card_background_tint"
+            app:cardCornerRadius="@dimen/card_corner_radius">
+
+            <RelativeLayout
+                android:id="@+id/text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txt_isim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignStart="@id/img_hayvan"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:text="@string/ozel_listview_isim"
+                    android:textColor="@color/listViewTextColor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_tur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_isim"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:text="@string/ozel_listview_tur"
+                    android:textColor="@color/listViewTextColor" />
+
+                <TextView
+                    android:id="@+id/txt_kupe_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_tur"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:text="@string/ozel_listview_kupe_no"
+                    android:textColor="@color/listViewTextColor" />
+
+                <TextView
+                    android:id="@+id/txt_tarih1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_kupe_no"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/ozel_listview_tarih1"
+                    android:textColor="@color/listViewTextColor" />
+
+                <TextView
+                    android:id="@+id/txt_tarih2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_tarih1"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:text="@string/ozel_listview_tarih2"
+                    android:textColor="@color/listViewTextColor" />
+
+                <LinearLayout
+                    android:id="@+id/button_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_tarih2"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:layout_marginBottom="@dimen/margin_kategori_1"
+                    android:layout_marginStart="15dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_del"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_kategori_2"
+                        android:layout_marginEnd="@dimen/margin_kategori_1"
+                        android:text="@string/sil_button_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/listViewTextColor"
+                        android:textSize="18sp"
+                        app:icon="@drawable/icon_delete_72dp"
+                        app:iconTint="@color/listViewTextColor"
+                        app:rippleColor="@android:color/background_light" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_edit"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_kategori_1"
+                        android:layout_marginEnd="@dimen/margin_kategori_2"
+                        android:text="@string/duzenle_button_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/listViewTextColor"
+                        android:textSize="18sp"
+                        app:icon="@drawable/button_duzenle_icon"
+                        app:iconTint="@color/listViewTextColor"
+                        app:rippleColor="@android:color/background_light" />
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_hayvan"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_kategori_3"
+                    android:src="@mipmap/cat"
+                    android:elevation="2dp"
+                    app:civ_circle_background_color="@color/image_background"
+                    app:civ_border_width="3dp"
+                    app:civ_border_color="@color/colorPrimaryDark"
+                    android:contentDescription="@null"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
