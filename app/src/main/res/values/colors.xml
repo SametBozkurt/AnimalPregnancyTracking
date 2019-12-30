@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fbc02d</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#c49000</color>
+    <color name="fab_ripple_color">#00ff00</color>
+    <color name="listViewTextColor">#37474f</color>
+    <color name="layout_background">#fff350</color>
+    <color name="materyal_gri">#292929</color>
+    <color name="button_background_2">#37474f</color>
+    <color name="button_background_3">#FF4081</color>
+    <color name="kayit_bul_title_layout_background">#FFB300</color>
+    <color name="kayit_bul_title_color_primary">#F57F17</color>
+    <color name="button_ripple_color">#4A148C</color>
+    <color name="button_ripple_color_light">#C5CAE9</color>
+    <color name="card_background_tint">#EBBF00</color>
+    <color name="card_background_tint_2">#FDD835</color>
+    <color name="colorAccentPicker">#F57F17</color>
+    <color name="image_background">#FFD54F</color>
+    <color name="fab_tint">#42a5f5</color>
+    <color name="fab_icon_tint">#ffffff</color>
+    <color name="info_layout_background">#F9A825</color>
+    <color name="button_stroke_color">#FFFFFF</color>
+    <color name="input_background_tint">#37474f</color>
+    <color name="input_text_color">#37474f</color>
+    <color name="dogum_kayit_background">#ffeb3b</color>
+    <color name="arama_sonuclari_adapter_background">#ffe54c</color>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Animal Pregnancy Tracking</string>
+    <string name="nav_header_title">Animal Pregnancy Tracking</string>
+    <string name="nav_edit">Edit Record/Remove</string>
+    <string name="nav_delete">Remove Record</string>
+    <string name="nav_critics">Incoming Births</string>
+    <string name="nav_info">Info</string>
+    <string name="nav_title">Options</string>
+    <string name="nav_title2">Application</string>
+    <string name="ok">Ok</string>
+    <string name="dlg_hint_tarih1">\tInsemination date</string>
+    <string name="dlg_hint_tarih2">Estimated birth date</string>
+    <string name="kayit_yok_uyari2">There is no record yet, you have to create a record</string>
+    <string name="listView_tarih1">Insemination date:</string>
+    <string name="listView_tarih2">Birth date:</string>
+    <string name="listview_kupe_no">ID no:</string>
+    <string name="listView_isim">Name:</string>
+    <string name="listView_tur">Species:</string>
+    <string name="listView_durum">Status:</string>
+    <string name="listview_kalan_gun">Remaining days:</string>
+    <string name="activity_duzenle_title">Edit/Remove Record</string>
+    <string name="activity_sil_title">Remove Reacord</string>
+    <string name="activity_kritikler_title">Incoming Birth</string>
+    <string name="ozel_listview_tur">Species</string>
+    <string name="ozel_listview_isim">Name</string>
+    <string name="ozel_listview_tarih1">Insemination date</string>
+    <string name="ozel_listview_tarih2">Birth date</string>
+    <string name="ozel_listview_durum">Status</string>
+    <string name="ozel_listview_kupe_no">ID no</string>
+    <string name="ozel_listview_kalan_gun">Remaining days:</string>
+    <string name="ozel_listview_kalan_gun_asim">Remaining days:—</string>
+    <string name="tur_0">Cow</string>
+    <string name="tur_1">Sheep</string>
+    <string name="tur_2">Goat</string>
+    <string name="tur_3">Cat</string>
+    <string name="tur_4">Dog</string>
+    <string name="hint_isim">Name</string>
+    <string name="hint_kupe_no">ID no(optional)</string>
+    <string name="hint_dollenme_tarihi">Insemination date</string>
+    <string name="button_text_sec">Select</string>
+    <string name="button_text_kaydet">Save</string>
+    <string name="button_text_iptal">Cancel</string>
+    <string name="otomatik_hesaplandi_bildirim">The birth day has been calculated automatically.</string>
+    <string name="bildirim_baslik">Incoming Birth Remainder</string>
+    <string name="duzenle_button_text">Edit</string>
+    <string name="info_title">Info</string>
+    <string name="bildirim_veritabani_yok">No database has been found.</string>
+    <string name="kayit_yok_uyari">There is no pregnancy record; to create a record, click the button right above.</string>
+    <string name="kayit_yok_uyari_kritikler">Do/doesn\'t seem any incoming birth in a month.</string>
+    <string name="listview_durum_normal">Don\'t delay routine controls.</string>
+    <string name="listview_durum_kritik">Need to be checked more often than before.</string>
+    <string name="listview_dogum_uyari_cok_kritik">Get ready to new guests.</string>
+    <string name="listview_durum_tehlikeli">—</string>
+    <string name="spinner_indikator">Please, select any species</string>
+    <string name="snackbar_uyari">You haven\'t selected any species yet.</string>
+    <string name="activity_kayit_ekle_title">New Record</string>
+    <string name="kayit_basarili_text">The record has been created successfully.</string>
+    <string name="sil_button_text">Remove</string>
+    <string name="deger_yok_uyari">Please, fill the inputs to create a record.</string>
+    <string name="bildirim_govde_text">There will be some births in a month.</string>
+    <string name="bildirim_eylem_text">Take a look</string>
+    <string name="date_input_helper_text">Please select a date</string>
+    <string name="activity_edit_title">Edit Record</string>
+    <string name="fab_text">Create</string>
+    <string name="date_input_helper_text_2">Estimated birth date will be calculated automatically.</string>
+    <string name="activity_tarih_hesapla_title">Date Calculator</string>
+    <string name="nav_title3">Tools</string>
+    <string name="nav_calculator">Date Calculator</string>
+    <string name="tur_5">Hamster</string>
+    <string name="menu_kayit_bul">Search for a record</string>
+    <string name="activity_ara_title">Search</string>
+    <string name="hint_bul">Search</string>
+    <string name="radio_button_isim">Names</string>
+    <string name="radio_button_kupe_no">ID numbers</string>
+    <string name="radio_group_hint">Search in:</string>
+    <string name="no_matches">No matches have been found</string>
+    <string name="nav_search">Search For a Record</string>
+    <string name="dev_name">Developer:Samet Bozkurt</string>
+    <string name="app_version">Version:</string>
+    <string name="tur_6">Other</string>
+    <string name="kupe_no_yok">—</string>
+    <string-array name="animal_list">
+        <item>Cow</item>
+        <item>Sheep</item>
+        <item>Goat</item>
+        <item>Cat</item>
+        <item>Dog</item>
+        <item>Hamster</item>
+        <item>Other</item>
+    </string-array>
+    <string name="photo_picker_item_camera">Open camera</string>
+    <string name="photo_picker_item_gallery">From gallery</string>
+    <string name="photo_picker_title">Select a photo</string>
+    <string name="photo_picker_item_remove">Remove photo</string>
+    <string name="title_req_perms">Before get started...</string>
+    <string name="reqs_info">
+        "This app needs some permissions to work properly."
+        "You have to allow these permissions to app work as it should be."
+    </string>
+    <string name="allow_text">Allow</string>
+    <string name="nav_privacy_policy">Privacy Policy</string>
+</resources>
