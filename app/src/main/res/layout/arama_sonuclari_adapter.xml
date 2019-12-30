@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/coordinator"
+    android:layout_marginBottom="@dimen/margin_kategori_1"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardView"
+            app:cardBackgroundColor="@color/arama_sonuclari_adapter_background"
+            app:cardCornerRadius="@dimen/card_corner_radius">
+
+            <RelativeLayout
+                android:id="@+id/text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txt_isim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignStart="@id/img_hayvan"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:text="@string/ozel_listview_isim"
+                    android:textColor="@color/listViewTextColor"
+                    android:textStyle="bold"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txt_tur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_isim"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:text="@string/ozel_listview_tur"
+                    android:textColor="@color/listViewTextColor"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_kupe_no"
+                    android:layout_below="@id/txt_tur"
+                    android:textColor="@color/listViewTextColor"
+                    android:text="@string/ozel_listview_kupe_no"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:layout_marginStart="35dp"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/txt_tarih1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_kupe_no"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:layout_marginEnd="@dimen/margin_kategori_1"
+                    android:drawingCacheQuality="low"
+                    android:text="@string/ozel_listview_tarih1"
+                    android:textColor="@color/listViewTextColor"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txt_tarih2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_tarih1"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:layout_marginBottom="@dimen/margin_kategori_1"
+                    android:drawingCacheQuality="low"
+                    android:text="@string/ozel_listview_tarih2"
+                    android:textColor="@color/listViewTextColor"
+                    android:textSize="13sp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_hayvan"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_kategori_3"
+                    android:src="@mipmap/cat"
+                    android:elevation="2dp"
+                    app:civ_circle_background_color="@color/image_background"
+                    app:civ_border_width="3dp"
+                    app:civ_border_color="@color/kayit_bul_title_layout_background"
+                    android:contentDescription="@null"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

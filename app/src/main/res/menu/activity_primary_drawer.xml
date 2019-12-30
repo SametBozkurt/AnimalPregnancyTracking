@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="@string/nav_title">
+        <menu>
+            <item
+                android:id="@+id/nav_edit"
+                android:icon="@drawable/icon_edit_v2"
+                android:title="@string/nav_edit" />
+            <item
+                android:id="@+id/nav_critics"
+                android:icon="@drawable/ic_warning_v2"
+                android:title="@string/nav_critics">
+            </item>
+            <item
+                android:id="@+id/nav_search"
+                android:icon="@drawable/ic_search"
+                android:title="@string/nav_search">
+            </item>
+        </menu>
+    </item>
+    <item
+        android:title="@string/nav_title3">
+        <menu>
+            <item
+                android:id="@+id/nav_calculator"
+                android:icon="@drawable/ic_calculator"
+                android:title="@string/nav_calculator"/>
+        </menu>
+    </item>
+    <item android:title="@string/nav_title2">
+        <menu>
+            <item android:title="@string/nav_privacy_policy"
+                android:id="@+id/nav_policy"
+                android:icon="@drawable/icon_privacy"
+                />
+            <item android:title="@string/nav_info"
+                android:icon="@drawable/icon_information_72dp"
+                android:id="@+id/nav_info"/>
+        </menu>
+    </item>
+
+</menu>
