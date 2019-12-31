@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -77,7 +76,6 @@ public class ActivityDogumKayit extends AppCompatActivity {
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
         secilen_tur="0";
         gorsel_ad="";
-        boolTur=true;
         gecerli_takvim=Calendar.getInstance();
         gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
         ay1=gecerli_takvim.get(Calendar.MONTH);
@@ -90,8 +88,8 @@ public class ActivityDogumKayit extends AppCompatActivity {
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("SPINNER_CHECK",String.valueOf(position));
                 secilen_tur=String.valueOf(position);
+                boolTur=true;
                 if(position!=6){
                     textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
                     new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this);

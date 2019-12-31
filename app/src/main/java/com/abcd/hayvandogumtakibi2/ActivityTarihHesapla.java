@@ -2,7 +2,6 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,7 +33,6 @@ public class ActivityTarihHesapla extends AppCompatActivity {
         btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
         main_Layout=findViewById(R.id.ana_katman);
         secilen_tur="0";
-        boolTur=true;
         Calendar gecerli_takvim=Calendar.getInstance();
         date=gecerli_takvim.getTime();
         gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
@@ -53,7 +51,7 @@ public class ActivityTarihHesapla extends AppCompatActivity {
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("SPINNER_CHECK",String.valueOf(position));
+                boolTur=true;
                 secilen_tur=String.valueOf(position);
                 new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this);
             }

@@ -44,7 +44,7 @@
     <string name="otomatik_hesaplandi_bildirim">Doğum tarihi otomatik olarak hesaplandı.</string>
     <string name="bildirim_baslik">Yaklaşan Doğum Uyarısı</string>
     <string name="duzenle_button_text">Düzenle</string>
-    <string name="kayit_yok_uyari">Herhangi bir gebelik kaydı oluşturulmamış. Oluşturmak için sağ üstteki butona tıklayınız.</string>
+    <string name="kayit_yok_uyari">Herhangi bir gebelik kaydı oluşturulmamış. Oluşturmak için sağ alttaki butona tıklayınız.</string>
     <string name="kayit_yok_uyari_kritikler">1 ay içerisinde herhangi bir doğum gözükmüyor.</string>
     <string name="listview_durum_normal">Rutin kontrolleri aksatmayınız.</string>
     <string name="listview_durum_kritik">Kontrolleri sıklaştırmanız önerilir.</string>
@@ -100,4 +100,6 @@
     </string>
     <string name="allow_text">İzin ver</string>
     <string name="nav_privacy_policy">Verilerin Gizliliği İlkesi</string>
+    <string name="fab_barn_exp">Çiftlik</string>
+    <string name="fab_pet_exp">Evcil</string>
 </resources>

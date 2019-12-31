@@ -56,7 +56,7 @@
     <string name="duzenle_button_text">Edit</string>
     <string name="info_title">Info</string>
     <string name="bildirim_veritabani_yok">No database has been found.</string>
-    <string name="kayit_yok_uyari">There is no pregnancy record; to create a record, click the button right above.</string>
+    <string name="kayit_yok_uyari">There is no pregnancy record; to create a record, click the button right below.</string>
     <string name="kayit_yok_uyari_kritikler">Do/doesn\'t seem any incoming birth in a month.</string>
     <string name="listview_durum_normal">Don\'t delay routine controls.</string>
     <string name="listview_durum_kritik">Need to be checked more often than before.</string>
@@ -104,4 +104,6 @@
         "This app needs some permissions to work properly."
         "You have to allow these permissions to app work as it should be."
     </string>
+    <string name="fab_pet_exp">Pet</string>
+    <string name="fab_barn_exp">Barn</string>
 </resources>

@@ -8,9 +8,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -34,6 +37,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
 
     private static final String POLICIY_URL = "https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html";
     private static final int PERMISSION_REQ_CODE = 21323;
+    private static final String INTENT_ACTION= "SET_AN_ALARM" ;
+    boolean is_opened = false;
+    TextView txt_pet,txt_barn;
     SQLiteDatabaseHelper databaseHelper;
     RecyclerView recyclerView;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
@@ -41,13 +47,17 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
-    FloatingActionButton btn_add;
-    CoordinatorLayout coordinatorLayout;
-    private static final String INTENT_ACTION= "SET_AN_ALARM" ;
+    FloatingActionButton btn_add,btn_pet,btn_barn;
+    ConstraintLayout constraintLayout;
+    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fab_open= AnimationUtils.loadAnimation(this,R.anim.fab_on);
+        fab_close=AnimationUtils.loadAnimation(this,R.anim.fab_off);
+        fab_clock=AnimationUtils.loadAnimation(this,R.anim.rotation_clock);
+        fab_anticlock=AnimationUtils.loadAnimation(this,R.anim.rotation_anticlock);
         new SQLiteDatabaseHelper(PrimaryActivity.this);
         databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
         hayvanVerilerArrayList=databaseHelper.getAllData();
@@ -65,7 +75,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         int item_id=item.getItemId();
         if(item_id==R.id.kayit_bul){
             if(hayvanVerilerArrayList.size()==0){
-                Snackbar.make(coordinatorLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
             }
             else{
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
@@ -89,7 +99,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         switch (id){
             case R.id.nav_critics:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(coordinatorLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                     break;
                 }
                 else{
@@ -98,7 +108,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
             case R.id.nav_edit:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(coordinatorLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                     break;
                 }
                 else{
@@ -107,7 +117,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
             case R.id.nav_search:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(coordinatorLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                     break;
                 }
                 else{
@@ -149,12 +159,16 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    public void dosya_kontrol(ArrayList<HayvanVeriler> hayvanVeriler){
+    public void dosya_kontrol(final ArrayList<HayvanVeriler> hayvanVeriler){
         if(hayvanVeriler.size()==0){
             setContentView(R.layout.activity_primary_msg);
-            coordinatorLayout=findViewById(R.id.main_layout);
+            constraintLayout=findViewById(R.id.constraintLayout);
             toolbar = findViewById(R.id.toolbar);
             btn_add = findViewById(R.id.create);
+            btn_pet = findViewById(R.id.fab_pet);
+            btn_barn = findViewById(R.id.fab_barn);
+            txt_pet = findViewById(R.id.text_pet);
+            txt_barn = findViewById(R.id.text_barn);
             setSupportActionBar(toolbar);
             drawer = findViewById(R.id.drawer_layout);
             navigationView = findViewById(R.id.nav_view);
@@ -166,16 +180,45 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(is_opened){
+                        txt_pet.setVisibility(View.INVISIBLE);
+                        txt_barn.setVisibility(View.INVISIBLE);
+                        btn_pet.startAnimation(fab_close);
+                        btn_pet.setClickable(true);
+                        btn_barn.startAnimation(fab_close);
+                        btn_barn.setClickable(true);
+                        btn_add.startAnimation(fab_anticlock);
+                        is_opened=false;
+                    }
+                    else{
+                        txt_pet.setVisibility(View.VISIBLE);
+                        txt_barn.setVisibility(View.VISIBLE);
+                        btn_pet.startAnimation(fab_open);
+                        btn_pet.setClickable(true);
+                        btn_barn.startAnimation(fab_open);
+                        btn_barn.setClickable(true);
+                        btn_add.startAnimation(fab_clock);
+                        is_opened = true;
+                    }
+                }
+            });
+            btn_pet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     startActivity(new Intent(PrimaryActivity.this,ActivityDogumKayit.class));
                 }
             });
         }
         else{
             setContentView(R.layout.activity_primary);
-            coordinatorLayout=findViewById(R.id.main_layout);
+            constraintLayout=findViewById(R.id.main_layout);
             toolbar = findViewById(R.id.toolbar);
             databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
             btn_add = findViewById(R.id.create);
+            btn_pet = findViewById(R.id.fab_pet);
+            btn_barn = findViewById(R.id.fab_barn);
+            txt_pet = findViewById(R.id.text_pet);
+            txt_barn = findViewById(R.id.text_barn);
             drawer = findViewById(R.id.drawer_layout);
             navigationView = findViewById(R.id.nav_view);
             hayvanVerilerArrayList=databaseHelper.getAllData();
@@ -183,6 +226,32 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.e("KAYITLAR",String.valueOf(hayvanVeriler.size()));
+                    if(is_opened){
+                        txt_pet.setVisibility(View.INVISIBLE);
+                        txt_barn.setVisibility(View.INVISIBLE);
+                        btn_pet.startAnimation(fab_close);
+                        btn_barn.startAnimation(fab_close);
+                        btn_add.startAnimation(fab_anticlock);
+                        btn_pet.setClickable(true);
+                        btn_barn.setClickable(true);
+                        is_opened=false;
+                    }
+                    else{
+                        txt_pet.setVisibility(View.VISIBLE);
+                        txt_barn.setVisibility(View.VISIBLE);
+                        btn_pet.startAnimation(fab_open);
+                        btn_barn.startAnimation(fab_open);
+                        btn_add.startAnimation(fab_clock);
+                        btn_pet.setClickable(true);
+                        btn_barn.setClickable(true);
+                        is_opened = true;
+                    }
+                }
+            });
+            btn_pet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     startActivity(new Intent(PrimaryActivity.this,ActivityDogumKayit.class));
                 }
             });

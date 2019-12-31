@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -75,7 +74,6 @@ public class ActivityEdit extends AppCompatActivity {
         databaseHelper=new SQLiteDatabaseHelper(ActivityEdit.this);
         takvim=Calendar.getInstance();
         veritabani=new SQLiteDatabaseHelper(ActivityEdit.this);
-        boolTur=true;
         secilen_tur="";
         degerleri_yerlestir();
     }
@@ -138,7 +136,7 @@ public class ActivityEdit extends AppCompatActivity {
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("SPINNER_CHECK",String.valueOf(position));
+                boolTur=true;
                 secilen_tur=String.valueOf(position);
                 if(position!=6){
                     new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this);
