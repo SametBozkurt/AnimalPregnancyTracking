@@ -38,7 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/no_record" />
+            android:src="@mipmap/no_record"
+            android:contentDescription="@null" />
 
         <TextView
             style="@style/STYLE_WARNING_TEXT"

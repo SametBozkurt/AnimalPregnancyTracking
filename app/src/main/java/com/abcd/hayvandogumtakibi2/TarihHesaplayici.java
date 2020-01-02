@@ -8,22 +8,16 @@ import java.util.Date;
 public class TarihHesaplayici {
 
     String isim_tur,dogum_tarihi,dogum_tarihi_ayrilacak;
-    int ispet;
     SimpleDateFormat format_date,dateFormatAyrilcak;
     Calendar calendar;
     Date date1;
-    private static final String TUR_0="0"; //İNEK
-    private static final String TUR_1="1"; //KOYUN
-    private static final String TUR_2="2";//KEÇİ
-    private static final String TUR_3="3"; //KEDİ
-    private static final String TUR_4="4"; //KÖPEK
-    private static final String TUR_5="5";//HAMSTER
     private static final int DAY_COW = 283;
     private static final int DAY_SHEEP = 152;
     private static final int DAY_GOAT = 150;
     private static final int DAY_CAT = 65;
     private static final int DAY_DOG = 64;
     private static final int DAY_HAMSTER = 16;
+    int ispet;
 
     public TarihHesaplayici(int isPet, String isim, Date tarih){
         isim_tur=isim;
