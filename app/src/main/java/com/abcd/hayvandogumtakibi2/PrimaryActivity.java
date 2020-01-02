@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
@@ -205,7 +204,21 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             btn_pet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(PrimaryActivity.this,ActivityDogumKayit.class));
+                    Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
+                    Bundle datas=new Bundle();
+                    datas.putInt("isPet",1);
+                    bundle_intent.putExtras(datas);
+                    PrimaryActivity.this.startActivity(bundle_intent);
+                }
+            });
+            btn_barn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
+                    Bundle datas=new Bundle();
+                    datas.putInt("isPet",2);
+                    bundle_intent.putExtras(datas);
+                    PrimaryActivity.this.startActivity(bundle_intent);
                 }
             });
         }
@@ -226,7 +239,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("KAYITLAR",String.valueOf(hayvanVeriler.size()));
                     if(is_opened){
                         txt_pet.setVisibility(View.INVISIBLE);
                         txt_barn.setVisibility(View.INVISIBLE);
@@ -252,7 +264,23 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             btn_pet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(PrimaryActivity.this,ActivityDogumKayit.class));
+                    Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
+                    Bundle datas=new Bundle();
+                    datas.putInt("isPet",1);
+                    bundle_intent.putExtras(datas);
+                    PrimaryActivity.this.startActivity(bundle_intent);
+                    //Evcil hayvan ise 1
+                }
+            });
+            btn_barn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
+                    Bundle datas=new Bundle();
+                    datas.putInt("isPet",2);
+                    bundle_intent.putExtras(datas);
+                    PrimaryActivity.this.startActivity(bundle_intent);
+                    //Besi hayvanı ise 2
                 }
             });
             navigationView.setNavigationItemSelectedListener(this);

@@ -3,6 +3,7 @@ package com.abcd.hayvandogumtakibi2;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,6 @@ import java.util.Date;
 
 public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.CustomViewHolder> {
 
-    private static final String TUR_0="0"; //İNEK
-    private static final String TUR_1="1"; //KOYUN
-    private static final String TUR_2="2";//KEÇİ
-    private static final String TUR_3="3"; //KEDİ
-    private static final String TUR_4="4"; //KÖPEK
-    private static final String TUR_5="5";//HAMSTER
-    private static final String TUR_6="6";//DIGER
     Context context;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private Calendar takvim=Calendar.getInstance();
@@ -39,8 +33,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     }
 
     private void degerler(){
-        String date_bugun=String.valueOf(takvim.get(Calendar.DAY_OF_MONTH))+"/"+String.valueOf(takvim.get(Calendar.MONTH)+1)+"/"
-                +String.valueOf(takvim.get(Calendar.YEAR));
+        String date_bugun=takvim.get(Calendar.DAY_OF_MONTH)+"/"+(takvim.get(Calendar.MONTH)+1)+"/"+takvim.get(Calendar.YEAR);
         try {
             bugun=date_formatter.parse(date_bugun);
         } catch (ParseException e) {
@@ -57,6 +50,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
+        Log.e("wweqew",String.valueOf(hayvanVeriler.getIs_evcilhayvan()));
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
         if(hayvanVeriler.getKupe_no().length()==0){
             holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(context.getString(R.string.kupe_no_yok)));
@@ -90,75 +84,11 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
             Glide.with(context)
                     .load(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).
                     into(holder.img_animal);
-            switch(hayvanVeriler.getTur()){
-                case TUR_0:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_0)));
-                    break;
-                case TUR_1:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_1)));
-                    break;
-                case TUR_2:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_2)));
-                    break;
-                case TUR_3:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_3)));
-                    break;
-                case TUR_4:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_4)));
-                    break;
-                case TUR_5:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_5)));
-                    break;
-                case TUR_6:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_6)));
-                    break;
-            }
+            new HayvanDuzenleyici(context).set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
         }
         else{
-            switch(hayvanVeriler.getTur()){
-                case TUR_0:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_0)));
-                    Glide.with(context).load(R.mipmap.cow).into(holder.img_animal);
-                    break;
-                case TUR_1:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_1)));
-                    Glide.with(context).load(R.mipmap.sheep).into(holder.img_animal);
-                    break;
-                case TUR_2:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_2)));
-                    Glide.with(context).load(R.mipmap.goat).into(holder.img_animal);
-                    break;
-                case TUR_3:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_3)));
-                    Glide.with(context).load(R.mipmap.cat).into(holder.img_animal);
-                    break;
-                case TUR_4:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_4)));
-                    Glide.with(context).load(R.mipmap.dog).into(holder.img_animal);
-                    break;
-                case TUR_5:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_5)));
-                    Glide.with(context).load(R.mipmap.hamster).into(holder.img_animal);
-                    break;
-                case TUR_6:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_6)));
-                    Glide.with(context).load(R.mipmap.interrogation_mark).into(holder.img_animal);
-                    break;
-            }
+            new HayvanDuzenleyici(context).set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
+            new HayvanDuzenleyici(context).set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.img_animal);
         }
     }
 

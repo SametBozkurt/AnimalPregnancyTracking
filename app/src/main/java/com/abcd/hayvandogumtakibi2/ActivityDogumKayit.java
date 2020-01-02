@@ -52,7 +52,9 @@ public class ActivityDogumKayit extends AppCompatActivity {
     private ImageView photo;
     private Spinner spinner_turler;
     private Calendar gecerli_takvim;
-    private String secilen_tur,gorsel_ad,gorsel_adres;
+    private String gorsel_adres;
+    private String secilen_tur="0";
+    private String gorsel_ad="";
     private Date date;
     private TextInputLayout textInputLayout;
     private int gun1,ay1,yil1,gun2,ay2,yil2;
@@ -74,17 +76,28 @@ public class ActivityDogumKayit extends AppCompatActivity {
         main_Layout=findViewById(R.id.ana_katman);
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-        secilen_tur="0";
-        gorsel_ad="";
         gecerli_takvim=Calendar.getInstance();
         gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
         ay1=gecerli_takvim.get(Calendar.MONTH);
         yil1=gecerli_takvim.get(Calendar.YEAR);
         date=gecerli_takvim.getTime();
-        ArrayAdapter<String> spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
-                getResources().getStringArray(R.array.animal_list));
-        spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
-        spinner_turler.setAdapter(spinner_adapter);
+        ArrayAdapter<String> spinner_adapter;
+        switch (getIntent().getExtras().getInt("isPet")){
+            case 1: //Evcil hayvan ise
+                //Log.e("TEST",String.valueOf(getIntent().getExtras().getInt("isPet")));
+                spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
+                        getResources().getStringArray(R.array.animal_list_pet));
+                spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
+                spinner_turler.setAdapter(spinner_adapter);
+                break;
+            case 2: //Besi hayvanı ise
+                //Log.e("TEST",String.valueOf(getIntent().getExtras().getInt("isPet")));
+                spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
+                        getResources().getStringArray(R.array.animal_list_barn));
+                spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
+                spinner_turler.setAdapter(spinner_adapter);
+                break;
+        }
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -92,7 +105,8 @@ public class ActivityDogumKayit extends AppCompatActivity {
                 boolTur=true;
                 if(position!=6){
                     textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this);
+                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
+                            getIntent().getExtras().getInt("isPet"));
                 }
                 else{
                     textInputLayout.setHelperText("");
@@ -119,7 +133,8 @@ public class ActivityDogumKayit extends AppCompatActivity {
                         btn_tarih_dollenme.setText(i2+"/"+i1+"/"+i);
                         boolTarih=true;
                         if(!secilen_tur.equals("6")){
-                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this);
+                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
+                                    getIntent().getExtras().getInt("isPet"));
                             gun2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                             ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
                             yil2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
@@ -205,6 +220,8 @@ public class ActivityDogumKayit extends AppCompatActivity {
     }
 
     public void kayit_gir(View snackbar_view){
+        Bundle data_pack=getIntent().getExtras();
+        int isPet=data_pack.getInt("isPet");
         if (edit_isim.length()==0){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
@@ -213,7 +230,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
         }
         else{
             HayvanVeriler hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                    btn_tarih_dollenme.getText().toString(),btn_tarih_dogum.getText().toString(),gorsel_ad);
+                    btn_tarih_dollenme.getText().toString(),btn_tarih_dogum.getText().toString(),gorsel_ad,isPet);
             dbYoneticisi.veri_yaz(hayvanVeriler);
             startActivity(new Intent(ActivityDogumKayit.this,PrimaryActivity.class));
         }

@@ -20,8 +20,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     static final String SUTUN_4="tohumlama_tarihi";
     static final String SUTUN_5="dogum_tarihi";
     static final String SUTUN_6="fotograf_isim";
+    static final String SUTUN_7="evcil_hayvan";
     static final String DATABASE_ALTER_CONF = "ALTER TABLE "
-            + VERİTABANI_İSİM + " ADD COLUMN " + SUTUN_6 + " string;";
+            + VERİTABANI_İSİM + " ADD COLUMN " + SUTUN_7 + " INTEGER;";
     Calendar takvim=Calendar.getInstance();
     SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
     Date bugun,dogum;
@@ -29,14 +30,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     Long fark_ms,gun_sayisi;
 
     public SQLiteDatabaseHelper(Context context) {
-        super(context, VERİTABANI_İSİM, null, 2);
+        super(context, VERİTABANI_İSİM, null, 3);
         degerler();
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE "+VERİTABANI_İSİM+"(id INTEGER PRIMARY KEY,isim TEXT,hayvan_turu TEXT,kupe_no TEXT," +
-                "tohumlama_tarihi TEXT,dogum_tarihi TEXT,fotograf_isim TEXT" + ")");
+                "tohumlama_tarihi TEXT,dogum_tarihi TEXT,fotograf_isim TEXT,evcil_hayvan INTEGER" + ")");
     }
 
     @Override
@@ -49,8 +50,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void degerler(){
-        date_bugun=String.valueOf(takvim.get(Calendar.DAY_OF_MONTH))+"/"+String.valueOf(takvim.get(Calendar.MONTH)+1)+"/"
-                +String.valueOf(takvim.get(Calendar.YEAR));
+        date_bugun=takvim.get(Calendar.DAY_OF_MONTH)+"/"+(takvim.get(Calendar.MONTH)+1)+"/"+takvim.get(Calendar.YEAR);
         try {
             bugun=date_formatter.parse(date_bugun);
         } catch (ParseException e){
@@ -67,13 +67,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         values.put(SUTUN_4,hayvanVeriler.getTohumlama_tarihi());
         values.put(SUTUN_5,hayvanVeriler.getDogum_tarihi());
         values.put(SUTUN_6,hayvanVeriler.getFotograf_isim());
+        values.put(SUTUN_7,hayvanVeriler.getIs_evcilhayvan());
         database.insert(VERİTABANI_İSİM,null,values);
         database.close();
     }
     public ArrayList<HayvanVeriler> getAllData(){
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
         SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6},
+        Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
             hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
@@ -82,14 +83,15 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(3),
                     cursor.getString(4),
                     cursor.getString(5),
-                    cursor.getString(6)));
+                    cursor.getString(6),
+                    cursor.getInt(7)));
         }
         return hayvanVerilerArrayList;
     }
     public ArrayList<HayvanVeriler> getKritikOlanlar(){
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
         SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6},
+        Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
             date_dogum=cursor.getString(5);
@@ -107,7 +109,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(5),
-                        cursor.getString(6)));
+                        cursor.getString(6),
+                        cursor.getInt(7)));
             }
         }
         return  hayvanVerilerArrayList;
@@ -116,7 +119,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
         SQLiteDatabase database=this.getReadableDatabase();
         if(isimAranacak){
-            Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6},
+            Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_1+" LIKE ?",new String[]{"%"+aranacak+"%"},
                     null,null,null);
             while(cursor.moveToNext()){
@@ -126,11 +129,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(5),
-                        cursor.getString(6)));
+                        cursor.getString(6),
+                        cursor.getInt(7)));
             }
         }
         else{
-            Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6},
+            Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_3+" LIKE ?",new String[]{"%"+aranacak+"%"},
                     null,null,null);
             while(cursor.moveToNext()){
@@ -140,7 +144,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(5),
-                        cursor.getString(6)));
+                        cursor.getString(6),
+                        cursor.getInt(7)));
             }
         }
         return hayvanVerilerArrayList;

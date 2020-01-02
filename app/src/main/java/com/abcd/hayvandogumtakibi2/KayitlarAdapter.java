@@ -19,13 +19,7 @@ import java.util.Date;
 
 public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.CustomViewHolder> {
 
-    private static final String TUR_0="0"; //INEK
-    private static final String TUR_1="1"; //KOYUN
-    private static final String TUR_2="2";//KECI
-    private static final String TUR_3="3"; //KEDI
-    private static final String TUR_4="4"; //KOPEK
-    private static final String TUR_5="5";//HAMSTER
-    private static final String TUR_6="6";//DIGER
+
     private ArrayList<HayvanVeriler> hayvanVeriler;
     private Context context;
     private Calendar takvim=Calendar.getInstance();
@@ -43,7 +37,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         gun=takvim.get(Calendar.DAY_OF_MONTH);
         ay=takvim.get(Calendar.MONTH)+1;
         yil=takvim.get(Calendar.YEAR);
-        String date_bugun=String.valueOf(gun)+"/"+String.valueOf(ay)+"/"+String.valueOf(yil);
+        String date_bugun=gun+"/"+ay+"/"+yil;
         try {
             bugun=date_formatter.parse(date_bugun);
         } catch (ParseException e) {
@@ -78,74 +72,11 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
-            switch(hayvanVeriler1.getTur()){
-                case TUR_0:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_0)));
-                    break;
-                case TUR_1:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_1)));
-                    break;
-                case TUR_2:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_2)));
-                    break;
-                case TUR_3:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_3)));
-                    break;
-                case TUR_4:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_4)));
-                    break;
-                case TUR_5:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_5)));
-                    break;
-                case TUR_6:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_6)));
-                    break;
-            }
+            new HayvanDuzenleyici(context).set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
         }
         else if(hayvanVeriler1.getFotograf_isim()==null||hayvanVeriler1.getFotograf_isim().length()==0){
-            switch(hayvanVeriler1.getTur()){
-                case TUR_0:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_0)));
-                    Glide.with(context).load(R.mipmap.cow).into(holder.img_animal);
-                    break;
-                case TUR_1:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_1)));
-                    Glide.with(context).load(R.mipmap.sheep).into(holder.img_animal);
-                    break;
-                case TUR_2:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_2)));
-                    break;
-                case TUR_3:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_3)));
-                    Glide.with(context).load(R.mipmap.cat).into(holder.img_animal);
-                    break;
-                case TUR_4:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_4)));
-                    Glide.with(context).load(R.mipmap.dog).into(holder.img_animal);
-                    break;
-                case TUR_5:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_5)));
-                    Glide.with(context).load(R.mipmap.hamster).into(holder.img_animal);
-                    break;
-                case TUR_6:
-                    holder.txt_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                            .append(context.getString(R.string.tur_6)));
-                    Glide.with(context).load(R.mipmap.interrogation_mark).into(holder.img_animal);
-                    break;
-            }
+            new HayvanDuzenleyici(context).set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
+            new HayvanDuzenleyici(context).set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.img_animal);
         }
         long fark_ms=dogum.getTime()-bugun.getTime();
         long gun_sayisi=(fark_ms/(1000*60*60*24));

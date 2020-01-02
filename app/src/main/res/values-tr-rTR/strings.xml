@@ -89,6 +89,18 @@
         <item>Hamster</item>
         <item>Diğer</item>
     </string-array>
+    <string-array name="animal_list_pet">
+        <item>Kedi</item>
+        <item>Köpek</item>
+        <item>Hamster</item>
+        <item>Diğer</item>
+    </string-array>
+    <string-array name="animal_list_barn">
+        <item>İnek</item>
+        <item>Koyun</item>
+        <item>Keçi</item>
+        <item>Diğer</item>
+    </string-array>
     <string name="photo_picker_item_camera">Kamerayı aç</string>
     <string name="photo_picker_item_gallery">Galeriden seç</string>
     <string name="photo_picker_title">Fotoğraf seç</string>

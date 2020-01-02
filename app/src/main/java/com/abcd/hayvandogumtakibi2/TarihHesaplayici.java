@@ -8,6 +8,7 @@ import java.util.Date;
 public class TarihHesaplayici {
 
     String isim_tur,dogum_tarihi,dogum_tarihi_ayrilacak;
+    int ispet;
     SimpleDateFormat format_date,dateFormatAyrilcak;
     Calendar calendar;
     Date date1;
@@ -24,9 +25,10 @@ public class TarihHesaplayici {
     private static final int DAY_DOG = 64;
     private static final int DAY_HAMSTER = 16;
 
-    public TarihHesaplayici(String isim, Date tarih){
+    public TarihHesaplayici(int isPet, String isim, Date tarih){
         isim_tur=isim;
         date1=tarih;
+        ispet=isPet;
     }
 
     public TarihHesaplayici(String parseble_date){
@@ -50,35 +52,67 @@ public class TarihHesaplayici {
         format_date=new SimpleDateFormat("dd/MM/yyyy");
         calendar=Calendar.getInstance();
         calendar.setTime(date1);
-        if(isim_tur.equals(TUR_0)){
-            calendar.add(Calendar.DATE,DAY_COW);
-            dogum_tarihi=format_date.format(calendar.getTime());
-            return dogum_tarihi;
-        }
-        else if(isim_tur.equals(TUR_1)){
-            calendar.add(Calendar.DATE,DAY_SHEEP);
-            dogum_tarihi=format_date.format(calendar.getTime());
-            return dogum_tarihi;
-        }
-        else if(isim_tur.equals(TUR_2)){
-            calendar.add(Calendar.DATE,DAY_GOAT);
-            dogum_tarihi=format_date.format(calendar.getTime());
-            return dogum_tarihi;
-        }
-        else if(isim_tur.equals(TUR_3)){
-            calendar.add(Calendar.DATE,DAY_CAT);
-            dogum_tarihi=format_date.format(calendar.getTime());
-            return dogum_tarihi;
-        }
-        else if(isim_tur.equals(TUR_4)){
-            calendar.add(Calendar.DATE,DAY_DOG);
-            dogum_tarihi=format_date.format(calendar.getTime());
-            return dogum_tarihi;
-        }
-        else if(isim_tur.equals(TUR_5)){
-            calendar.add(Calendar.DATE,DAY_HAMSTER);
-            dogum_tarihi=format_date.format(calendar.getTime());
-            return dogum_tarihi;
+        switch(ispet){
+            case 0: //tum hayvanlar
+                switch(isim_tur){
+                    case "0":
+                        calendar.add(Calendar.DATE,DAY_COW);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "1":
+                        calendar.add(Calendar.DATE,DAY_SHEEP);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "2":
+                        calendar.add(Calendar.DATE,DAY_GOAT);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "3":
+                        calendar.add(Calendar.DATE,DAY_CAT);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "4":
+                        calendar.add(Calendar.DATE,DAY_DOG);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "5":
+                        calendar.add(Calendar.DATE,DAY_HAMSTER);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                }
+                break;
+            case 1: //evcil hayvanlar
+                switch(isim_tur){
+                    case "0":
+                        calendar.add(Calendar.DATE,DAY_CAT);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "1":
+                        calendar.add(Calendar.DATE,DAY_DOG);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "2":
+                        calendar.add(Calendar.DATE,DAY_HAMSTER);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                }
+                break;
+            case 2: //besi hayvanları
+                switch(isim_tur){
+                    case "0":
+                        calendar.add(Calendar.DATE,DAY_COW);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "1":
+                        calendar.add(Calendar.DATE,DAY_SHEEP);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                    case "2":
+                        calendar.add(Calendar.DATE,DAY_GOAT);
+                        dogum_tarihi=format_date.format(calendar.getTime());
+                        return dogum_tarihi;
+                }
+                break;
         }
         return null;
     }

@@ -18,13 +18,6 @@ import java.util.ArrayList;
 
 public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomViewHolder> {
 
-    private static final String TUR_0="0"; //İNEK
-    private static final String TUR_1="1"; //KOYUN
-    private static final String TUR_2="2";//KEÇİ
-    private static final String TUR_3="3"; //KEDİ
-    private static final String TUR_4="4"; //KÖPEK
-    private static final String TUR_5="5";//HAMSTER
-    private static final String TUR_6="6";//DIGER
     Context mContext;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     SQLiteDatabaseHelper databaseHelper;
@@ -65,6 +58,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 veri_paketi.putCharSequence("kayit_tarih1",hayvanVeriler.getTohumlama_tarihi());
                 veri_paketi.putCharSequence("kayit_tarih2",hayvanVeriler.getDogum_tarihi());
                 veri_paketi.putCharSequence("kayit_gorsel_isim",hayvanVeriler.getFotograf_isim());
+                veri_paketi.putInt("isPet",hayvanVeriler.getIs_evcilhayvan());
                 data.putExtras(veri_paketi);
                 mContext.startActivity(data);
 
@@ -80,78 +74,12 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
             }
         });
         if(hayvanVeriler.getFotograf_isim().length()!=0){
-            Glide.with(mContext).
-                    load(Uri.fromFile(new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).
-                    into(holder.img_animal);
-            switch(hayvanVeriler.getTur()){
-                case TUR_0:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_0)));
-                    break;
-                case TUR_1:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_1)));
-                    break;
-                case TUR_2:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_2)));
-                    break;
-                case TUR_3:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_3)));
-                    break;
-                case TUR_4:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_4)));
-                    break;
-                case TUR_5:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_5)));
-                    break;
-                case TUR_6:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_6)));
-                    break;
-            }
+            Glide.with(mContext).load(Uri.fromFile(new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).into(holder.img_animal);
+            new HayvanDuzenleyici(mContext).set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
         }
         else{
-            switch(hayvanVeriler.getTur()){
-                case TUR_0:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_0)));
-                    Glide.with(mContext).load(R.mipmap.cow).into(holder.img_animal);
-                    break;
-                case TUR_1:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_1)));
-                    Glide.with(mContext).load(R.mipmap.sheep).into(holder.img_animal);
-                    break;
-                case TUR_2:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_2)));
-                    Glide.with(mContext).load(R.mipmap.goat).into(holder.img_animal);
-                    break;
-                case TUR_3:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_3)));
-                    Glide.with(mContext).load(R.mipmap.cat).into(holder.img_animal);
-                    break;
-                case TUR_4:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_4)));
-                    Glide.with(mContext).load(R.mipmap.dog).into(holder.img_animal);
-                    break;
-                case TUR_5:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_5)));
-                    Glide.with(mContext).load(R.mipmap.hamster).into(holder.img_animal);
-                    break;
-                case TUR_6:
-                    holder.txt_tur.setText(new StringBuilder(mContext.getString(R.string.listView_tur))
-                            .append(mContext.getString(R.string.tur_6)));
-                    Glide.with(mContext).load(R.mipmap.interrogation_mark).into(holder.img_animal);
-                    break;
-            }
+            new HayvanDuzenleyici(mContext).set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
+            new HayvanDuzenleyici(mContext).set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.img_animal);
         }
     }
 

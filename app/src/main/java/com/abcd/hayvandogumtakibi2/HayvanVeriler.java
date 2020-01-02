@@ -1,7 +1,5 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.util.Log;
-
 public class HayvanVeriler {
 
     private int id;
@@ -11,8 +9,9 @@ public class HayvanVeriler {
     private String tohumlama_tarihi;
     private String dogum_tarihi;
     private String fotograf_isim;
+    private int is_evcilhayvan;
 
-    public HayvanVeriler(int ID,String str1,String str2,String str3,String str4,String str5,String str6){
+    public HayvanVeriler(int ID,String str1,String str2,String str3,String str4,String str5,String str6,int evcilhayvan){
         id=ID;
         isim=str1;
         tur=str2;
@@ -20,6 +19,7 @@ public class HayvanVeriler {
         tohumlama_tarihi=str4;
         dogum_tarihi=str5;
         fotograf_isim=str6;
+        is_evcilhayvan=evcilhayvan;
     }
 
     public void setId(int id) {
@@ -82,4 +82,14 @@ public class HayvanVeriler {
     public void setFotograf_isim(String fotograf_isim) {
         this.fotograf_isim=fotograf_isim;
     }
+
+    public void setIs_evcilhayvan(int is_evcilhayvan) {
+        this.is_evcilhayvan = is_evcilhayvan;
+    }
+
+    public int getIs_evcilhayvan() {
+        //Default olarak 0 döner
+        return is_evcilhayvan;
+    }
+
 }

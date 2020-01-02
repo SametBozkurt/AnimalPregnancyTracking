@@ -23,6 +23,7 @@ public class ActivityTarihHesapla extends AppCompatActivity {
     private int gun1,ay1,yil1;
     private String secilen_tur;
     private Date date;
+    int petCode=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,8 @@ public class ActivityTarihHesapla extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolTur=true;
                 secilen_tur=String.valueOf(position);
-                new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this);
+                new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
+                        petCode);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -75,7 +77,8 @@ public class ActivityTarihHesapla extends AppCompatActivity {
                         i1+=1; //i2-->GÜN i1-->AY i-->YIL
                         btn_tarih_dollenme.setText(i2+"/"+i1+"/"+i);
                         boolTarih=true;
-                        new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this);
+                        new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
+                                petCode);
                     }
                 },yil1,ay1,gun1);
                 datePickerDialog.show();

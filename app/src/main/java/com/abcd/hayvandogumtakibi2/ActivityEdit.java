@@ -42,8 +42,7 @@ public class ActivityEdit extends AppCompatActivity {
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
     private boolean boolTur=true;
     private boolean boolTarih=true;
-    private int kayit_id;
-    private int gun1,ay1,yil1,gun2,ay2,yil2;
+    private int gun1,ay1,yil1,gun2,ay2,yil2,kayit_id,petCode;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
     Button kaydet,iptal;
     Spinner tur_sec;
@@ -86,6 +85,7 @@ public class ActivityEdit extends AppCompatActivity {
     public void degerleri_yerlestir(){
         data_bundle=getIntent().getExtras();
         kayit_id=data_bundle.getInt("kayit_id");
+        petCode=data_bundle.getInt("isPet");
         try {
             date=new SimpleDateFormat("dd/MM/yyyy").parse((String)data_bundle.getCharSequence("kayit_tarih1"));
             Calendar mCalendar=Calendar.getInstance();
@@ -113,10 +113,24 @@ public class ActivityEdit extends AppCompatActivity {
             ay2=takvim.get(Calendar.MONTH);
             yil2=takvim.get(Calendar.YEAR);
         }
-        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,
-                getResources().getStringArray(R.array.animal_list));
-        spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
-        tur_sec.setAdapter(spinnerAdapter);
+        ArrayAdapter<String> spinnerAdapter;
+        switch(petCode){
+            case 0:
+                spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list));
+                spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
+                tur_sec.setAdapter(spinnerAdapter);
+                break;
+            case 1:
+                spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list_pet));
+                spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
+                tur_sec.setAdapter(spinnerAdapter);
+                break;
+            case 2:
+                spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list_barn));
+                spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
+                tur_sec.setAdapter(spinnerAdapter);
+                break;
+        }
         txt_isim.setText(data_bundle.getCharSequence("kayit_isim"));
         txt_kupe_no.setText(data_bundle.getCharSequence("kayit_kupe_no"));
         dollenme_tarihi.setText(data_bundle.getCharSequence("kayit_tarih1"));
@@ -139,7 +153,8 @@ public class ActivityEdit extends AppCompatActivity {
                 boolTur=true;
                 secilen_tur=String.valueOf(position);
                 if(position!=6){
-                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this);
+                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
+                            petCode);
                 }
                 else{
                     textInputLayout.setHelperText("");
@@ -169,7 +184,7 @@ public class ActivityEdit extends AppCompatActivity {
                         secilen_tarih1=i2+"/"+i1+"/"+i;
                         boolTarih=true;
                         if(!secilen_tur.equals("6")){
-                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this);
+                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
                             gun2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                             ay2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
                             yil2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
@@ -194,7 +209,7 @@ public class ActivityEdit extends AppCompatActivity {
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         i1+=1;
                         dogum_tarihi.setText(i2+"/"+i1+"/"+i);
-                        secilen_tarih2=String.valueOf(i2)+"/"+String.valueOf(i1)+"/"+String.valueOf(i);
+                        secilen_tarih2=i2+"/"+i1+"/"+i;
                     }
                 },yil2,ay2,gun2);
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
