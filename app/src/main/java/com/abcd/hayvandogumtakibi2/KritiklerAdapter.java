@@ -3,6 +3,7 @@ package com.abcd.hayvandogumtakibi2;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
+        Log.e("wweqew",String.valueOf(hayvanVeriler.getIs_evcilhayvan()));
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
         if(hayvanVeriler.getKupe_no().length()==0){
             holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(context.getString(R.string.kupe_no_yok)));

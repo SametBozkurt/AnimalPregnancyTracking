@@ -18,10 +18,9 @@
             android:id="@+id/activity_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="@dimen/margin_kategori_1"
             app:title="@string/activity_kritikler_title"
             android:background="@color/colorPrimary"
-             />
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
