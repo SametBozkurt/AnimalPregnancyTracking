@@ -51,7 +51,8 @@
             android:name=".ActivityKritikler"
             android:label="@string/activity_kritikler_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+             />
         <activity
             android:name=".ActivityDogumKayit"
             android:screenOrientation="portrait"
