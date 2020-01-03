@@ -84,14 +84,12 @@ public class ActivityDogumKayit extends AppCompatActivity {
         ArrayAdapter<String> spinner_adapter;
         switch (getIntent().getExtras().getInt("isPet")){
             case 1: //Evcil hayvan ise
-                //Log.e("TEST",String.valueOf(getIntent().getExtras().getInt("isPet")));
                 spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
                         getResources().getStringArray(R.array.animal_list_pet));
                 spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
                 spinner_turler.setAdapter(spinner_adapter);
                 break;
             case 2: //Besi hayvanı ise
-                //Log.e("TEST",String.valueOf(getIntent().getExtras().getInt("isPet")));
                 spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
                         getResources().getStringArray(R.array.animal_list_barn));
                 spinner_adapter.setDropDownViewResource(R.layout.spinner_text);

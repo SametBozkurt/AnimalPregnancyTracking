@@ -31,7 +31,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String POLICIY_URL = "https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html";
@@ -180,23 +179,23 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 @Override
                 public void onClick(View view) {
                     if(is_opened){
-                        txt_pet.setVisibility(View.INVISIBLE);
-                        txt_barn.setVisibility(View.INVISIBLE);
+                        txt_pet.startAnimation(fab_close);
                         btn_pet.startAnimation(fab_close);
-                        btn_pet.setClickable(true);
+                        txt_barn.startAnimation(fab_close);
                         btn_barn.startAnimation(fab_close);
-                        btn_barn.setClickable(true);
                         btn_add.startAnimation(fab_anticlock);
+                        btn_pet.setClickable(false);
+                        btn_barn.setClickable(false);
                         is_opened=false;
                     }
                     else{
-                        txt_pet.setVisibility(View.VISIBLE);
-                        txt_barn.setVisibility(View.VISIBLE);
+                        txt_pet.startAnimation(fab_open);
                         btn_pet.startAnimation(fab_open);
-                        btn_pet.setClickable(true);
+                        txt_barn.startAnimation(fab_open);
                         btn_barn.startAnimation(fab_open);
-                        btn_barn.setClickable(true);
                         btn_add.startAnimation(fab_clock);
+                        btn_pet.setClickable(true);
+                        btn_barn.setClickable(true);
                         is_opened = true;
                     }
                 }
@@ -240,19 +239,19 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 @Override
                 public void onClick(View view) {
                     if(is_opened){
-                        txt_pet.setVisibility(View.INVISIBLE);
-                        txt_barn.setVisibility(View.INVISIBLE);
+                        txt_pet.startAnimation(fab_close);
                         btn_pet.startAnimation(fab_close);
+                        txt_barn.startAnimation(fab_close);
                         btn_barn.startAnimation(fab_close);
                         btn_add.startAnimation(fab_anticlock);
-                        btn_pet.setClickable(true);
-                        btn_barn.setClickable(true);
+                        btn_pet.setClickable(false);
+                        btn_barn.setClickable(false);
                         is_opened=false;
                     }
                     else{
-                        txt_pet.setVisibility(View.VISIBLE);
-                        txt_barn.setVisibility(View.VISIBLE);
+                        txt_pet.startAnimation(fab_open);
                         btn_pet.startAnimation(fab_open);
+                        txt_barn.startAnimation(fab_open);
                         btn_barn.startAnimation(fab_open);
                         btn_add.startAnimation(fab_clock);
                         btn_pet.setClickable(true);
