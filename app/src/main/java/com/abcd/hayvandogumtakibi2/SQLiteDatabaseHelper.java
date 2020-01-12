@@ -21,7 +21,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     static final String SUTUN_5="dogum_tarihi";
     static final String SUTUN_6="fotograf_isim";
     static final String SUTUN_7="evcil_hayvan";
-    static final String DATABASE_ALTER_CONF = "ALTER TABLE "
+    static final String DATABASE_ALTER_CONF_V2 = "ALTER TABLE "
+            + VERİTABANI_İSİM + " ADD COLUMN " + SUTUN_6 + " string;";
+    static final String DATABASE_ALTER_CONF_V3 = "ALTER TABLE "
             + VERİTABANI_İSİM + " ADD COLUMN " + SUTUN_7 + " INTEGER;";
     Calendar takvim=Calendar.getInstance();
     SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
@@ -45,7 +47,13 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         //i--->Eski veritabani surum kodu
         //i1--->Yeni veritabani surun kodu
         if(i<i1){
-            sqLiteDatabase.execSQL(DATABASE_ALTER_CONF);
+            if(i==2){
+                sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V3);
+            }
+            else if(i==1){
+                sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V2);
+                sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V3);
+            }
         }
     }
 
