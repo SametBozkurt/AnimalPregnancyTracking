@@ -3,6 +3,7 @@
     <color name="colorPrimary">#fbc02d</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryDark">#c49000</color>
+    <color name="colorPrimaryDark_2">#c8b900</color>
     <color name="fab_ripple_color">#00ff00</color>
     <color name="listViewTextColor">#37474f</color>
     <color name="layout_background">#fff350</color>

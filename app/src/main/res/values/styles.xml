@@ -15,7 +15,8 @@
     <style name="NoActionBar" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">#c8b900</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
     </style>
     <style name="NoActionBar2" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">false</item>
