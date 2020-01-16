@@ -34,6 +34,7 @@
     </style>
 
     <style name="PickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/colorAccentPicker</item>
         <item name="colorAccent">@color/colorAccentPicker</item>
         <item name="materialButtonStyle">@style/PickerButtonStyle</item>
         <item name="android:datePickerMode">calendar</item>

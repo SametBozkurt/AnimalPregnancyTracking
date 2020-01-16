@@ -3,7 +3,6 @@ package com.abcd.hayvandogumtakibi2;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +100,6 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     @Override
     public int getItemCount() {
-        Log.e("KayıtlarAdapter",String.valueOf(hayvanVeriler.size()));
         return hayvanVeriler.size();
     }
 
