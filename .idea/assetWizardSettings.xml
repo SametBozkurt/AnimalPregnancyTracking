@@ -103,6 +103,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="ffffff" />
+                                                <entry key="paddingPercent" value="-10" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -112,9 +113,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="iconShape" value="CIRCLE" />
-                                      <entry key="imageAsset" value="D:\Android Studio\Çalışma Verileri\question-mark-icon-25.png" />
-                                      <entry key="outputName" value="icon_photo_add" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="iconShape" value="NONE" />
+                                      <entry key="imageAsset" value="D:\Android Studio\Çalışma Verileri\camel-512px.png" />
+                                      <entry key="outputName" value="camel" />
                                     </map>
                                   </option>
                                 </PersistentState>

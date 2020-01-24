@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 
 public class ActivityDogumKayit extends AppCompatActivity {
 
@@ -80,6 +80,9 @@ public class ActivityDogumKayit extends AppCompatActivity {
         gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
         ay1=gecerli_takvim.get(Calendar.MONTH);
         yil1=gecerli_takvim.get(Calendar.YEAR);
+        gun2=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
+        ay2=gecerli_takvim.get(Calendar.MONTH);
+        yil2=gecerli_takvim.get(Calendar.YEAR);
         date=gecerli_takvim.getTime();
         ArrayAdapter<String> spinner_adapter;
         switch (getIntent().getExtras().getInt("isPet")){
@@ -153,11 +156,6 @@ public class ActivityDogumKayit extends AppCompatActivity {
                                     ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
                                     yil2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
                                 }
-                                else{
-                                    gun2=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-                                    ay2=Calendar.getInstance().get(Calendar.MONTH);
-                                    yil2=Calendar.getInstance().get(Calendar.YEAR);
-                                }
                                 break;
                             case 2: //Besi hayvanı ise
                                 if(!secilen_tur.equals("3")){
@@ -166,11 +164,6 @@ public class ActivityDogumKayit extends AppCompatActivity {
                                     gun2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                                     ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
                                     yil2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
-                                }
-                                else{
-                                    gun2=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-                                    ay2=Calendar.getInstance().get(Calendar.MONTH);
-                                    yil2=Calendar.getInstance().get(Calendar.YEAR);
                                 }
                                 break;
                         }
@@ -186,6 +179,9 @@ public class ActivityDogumKayit extends AppCompatActivity {
                 final DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityDogumKayit.this,R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        gun2=i2;
+                        yil2=i;
+                        ay2=i1;
                         i1+=1;
                         btn_tarih_dogum.setText(i2+"/"+i1+"/"+i);
                     }
