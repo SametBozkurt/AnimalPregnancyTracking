@@ -59,6 +59,15 @@ public class HayvanDuzenleyici {
                     case 6:
                         Glide.with(context).load(R.mipmap.interrogation_mark).into(imgView);
                         break;
+                    case 7:
+                        Glide.with(context).load(R.mipmap.horse).into(imgView);
+                        break;
+                    case 8:
+                        Glide.with(context).load(R.mipmap.donkey).into(imgView);
+                        break;
+                    case 9:
+                        Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        break;
                 }
                 break;
             case 1: //sadece evcil hayvanlar
@@ -90,6 +99,15 @@ public class HayvanDuzenleyici {
                         break;
                     case 3:
                         Glide.with(context).load(R.mipmap.interrogation_mark).into(imgView);
+                        break;
+                    case 4:
+                        Glide.with(context).load(R.mipmap.horse).into(imgView);
+                        break;
+                    case 5:
+                        Glide.with(context).load(R.mipmap.donkey).into(imgView);
+                        break;
+                    case 6:
+                        Glide.with(context).load(R.mipmap.camel).into(imgView);
                         break;
                 }
                 break;

@@ -88,6 +88,9 @@
         <item>Dog</item>
         <item>Hamster</item>
         <item>Other</item>
+        <item>Horse</item>
+        <item>Donkey</item>
+        <item>Camel</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Cat</item>
@@ -100,6 +103,9 @@
         <item>Sheep</item>
         <item>Goat</item>
         <item>Other</item>
+        <item>Horse</item>
+        <item>Donkey</item>
+        <item>Camel</item>
     </string-array>
     <string name="photo_picker_item_camera">Open camera</string>
     <string name="photo_picker_item_gallery">From gallery</string>
@@ -114,4 +120,7 @@
     <string name="nav_privacy_policy">Privacy Policy</string>
     <string name="fab_barn_exp">Barn</string>
     <string name="fab_pet_exp">Pet</string>
+    <string name="tur_7">Horse</string>
+    <string name="tur_8">Donkey</string>
+    <string name="tur_9">Camel</string>
 </resources>

@@ -206,7 +206,7 @@ public class ActivityEdit extends AppCompatActivity {
                                     yil2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
                                 }
                                 break;
-                            case 1: case 2: //Evcil & çiftlik hayvan ise
+                            case 1: case 2: //Evcil kodu //Besi kodu
                                 if(!secilen_tur.equals("3")){
                                     new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
                                     gun2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);

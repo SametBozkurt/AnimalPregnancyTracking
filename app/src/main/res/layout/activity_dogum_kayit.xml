@@ -183,7 +183,6 @@
                         android:layout_marginTop="@dimen/margin_kategori_1"
                         android:layout_marginRight="@dimen/margin_kategori_1"
                         android:hint="@string/dlg_hint_tarih2"
-                        app:helperText="@string/date_input_helper_text_2"
                         app:hintEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText

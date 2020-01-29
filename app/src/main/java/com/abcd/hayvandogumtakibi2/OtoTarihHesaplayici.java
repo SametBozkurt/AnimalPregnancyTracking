@@ -23,12 +23,12 @@ public class OtoTarihHesaplayici {
         mContext=context;
         date1=d;
         ispet=isPet;
-        otomatik_hesapla(booleanTur,booleanTarih);
+        otomatik_hesapla(booleanTur,booleanTarih,mContext);
     }
 
-    public void otomatik_hesapla(Boolean b1, Boolean b2){
+    public void otomatik_hesapla(Boolean b1, Boolean b2,Context c){
         if(b1&&b2){
-            TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ispet,tur,date1);
+            TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ispet,tur,date1,c);
             tahmini_dogum_tarihi.setText(tarihHesaplayici.getTarih());
             Snackbar.make(view,mContext.getString(R.string.otomatik_hesaplandi_bildirim),Snackbar.LENGTH_SHORT).show();
         }

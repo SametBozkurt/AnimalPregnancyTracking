@@ -88,6 +88,9 @@
         <item>Köpek</item>
         <item>Hamster</item>
         <item>Diğer</item>
+        <item>At</item>
+        <item>Eşek</item>
+        <item>Deve</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Kedi</item>
@@ -100,6 +103,9 @@
         <item>Koyun</item>
         <item>Keçi</item>
         <item>Diğer</item>
+        <item>At</item>
+        <item>Eşek</item>
+        <item>Deve</item>
     </string-array>
     <string name="photo_picker_item_camera">Kamerayı aç</string>
     <string name="photo_picker_item_gallery">Galeriden seç</string>
@@ -114,4 +120,7 @@
     <string name="nav_privacy_policy">Verilerin Gizliliği İlkesi</string>
     <string name="fab_barn_exp">Çiftlik</string>
     <string name="fab_pet_exp">Evcil</string>
+    <string name="tur_7">At</string>
+    <string name="tur_8">Eşek</string>
+    <string name="tur_9">Deve</string>
 </resources>

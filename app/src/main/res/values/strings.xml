@@ -44,6 +44,9 @@
     <string name="tur_4">Dog</string>
     <string name="tur_5">Hamster</string>
     <string name="tur_6">Other</string>
+    <string name="tur_7">Horse</string>
+    <string name="tur_8">Donkey</string>
+    <string name="tur_9">Camel</string>
     <string name="hint_isim">Name</string>
     <string name="hint_bul">Search</string>
     <string name="hint_kupe_no">ID no(optional)</string>
@@ -93,6 +96,9 @@
         <item>Dog</item>
         <item>Hamster</item>
         <item>Other</item>
+        <item>Horse</item>
+        <item>Donkey</item>
+        <item>Camel</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Cat</item>
@@ -105,6 +111,9 @@
         <item>Sheep</item>
         <item>Goat</item>
         <item>Other</item>
+        <item>Horse</item>
+        <item>Donkey</item>
+        <item>Camel</item>
     </string-array>
     <string name="photo_picker_title">Select a photo</string>
     <string name="photo_picker_item_gallery">From gallery</string>
