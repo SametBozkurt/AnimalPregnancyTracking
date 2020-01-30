@@ -123,7 +123,10 @@
     <string name="allow_text">Allow</string>
     <string name="reqs_info">
         "This app needs some permissions to work properly."
-        "You have to allow these permissions to app work as it should be."
+        "We recommend you to allow these permissions."
+    </string>
+    <string name="reqs_info2">
+        Keep in mind that this app will not collect your any data.
     </string>
     <string name="fab_pet_exp">Pet</string>
     <string name="fab_barn_exp">Barn</string>

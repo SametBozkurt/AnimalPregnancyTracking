@@ -114,7 +114,7 @@
     <string name="title_req_perms">Başlamadan önce...</string>
     <string name="reqs_info">
         "Bu uygulama düzgün çalışması için bazı izinlere ihtiyaç duyar."
-        "Uygulamanın düzgün çalışması için bu izinleri vermek zorundasınız."
+        "Uygulamanın düzgün çalışması adına, bu izinleri vermenizi tavsiye ediyoruz."
     </string>
     <string name="allow_text">İzin ver</string>
     <string name="nav_privacy_policy">Verilerin Gizliliği İlkesi</string>
@@ -123,4 +123,5 @@
     <string name="tur_7">At</string>
     <string name="tur_8">Eşek</string>
     <string name="tur_9">Deve</string>
+    <string name="reqs_info2">Hiçbir verinizin toplanmayacağını aklınızda bulundurunuz.</string>
 </resources>
