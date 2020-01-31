@@ -24,6 +24,13 @@
         <item name="colorPrimaryDark">@color/kayit_bul_title_layout_background</item>
         <item name="colorPrimary">@color/kayit_bul_title_color_primary</item>
     </style>
+    <style name="NoActionBar3" parent="Theme.MaterialComponents.Light">
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

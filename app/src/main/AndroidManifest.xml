@@ -3,11 +3,14 @@
     package="com.abcd.hayvandogumtakibi2">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -19,10 +22,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ActivityKayitAra"
+            android:name=".DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar2"
-            android:label="@string/activity_ara_title" />
+            android:theme="@style/NoActionBar3">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActivityKayitAra"
+            android:label="@string/activity_ara_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar2" />
         <activity
             android:name=".ActivityTarihHesapla"
             android:screenOrientation="portrait"
@@ -36,11 +49,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ActivityKayitDuzenle"
@@ -51,8 +59,7 @@
             android:name=".ActivityKritikler"
             android:label="@string/activity_kritikler_title"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-             />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityDogumKayit"
             android:screenOrientation="portrait"
@@ -70,14 +77,13 @@
         <receiver android:name=".DateChangeDedector" />
 
         <provider
-            android:authorities="com.sariyazilim.hayvangebeliktakibi"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.sariyazilim.hayvangebeliktakibi"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
+                android:resource="@xml/file_paths"></meta-data>
         </provider>
     </application>
 

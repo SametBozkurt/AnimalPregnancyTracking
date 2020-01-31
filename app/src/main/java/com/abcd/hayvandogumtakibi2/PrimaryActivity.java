@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -23,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -46,7 +46,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
     FloatingActionButton btn_add,btn_pet,btn_barn;
-    ConstraintLayout constraintLayout;
+    RelativeLayout relativeLayout;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
 
     @Override
@@ -73,7 +73,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         int item_id=item.getItemId();
         if(item_id==R.id.kayit_bul){
             if(hayvanVerilerArrayList.size()==0){
-                Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
             }
             else{
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
@@ -97,7 +97,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         switch (id){
             case R.id.nav_critics:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                     break;
                 }
                 else{
@@ -106,7 +106,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
             case R.id.nav_edit:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                     break;
                 }
                 else{
@@ -115,7 +115,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
             case R.id.nav_search:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(constraintLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                     break;
                 }
                 else{
@@ -160,7 +160,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     public void dosya_kontrol(final ArrayList<HayvanVeriler> hayvanVeriler){
         if(hayvanVeriler.size()==0){
             setContentView(R.layout.activity_primary_msg);
-            constraintLayout=findViewById(R.id.constraintLayout);
+            relativeLayout=findViewById(R.id.relativeLayout);
             toolbar = findViewById(R.id.toolbar);
             btn_add = findViewById(R.id.create);
             btn_pet = findViewById(R.id.fab_pet);
@@ -223,7 +223,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         }
         else{
             setContentView(R.layout.activity_primary);
-            constraintLayout=findViewById(R.id.main_layout);
+            relativeLayout=findViewById(R.id.main_layout);
             toolbar = findViewById(R.id.toolbar);
             databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
             btn_add = findViewById(R.id.create);
