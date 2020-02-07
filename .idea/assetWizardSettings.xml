@@ -126,8 +126,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="D:\Android Studio\Çalışma Verileri\icons8-donkey-100.png" />
-                                      <entry key="outputName" value="donkey" />
+                                      <entry key="imageAsset" value="D:\Android Studio\Çalışma Verileri\icons8-horse-90-new.png" />
+                                      <entry key="outputName" value="horse" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -39,18 +39,19 @@
                 android:layout_marginStart="@dimen/margin_kategori_1"
                 android:layout_marginTop="@dimen/margin_kategori_1"
                 android:layout_marginEnd="@dimen/margin_kategori_1"
-                style="@style/KayitBulInputStyle"
                 android:hint="@string/hint_bul"
-                app:hintEnabled="true">
+                app:hintEnabled="true"
+                style="@style/KayitBulInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/bul"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/icon_search"
+                    android:textColor="@android:color/background_light"
+                    android:inputType="textPersonName"
                     android:lines="1"
                     android:maxLength="30"
-                    android:textColor="@android:color/background_light"
                     android:theme="@style/InputSearch"/>
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -14,9 +14,10 @@
         android:layout_marginBottom="60dp">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@mipmap/icon_new"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/icon_demo"
+            android:layout_marginBottom="@dimen/margin_kategori_3"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@null"/>
 
@@ -27,6 +28,8 @@
             android:textColor="@color/nav_header_title_color"
             android:textSize="22sp"
             android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
             android:fontFamily="@font/allerta"
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
