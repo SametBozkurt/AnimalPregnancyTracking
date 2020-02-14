@@ -31,9 +31,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="sans-serif"
                     android:text="@string/activity_edit_title"
                     android:textColor="@color/input_text_color"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textSize="@dimen/title_size"
                     android:textStyle="bold" />
 
@@ -71,6 +71,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:lines="1"
+                        android:fontFamily="@font/comfortaa_bold"
                         android:maxLength="30"
                         android:theme="@style/InputYeniKayit"/>
 
@@ -108,6 +109,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:lines="1"
+                            android:fontFamily="@font/comfortaa_bold"
                             android:maxLength="30"
                             android:theme="@style/InputYeniKayit"/>
 
@@ -154,6 +156,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
+                            android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
                             android:theme="@style/InputYeniKayit"/>
 
@@ -191,6 +194,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
+                            android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
                             android:theme="@style/InputYeniKayit"/>
 

@@ -43,7 +43,6 @@ public class ActivityDogumKayit extends AppCompatActivity {
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
-    private boolean boolTur=false;
     private boolean boolTarih=false;
     private RelativeLayout main_Layout;
     private SQLiteDatabaseHelper dbYoneticisi;
@@ -103,12 +102,11 @@ public class ActivityDogumKayit extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 secilen_tur=String.valueOf(position);
-                boolTur=true;
                 switch (getIntent().getExtras().getInt("isPet")){
                     case 1: //Evcil hayvan ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
+                            new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
                                     getIntent().getExtras().getInt("isPet"));
                         }
                         else{
@@ -118,7 +116,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
                     case 2: //Besi hayvanı ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
+                            new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
                                     getIntent().getExtras().getInt("isPet"));
                         }
                         else{
@@ -150,7 +148,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
                         switch (getIntent().getExtras().getInt("isPet")){
                             case 1: //Evcil hayvan ise
                                 if(!secilen_tur.equals("3")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
+                                    new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
                                             getIntent().getExtras().getInt("isPet"));
                                     gun2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                                     ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
@@ -159,7 +157,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
                                 break;
                             case 2: //Besi hayvanı ise
                                 if(!secilen_tur.equals("3")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
+                                    new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
                                             getIntent().getExtras().getInt("isPet"));
                                     gun2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                                     ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);

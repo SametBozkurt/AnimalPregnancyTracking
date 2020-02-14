@@ -35,8 +35,8 @@
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_isim"
                     android:textColor="@color/listViewTextColor"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/comfortaa_bold"/>
 
                 <TextView
                     android:id="@+id/txt_tur"
@@ -46,6 +46,7 @@
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_tur"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -56,6 +57,7 @@
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_kupe_no"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -67,6 +69,7 @@
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:layout_marginEnd="5dp"
                     android:text="@string/ozel_listview_tarih1"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -77,6 +80,7 @@
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_tarih2"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <LinearLayout
@@ -101,6 +105,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/listViewTextColor"
                         android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
                         app:icon="@drawable/icon_delete_72dp"
                         app:iconTint="@color/listViewTextColor"
                         app:rippleColor="@android:color/background_light" />
@@ -117,6 +122,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/listViewTextColor"
                         android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
                         app:icon="@drawable/button_duzenle_icon"
                         app:iconTint="@color/listViewTextColor"
                         app:rippleColor="@android:color/background_light" />

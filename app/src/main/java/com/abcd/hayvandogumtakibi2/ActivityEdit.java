@@ -40,7 +40,6 @@ public class ActivityEdit extends AppCompatActivity {
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
-    private boolean boolTur=true;
     private boolean boolTarih=true;
     private int gun1,ay1,yil1,gun2,ay2,yil2,kayit_id,petCode;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
@@ -148,13 +147,12 @@ public class ActivityEdit extends AppCompatActivity {
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                boolTur=true;
                 secilen_tur=String.valueOf(position);
                 switch (getIntent().getExtras().getInt("isPet")){
                     case 0://Önceki sürümler için
                         if(position!=6){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
+                            new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
                                     petCode);
                         }
                         else{
@@ -164,7 +162,7 @@ public class ActivityEdit extends AppCompatActivity {
                     case 1: case 2: //Evcil & çiftlik hayvan ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
+                            new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
                                     petCode);
                         }
                         else{
@@ -200,7 +198,7 @@ public class ActivityEdit extends AppCompatActivity {
                         switch (getIntent().getExtras().getInt("isPet")){
                             case 0://Önceki sürümler için
                                 if(!secilen_tur.equals("6")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
+                                    new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
                                     gun2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                                     ay2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
                                     yil2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
@@ -208,7 +206,7 @@ public class ActivityEdit extends AppCompatActivity {
                                 break;
                             case 1: case 2: //Evcil kodu //Besi kodu
                                 if(!secilen_tur.equals("3")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
+                                    new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
                                     gun2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
                                     ay2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
                                     yil2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);

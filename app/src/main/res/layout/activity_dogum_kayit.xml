@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="sans-serif"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:text="@string/activity_kayit_ekle_title"
                     android:textColor="@color/input_text_color"
                     android:textSize="@dimen/title_size"
@@ -50,9 +50,9 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_photo_add"
                     android:layout_marginBottom="@dimen/margin_kategori_2"
-                    android:contentDescription="@null" />
+                    android:contentDescription="@null"
+                    android:src="@mipmap/icon_photo_add" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_input_isim"
@@ -71,6 +71,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:lines="1"
+                        android:fontFamily="@font/comfortaa_bold"
                         android:maxLength="30"
                         android:theme="@style/InputYeniKayit"/>
 
@@ -108,6 +109,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:lines="1"
+                            android:fontFamily="@font/comfortaa_bold"
                             android:maxLength="30"
                             android:theme="@style/InputYeniKayit"/>
 
@@ -154,6 +156,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
+                            android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
                             android:theme="@style/InputYeniKayit"/>
 
@@ -190,6 +193,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
+                            android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
                             android:theme="@style/InputYeniKayit"/>
 
@@ -219,6 +223,7 @@
             android:text="@string/button_text_kaydet"
             android:textSize="20sp"
             android:textColor="@android:color/background_light"
+            android:fontFamily="@font/comfortaa_bold"
             android:backgroundTint="@color/button_background_2"
             app:iconTint="@android:color/background_light"
             app:rippleColor="@color/button_ripple_color_light"
@@ -236,6 +241,7 @@
             android:text="@string/button_text_iptal"
             android:textColor="@color/button_background_2"
             android:textSize="20sp"
+            android:fontFamily="@font/comfortaa_bold"
             app:backgroundTint="@android:color/background_light"
             app:icon="@drawable/icon_btn_cancel"
             app:iconTint="@color/button_background_2"

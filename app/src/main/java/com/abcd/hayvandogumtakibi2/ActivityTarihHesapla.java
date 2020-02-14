@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityTarihHesapla extends AppCompatActivity {
 
-    private boolean boolTur=false;
     private boolean boolTarih=false;
     private RelativeLayout main_Layout;
     private EditText btn_tarih_dogum,btn_tarih_dollenme;
@@ -54,9 +53,8 @@ public class ActivityTarihHesapla extends AppCompatActivity {
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                boolTur=true;
                 secilen_tur=String.valueOf(position);
-                new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
+                new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
                         petCode);
             }
             @Override
@@ -79,7 +77,7 @@ public class ActivityTarihHesapla extends AppCompatActivity {
                         i1+=1; //i2-->GÜN i1-->AY i-->YIL
                         btn_tarih_dollenme.setText(i2+"/"+i1+"/"+i);
                         boolTarih=true;
-                        new OtoTarihHesaplayici(main_Layout,boolTur,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
+                        new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
                                 petCode);
                     }
                 },yil1,ay1,gun1);

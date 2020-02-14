@@ -15,7 +15,7 @@ public class OtoTarihHesaplayici {
     private Date date1;
     private int ispet;
 
-    public OtoTarihHesaplayici(View v, Boolean booleanTur, Boolean booleanTarih, EditText editText, String isim_tur,
+    public OtoTarihHesaplayici(View v, Boolean booleanTarih, EditText editText, String isim_tur,
                                Date d, Context context, int isPet){
         view=v;
         tahmini_dogum_tarihi=editText;
@@ -23,11 +23,11 @@ public class OtoTarihHesaplayici {
         mContext=context;
         date1=d;
         ispet=isPet;
-        otomatik_hesapla(booleanTur,booleanTarih,mContext);
+        otomatik_hesapla(booleanTarih,mContext);
     }
 
-    public void otomatik_hesapla(Boolean b1, Boolean b2,Context c){
-        if(b1&&b2){
+    public void otomatik_hesapla(Boolean b2,Context c){
+        if(b2){
             TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ispet,tur,date1,c);
             tahmini_dogum_tarihi.setText(tarihHesaplayici.getTarih());
             Snackbar.make(view,mContext.getString(R.string.otomatik_hesaplandi_bildirim),Snackbar.LENGTH_SHORT).show();

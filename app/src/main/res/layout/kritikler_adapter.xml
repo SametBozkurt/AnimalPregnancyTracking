@@ -36,8 +36,8 @@
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_isim"
                     android:textColor="@color/listViewTextColor"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp"
+                    android:fontFamily="@font/comfortaa_bold"/>
 
                 <TextView
                     android:id="@+id/txt_tur"
@@ -47,6 +47,7 @@
                     android:layout_below="@id/txt_isim"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_tur"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -57,6 +58,7 @@
                     android:textColor="@color/listViewTextColor"
                     android:text="@string/ozel_listview_kupe_no"
                     android:layout_marginTop="@dimen/margin_kategori_1"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:layout_marginStart="35dp"/>
 
                 <TextView
@@ -67,6 +69,7 @@
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/ozel_listview_tarih1"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -77,6 +80,7 @@
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:layout_marginStart="35dp"
                     android:text="@string/ozel_listview_tarih2"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -87,8 +91,8 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:text="@string/listview_kalan_gun"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/listViewTextColor" />
 
                 <TextView
@@ -101,8 +105,8 @@
                     android:layout_marginBottom="@dimen/margin_kategori_1"
                     android:text="@string/listView_durum"
                     android:textColor="@color/listViewTextColor"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/comfortaa_bold"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_hayvan"

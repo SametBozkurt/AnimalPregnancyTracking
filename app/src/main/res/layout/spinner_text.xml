@@ -2,8 +2,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:fontFamily="@font/comfortaa_bold"
+    android:padding="10dp"
     android:text="@string/app_name"
     android:textColor="@color/input_text_color"
-    android:textSize="18sp"
-    android:padding="10dp">
-</TextView>
+    android:textSize="18sp"></TextView>
