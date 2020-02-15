@@ -76,7 +76,7 @@ public class ActivityEdit extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(ActivityEdit.this,ActivityDogumKayit.class));
+        super.onBackPressed();
     }
 
     public void degerleri_yerlestir(){
@@ -148,7 +148,7 @@ public class ActivityEdit extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 secilen_tur=String.valueOf(position);
-                switch (getIntent().getExtras().getInt("isPet")){
+                switch (petCode){
                     case 0://Önceki sürümler için
                         if(position!=6){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
@@ -188,14 +188,13 @@ public class ActivityEdit extends AppCompatActivity {
                         gun1=i2;
                         ay1=i1;
                         yil1=i;
-                        Calendar calendar=Calendar.getInstance();
-                        calendar.set(i,i1,i2);
-                        date=calendar.getTime();
+                        takvim.set(i,i1,i2);
+                        date=takvim.getTime();
                         i1+=1; //i2-->GÜN i1-->AY i-->YIL
                         dollenme_tarihi.setText(i2+"/"+i1+"/"+i);
                         secilen_tarih1=i2+"/"+i1+"/"+i;
                         boolTarih=true;
-                        switch (getIntent().getExtras().getInt("isPet")){
+                        switch (petCode){
                             case 0://Önceki sürümler için
                                 if(!secilen_tur.equals("6")){
                                     new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
@@ -250,7 +249,7 @@ public class ActivityEdit extends AppCompatActivity {
         iptal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityEdit.this,ActivityKayitDuzenle.class));
+                onBackPressed();
             }
         });
         photo.setOnClickListener(new View.OnClickListener() {

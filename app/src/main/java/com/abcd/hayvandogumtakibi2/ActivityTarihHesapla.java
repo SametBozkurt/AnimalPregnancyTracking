@@ -32,7 +32,7 @@ public class ActivityTarihHesapla extends AppCompatActivity {
         btn_tarih_dollenme=findViewById(R.id.dollenme_tarihi);
         btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
         main_Layout=findViewById(R.id.ana_katman);
-        Calendar gecerli_takvim=Calendar.getInstance();
+        final Calendar gecerli_takvim=Calendar.getInstance();
         date=gecerli_takvim.getTime();
         gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
         ay1=gecerli_takvim.get(Calendar.MONTH);
@@ -71,9 +71,8 @@ public class ActivityTarihHesapla extends AppCompatActivity {
                         yil1=i;
                         ay1=i1;
                         gun1=i2;
-                        Calendar calendar=Calendar.getInstance();
-                        calendar.set(i,i1,i2);
-                        date=calendar.getTime();
+                        gecerli_takvim.set(i,i1,i2);
+                        date=gecerli_takvim.getTime();
                         i1+=1; //i2-->GÜN i1-->AY i-->YIL
                         btn_tarih_dollenme.setText(i2+"/"+i1+"/"+i);
                         boolTarih=true;

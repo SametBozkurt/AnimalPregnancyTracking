@@ -30,6 +30,7 @@
                     android:text="@string/activity_tarih_hesapla_title"
                     android:textColor="@color/input_text_color"
                     android:textSize="@dimen/title_size"
+                    android:gravity="center_horizontal"
                     android:fontFamily="@font/comfortaa_bold"/>
             </RelativeLayout>
 
