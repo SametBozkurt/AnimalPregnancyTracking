@@ -24,10 +24,12 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     private Calendar takvim=Calendar.getInstance();
     private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
     private Date bugun,dogum;
+    HayvanDuzenleyici hayvanDuzenleyici;
 
     public KritiklerAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList1){
         this.context=context;
         this.hayvanVerilerArrayList=hayvanVerilerArrayList1;
+        hayvanDuzenleyici=new HayvanDuzenleyici(context);
         degerler();
     }
 
@@ -56,6 +58,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         else{
             holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(hayvanVeriler.getKupe_no()));
         }
+        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
         holder.txt_tarih1.setText(new StringBuilder(context.getString(R.string.listView_tarih1)).append(hayvanVeriler.getTohumlama_tarihi()));
         holder.txt_tarih2.setText(new StringBuilder(context.getString(R.string.listView_tarih2)).append(hayvanVeriler.getDogum_tarihi()));
         String date_dogum=hayvanVeriler.getDogum_tarihi();
@@ -82,11 +85,9 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
             Glide.with(context)
                     .load(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).
                     into(holder.img_animal);
-            new HayvanDuzenleyici(context).set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
         }
         else{
-            new HayvanDuzenleyici(context).set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
-            new HayvanDuzenleyici(context).set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.img_animal);
+            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.img_animal);
         }
     }
 

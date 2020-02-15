@@ -18,10 +18,12 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     private ArrayList<HayvanVeriler> hayvanVeriler;
     private Context context;
+    HayvanDuzenleyici hayvanDuzenleyici;
 
     public AramalarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList){
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
+        hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
 
     @NonNull
@@ -38,15 +40,14 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         holder.txt_kupe_no.setText(context.getString(R.string.listview_kupe_no)+hayvanVeriler1.getKupe_no());
         holder.txt_tarih1.setText(context.getString(R.string.listView_tarih1)+hayvanVeriler1.getTohumlama_tarihi());
         holder.txt_tarih2.setText(context.getString(R.string.listView_tarih2)+hayvanVeriler1.getDogum_tarihi());
+        hayvanDuzenleyici.set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             Glide.with(context)
                     .load(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim()))).
                     into(holder.img_animal);
-            new HayvanDuzenleyici(context).set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
         }
         else{
-            new HayvanDuzenleyici(context).set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
-            new HayvanDuzenleyici(context).set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.img_animal);
+            hayvanDuzenleyici.set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.img_animal);
         }
     }
 
@@ -54,6 +55,7 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
     public int getItemCount() {
         return hayvanVeriler.size();
     }
+
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
 

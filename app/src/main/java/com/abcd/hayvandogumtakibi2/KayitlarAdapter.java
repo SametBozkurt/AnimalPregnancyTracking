@@ -19,20 +19,21 @@ import java.util.Date;
 
 public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.CustomViewHolder> {
 
-
     private ArrayList<HayvanVeriler> hayvanVeriler;
     private Context context;
-    private Calendar takvim=Calendar.getInstance();
     private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
     private Date bugun,dogum;
+    private HayvanDuzenleyici hayvanDuzenleyici;
 
     public KayitlarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList){
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
         degerler();
+        hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
 
     private void degerler(){
+        Calendar takvim=Calendar.getInstance();
         int gun,ay,yil;
         gun=takvim.get(Calendar.DAY_OF_MONTH);
         ay=takvim.get(Calendar.MONTH)+1;
@@ -69,14 +70,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        hayvanDuzenleyici.set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
-            new HayvanDuzenleyici(context).set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
         }
         else if(hayvanVeriler1.getFotograf_isim()==null||hayvanVeriler1.getFotograf_isim().length()==0){
-            new HayvanDuzenleyici(context).set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
-            new HayvanDuzenleyici(context).set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.img_animal);
+            hayvanDuzenleyici.set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.img_animal);
         }
         long fark_ms=dogum.getTime()-bugun.getTime();
         long gun_sayisi=(fark_ms/(1000*60*60*24));
