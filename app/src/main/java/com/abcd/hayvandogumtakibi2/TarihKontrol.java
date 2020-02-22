@@ -1,18 +1,20 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.SystemClock;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class TarihKontrol extends BroadcastReceiver {
 
-    private static final int PENDING_INTENT_REQUEST_CODE = 0;
-    private static final long TEST_ALARM_INTERVAL = 60*1000; //1dk...
+    private static final long JOB_PERIOD = 30; //30 dk...
+    private static final long JOB_DEADLINE = 600000; //10dk;
+    private static final int JOB_ID = 0;
     private static final String ACTION_DAY_CHANGED = "android.intent.action.DATE_CHANGED" ;
 
     @Override
@@ -20,11 +22,11 @@ public class TarihKontrol extends BroadcastReceiver {
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new SQLiteDatabaseHelper(context).getAllData();
         if(hayvanVerilerArrayList.size()!=0){
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-                Intent i=new Intent(context,DateChangeDedector.class);
-                PendingIntent alarmPendingIntent=PendingIntent.getBroadcast(context,PENDING_INTENT_REQUEST_CODE,i,PendingIntent.FLAG_UPDATE_CURRENT);
-                long test_trigger_time=SystemClock.elapsedRealtime()+TEST_ALARM_INTERVAL;
-                AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,test_trigger_time,TEST_ALARM_INTERVAL,alarmPendingIntent);
+                JobScheduler scheduler=(JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+                JobInfo.Builder jobBuilder=new JobInfo.Builder(JOB_ID,new ComponentName(context.getPackageName(),DateDedectorService.class.getName()));
+                jobBuilder.setMinimumLatency(TimeUnit.MILLISECONDS.convert(JOB_PERIOD,TimeUnit.MINUTES));
+                jobBuilder.setOverrideDeadline(JOB_DEADLINE);
+                scheduler.schedule(jobBuilder.build());
             }
             else if(intent.getAction().equals(ACTION_DAY_CHANGED)){
                 new Bildirimler(context).bildirim_ver();

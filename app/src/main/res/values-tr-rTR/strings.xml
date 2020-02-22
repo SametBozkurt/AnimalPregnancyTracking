@@ -124,4 +124,5 @@
     <string name="tur_8">Eşek</string>
     <string name="tur_9">Deve</string>
     <string name="reqs_info2">Hiçbir verinizin toplanmayacağını aklınızda bulundurunuz.</string>
+    <string name="service_tag">GunDegisimDedektoru</string>
 </resources>

@@ -124,4 +124,5 @@
     <string name="tur_8">Donkey</string>
     <string name="tur_9">Camel</string>
     <string name="reqs_info2">Keep in mind that this app will not collect your any data.</string>
+    <string name="service_tag">DateDedectorService</string>
 </resources>

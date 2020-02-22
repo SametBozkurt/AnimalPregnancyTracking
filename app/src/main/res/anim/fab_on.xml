@@ -10,12 +10,12 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:toXScale="0.9"
-        android:toYScale="0.9"></scale>
+        android:toYScale="0.9"/>
 
     <alpha
         android:duration="150"
         android:fromAlpha="0.0"
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="1.0"></alpha>
+        android:toAlpha="1.0"/>
 
 </set>

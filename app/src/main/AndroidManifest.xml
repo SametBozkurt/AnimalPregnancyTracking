@@ -74,7 +74,6 @@
                 <action android:name="SET_AN_ALARM" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".DateChangeDedector" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -85,6 +84,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+
+        <service android:name=".DateDedectorService"
+            android:label="@string/service_tag"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
     </application>
 
 </manifest>
