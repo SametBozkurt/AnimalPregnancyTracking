@@ -24,7 +24,7 @@ public class DateDedectorService extends JobService {
         }
         else{
             if(day_code!=calendar.get(Calendar.DAY_OF_WEEK)){
-                new Bildirimler(getApplicationContext()).bildirim_ver();
+                new Bildirimler(getApplicationContext());
                 editor.putInt(getApplicationContext().getString(R.string.preferences_tag_day_code),calendar.get(Calendar.DAY_OF_WEEK));
                 editor.apply();
             }

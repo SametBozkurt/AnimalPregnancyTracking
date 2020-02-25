@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
@@ -240,10 +241,17 @@ public class ActivityEdit extends AppCompatActivity {
         kaydet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
-                        secilen_tur,txt_kupe_no.getText().toString(),secilen_tarih1,dogum_tarihi.getText().toString(),gorsel_ad);
-                startActivity(new Intent(ActivityEdit.this,ActivityKayitDuzenle.class));
-
+                if (txt_isim.length()==0){
+                    Snackbar.make(v,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
+                }
+                else if(dogum_tarihi.length()==0){
+                    Snackbar.make(v,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
+                }
+                else{
+                    databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
+                            secilen_tur,txt_kupe_no.getText().toString(),secilen_tarih1,dogum_tarihi.getText().toString(),gorsel_ad);
+                    startActivity(new Intent(ActivityEdit.this,ActivityKayitDuzenle.class));
+                }
             }
         });
         iptal.setOnClickListener(new View.OnClickListener() {

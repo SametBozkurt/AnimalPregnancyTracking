@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 public class TarihKontrol extends BroadcastReceiver {
 
     private static final long JOB_PERIOD = 30; //30 dk...
+    //private static final long JOB_PERIOD_TEST = 3;
+    //private static final long JOB_DEADLINE_TEST = 180000;
     private static final long JOB_DEADLINE = 600000; //10dk;
     private static final int JOB_ID = 0;
     private static final String ACTION_DAY_CHANGED = "android.intent.action.DATE_CHANGED" ;
@@ -29,7 +31,7 @@ public class TarihKontrol extends BroadcastReceiver {
                 scheduler.schedule(jobBuilder.build());
             }
             else if(intent.getAction().equals(ACTION_DAY_CHANGED)){
-                new Bildirimler(context).bildirim_ver();
+                new Bildirimler(context);
             }
         }
     }

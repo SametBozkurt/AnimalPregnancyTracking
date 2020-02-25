@@ -246,7 +246,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
         if (edit_isim.length()==0){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
-        else if(btn_tarih_dollenme.length()==0){
+        else if(btn_tarih_dogum.length()==0){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
         else{

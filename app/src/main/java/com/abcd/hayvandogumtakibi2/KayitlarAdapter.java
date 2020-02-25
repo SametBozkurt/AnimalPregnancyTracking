@@ -54,6 +54,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
+        String date_dogum;
         HayvanVeriler hayvanVeriler1=hayvanVeriler.get(position);
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler1.getIsim()));
         if(hayvanVeriler1.getKupe_no().length()==0){
@@ -62,9 +63,14 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         else{
             holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(hayvanVeriler1.getKupe_no()));
         }
+        if (hayvanVeriler1.getDogum_tarihi().equals(null)||hayvanVeriler1.getDogum_tarihi().equals("")){
+            date_dogum=hayvanVeriler1.getTohumlama_tarihi();
+        }
+        else{
+            date_dogum=hayvanVeriler1.getDogum_tarihi();
+        }
         holder.txt_tarih1.setText(new StringBuilder(context.getString(R.string.listView_tarih1)).append(hayvanVeriler1.getTohumlama_tarihi()));
         holder.txt_tarih2.setText(new StringBuilder(context.getString(R.string.listView_tarih2)).append(hayvanVeriler1.getDogum_tarihi()));
-        String date_dogum=hayvanVeriler1.getDogum_tarihi();
         try {
             dogum=date_formatter.parse(date_dogum);
         } catch (ParseException e) {

@@ -97,12 +97,17 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return hayvanVerilerArrayList;
     }
     public ArrayList<HayvanVeriler> getKritikOlanlar(){
-        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
         Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
-            date_dogum=cursor.getString(5);
+            if(cursor.getString(5).equals(null)||cursor.getString(5).equals("")){
+                continue;
+            }
+            else{
+                date_dogum=cursor.getString(5);
+            }
             try {
                 dogum=date_formatter.parse(date_dogum);
             } catch (ParseException e) {
