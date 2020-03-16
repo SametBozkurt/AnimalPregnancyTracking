@@ -241,7 +241,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void kayit_gir(View snackbar_view){
+    private void kayit_gir(View snackbar_view){
         Bundle data_pack=getIntent().getExtras();
         if (edit_isim.length()==0){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();

@@ -27,7 +27,7 @@ public class ActivityKritikler extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    protected void dosya_kontrol(SQLiteDatabaseHelper sqLiteDatabaseHelper){
+    private void dosya_kontrol(SQLiteDatabaseHelper sqLiteDatabaseHelper){
         hayvanVerilerArrayList=sqLiteDatabaseHelper.getKritikOlanlar();
         if(hayvanVerilerArrayList.size()==0){
             setContentView(R.layout.yaklasan_dogum_yok);

@@ -76,13 +76,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        hayvanDuzenleyici.set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.txt_tur);
+        hayvanDuzenleyici.set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.txt_tur);
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else if(hayvanVeriler1.getFotograf_isim()==null||hayvanVeriler1.getFotograf_isim().length()==0){
-            hayvanDuzenleyici.set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler1.getTur()),holder.img_animal);
+            hayvanDuzenleyici.set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.img_animal);
         }
         long fark_ms=dogum.getTime()-bugun.getTime();
         long gun_sayisi=(fark_ms/(1000*60*60*24));

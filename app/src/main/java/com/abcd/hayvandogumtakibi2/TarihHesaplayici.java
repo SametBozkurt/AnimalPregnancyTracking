@@ -7,13 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TarihHesaplayici {
+class TarihHesaplayici {
 
-    String isim_tur,dogum_tarihi,dogum_tarihi_ayrilacak;
-    SimpleDateFormat format_date,dateFormatAyrilcak;
-    Calendar calendar;
-    Date date1;
-    Context mContext;
+    private String isim_tur,dogum_tarihi_ayrilacak;
+    private SimpleDateFormat dateFormatAyrilcak;
+    private Date date1;
+    private Context mContext;
     private static final int DAY_COW = 283;
     private static final int DAY_SHEEP = 152;
     private static final int DAY_GOAT = 150;
@@ -24,21 +23,21 @@ public class TarihHesaplayici {
     private static final int DAY_DONKEY = 365;
     private static final int DAY_HORSE = 335;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
-    int ispet;
+    private int ispet;
 
-    public TarihHesaplayici(int isPet, String isim, Date tarih, Context context){
+    TarihHesaplayici(int isPet, String isim, Date tarih, Context context){
         isim_tur=isim;
         date1=tarih;
         ispet=isPet;
         mContext=context;
     }
 
-    public TarihHesaplayici(String parseble_date){
+    TarihHesaplayici(String parseble_date){
         dogum_tarihi_ayrilacak=parseble_date;
         dateFormatAyrilcak=new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    public Calendar get_tarih_bilgileri(){
+    Calendar get_tarih_bilgileri(){
         Date date= null;
         try {
             date = dateFormatAyrilcak.parse(dogum_tarihi_ayrilacak);
@@ -50,9 +49,10 @@ public class TarihHesaplayici {
         return mCalendar;
     }
 
-    public String getTarih(){
-        format_date=new SimpleDateFormat("dd/MM/yyyy");
-        calendar=Calendar.getInstance();
+    String getTarih(){
+        String dogum_tarihi;
+        SimpleDateFormat format_date=new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar=Calendar.getInstance();
         calendar.setTime(date1);
         if(mContext.getClass().getName().equals(ActivityName)){
             switch(isim_tur){
