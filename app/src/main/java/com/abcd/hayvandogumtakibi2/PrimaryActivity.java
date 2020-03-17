@@ -157,7 +157,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void dosya_kontrol(final ArrayList<HayvanVeriler> hayvanVeriler){
+    public void dosya_kontrol(final ArrayList<HayvanVeriler> hayvanVeriler){
         if(hayvanVeriler.size()==0){
             setContentView(R.layout.activity_primary_msg);
             relativeLayout=findViewById(R.id.relativeLayout);
@@ -298,7 +298,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             }
         }
     }
-    private void izinler(){
+    public void izinler(){
         if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
             if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==
                     PackageManager.PERMISSION_DENIED||ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)==
@@ -320,7 +320,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             dosya_kontrol(hayvanVerilerArrayList);
         }
     }
-    private void izin_kontrol(){
+    public void izin_kontrol(){
         if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=
                 PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)!=
                 PackageManager.PERMISSION_GRANTED){
@@ -355,5 +355,4 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 }

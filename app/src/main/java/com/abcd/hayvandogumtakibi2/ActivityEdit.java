@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,7 +80,7 @@ public class ActivityEdit extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void degerleri_yerlestir(){
+    public void degerleri_yerlestir(){
         data_bundle=getIntent().getExtras();
         kayit_id=data_bundle.getInt("kayit_id");
         petCode=data_bundle.getInt("isPet");
@@ -133,7 +134,7 @@ public class ActivityEdit extends AppCompatActivity {
         dollenme_tarihi.setText(data_bundle.getCharSequence("kayit_tarih1"));
         dogum_tarihi.setText(data_bundle.getCharSequence("kayit_tarih2"));
         secilen_tur= (String)data_bundle.getCharSequence("kayit_tur");
-        tur_sec.setSelection(Integer.parseInt((String)data_bundle.getCharSequence("kayit_tur")));
+        tur_sec.setSelection(Integer.valueOf((String)data_bundle.getCharSequence("kayit_tur")));
         secilen_tarih1= (String)data_bundle.getCharSequence("kayit_tarih1");
         secilen_tarih2=(String)data_bundle.getCharSequence("kayit_tarih2");
         gorsel_ad=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
@@ -279,11 +280,10 @@ public class ActivityEdit extends AppCompatActivity {
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
-                            if(gorsel_ad.length()!=0){
+                            if(gorsel_ad.length()!=0)
                                 new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).delete();
-                                gorsel_ad="";
-                                Glide.with(ActivityEdit.this).load(R.mipmap.icon_photo_add).into(photo);
-                            }
+                            gorsel_ad="";
+                            Glide.with(ActivityEdit.this).load(R.mipmap.icon_photo_add).into(photo);
                         }
                         return true;
                     }
@@ -305,7 +305,11 @@ public class ActivityEdit extends AppCompatActivity {
                         dondur(MediaStore.Images.Media.getBitmap(getContentResolver(),data.getData()),
                                 exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED));
                         openInputStream.close();
-                    } catch (IOException e) {
+                    }
+                    catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
@@ -360,7 +364,11 @@ public class ActivityEdit extends AppCompatActivity {
             fileOutputStream.flush();
             fileOutputStream.close();
             //Glide.with(this).load(bitmap_new).into(photo);
-        } catch (IOException e) {
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);

@@ -19,14 +19,14 @@ import java.util.Date;
 
 public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.CustomViewHolder> {
 
-    private Context context;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    Context context;
+    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private Calendar takvim=Calendar.getInstance();
     private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
     private Date bugun,dogum;
-    private HayvanDuzenleyici hayvanDuzenleyici;
+    HayvanDuzenleyici hayvanDuzenleyici;
 
-    KritiklerAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList1){
+    public KritiklerAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList1){
         this.context=context;
         this.hayvanVerilerArrayList=hayvanVerilerArrayList1;
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
@@ -58,7 +58,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         else{
             holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(hayvanVeriler.getKupe_no()));
         }
-        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.txt_tur);
+        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
         holder.txt_tarih1.setText(new StringBuilder(context.getString(R.string.listView_tarih1)).append(hayvanVeriler.getTohumlama_tarihi()));
         holder.txt_tarih2.setText(new StringBuilder(context.getString(R.string.listView_tarih2)).append(hayvanVeriler.getDogum_tarihi()));
         String date_dogum=hayvanVeriler.getDogum_tarihi();
@@ -87,7 +87,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
                     into(holder.img_animal);
         }
         else{
-            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
+            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.img_animal);
         }
     }
 
@@ -96,12 +96,12 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         return hayvanVerilerArrayList.size();
     }
 
-    static class CustomViewHolder extends RecyclerView.ViewHolder {
+    class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_tur,txt_isim,txt_tarih1,txt_tarih2,txt_durum,txt_kalan,txt_kupe_no;
         ImageView img_animal;
 
-        CustomViewHolder(View itemView) {
+        public CustomViewHolder(View itemView) {
             super(itemView);
             txt_tur=itemView.findViewById(R.id.txt_tur);
             txt_isim=itemView.findViewById(R.id.txt_isim);

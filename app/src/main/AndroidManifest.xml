@@ -21,59 +21,48 @@
         android:roundIcon="@mipmap/icon_new_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/icon_bildirim" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/GCMIconColor" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/gcm_notification_channel_id" />
-
         <activity
             android:name=".DemoActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ActivityKayitAra"
             android:label="@string/activity_ara_title"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar2" />
         <activity
             android:name=".ActivityTarihHesapla"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityEdit"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".PrimaryActivity"
             android:label="@string/app_name"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".ActivityKayitDuzenle"
             android:label="@string/activity_duzenle_title"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityKritikler"
             android:label="@string/activity_kritikler_title"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityDogumKayit"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
         <receiver
@@ -93,22 +82,14 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
 
-        <service
-            android:name=".DateDedectorService"
+        <service android:name=".DateDedectorService"
+            android:label="@string/service_tag"
             android:enabled="true"
             android:exported="true"
-            android:label="@string/service_tag"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service android:name=".CloudMesgService"
-                android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
     </application>
 
