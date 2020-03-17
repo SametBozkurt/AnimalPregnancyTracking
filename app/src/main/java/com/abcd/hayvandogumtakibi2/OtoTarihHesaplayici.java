@@ -6,7 +6,7 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.Date;
 
-public class OtoTarihHesaplayici {
+class OtoTarihHesaplayici {
 
     private String tur;
     private Context mContext;
@@ -15,8 +15,8 @@ public class OtoTarihHesaplayici {
     private Date date1;
     private int ispet;
 
-    public OtoTarihHesaplayici(View v, Boolean booleanTarih, EditText editText, String isim_tur,
-                               Date d, Context context, int isPet){
+    OtoTarihHesaplayici(View v, Boolean booleanTarih, EditText editText, String isim_tur,
+                        Date d, Context context, int isPet){
         view=v;
         tahmini_dogum_tarihi=editText;
         tur=isim_tur;
@@ -26,7 +26,7 @@ public class OtoTarihHesaplayici {
         otomatik_hesapla(booleanTarih,mContext);
     }
 
-    public void otomatik_hesapla(Boolean b2,Context c){
+    private void otomatik_hesapla(Boolean b2, Context c){
         if(b2){
             TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ispet,tur,date1,c);
             tahmini_dogum_tarihi.setText(tarihHesaplayici.getTarih());

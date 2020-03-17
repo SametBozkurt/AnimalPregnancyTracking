@@ -7,18 +7,18 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class HayvanDuzenleyici {
+class HayvanDuzenleyici {
 
-    Context context;
+    private Context context;
 
-    public HayvanDuzenleyici(Context mContext){
+    HayvanDuzenleyici(Context mContext){
         context=mContext;
     }
 
-    public void set_text(int isPet, int tur_kodu, TextView textView_tur){
-        ArrayList<String> arrayList_all = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
-        ArrayList<String> arrayList_pet = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
-        ArrayList<String> arrayList_barn = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
+    void set_text(int isPet, int tur_kodu, TextView textView_tur){
+        ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
+        ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
+        ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
         switch(isPet){
             case 0: //hepsi
                 textView_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
@@ -34,7 +34,7 @@ public class HayvanDuzenleyici {
                 break;
         }
     }
-    public void set_img(int isPet, int tur_kodu, ImageView imgView){
+    void set_img(int isPet, int tur_kodu, ImageView imgView){
         switch (isPet){
             case 0: //hepsi
                 switch(tur_kodu){

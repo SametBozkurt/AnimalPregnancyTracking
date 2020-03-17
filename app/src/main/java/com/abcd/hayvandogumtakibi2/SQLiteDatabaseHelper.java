@@ -13,32 +13,30 @@ import java.util.Date;
 
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
-    static final String VERİTABANI_İSİM="kayitlar";
-    static final String SUTUN_1="isim";
-    static final String SUTUN_2="hayvan_turu";
-    static final String SUTUN_3="kupe_no";
-    static final String SUTUN_4="tohumlama_tarihi";
-    static final String SUTUN_5="dogum_tarihi";
-    static final String SUTUN_6="fotograf_isim";
-    static final String SUTUN_7="evcil_hayvan";
-    static final String DATABASE_ALTER_CONF_V2 = "ALTER TABLE "
-            + VERİTABANI_İSİM + " ADD COLUMN " + SUTUN_6 + " string;";
-    static final String DATABASE_ALTER_CONF_V3 = "ALTER TABLE "
-            + VERİTABANI_İSİM + " ADD COLUMN " + SUTUN_7 + " INTEGER;";
-    Calendar takvim=Calendar.getInstance();
-    SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
-    Date bugun,dogum;
-    String date_dogum,date_bugun;
-    Long fark_ms,gun_sayisi;
+    private static final String VERITABANI_ISIM="kayitlar";
+    private static final String SUTUN_1="isim";
+    private static final String SUTUN_2="hayvan_turu";
+    private static final String SUTUN_3="kupe_no";
+    private static final String SUTUN_4="tohumlama_tarihi";
+    private static final String SUTUN_5="dogum_tarihi";
+    private static final String SUTUN_6="fotograf_isim";
+    private static final String SUTUN_7="evcil_hayvan";
+    private static final String DATABASE_ALTER_CONF_V2 = "ALTER TABLE "
+            + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_6 + " string;";
+    private static final String DATABASE_ALTER_CONF_V3 = "ALTER TABLE "
+            + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_7 + " INTEGER;";
+    private Calendar takvim=Calendar.getInstance();
+    private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
+    private Date bugun,dogum;
 
     public SQLiteDatabaseHelper(Context context) {
-        super(context, VERİTABANI_İSİM, null, 3);
+        super(context, VERITABANI_ISIM, null, 3);
         degerler();
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE "+VERİTABANI_İSİM+"(id INTEGER PRIMARY KEY,isim TEXT,hayvan_turu TEXT,kupe_no TEXT," +
+        sqLiteDatabase.execSQL("CREATE TABLE "+VERITABANI_ISIM+"(id INTEGER PRIMARY KEY,isim TEXT,hayvan_turu TEXT,kupe_no TEXT," +
                 "tohumlama_tarihi TEXT,dogum_tarihi TEXT,fotograf_isim TEXT,evcil_hayvan INTEGER" + ")");
     }
 
@@ -58,7 +56,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void degerler(){
-        date_bugun=takvim.get(Calendar.DAY_OF_MONTH)+"/"+(takvim.get(Calendar.MONTH)+1)+"/"+takvim.get(Calendar.YEAR);
+        String date_bugun=takvim.get(Calendar.DAY_OF_MONTH)+"/"+(takvim.get(Calendar.MONTH)+1)+"/"+takvim.get(Calendar.YEAR);
         try {
             bugun=date_formatter.parse(date_bugun);
         } catch (ParseException e){
@@ -66,7 +64,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void veri_yaz(HayvanVeriler hayvanVeriler){
+    void veri_yaz(HayvanVeriler hayvanVeriler){
         SQLiteDatabase database=this.getWritableDatabase();
         ContentValues values=new ContentValues();
         values.put(SUTUN_1,hayvanVeriler.getIsim());
@@ -76,13 +74,13 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         values.put(SUTUN_5,hayvanVeriler.getDogum_tarihi());
         values.put(SUTUN_6,hayvanVeriler.getFotograf_isim());
         values.put(SUTUN_7,hayvanVeriler.getIs_evcilhayvan());
-        database.insert(VERİTABANI_İSİM,null,values);
+        database.insert(VERITABANI_ISIM,null,values);
         database.close();
     }
-    public ArrayList<HayvanVeriler> getAllData(){
+    ArrayList<HayvanVeriler> getAllData(){
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
         SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
             hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
@@ -96,10 +94,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
         return hayvanVerilerArrayList;
     }
-    public ArrayList<HayvanVeriler> getKritikOlanlar(){
+    ArrayList<HayvanVeriler> getKritikOlanlar(){
+
+        String date_dogum;
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
             if(cursor.getString(5).equals(null)||cursor.getString(5).equals("")){
@@ -113,8 +113,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            fark_ms=dogum.getTime()-bugun.getTime();
-            gun_sayisi=(fark_ms/(1000*60*60*24));
+            long fark_ms=dogum.getTime()-bugun.getTime();
+            long gun_sayisi=(fark_ms/(1000*60*60*24));
             if(gun_sayisi<30){
                 hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
                         cursor.getString(1),
@@ -128,11 +128,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
         return  hayvanVerilerArrayList;
     }
-    public ArrayList<HayvanVeriler> getAramaSonuclari(boolean isimAranacak,String aranacak){
-        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
+    ArrayList<HayvanVeriler> getAramaSonuclari(boolean isimAranacak, String aranacak){
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
         if(isimAranacak){
-            Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+            Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_1+" LIKE ?",new String[]{"%"+aranacak+"%"},
                     null,null,null);
             while(cursor.moveToNext()){
@@ -147,7 +147,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             }
         }
         else{
-            Cursor cursor=database.query(VERİTABANI_İSİM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+            Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_3+" LIKE ?",new String[]{"%"+aranacak+"%"},
                     null,null,null);
             while(cursor.moveToNext()){
@@ -163,12 +163,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
         return hayvanVerilerArrayList;
     }
-    public void girdiSil(int ID){
+    void girdiSil(int ID){
         SQLiteDatabase sqLiteDatabase=SQLiteDatabaseHelper.this.getReadableDatabase();
-        sqLiteDatabase.delete(VERİTABANI_İSİM,"id=? ",new String[]{Integer.toString(ID)});
+        sqLiteDatabase.delete(VERITABANI_ISIM,"id=? ",new String[]{Integer.toString(ID)});
     }
-    public void guncelle(int ID,String newIsim,String newTur,String newKupe_No,
-                         String newTohumTarihi,String newDogumTarihi, String newFotografIsim){
+    void guncelle(int ID, String newIsim, String newTur, String newKupe_No,
+                  String newTohumTarihi, String newDogumTarihi, String newFotografIsim){
         SQLiteDatabase database=this.getReadableDatabase();
         ContentValues newValues=new ContentValues();
         newValues.put(SUTUN_1,newIsim);
@@ -177,6 +177,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         newValues.put(SUTUN_4,newTohumTarihi);
         newValues.put(SUTUN_5,newDogumTarihi);
         newValues.put(SUTUN_6,newFotografIsim);
-        database.update(VERİTABANI_İSİM,newValues,"id=? ",new String[]{Integer.toString(ID)});
+        database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
     }
 }

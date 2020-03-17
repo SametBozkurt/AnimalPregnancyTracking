@@ -131,4 +131,5 @@
     <string name="fab_pet_exp">Pet</string>
     <string name="fab_barn_exp">Barn</string>
     <string name="service_tag">DateDedectorService</string>
+    <string name="gcm_notification_channel_id" translatable="false">GCM Service</string>
 </resources>
