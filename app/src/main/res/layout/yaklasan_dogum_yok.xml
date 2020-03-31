@@ -45,7 +45,7 @@
             android:layout_marginStart="@dimen/margin_kategori_2"
             android:layout_marginEnd="@dimen/margin_kategori_2"
             android:fontFamily="@font/comfortaa_bold"
-            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:text="@string/kayit_yok_uyari_kritikler"
             android:textSize="18sp"
             style="@style/STYLE_WARNING_TEXT"/>

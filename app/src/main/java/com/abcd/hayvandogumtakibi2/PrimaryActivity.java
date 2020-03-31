@@ -28,12 +28,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String POLICIY_URL = "https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html";
+    private static final String APP_URL = "https://play.google.com/store/apps/details?id=com.sariyazilim.hayvangebeliktakibi";
     private static final int PERMISSION_REQ_CODE = 21323;
     private static final String INTENT_ACTION= "SET_AN_ALARM" ;
     boolean is_opened = false;
@@ -142,7 +143,8 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialog.dismiss();
+                        Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(APP_URL));
+                        startActivity(intent);
                     }
                 });
                 dialog.show();
@@ -157,8 +159,8 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void dosya_kontrol(final ArrayList<HayvanVeriler> hayvanVeriler){
-        if(hayvanVeriler.size()==0){
+    private void dosya_kontrol(){
+        if(hayvanVerilerArrayList.size()==0){
             setContentView(R.layout.activity_primary_msg);
             relativeLayout=findViewById(R.id.relativeLayout);
             toolbar = findViewById(R.id.toolbar);
@@ -233,7 +235,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             txt_barn = findViewById(R.id.text_barn);
             drawer = findViewById(R.id.drawer_layout);
             navigationView = findViewById(R.id.nav_view);
-            hayvanVerilerArrayList=databaseHelper.getAllData();
+            //hayvanVerilerArrayList=databaseHelper.getAllData();
             setSupportActionBar(toolbar);
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -288,11 +290,12 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             recyclerView=findViewById(R.id.recyclerView);
-            KayitlarAdapter kayitlarAdapter =new KayitlarAdapter(PrimaryActivity.this,hayvanVeriler);
-            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(PrimaryActivity.this);
+            //KayitlarAdapter kayitlarAdapter =new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList);
+            //RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(PrimaryActivity.this,LinearLayoutManager.VERTICAL,false);
+            GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setAdapter(kayitlarAdapter);
+            recyclerView.setAdapter(new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList));
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
             }
@@ -300,9 +303,8 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     }
     private void izinler(){
         if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
-            if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                    PackageManager.PERMISSION_DENIED||ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)==
-                    PackageManager.PERMISSION_DENIED){
+            if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
+                    ||ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)== PackageManager.PERMISSION_DENIED){
                 setContentView(R.layout.layout_req_perms);
                 Button btn_allow=findViewById(R.id.allow);
                 btn_allow.setOnClickListener(new View.OnClickListener() {
@@ -313,11 +315,11 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 });
             }
             else{
-                dosya_kontrol(hayvanVerilerArrayList);
+                dosya_kontrol();
             }
         }
         else{
-            dosya_kontrol(hayvanVerilerArrayList);
+            dosya_kontrol();
         }
     }
     private void izin_kontrol(){
@@ -341,7 +343,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             ActivityCompat.requestPermissions(PrimaryActivity.this,new String[]{Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
         }
         else{
-            dosya_kontrol(hayvanVerilerArrayList);
+            dosya_kontrol();
             //İzinler tamamdır\O/
         }
     }
@@ -351,7 +353,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)==
                 PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==
                 PackageManager.PERMISSION_GRANTED){
-            dosya_kontrol(hayvanVerilerArrayList);
+            dosya_kontrol();
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

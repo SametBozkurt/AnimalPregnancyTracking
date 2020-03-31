@@ -21,16 +21,13 @@ class HayvanDuzenleyici {
         ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
         switch(isPet){
             case 0: //hepsi
-                textView_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                        .append(arrayList_all.get(tur_kodu)));
+                textView_tur.setText(arrayList_all.get(tur_kodu));
                 break;
             case 1: //sadece evcil hayvanlar
-                textView_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                        .append(arrayList_pet.get(tur_kodu)));
+                textView_tur.setText(arrayList_pet.get(tur_kodu));
                 break;
             case 2: //sadece besi hayvanları
-                textView_tur.setText(new StringBuilder(context.getString(R.string.listView_tur))
-                        .append(arrayList_barn.get(tur_kodu)));
+                textView_tur.setText(arrayList_barn.get(tur_kodu));
                 break;
         }
     }
@@ -39,75 +36,75 @@ class HayvanDuzenleyici {
             case 0: //hepsi
                 switch(tur_kodu){
                     case 0:
-                        Glide.with(context).load(R.mipmap.cow).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_cow).into(imgView);
                         break;
                     case 1:
-                        Glide.with(context).load(R.mipmap.sheep).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_sheep).into(imgView);
                         break;
                     case 2:
-                        Glide.with(context).load(R.mipmap.goat).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_goat).into(imgView);
                         break;
                     case 3:
-                        Glide.with(context).load(R.mipmap.cat).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_cat).into(imgView);
                         break;
                     case 4:
-                        Glide.with(context).load(R.mipmap.dog).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_dog).into(imgView);
                         break;
                     case 5:
-                        Glide.with(context).load(R.mipmap.hamster).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_hamster).into(imgView);
                         break;
                     case 6:
-                        Glide.with(context).load(R.mipmap.interrogation_mark).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_interrogation_mark).into(imgView);
                         break;
                     case 7:
-                        Glide.with(context).load(R.mipmap.horse).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_horse).into(imgView);
                         break;
                     case 8:
-                        Glide.with(context).load(R.mipmap.donkey).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_donkey).into(imgView);
                         break;
                     case 9:
-                        Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_camel).into(imgView);
                         break;
                 }
                 break;
             case 1: //sadece evcil hayvanlar
                 switch(tur_kodu){
                     case 0:
-                        Glide.with(context).load(R.mipmap.cat).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_cat).into(imgView);
                         break;
                     case 1:
-                        Glide.with(context).load(R.mipmap.dog).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_dog).into(imgView);
                         break;
                     case 2:
-                        Glide.with(context).load(R.mipmap.hamster).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_hamster).into(imgView);
                         break;
                     case 3:
-                        Glide.with(context).load(R.mipmap.interrogation_mark).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_interrogation_mark).into(imgView);
                         break;
                 }
                 break;
             case 2: //sadece besi hayvanları
                 switch(tur_kodu){
                     case 0:
-                        Glide.with(context).load(R.mipmap.cow).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_cow).into(imgView);
                         break;
                     case 1:
-                        Glide.with(context).load(R.mipmap.sheep).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_sheep).into(imgView);
                         break;
                     case 2:
-                        Glide.with(context).load(R.mipmap.goat).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_goat).into(imgView);
                         break;
                     case 3:
-                        Glide.with(context).load(R.mipmap.interrogation_mark).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_interrogation_mark).into(imgView);
                         break;
                     case 4:
-                        Glide.with(context).load(R.mipmap.horse).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_horse).into(imgView);
                         break;
                     case 5:
-                        Glide.with(context).load(R.mipmap.donkey).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_donkey).into(imgView);
                         break;
                     case 6:
-                        Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        Glide.with(context).load(R.drawable.icon_camel).into(imgView);
                         break;
                 }
                 break;

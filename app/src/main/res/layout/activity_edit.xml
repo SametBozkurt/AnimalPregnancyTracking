@@ -49,9 +49,11 @@
                     android:id="@+id/add_photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/ripple_effect"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_photo_add"
-                    android:layout_marginBottom="@dimen/margin_kategori_2"
+                    android:src="@drawable/icon_photo_add"
                     android:contentDescription="@null" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +62,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="41dp"
-                    android:layout_marginTop="@dimen/margin_kategori_1"
                     android:layout_marginEnd="@dimen/margin_kategori_1"
                     android:hint="@string/hint_isim"
                     app:hintEnabled="true">
@@ -71,6 +72,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:lines="1"
+                        android:textSize="16sp"
                         android:fontFamily="@font/comfortaa_bold"
                         android:maxLength="30"
                         android:theme="@style/InputYeniKayit"/>
@@ -97,9 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_kategori_1"
-                        android:layout_marginTop="@dimen/margin_kategori_1"
                         android:layout_marginRight="@dimen/margin_kategori_1"
-                        android:layout_marginBottom="@dimen/margin_kategori_1"
                         android:hint="@string/hint_kupe_no"
                         app:hintEnabled="true">
 
@@ -109,6 +109,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:lines="1"
+                            android:textSize="16sp"
                             android:fontFamily="@font/comfortaa_bold"
                             android:maxLength="30"
                             android:theme="@style/InputYeniKayit"/>
@@ -122,9 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:spinnerMode="dropdown"
-                    android:layout_marginStart="41dp"
-                    android:layout_marginTop="@dimen/margin_kategori_1"
-                    android:layout_marginBottom="@dimen/margin_kategori_1" />
+                    android:layout_marginStart="41dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -158,6 +157,7 @@
                             android:focusable="false"
                             android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
+                            android:textSize="16sp"
                             android:theme="@style/InputYeniKayit"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -183,7 +183,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_kategori_1"
-                        android:layout_marginTop="@dimen/margin_kategori_1"
                         android:layout_marginRight="@dimen/margin_kategori_1"
                         android:hint="@string/dlg_hint_tarih2"
                         app:helperText="@string/date_input_helper_text_2"
@@ -196,6 +195,7 @@
                             android:focusable="false"
                             android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
+                            android:textSize="16sp"
                             android:theme="@style/InputYeniKayit"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -222,7 +222,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_text_kaydet"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@android:color/background_light"
             android:backgroundTint="@color/button_background_2"
             app:iconTint="@android:color/background_light"
@@ -240,7 +240,7 @@
             android:layout_marginEnd="@dimen/margin_kategori_1"
             android:text="@string/button_text_iptal"
             android:textColor="@color/button_background_2"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:backgroundTint="@android:color/background_light"
             app:icon="@drawable/icon_btn_cancel"
             app:iconTint="@color/button_background_2"

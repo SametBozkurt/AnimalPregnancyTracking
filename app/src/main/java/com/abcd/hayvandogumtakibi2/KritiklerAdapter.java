@@ -1,7 +1,9 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,25 +23,12 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     private Context context;
     private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    private Calendar takvim=Calendar.getInstance();
     private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
-    private Date bugun,dogum;
-    private HayvanDuzenleyici hayvanDuzenleyici;
+
 
     KritiklerAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList1){
         this.context=context;
         this.hayvanVerilerArrayList=hayvanVerilerArrayList1;
-        hayvanDuzenleyici=new HayvanDuzenleyici(context);
-        degerler();
-    }
-
-    private void degerler(){
-        String date_bugun=takvim.get(Calendar.DAY_OF_MONTH)+"/"+(takvim.get(Calendar.MONTH)+1)+"/"+takvim.get(Calendar.YEAR);
-        try {
-            bugun=date_formatter.parse(date_bugun);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -50,45 +39,45 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
+        final HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
+        HayvanDuzenleyici hayvanDuzenleyici=new HayvanDuzenleyici(context);
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
-        if(hayvanVeriler.getKupe_no().length()==0){
-            holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(context.getString(R.string.kupe_no_yok)));
-        }
-        else{
-            holder.txt_kupe_no.setText(new StringBuilder(context.getString(R.string.listview_kupe_no)).append(hayvanVeriler.getKupe_no()));
-        }
-        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.txt_tur);
-        holder.txt_tarih1.setText(new StringBuilder(context.getString(R.string.listView_tarih1)).append(hayvanVeriler.getTohumlama_tarihi()));
-        holder.txt_tarih2.setText(new StringBuilder(context.getString(R.string.listView_tarih2)).append(hayvanVeriler.getDogum_tarihi()));
-        String date_dogum=hayvanVeriler.getDogum_tarihi();
-        try {
-            dogum=date_formatter.parse(date_dogum);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long fark_ms=dogum.getTime()-bugun.getTime();
-        long gun_sayisi=(fark_ms/(1000*60*60*24));
-        if(gun_sayisi<0){
-            holder.txt_kalan.setText(new StringBuilder(context.getString(R.string.ozel_listview_kalan_gun_asim)));
-            holder.txt_durum.setText(new StringBuilder(context.getString(R.string.listview_durum_tehlikeli)));
-        }
-        else if(gun_sayisi>0&&gun_sayisi<30){
-            holder.txt_kalan.setText(new StringBuilder(context.getString(R.string.ozel_listview_kalan_gun)).append(gun_sayisi));
-            holder.txt_durum.setText(new StringBuilder(context.getString(R.string.listview_durum_kritik)));
-        }
-        else if(gun_sayisi==0){
-            holder.txt_kalan.setText(new StringBuilder(context.getString(R.string.ozel_listview_kalan_gun)).append(gun_sayisi));
-            holder.txt_durum.setText(new StringBuilder(context.getString(R.string.listview_dogum_uyari_cok_kritik)));
-        }
         if(hayvanVeriler.getFotograf_isim().length()!=0){
-            Glide.with(context)
-                    .load(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).
-                    into(holder.img_animal);
+            File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
-        else{
+        else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
             hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
         }
+        if(hayvanVeriler.getDogum_tarihi().length()!=0){
+            if(get_gun_sayisi(hayvanVeriler.getDogum_tarihi())>=0){
+                holder.txt_durum.setText(new StringBuilder(String.valueOf(get_gun_sayisi(hayvanVeriler.getDogum_tarihi())))
+                        .append(" ")
+                        .append(context.getString(R.string.txt_day_2)));
+            }
+            else{
+                holder.txt_durum.setText(new StringBuilder(context.getString(R.string.text_NA)).append(" ").append(context.getString(R.string.txt_day_2)));
+            }
+        }
+        else if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
+            holder.txt_durum.setText(new StringBuilder(context.getString(R.string.text_NA)).append(" ").append(context.getString(R.string.txt_day_2)));
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle data=new Bundle();
+                data.putString("isim",hayvanVeriler.getIsim());
+                data.putString("tur",hayvanVeriler.getTur());
+                data.putString("kupe_no",hayvanVeriler.getKupe_no());
+                data.putString("tohumlama_tarihi",hayvanVeriler.getTohumlama_tarihi());
+                data.putString("dogum_tarihi",hayvanVeriler.getDogum_tarihi());
+                data.putString("fotograf_isim",hayvanVeriler.getFotograf_isim());
+                data.putInt("is_evcilhayvan",hayvanVeriler.getIs_evcilhayvan());
+                Intent intent=new Intent(context,ActivityDetails.class);
+                intent.putExtras(data);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -98,19 +87,38 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_tur,txt_isim,txt_tarih1,txt_tarih2,txt_durum,txt_kalan,txt_kupe_no;
+        TextView txt_isim, txt_durum;
         ImageView img_animal;
 
         CustomViewHolder(View itemView) {
             super(itemView);
-            txt_tur=itemView.findViewById(R.id.txt_tur);
-            txt_isim=itemView.findViewById(R.id.txt_isim);
-            txt_tarih1=itemView.findViewById(R.id.txt_tarih1);
-            txt_tarih2=itemView.findViewById(R.id.txt_tarih2);
-            txt_durum=itemView.findViewById(R.id.txt_durum);
-            txt_kalan=itemView.findViewById(R.id.txt_kalan_gun);
-            txt_kupe_no=itemView.findViewById(R.id.txt_kupe_no);
             img_animal=itemView.findViewById(R.id.img_hayvan);
+            txt_isim=itemView.findViewById(R.id.txt_isim);
+            txt_durum=itemView.findViewById(R.id.txt_durum);
         }
     }
+
+    private int get_gun_sayisi(String date){
+        Calendar takvim= Calendar.getInstance();
+        int gun,ay,yil;
+        Date bugun = null,dogum = null;
+        gun=takvim.get(Calendar.DAY_OF_MONTH);
+        ay=takvim.get(Calendar.MONTH)+1;
+        yil=takvim.get(Calendar.YEAR);
+        String date_bugun=gun+"/"+ay+"/"+yil;
+        try {
+            bugun=date_formatter.parse(date_bugun);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            dogum=date_formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long fark_ms=dogum.getTime()-bugun.getTime();
+        long gun_sayisi=(fark_ms/(1000*60*60*24));
+        return (int)gun_sayisi;
+    }
+
 }

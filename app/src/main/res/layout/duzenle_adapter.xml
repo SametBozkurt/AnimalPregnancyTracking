@@ -106,7 +106,7 @@
                         android:textColor="@color/listViewTextColor"
                         android:textSize="18sp"
                         android:fontFamily="@font/comfortaa_bold"
-                        app:icon="@drawable/icon_delete_72dp"
+                        app:icon="@drawable/icon_delete"
                         app:iconTint="@color/listViewTextColor"
                         app:rippleColor="@android:color/background_light" />
 
@@ -135,7 +135,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/margin_kategori_3"
-                    android:src="@mipmap/cat"
+                    android:src="@drawable/icon_cat"
                     android:elevation="2dp"
                     app:civ_circle_background_color="@color/image_background"
                     app:civ_border_width="3dp"

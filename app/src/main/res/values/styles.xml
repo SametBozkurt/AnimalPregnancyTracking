@@ -31,6 +31,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
     </style>
+
+    <style name="NoActionBar4" parent="Theme.MaterialComponents.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#37474f</item>
+        <item name="colorPrimaryDark">#37474f</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -91,9 +99,6 @@
     <style name="KayitEkleInputStyle" parent="@style/Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/input_background_tint</item>
         <item name="hintTextColor">@color/input_background_tint</item>
-    </style>
-    <style name="ImageViewButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="rippleColor">@android:color/white</item>
     </style>
     <style name="PhotoPickerDialogStyle" parent="Theme.MaterialComponents.Dialog">
         <item name="android:background">#ffeb3b</item>

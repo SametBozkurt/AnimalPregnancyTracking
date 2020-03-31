@@ -142,7 +142,7 @@ public class ActivityEdit extends AppCompatActivity {
             Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
         }
         else{
-            Glide.with(this).load(R.mipmap.icon_photo_add).into(photo);
+            Glide.with(this).load(R.drawable.icon_photo_add).into(photo);
         }
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -282,7 +282,7 @@ public class ActivityEdit extends AppCompatActivity {
                             if(gorsel_ad.length()!=0){
                                 new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).delete();
                                 gorsel_ad="";
-                                Glide.with(ActivityEdit.this).load(R.mipmap.icon_photo_add).into(photo);
+                                Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
                             }
                         }
                         return true;
@@ -355,11 +355,13 @@ public class ActivityEdit extends AppCompatActivity {
         }
         try {
             FileOutputStream fileOutputStream=new FileOutputStream(gorsel_adres);
-            Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true)
-                    .compress(Bitmap.CompressFormat.JPEG,40,fileOutputStream);
+            int croped_width=bitmap.getWidth()/5;
+            int croped_height=bitmap.getHeight()/5;
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
+            Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,matrix,true).
+                    compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-            //Glide.with(this).load(bitmap_new).into(photo);
         } catch (IOException e) {
             e.printStackTrace();
         }

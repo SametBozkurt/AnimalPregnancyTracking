@@ -13,7 +13,7 @@
     <dimen name="text_input_width">2dp</dimen>
     <dimen name="title_layout_height">110dp</dimen>
     <dimen name="activity_bul_title_height">200dp</dimen>
-    <dimen name="title_size">40sp</dimen>
+    <dimen name="title_size">36sp</dimen>
     <dimen name="activity_bul_title_size">30sp</dimen>
     <dimen name="nav_header_title_size">16sp</dimen>
     <dimen name="add_button_stroke_radius">18dp</dimen>

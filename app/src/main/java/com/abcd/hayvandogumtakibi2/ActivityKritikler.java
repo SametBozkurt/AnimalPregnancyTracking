@@ -2,9 +2,12 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,11 +48,10 @@ public class ActivityKritikler extends AppCompatActivity {
         else{
             setContentView(R.layout.activity_kritikler);
             recyclerView=findViewById(R.id.recyclerView);
-            KritiklerAdapter kritiklerAdapter =new KritiklerAdapter(ActivityKritikler.this,hayvanVerilerArrayList);
-            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(ActivityKritikler.this);
-            recyclerView.setLayoutManager(layoutManager);
+            GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityKritikler.this,3);
+            recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setAdapter(kritiklerAdapter);
+            recyclerView.setAdapter(new KritiklerAdapter(ActivityKritikler.this,hayvanVerilerArrayList));
             toolbar=findViewById(R.id.activity_toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

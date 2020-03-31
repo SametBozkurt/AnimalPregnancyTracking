@@ -49,17 +49,18 @@
                     android:id="@+id/add_photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/ripple_effect"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/margin_kategori_2"
                     android:contentDescription="@null"
-                    android:src="@mipmap/icon_photo_add" />
+                    android:src="@drawable/icon_photo_add" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_input_isim"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="41dp"
-                    android:layout_marginTop="@dimen/margin_kategori_1"
                     android:layout_marginEnd="@dimen/margin_kategori_1"
                     android:hint="@string/hint_isim"
                     style="@style/KayitEkleInputStyle"
@@ -97,9 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_kategori_1"
-                        android:layout_marginTop="@dimen/margin_kategori_1"
                         android:layout_marginRight="@dimen/margin_kategori_1"
-                        android:layout_marginBottom="@dimen/margin_kategori_1"
                         android:hint="@string/hint_kupe_no"
                         app:hintEnabled="true">
 
@@ -123,8 +122,7 @@
                     android:layout_height="wrap_content"
                     android:spinnerMode="dropdown"
                     android:layout_marginStart="41dp"
-                    android:layout_marginTop="@dimen/margin_kategori_1"
-                    android:layout_marginBottom="@dimen/margin_kategori_1" />
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -183,7 +181,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_kategori_1"
-                        android:layout_marginTop="@dimen/margin_kategori_1"
                         android:layout_marginRight="@dimen/margin_kategori_1"
                         android:hint="@string/dlg_hint_tarih2"
                         app:hintEnabled="true">
@@ -221,7 +218,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_text_kaydet"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@android:color/background_light"
             android:fontFamily="@font/comfortaa_bold"
             android:backgroundTint="@color/button_background_2"
@@ -240,7 +237,7 @@
             android:layout_marginEnd="@dimen/margin_kategori_1"
             android:text="@string/button_text_iptal"
             android:textColor="@color/button_background_2"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:fontFamily="@font/comfortaa_bold"
             app:backgroundTint="@android:color/background_light"
             app:icon="@drawable/icon_btn_cancel"

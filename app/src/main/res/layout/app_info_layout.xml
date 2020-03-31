@@ -62,10 +62,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/app_version"
         android:layout_centerHorizontal="true"
-        android:text="@string/ok"
+        android:text="@string/vote"
         android:textColor="#546e7a"
         app:strokeColor="#546e7a"
         app:strokeWidth="2dp"
+        app:icon="@drawable/icon_thumb_up"
+        app:iconTint="#546e7a"
         android:layout_marginTop="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_3" />
 

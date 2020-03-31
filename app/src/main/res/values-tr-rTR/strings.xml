@@ -8,7 +8,6 @@
     <string name="nav_info">Hakkında</string>
     <string name="nav_title">Seçenekler</string>
     <string name="nav_title2">Uygulama</string>
-    <string name="ok">Tamam</string>
     <string name="dlg_hint_tarih1">Döllenme tarihi</string>
     <string name="dlg_hint_tarih2">Yaklaşık doğum tarihi</string>
     <string name="kayit_yok_uyari2">Herhangi bir kayıt oluşturulmamış, kayıt oluşturmanız gerek.</string>
@@ -125,4 +124,7 @@
     <string name="tur_9">Deve</string>
     <string name="reqs_info2">Hiçbir verinizin toplanmayacağını aklınızda bulundurunuz.</string>
     <string name="service_tag">GunDegisimDedektoru</string>
+    <string name="txt_day">Gün kaldı</string>
+    <string name="txt_day_2">Gün</string>
+    <string name="vote">Oyla</string>
 </resources>

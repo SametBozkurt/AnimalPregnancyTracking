@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -220,10 +223,11 @@ public class ActivityDogumKayit extends AppCompatActivity {
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
-                            if(gorsel_ad.length()!=0)
-                                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).delete();
-                                gorsel_ad="";
-                                Glide.with(ActivityDogumKayit.this).load(R.mipmap.icon_photo_add).into(photo);
+                            if(gorsel_ad.length()!=0) {
+                                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
+                                gorsel_ad = "";
+                                Glide.with(ActivityDogumKayit.this).load(R.drawable.icon_photo_add).into(photo);
+                            }
                         }
                         return true;
                     }
@@ -330,8 +334,11 @@ public class ActivityDogumKayit extends AppCompatActivity {
             else{
                 fileOutputStream=new FileOutputStream(getImageFile());
             }
-            Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true)
-                    .compress(Bitmap.CompressFormat.JPEG,40,fileOutputStream);
+            int croped_width=bitmap.getWidth()/5;
+            int croped_height=bitmap.getHeight()/5;
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
+            Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,matrix,true).
+                    compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
         }

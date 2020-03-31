@@ -8,7 +8,6 @@
     <string name="nav_info">Info</string>
     <string name="nav_title">Options</string>
     <string name="nav_title2">Application</string>
-    <string name="ok">Ok</string>
     <string name="dlg_hint_tarih1">\tInsemination date</string>
     <string name="dlg_hint_tarih2">Estimated birth date</string>
     <string name="kayit_yok_uyari2">There is no record yet, you have to create a record</string>
@@ -125,4 +124,7 @@
     <string name="tur_9">Camel</string>
     <string name="reqs_info2">Keep in mind that this app will not collect your any data.</string>
     <string name="service_tag">DateDedectorService</string>
+    <string name="txt_day">Day(s) to birth</string>
+    <string name="txt_day_2">Day(s)</string>
+    <string name="vote">Vote</string>
 </resources>

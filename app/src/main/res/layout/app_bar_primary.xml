@@ -115,11 +115,6 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_kategori_1"
-        android:layout_marginTop="@dimen/margin_kategori_1"
-        android:layout_marginEnd="@dimen/margin_kategori_1"
-        android:orientation="vertical"
-        android:layout_below="@id/appBarLayout"
-        />
+        android:layout_below="@id/appBarLayout" />
 
 </RelativeLayout>

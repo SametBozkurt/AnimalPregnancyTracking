@@ -16,7 +16,7 @@
     <string name="nav_title2">Application</string>
     <string name="nav_title3">Tools</string>
     <string name="nav_privacy_policy">Privacy Policy</string>
-    <string name="ok">OK</string>
+    <string name="vote">Vote</string>
     <string name="dlg_hint_tarih1">\tInsemination date</string>
     <string name="dlg_hint_tarih2">Estimated birth date</string>
     <string name="kayit_yok_uyari2">There is no record yet, you have to create a record</string>
@@ -132,4 +132,8 @@
     <string name="fab_barn_exp">Barn</string>
     <string name="service_tag">DateDedectorService</string>
     <string name="gcm_notification_channel_id" translatable="false">GCM Service</string>
+    <string name="txt_day">Day(s) to birth</string>
+    <string name="txt_day_2">Day(s)</string>
+    <string name="test_number" translatable="false">10</string>
+    <string name="text_NA" translatable="false">—</string>
 </resources>
