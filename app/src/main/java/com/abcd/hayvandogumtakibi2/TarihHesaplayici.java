@@ -13,15 +13,15 @@ class TarihHesaplayici {
     private SimpleDateFormat dateFormatAyrilcak;
     private Date date1;
     private Context mContext;
-    private static final int DAY_COW = 283;
-    private static final int DAY_SHEEP = 152;
-    private static final int DAY_GOAT = 150;
-    private static final int DAY_CAT = 65;
-    private static final int DAY_DOG = 64;
-    private static final int DAY_HAMSTER = 16;
-    private static final int DAY_CAMEL = 390;
-    private static final int DAY_DONKEY = 365;
-    private static final int DAY_HORSE = 335;
+    static final int DAY_COW = 283;
+    static final int DAY_SHEEP = 152;
+    static final int DAY_GOAT = 150;
+    static final int DAY_CAT = 65;
+    static final int DAY_DOG = 64;
+    static final int DAY_HAMSTER = 16;
+    static final int DAY_CAMEL = 390;
+    static final int DAY_DONKEY = 365;
+    static final int DAY_HORSE = 335;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
     private int ispet;
 

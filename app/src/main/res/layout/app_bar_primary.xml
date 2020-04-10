@@ -111,10 +111,62 @@
 
     </LinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/random_layout"
+            android:orientation="horizontal"
+            android:background="@color/fab_tint"
+            android:paddingBottom="@dimen/margin_kategori_1"
+            android:layout_below="@id/appBarLayout">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/margin_kategori_1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_show"
+                    android:tint="@android:color/background_light"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/spinner_description"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    android:layout_marginEnd="@dimen/margin_kategori_1"/>
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/kategori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/background_light"
+                app:layout_constraintTop_toBottomOf="@id/layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="@dimen/margin_kategori_1"
+                android:popupBackground="@color/purple800" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/appBarLayout" />
+        android:layout_below="@id/random_layout" />
 
 </RelativeLayout>

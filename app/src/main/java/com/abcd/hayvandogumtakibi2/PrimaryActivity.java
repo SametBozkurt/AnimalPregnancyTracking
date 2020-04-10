@@ -13,8 +13,11 @@ import android.view.View;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -138,9 +141,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 final Dialog dialog=new Dialog(PrimaryActivity.this,R.style.AppInfoDialogStyle);
                 dialog.setContentView(R.layout.app_info_layout);
                 TextView txt_version=dialog.findViewById(R.id.app_version);
-                Button cancel=dialog.findViewById(R.id.btn_cancel);
+                Button vote=dialog.findViewById(R.id.btn_cancel);
                 txt_version.setText(new StringBuilder(PrimaryActivity.this.getString(R.string.app_version)).append(ver));
-                cancel.setOnClickListener(new View.OnClickListener() {
+                vote.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(APP_URL));
@@ -152,6 +155,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_policy:
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(
                         Uri.parse(POLICIY_URL)));
+                break;
+            case R.id.nav_period:
+                startActivity(new Intent(PrimaryActivity.this,ActivityPeriods.class));
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -233,9 +239,12 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             btn_barn = findViewById(R.id.fab_barn);
             txt_pet = findViewById(R.id.text_pet);
             txt_barn = findViewById(R.id.text_barn);
+            Spinner goruntuleme_kategorisi = findViewById(R.id.kategori);
+            ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(this,R.layout.spinner_kategori,
+                    getResources().getStringArray(R.array.goruntuleme_kategorileri));
+            spinner_adapter.setDropDownViewResource(R.layout.spinner_kategori);
             drawer = findViewById(R.id.drawer_layout);
             navigationView = findViewById(R.id.nav_view);
-            //hayvanVerilerArrayList=databaseHelper.getAllData();
             setSupportActionBar(toolbar);
             btn_add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -284,18 +293,25 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                     //Besi hayvanı ise 2
                 }
             });
+            goruntuleme_kategorisi.setAdapter(spinner_adapter);
+            goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    recyclerView=findViewById(R.id.recyclerView);
+                    GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList,position));
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             navigationView.setNavigationItemSelectedListener(this);
             toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
                     R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.addDrawerListener(toggle);
             toggle.syncState();
-            recyclerView=findViewById(R.id.recyclerView);
-            //KayitlarAdapter kayitlarAdapter =new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList);
-            //RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(PrimaryActivity.this,LinearLayoutManager.VERTICAL,false);
-            GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setAdapter(new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList));
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
             }

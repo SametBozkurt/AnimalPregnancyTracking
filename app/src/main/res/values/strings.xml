@@ -12,6 +12,7 @@
     <string name="nav_search">Search For a Record</string>
     <string name="nav_calculator">Date Calculator</string>
     <string name="nav_info">Info</string>
+    <string name="nav_period">Gestation Periods</string>
     <string name="nav_title">Options</string>
     <string name="nav_title2">Application</string>
     <string name="nav_title3">Tools</string>
@@ -29,6 +30,7 @@
     <string name="listview_kalan_gun">Remaining days:</string>
     <string name="activity_duzenle_title">Edit/Remove Record</string>
     <string name="activity_kritikler_title">Incoming Birth</string>
+    <string name="activity_periods_title">Gestation Periods (Avg)</string>
     <string name="ozel_listview_tur">Species</string>
     <string name="ozel_listview_isim">Name</string>
     <string name="ozel_listview_tarih1">Insemination date</string>
@@ -115,6 +117,24 @@
         <item>Donkey</item>
         <item>Camel</item>
     </string-array>
+    <string-array name="all_species">
+        <item>Cow</item>
+        <item>Sheep</item>
+        <item>Goat</item>
+        <item>Cat</item>
+        <item>Dog</item>
+        <item>Hamster</item>
+        <item>Horse</item>
+        <item>Donkey</item>
+        <item>Camel</item>
+    </string-array>
+    <string-array name="goruntuleme_kategorileri">
+        <item>Names</item>
+        <item>IDs</item>
+        <item>Insemination Dates</item>
+        <item>Birth Dates</item>
+    </string-array>
+    <string name="spinner_description">Show that:</string>
     <string name="photo_picker_title">Select a photo</string>
     <string name="photo_picker_item_gallery">From gallery</string>
     <string name="photo_picker_item_camera">Open camera</string>

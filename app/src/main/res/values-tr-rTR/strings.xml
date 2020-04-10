@@ -106,6 +106,23 @@
         <item>Eşek</item>
         <item>Deve</item>
     </string-array>
+    <string-array name="all_species">
+        <item>İnek</item>
+        <item>Koyun</item>
+        <item>Keçi</item>
+        <item>Kedi</item>
+        <item>Köpek</item>
+        <item>Hamster</item>
+        <item>At</item>
+        <item>Eşek</item>
+        <item>Deve</item>
+    </string-array>
+    <string-array name="goruntuleme_kategorileri">
+        <item>İsimler</item>
+        <item>Küpe Numaraları</item>
+        <item>Gebelik Tarihleri</item>
+        <item>Doğum Tarihleri</item>
+    </string-array>
     <string name="photo_picker_item_camera">Kamerayı aç</string>
     <string name="photo_picker_item_gallery">Galeriden seç</string>
     <string name="photo_picker_title">Fotoğraf seç</string>
@@ -127,4 +144,7 @@
     <string name="txt_day">Gün kaldı</string>
     <string name="txt_day_2">Gün</string>
     <string name="vote">Oyla</string>
+    <string name="nav_period">Gebelik Süreleri</string>
+    <string name="activity_periods_title">Gebelik Süreleri (Ort)</string>
+    <string name="spinner_description">Şunu göster:</string>
 </resources>

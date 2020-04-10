@@ -22,11 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".ActivityDetails"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/NoActionBar4" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_bildirim" />
@@ -80,6 +75,15 @@
             android:name=".ActivityDogumKayit"
             android:screenOrientation="fullSensor"
             android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ActivityPeriods"
+            android:label="@string/activity_periods_title"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".ActivityDetails"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/NoActionBar4" />
 
         <receiver
             android:name=".TarihKontrol"

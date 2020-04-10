@@ -19,6 +19,11 @@
                 android:icon="@drawable/ic_search"
                 android:title="@string/nav_search">
             </item>
+            <item
+                android:id="@+id/nav_period"
+                android:icon="@drawable/ic_period"
+                android:title="@string/nav_period">
+            </item>
         </menu>
     </item>
     <item

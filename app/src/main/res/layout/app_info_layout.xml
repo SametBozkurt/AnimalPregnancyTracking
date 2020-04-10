@@ -1,74 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parent_layout">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/app_icon"
-        android:src="@mipmap/icon_new"
-        android:layout_marginTop="@dimen/margin_kategori_3"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@null"
-        android:layout_marginBottom="@dimen/margin_kategori_4"/>
+    <RelativeLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/app_icon"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:text="@string/app_name"
-        android:textColor="#546e7a"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:layout_marginStart="@dimen/margin_kategori_3"
-        android:layout_marginEnd="@dimen/margin_kategori_3"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/app_icon"
+            android:src="@mipmap/icon_new"
+            android:layout_marginTop="@dimen/margin_kategori_3"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@null"
+            android:layout_marginBottom="@dimen/margin_kategori_4"/>
 
-    <TextView
-        android:id="@+id/dev_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_kategori_1"
-        android:layout_marginTop="@dimen/margin_kategori_1"
-        android:layout_marginEnd="@dimen/margin_kategori_1"
-        android:text="@string/dev_name"
-        android:textSize="18sp"
-        android:textColor="#546e7a"
-        android:layout_below="@id/app_name"
-        android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_icon"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name"
+            android:textColor="#546e7a"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_kategori_3"
+            android:layout_marginEnd="@dimen/margin_kategori_3"/>
 
-    <TextView
-        android:id="@+id/app_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_kategori_1"
-        android:layout_marginTop="@dimen/margin_kategori_1"
-        android:layout_marginEnd="@dimen/margin_kategori_1"
-        android:text="@string/app_version"
-        android:textColor="#546e7a"
-        android:textSize="18sp"
-        android:layout_below="@id/dev_name"
-        android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/dev_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginTop="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:text="@string/dev_name"
+            android:textSize="18sp"
+            android:textColor="#546e7a"
+            android:layout_below="@id/app_name"
+            android:layout_centerHorizontal="true"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_cancel"
-        style="@style/OkButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/app_version"
-        android:layout_centerHorizontal="true"
-        android:text="@string/vote"
-        android:textColor="#546e7a"
-        app:strokeColor="#546e7a"
-        app:strokeWidth="2dp"
-        app:icon="@drawable/icon_thumb_up"
-        app:iconTint="#546e7a"
-        android:layout_marginTop="@dimen/margin_kategori_1"
-        android:layout_marginBottom="@dimen/margin_kategori_3" />
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginTop="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:text="@string/app_version"
+            android:textColor="#546e7a"
+            android:textSize="18sp"
+            android:layout_below="@id/dev_name"
+            android:layout_centerHorizontal="true"/>
 
-</RelativeLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            style="@style/OkButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_version"
+            android:layout_centerHorizontal="true"
+            android:text="@string/vote"
+            android:textColor="#546e7a"
+            app:strokeColor="#546e7a"
+            app:strokeWidth="2dp"
+            app:icon="@drawable/icon_thumb_up"
+            app:iconTint="#546e7a"
+            android:layout_marginTop="@dimen/margin_kategori_1"
+            android:layout_marginBottom="@dimen/margin_kategori_3" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

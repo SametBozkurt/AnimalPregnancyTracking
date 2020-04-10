@@ -20,13 +20,14 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private ArrayList<HayvanVeriler> hayvanVeriler;
     private Context context;
     private HayvanDuzenleyici hayvanDuzenleyici;
+    private int code;
 
-    KayitlarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList){
+    KayitlarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList,int code){
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
+        this.code=code;
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
-
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,7 +38,25 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         final HayvanVeriler hayvanVeriler1=hayvanVeriler.get(position);
-        holder.txt_isim.setText(new StringBuilder(hayvanVeriler1.getIsim()));
+        switch(code){
+            case 0:
+                holder.textView.setText(new StringBuilder(hayvanVeriler1.getIsim()));
+                break;
+            case 1:
+                if(hayvanVeriler1.getKupe_no()==null||hayvanVeriler1.getKupe_no().length()==0){
+                    holder.textView.setText(new StringBuilder(context.getString(R.string.kupe_no_yok)));
+                }
+                else{
+                    holder.textView.setText(new StringBuilder(hayvanVeriler1.getKupe_no()));
+                }
+                break;
+            case 2:
+                holder.textView.setText(new StringBuilder(hayvanVeriler1.getTohumlama_tarihi()));
+                break;
+            case 3:
+                holder.textView.setText(new StringBuilder(hayvanVeriler1.getDogum_tarihi()));
+                break;
+        }
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
@@ -71,13 +90,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_isim;
+        TextView textView;
         ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
-            txt_isim=itemView.findViewById(R.id.txt_isim);
+            textView=itemView.findViewById(R.id.text);
         }
     }
 }
