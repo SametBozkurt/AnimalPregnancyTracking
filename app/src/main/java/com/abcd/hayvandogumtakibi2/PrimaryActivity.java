@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -36,25 +35,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String POLICIY_URL = "https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html";
-    private static final String APP_URL = "https://play.google.com/store/apps/details?id=com.sariyazilim.hayvangebeliktakibi";
-    private static final int PERMISSION_REQ_CODE = 21323;
     private static final String INTENT_ACTION= "SET_AN_ALARM" ;
     boolean is_opened = false;
-    TextView txt_pet,txt_barn;
-    SQLiteDatabaseHelper databaseHelper;
-    RecyclerView recyclerView;
-    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    Toolbar toolbar;
-    DrawerLayout drawer;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
-    FloatingActionButton btn_add,btn_pet,btn_barn;
-    RelativeLayout relativeLayout;
+    private TextView txt_pet,txt_barn;
+    private SQLiteDatabaseHelper databaseHelper;
+    private RecyclerView recyclerView;
+    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    private FloatingActionButton btn_add,btn_pet,btn_barn;
+    private RelativeLayout relativeLayout;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        izin_kontrol();
         super.onCreate(savedInstanceState);
         fab_open= AnimationUtils.loadAnimation(this,R.anim.fab_on);
         fab_close=AnimationUtils.loadAnimation(this,R.anim.fab_off);
@@ -63,8 +56,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         new SQLiteDatabaseHelper(PrimaryActivity.this);
         databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
         hayvanVerilerArrayList=databaseHelper.getAllData();
-        izinler();
+        dosya_kontrol();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,7 +140,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 vote.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(APP_URL));
+                        Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.APP_URL)));
                         startActivity(intent);
                     }
                 });
@@ -154,7 +148,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_policy:
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(
-                        Uri.parse(POLICIY_URL)));
+                        Uri.parse(getString(R.string.POLICY_URL))));
                 break;
             case R.id.nav_period:
                 startActivity(new Intent(PrimaryActivity.this,ActivityPeriods.class));
@@ -166,6 +160,10 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     }
 
     private void dosya_kontrol(){
+        Toolbar toolbar;
+        DrawerLayout drawer;
+        ActionBarDrawerToggle toggle;
+        NavigationView navigationView;
         if(hayvanVerilerArrayList.size()==0){
             setContentView(R.layout.activity_primary_msg);
             relativeLayout=findViewById(R.id.relativeLayout);
@@ -317,61 +315,11 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             }
         }
     }
-    private void izinler(){
-        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
-            if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
-                    ||ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)== PackageManager.PERMISSION_DENIED){
-                setContentView(R.layout.layout_req_perms);
-                Button btn_allow=findViewById(R.id.allow);
-                btn_allow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        izin_kontrol();
-                    }
-                });
-            }
-            else{
-                dosya_kontrol();
-            }
-        }
-        else{
-            dosya_kontrol();
-        }
-    }
-    private void izin_kontrol(){
-        if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=
-                PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)!=
-                PackageManager.PERMISSION_GRANTED){
-            //Kamera ve depolama izinlerini ister.
-            ActivityCompat.requestPermissions(PrimaryActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
-        }
-        else if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=
-                PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)==
-                PackageManager.PERMISSION_GRANTED){
-            //Sadece depolama izni ister.
-            ActivityCompat.requestPermissions(PrimaryActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQ_CODE);
-        }
-        else if(ContextCompat.checkSelfPermission(PrimaryActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(PrimaryActivity.this,Manifest.permission.CAMERA)!=
-                PackageManager.PERMISSION_GRANTED){
-            //Sadece kamera izni ister.
-            ActivityCompat.requestPermissions(PrimaryActivity.this,new String[]{Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
-        }
-        else{
-            dosya_kontrol();
-            //İzinler tamamdır\O/
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==
-                PackageManager.PERMISSION_GRANTED){
-            dosya_kontrol();
+    private void izin_kontrol() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            startActivity(new Intent(this,ActivityPermission.class));
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 }

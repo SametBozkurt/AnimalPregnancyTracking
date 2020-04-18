@@ -83,6 +83,7 @@
     <string name="activity_tarih_hesapla_title">Date Calculator</string>
     <string name="menu_kayit_bul">Search for a record</string>
     <string name="activity_ara_title">Search</string>
+    <string name="activity_permissions">Before get started…</string>
     <string name="radio_button_isim">Names</string>
     <string name="radio_button_kupe_no">ID numbers</string>
     <string name="radio_group_hint">Search in:</string>
@@ -156,4 +157,6 @@
     <string name="txt_day_2">Day(s)</string>
     <string name="test_number" translatable="false">10</string>
     <string name="text_NA" translatable="false">—</string>
+    <string name="APP_URL" translatable="false">https://play.google.com/store/apps/details?id=com.sariyazilim.hayvangebeliktakibi</string>
+    <string name="POLICY_URL" translatable="false">https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html</string>
 </resources>
