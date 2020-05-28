@@ -9,8 +9,7 @@ import java.util.Date;
 
 class TarihHesaplayici {
 
-    private String isim_tur,dogum_tarihi_ayrilacak;
-    private SimpleDateFormat dateFormatAyrilcak;
+    private String isim_tur;
     private Date date1;
     private Context mContext;
     static final int DAY_COW = 283;
@@ -32,21 +31,120 @@ class TarihHesaplayici {
         mContext=context;
     }
 
-    TarihHesaplayici(String parseble_date){
-        dogum_tarihi_ayrilacak=parseble_date;
-        dateFormatAyrilcak=new SimpleDateFormat("dd/MM/yyyy");
-    }
-
-    Calendar get_tarih_bilgileri(){
-        Date date= null;
-        try {
-            date = dateFormatAyrilcak.parse(dogum_tarihi_ayrilacak);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    Calendar get_tarih(){
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date1);
+        if(mContext.getClass().getName().equals(ActivityName)){
+            switch(isim_tur){
+                case "0":
+                    calendar.add(Calendar.DATE,DAY_COW);
+                    break;
+                case "1":
+                    calendar.add(Calendar.DATE,DAY_SHEEP);
+                    break;
+                case "2":
+                    calendar.add(Calendar.DATE,DAY_GOAT);
+                    break;
+                case "3":
+                    calendar.add(Calendar.DATE,DAY_CAT);
+                    break;
+                case "4":
+                    calendar.add(Calendar.DATE,DAY_DOG);
+                    break;
+                case "5":
+                    calendar.add(Calendar.DATE,DAY_HAMSTER);
+                    break;
+                case "6":
+                    calendar.add(Calendar.DATE,DAY_HORSE);
+                    break;
+                case "7":
+                    calendar.add(Calendar.DATE,DAY_DONKEY);
+                    break;
+                case "8":
+                    calendar.add(Calendar.DATE,DAY_CAMEL);
+                    break;
+            }
         }
-        Calendar mCalendar=Calendar.getInstance();
-        mCalendar.setTime(date);
-        return mCalendar;
+        else{
+            switch(ispet){
+                case 0: //tum hayvanlar
+                    switch(isim_tur){
+                        case "0":
+                            calendar.add(Calendar.DATE,DAY_COW);
+                            break;
+                        case "1":
+                            calendar.add(Calendar.DATE,DAY_SHEEP);
+                            break;
+                        case "2":
+                            calendar.add(Calendar.DATE,DAY_GOAT);
+                            break;
+                        case "3":
+                            calendar.add(Calendar.DATE,DAY_CAT);
+                            break;
+                        case "4":
+                            calendar.add(Calendar.DATE,DAY_DOG);
+                            break;
+                        case "5":
+                            calendar.add(Calendar.DATE,DAY_HAMSTER);
+                            break;
+                        case "6":
+                            calendar.add(Calendar.DATE,0);
+                            break;
+                        case "7":
+                            calendar.add(Calendar.DATE,DAY_HORSE);
+                            break;
+                        case "8":
+                            calendar.add(Calendar.DATE,DAY_DONKEY);
+                            break;
+                        case "9":
+                            calendar.add(Calendar.DATE,DAY_CAMEL);
+                            break;
+                    }
+                    break;
+                case 1: //evcil hayvanlar
+                    switch(isim_tur){
+                        case "0":
+                            calendar.add(Calendar.DATE,DAY_CAT);
+                            break;
+                        case "1":
+                            calendar.add(Calendar.DATE,DAY_DOG);
+                            break;
+                        case "2":
+                            calendar.add(Calendar.DATE,DAY_HAMSTER);
+                            break;
+                        case "3":
+                            calendar.add(Calendar.DATE,0);
+                            break;
+                    }
+                    break;
+                case 2: //besi hayvanları
+                    switch(isim_tur){
+                        case "0":
+                            calendar.add(Calendar.DATE,DAY_COW);
+                            break;
+                        case "1":
+                            calendar.add(Calendar.DATE,DAY_SHEEP);
+                            break;
+                        case "2":
+                            calendar.add(Calendar.DATE,DAY_GOAT);
+                            break;
+                        case "3":
+                            calendar.add(Calendar.DATE,0);
+                            break;
+                        case "4":
+                            calendar.add(Calendar.DATE,DAY_HORSE);
+                            break;
+                        case "5":
+                            calendar.add(Calendar.DATE,DAY_DONKEY);
+                            break;
+                        case "6":
+                            calendar.add(Calendar.DATE,DAY_CAMEL);
+                            break;
+                    }
+                    break;
+            }
+        }
+        return calendar;
     }
 
     String getTarih(){

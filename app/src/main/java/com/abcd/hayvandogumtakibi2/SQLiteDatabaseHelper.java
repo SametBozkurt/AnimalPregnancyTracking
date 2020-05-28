@@ -31,7 +31,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     public SQLiteDatabaseHelper(Context context) {
         super(context, VERITABANI_ISIM, null, 3);
-        degerler();
+        init();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private void degerler(){
+    private void init(){
         String date_bugun=takvim.get(Calendar.DAY_OF_MONTH)+"/"+(takvim.get(Calendar.MONTH)+1)+"/"+takvim.get(Calendar.YEAR);
         try {
             bugun=date_formatter.parse(date_bugun);

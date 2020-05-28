@@ -41,14 +41,14 @@ public class ActivityEdit extends AppCompatActivity {
     private static final int GALLERY_REQ_CODE=12321;
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
     private boolean boolTarih=true;
-    private int gun1,ay1,yil1,gun2,ay2,yil2,kayit_id,petCode;
+    private int kayit_id,petCode;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
     Button kaydet,iptal;
     Spinner tur_sec;
     RelativeLayout main_Layout;
     SQLiteDatabaseHelper databaseHelper;
     String secilen_tur,secilen_tarih1,secilen_tarih2,gorsel_ad,gorsel_adres;
-    Calendar takvim;
+    Calendar takvim, takvim2;
     Date date,date2;
     Bundle data_bundle;
     TextInputLayout textInputLayout;
@@ -70,6 +70,7 @@ public class ActivityEdit extends AppCompatActivity {
         photo=findViewById(R.id.add_photo);
         databaseHelper=new SQLiteDatabaseHelper(ActivityEdit.this);
         takvim=Calendar.getInstance();
+        takvim2=Calendar.getInstance();
         secilen_tur="";
         degerleri_yerlestir();
     }
@@ -85,30 +86,16 @@ public class ActivityEdit extends AppCompatActivity {
         petCode=data_bundle.getInt("isPet");
         try {
             date=new SimpleDateFormat("dd/MM/yyyy").parse((String)data_bundle.getCharSequence("kayit_tarih1"));
-            Calendar mCalendar=Calendar.getInstance();
-            mCalendar.setTime(date);
-            gun1=mCalendar.get(Calendar.DAY_OF_MONTH);
-            ay1=mCalendar.get(Calendar.MONTH);
-            yil1=mCalendar.get(Calendar.YEAR);
+            takvim.setTime(date);
 
         } catch (ParseException e) {
             e.printStackTrace();
-            gun1=takvim.get(Calendar.DAY_OF_MONTH);
-            ay1=takvim.get(Calendar.MONTH);
-            yil1=takvim.get(Calendar.YEAR);
         }
         try {
             date2=new SimpleDateFormat("dd/MM/yyyy").parse((String)data_bundle.getCharSequence("kayit_tarih2"));
-            Calendar c=Calendar.getInstance();
-            c.setTime(date2);
-            gun2=c.get(Calendar.DAY_OF_MONTH);
-            ay2=c.get(Calendar.MONTH);
-            yil2=c.get(Calendar.YEAR);
+            takvim2.setTime(date2);
         } catch (ParseException e) {
             e.printStackTrace();
-            gun2=takvim.get(Calendar.DAY_OF_MONTH);
-            ay2=takvim.get(Calendar.MONTH);
-            yil2=takvim.get(Calendar.YEAR);
         }
         ArrayAdapter<String> spinnerAdapter;
         switch(petCode){
@@ -152,8 +139,7 @@ public class ActivityEdit extends AppCompatActivity {
                     case 0://Önceki sürümler için
                         if(position!=6){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
-                                    petCode);
+                            oto_tarih_hesapla(date);
                         }
                         else{
                             textInputLayout.setHelperText("");
@@ -162,8 +148,7 @@ public class ActivityEdit extends AppCompatActivity {
                     case 1: case 2: //Evcil & çiftlik hayvan ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,
-                                    petCode);
+                            oto_tarih_hesapla(date);
                         }
                         else{
                             textInputLayout.setHelperText("");
@@ -181,60 +166,44 @@ public class ActivityEdit extends AppCompatActivity {
         dollenme_tarihi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityEdit.this,R.style.PickerTheme,
-                        new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog=new DatePickerDialog(ActivityEdit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        gun1=i2;
-                        ay1=i1;
-                        yil1=i;
-                        takvim.set(i,i1,i2);
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        takvim.set(year,month,dayOfMonth);
                         date=takvim.getTime();
-                        i1+=1; //i2-->GÜN i1-->AY i-->YIL
-                        dollenme_tarihi.setText(i2+"/"+i1+"/"+i);
-                        secilen_tarih1=i2+"/"+i1+"/"+i;
+                        dollenme_tarihi.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        secilen_tarih1=dayOfMonth+"/"+(month+1)+"/"+year;
                         boolTarih=true;
                         switch (petCode){
                             case 0://Önceki sürümler için
                                 if(!secilen_tur.equals("6")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
-                                    gun2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
-                                    ay2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
-                                    yil2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
+                                    oto_tarih_hesapla(date);
                                 }
                                 break;
                             case 1: case 2: //Evcil kodu //Besi kodu
                                 if(!secilen_tur.equals("3")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTarih,dogum_tarihi,secilen_tur,date,ActivityEdit.this,petCode);
-                                    gun2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
-                                    ay2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
-                                    yil2=new TarihHesaplayici(dogum_tarihi.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
+                                    oto_tarih_hesapla(date);
                                 }
                                 break;
                         }
                     }
-                },yil1,ay1,gun1);
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                },takvim.get(Calendar.YEAR),takvim.get(Calendar.MONTH),takvim.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
             }
         });
         dogum_tarihi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityEdit.this,R.style.PickerTheme,
-                        new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog=new DatePickerDialog(ActivityEdit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        gun2=i2;
-                        yil2=i;
-                        ay2=i1;
-                        i1+=1;
-                        dogum_tarihi.setText(i2+"/"+i1+"/"+i);
-                        secilen_tarih2=i2+"/"+i1+"/"+i;
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        dogum_tarihi.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                        secilen_tarih2=dayOfMonth+"/"+(month+1)+"/"+year;
                     }
-                },yil2,ay2,gun2);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                },takvim2.get(Calendar.YEAR),takvim2.get(Calendar.MONTH),takvim2.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                dialog.show();
             }
         });
         kaydet.setOnClickListener(new View.OnClickListener() {
@@ -366,6 +335,15 @@ public class ActivityEdit extends AppCompatActivity {
             e.printStackTrace();
         }
         Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
+    }
+
+    private void oto_tarih_hesapla(Date date){
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,this);
+        if(boolTarih){
+            dogum_tarihi.setText(tarihHesaplayici.getTarih());
+            takvim2=tarihHesaplayici.get_tarih();
+            Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
+        }
     }
 
 }

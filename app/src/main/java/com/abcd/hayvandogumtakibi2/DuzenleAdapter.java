@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomViewHolder> {
 
-    Context mContext;
-    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    SQLiteDatabaseHelper databaseHelper;
-    HayvanDuzenleyici hayvanDuzenleyici;
+    private Context mContext;
+    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    private SQLiteDatabaseHelper databaseHelper;
+    private HayvanDuzenleyici hayvanDuzenleyici;
 
-    public DuzenleAdapter(Context context, ArrayList<HayvanVeriler> arrayList){
+    DuzenleAdapter(Context context, ArrayList<HayvanVeriler> arrayList){
         this.mContext=context;
         this.hayvanVerilerArrayList=arrayList;
         databaseHelper=new SQLiteDatabaseHelper(context);
@@ -46,7 +46,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         else{
             holder.txt_kupe_no.setText(new StringBuilder(mContext.getString(R.string.listview_kupe_no)).append(hayvanVeriler.getKupe_no()));
         }
-        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.txt_tur);
+        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.txt_tur);
         holder.txt_tarih1.setText(new StringBuilder(mContext.getString(R.string.listView_tarih1)).append(hayvanVeriler.getTohumlama_tarihi()));
         holder.txt_tarih2.setText(new StringBuilder(mContext.getString(R.string.listView_tarih2)).append(hayvanVeriler.getDogum_tarihi()));
         holder.button_duzenle.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
             Glide.with(mContext).load(Uri.fromFile(new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).into(holder.img_animal);
         }
         else{
-            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.valueOf(hayvanVeriler.getTur()),holder.img_animal);
+            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
         }
     }
 
@@ -89,13 +89,13 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         return hayvanVerilerArrayList.size();
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_tur,txt_isim,txt_tarih1,txt_tarih2,txt_kupe_no;
         Button button_duzenle,button_sil;
         ImageView img_animal;
 
-        public CustomViewHolder(View itemView) {
+        CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
             txt_tur=itemView.findViewById(R.id.txt_tur);

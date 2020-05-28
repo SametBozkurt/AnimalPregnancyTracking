@@ -54,14 +54,13 @@ public class ActivityDogumKayit extends AppCompatActivity {
     private Button kaydet,iptal;
     private ImageView photo;
     private Spinner spinner_turler;
-    private Calendar gecerli_takvim;
+    private Calendar gecerli_takvim,hesaplanan_tarih;
     private String gorsel_adres;
     private String secilen_tur="0";
     private String gorsel_ad="";
     private Date date;
     private TextInputLayout textInputLayout;
-    private int gun1,ay1,yil1,gun2,ay2,yil2,_isPet;
-
+    private int _isPet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +79,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
         gecerli_takvim=Calendar.getInstance();
-        gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
-        ay1=gecerli_takvim.get(Calendar.MONTH);
-        yil1=gecerli_takvim.get(Calendar.YEAR);
-        gun2=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
-        ay2=gecerli_takvim.get(Calendar.MONTH);
-        yil2=gecerli_takvim.get(Calendar.YEAR);
+        hesaplanan_tarih=Calendar.getInstance();
         _isPet=getIntent().getExtras().getInt("isPet");
         ArrayAdapter<String> spinner_adapter;
         switch (_isPet){
@@ -110,7 +104,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
                     case 1: //Evcil hayvan ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this, _isPet);
+                            oto_tarih_hesapla(date);
                         }
                         else{
                             textInputLayout.setHelperText("");
@@ -119,7 +113,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
                     case 2: //Besi hayvanı ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this, _isPet);
+                            oto_tarih_hesapla(date);
                         }
                         else{
                             textInputLayout.setHelperText("");
@@ -135,58 +129,42 @@ public class ActivityDogumKayit extends AppCompatActivity {
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityDogumKayit.this,R.style.PickerTheme,new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog=new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        gun1=i2;
-                        ay1=i1;
-                        yil1=i;
-                        gecerli_takvim.set(i,i1,i2);
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        gecerli_takvim.set(year,month,dayOfMonth);
                         date=gecerli_takvim.getTime();
-                        i1+=1; //i2-->GÜN i1-->AY i-->YIL
-                        btn_tarih_dollenme.setText(i2+"/"+i1+"/"+i);
+                        btn_tarih_dollenme.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         boolTarih=true;
                         switch (_isPet){
                             case 1: //Evcil hayvan ise
                                 if(!secilen_tur.equals("3")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
-                                            _isPet);
-                                    gun2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
-                                    ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
-                                    yil2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
+                                    oto_tarih_hesapla(date);
                                 }
                                 break;
                             case 2: //Besi hayvanı ise
                                 if(!secilen_tur.equals("3")){
-                                    new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityDogumKayit.this,
-                                            _isPet);
-                                    gun2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.DAY_OF_MONTH);
-                                    ay2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.MONTH);
-                                    yil2=new TarihHesaplayici(btn_tarih_dogum.getText().toString()).get_tarih_bilgileri().get(Calendar.YEAR);
+                                    oto_tarih_hesapla(date);
                                 }
                                 break;
                         }
                     }
-                },yil1,ay1,gun1);
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                },gecerli_takvim.get(Calendar.YEAR),gecerli_takvim.get(Calendar.MONTH),gecerli_takvim.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
             }
         });
         btn_tarih_dogum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityDogumKayit.this,R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        gun2=i2;
-                        yil2=i;
-                        ay2=i1;
-                        i1+=1;
-                        btn_tarih_dogum.setText(i2+"/"+i1+"/"+i);
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        btn_tarih_dogum.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                     }
-                },yil2,ay2,gun2);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                },hesaplanan_tarih.get(Calendar.YEAR),hesaplanan_tarih.get(Calendar.MONTH),hesaplanan_tarih.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                dialog.show();
             }
         });
         kaydet.setOnClickListener(new View.OnClickListener() {
@@ -349,5 +327,13 @@ public class ActivityDogumKayit extends AppCompatActivity {
             e.printStackTrace();
         }
         Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
+    }
+    private void oto_tarih_hesapla(Date date){
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(_isPet,secilen_tur,date,this);
+        if(boolTarih){
+            btn_tarih_dogum.setText(tarihHesaplayici.getTarih());
+            hesaplanan_tarih=tarihHesaplayici.get_tarih();
+            Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
+        }
     }
 }

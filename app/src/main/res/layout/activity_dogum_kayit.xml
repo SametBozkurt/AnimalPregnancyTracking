@@ -152,10 +152,10 @@
                             android:id="@+id/dollenme_tarihi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:focusable="false"
                             android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
-                            android:theme="@style/InputYeniKayit"/>
+                            android:focusable="false"
+                            android:theme="@style/InputYeniKayit" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -188,9 +188,9 @@
                             android:id="@+id/dogum_tarihi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:focusable="false"
                             android:fontFamily="@font/comfortaa_bold"
                             android:inputType="datetime"
+                            android:focusable="false"
                             android:theme="@style/InputYeniKayit"/>
 
                     </com.google.android.material.textfield.TextInputLayout>

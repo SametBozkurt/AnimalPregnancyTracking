@@ -14,14 +14,15 @@ import java.util.Calendar;
 import java.util.Date;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class ActivityTarihHesapla extends AppCompatActivity {
 
     private boolean boolTarih=false;
-    private RelativeLayout main_Layout;
     private EditText btn_tarih_dogum,btn_tarih_dollenme;
-    private int gun1,ay1,yil1;
     private String secilen_tur;
     private Date date;
+    private RelativeLayout main_layout;
     int petCode=0;
 
     @Override
@@ -31,12 +32,9 @@ public class ActivityTarihHesapla extends AppCompatActivity {
         Spinner spinner_turler=findViewById(R.id.spinner);
         btn_tarih_dollenme=findViewById(R.id.dollenme_tarihi);
         btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
-        main_Layout=findViewById(R.id.ana_katman);
+        main_layout=findViewById(R.id.ana_katman);
         final Calendar gecerli_takvim=Calendar.getInstance();
         date=gecerli_takvim.getTime();
-        gun1=gecerli_takvim.get(Calendar.DAY_OF_MONTH);
-        ay1=gecerli_takvim.get(Calendar.MONTH);
-        yil1=gecerli_takvim.get(Calendar.YEAR);
         ArrayList<String> turler_list=new ArrayList<>(9);
         turler_list.add(getString(R.string.tur_0));
         turler_list.add(getString(R.string.tur_1));
@@ -54,8 +52,7 @@ public class ActivityTarihHesapla extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 secilen_tur=String.valueOf(position);
-                new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
-                        petCode);
+                oto_tarih_hesapla(date);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -65,27 +62,30 @@ public class ActivityTarihHesapla extends AppCompatActivity {
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityTarihHesapla.this,R.style.PickerTheme,new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog=new DatePickerDialog(ActivityTarihHesapla.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        yil1=i;
-                        ay1=i1;
-                        gun1=i2;
-                        gecerli_takvim.set(i,i1,i2);
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        gecerli_takvim.set(year,month,dayOfMonth);
                         date=gecerli_takvim.getTime();
-                        i1+=1; //i2-->GÜN i1-->AY i-->YIL
-                        btn_tarih_dollenme.setText(i2+"/"+i1+"/"+i);
+                        btn_tarih_dollenme.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                         boolTarih=true;
-                        new OtoTarihHesaplayici(main_Layout,boolTarih,btn_tarih_dogum,secilen_tur,date,ActivityTarihHesapla.this,
-                                petCode);
+                        oto_tarih_hesapla(date);
                     }
-                },yil1,ay1,gun1);
-                datePickerDialog.show();
+                },gecerli_takvim.get(Calendar.YEAR),gecerli_takvim.get(Calendar.MONTH),gecerli_takvim.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
             }
         });
     }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    private void oto_tarih_hesapla(Date date){
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,this);
+        if(boolTarih){
+            btn_tarih_dogum.setText(tarihHesaplayici.getTarih());
+            Snackbar.make(main_layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
+        }
     }
 }
