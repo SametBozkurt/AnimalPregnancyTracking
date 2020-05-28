@@ -21,7 +21,7 @@ public class TarihKontrol extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new SQLiteDatabaseHelper(context).getAllData();
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new SQLiteDatabaseHelper(context).getSimpleData();
         if(hayvanVerilerArrayList.size()!=0){
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 JobScheduler scheduler=(JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);

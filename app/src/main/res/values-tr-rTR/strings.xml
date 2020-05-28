@@ -148,4 +148,6 @@
     <string name="activity_periods_title">Gebelik Süreleri (Ort)</string>
     <string name="spinner_description">Şunu göster:</string>
     <string name="activity_permissions">Başlamadan önce…</string>
+    <string name="dogum_gerceklesti_uyarı">Bu doğum gerçekleşti mi?</string>
+    <string name="yes">Evet</string>
 </resources>

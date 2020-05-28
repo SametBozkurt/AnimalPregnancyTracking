@@ -148,4 +148,6 @@
     <string name="activity_periods_title">Gestation Periods (Avg)</string>
     <string name="spinner_description">Show that:</string>
     <string name="activity_permissions">Before get started…</string>
+    <string name="dogum_gerceklesti_uyarı">Has that birth happened?</string>
+    <string name="yes">Yes</string>
 </resources>

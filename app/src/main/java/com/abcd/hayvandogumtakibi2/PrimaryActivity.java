@@ -55,7 +55,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         fab_anticlock=AnimationUtils.loadAnimation(this,R.anim.rotation_anticlock);
         new SQLiteDatabaseHelper(PrimaryActivity.this);
         databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
-        hayvanVerilerArrayList=databaseHelper.getAllData();
+        hayvanVerilerArrayList=databaseHelper.getSimpleData();
         dosya_kontrol();
     }
 

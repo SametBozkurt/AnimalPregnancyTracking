@@ -217,7 +217,7 @@ public class ActivityEdit extends AppCompatActivity {
                 }
                 else{
                     databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
-                            secilen_tur,txt_kupe_no.getText().toString(),secilen_tarih1,dogum_tarihi.getText().toString(),gorsel_ad);
+                            secilen_tur,txt_kupe_no.getText().toString(),secilen_tarih1,dogum_tarihi.getText().toString(),gorsel_ad,data_bundle.getInt("dogumGrcklsti"));
                     startActivity(new Intent(ActivityEdit.this,ActivityKayitDuzenle.class));
                 }
             }

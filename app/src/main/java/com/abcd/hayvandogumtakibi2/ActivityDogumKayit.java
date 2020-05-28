@@ -233,7 +233,7 @@ public class ActivityDogumKayit extends AppCompatActivity {
         }
         else{
             HayvanVeriler hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                    btn_tarih_dollenme.getText().toString(),btn_tarih_dogum.getText().toString(),gorsel_ad,_isPet);
+                    btn_tarih_dollenme.getText().toString(),btn_tarih_dogum.getText().toString(),gorsel_ad,_isPet,0);
             dbYoneticisi.veri_yaz(hayvanVeriler);
             startActivity(new Intent(ActivityDogumKayit.this,PrimaryActivity.class));
         }

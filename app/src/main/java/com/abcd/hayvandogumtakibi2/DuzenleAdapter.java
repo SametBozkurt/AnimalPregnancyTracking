@@ -62,6 +62,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 veri_paketi.putCharSequence("kayit_tarih2",hayvanVeriler.getDogum_tarihi());
                 veri_paketi.putCharSequence("kayit_gorsel_isim",hayvanVeriler.getFotograf_isim());
                 veri_paketi.putInt("isPet",hayvanVeriler.getIs_evcilhayvan());
+                veri_paketi.putInt("dogumGrcklsti",hayvanVeriler.getDogum_grcklsti());
                 data.putExtras(veri_paketi);
                 mContext.startActivity(data);
 

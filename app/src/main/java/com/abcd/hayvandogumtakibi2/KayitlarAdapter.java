@@ -69,13 +69,6 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
             public void onClick(View v) {
                 Bundle data=new Bundle();
                 data.putInt("ID",hayvanVeriler1.getId());
-                data.putString("isim",hayvanVeriler1.getIsim());
-                data.putString("tur",hayvanVeriler1.getTur());
-                data.putString("kupe_no",hayvanVeriler1.getKupe_no());
-                data.putString("tohumlama_tarihi",hayvanVeriler1.getTohumlama_tarihi());
-                data.putString("dogum_tarihi",hayvanVeriler1.getDogum_tarihi());
-                data.putString("fotograf_isim",hayvanVeriler1.getFotograf_isim());
-                data.putInt("is_evcilhayvan",hayvanVeriler1.getIs_evcilhayvan());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);

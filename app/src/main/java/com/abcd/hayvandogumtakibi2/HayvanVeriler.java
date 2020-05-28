@@ -10,8 +10,9 @@ public class HayvanVeriler {
     private String dogum_tarihi;
     private String fotograf_isim;
     private int is_evcilhayvan;
+    private int dogum_grcklsti;
 
-    public HayvanVeriler(int ID,String str1,String str2,String str3,String str4,String str5,String str6,int evcilhayvan){
+    public HayvanVeriler(int ID,String str1,String str2,String str3,String str4,String str5,String str6,int evcilhayvan,int dogum_grcklsti){
         id=ID;
         isim=str1;
         tur=str2;
@@ -20,6 +21,7 @@ public class HayvanVeriler {
         dogum_tarihi=str5;
         fotograf_isim=str6;
         is_evcilhayvan=evcilhayvan;
+        this.dogum_grcklsti=dogum_grcklsti;
     }
 
     public void setId(int id) {
@@ -92,4 +94,11 @@ public class HayvanVeriler {
         return is_evcilhayvan;
     }
 
+    public int getDogum_grcklsti() {
+        return dogum_grcklsti;
+    }
+
+    public void setDogum_grcklsti(int dogum_grcklsti) {
+        this.dogum_grcklsti = dogum_grcklsti;
+    }
 }

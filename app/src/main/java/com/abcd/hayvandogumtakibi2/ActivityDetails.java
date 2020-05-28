@@ -1,7 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,16 +17,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ActivityDetails extends AppCompatActivity {
-
-    private Bundle bundle;
     private Date bugun,dogum;
     private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
+    private HayvanVeriler hayvanVeriler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        bundle=getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
+        hayvanVeriler=new SQLiteDatabaseHelper(this).getDataById(bundle.getInt("ID"));
         ImageView imageView = findViewById(R.id.img_hayvan);
         TextView txt_isim = findViewById(R.id.txt_isim);
         TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
@@ -36,28 +36,28 @@ public class ActivityDetails extends AppCompatActivity {
         TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
         ImageView icon_edit = findViewById(R.id.btn_edit);
         HayvanDuzenleyici hayvanDuzenleyici = new HayvanDuzenleyici(this);
-        if(bundle.getString("fotograf_isim").length()!=0){
-            File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),bundle.getString("fotograf_isim"));
+        if(hayvanVeriler.getFotograf_isim().length()!=0){
+            File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
             Glide.with(this).load(Uri.fromFile(gorselFile)).into(imageView);
         }
-        else if(!bundle.containsKey("fotograf_isim")||bundle.getString("fotograf_isim").length()==0){
-            hayvanDuzenleyici.set_img(bundle.getInt("is_evcilhayvan"),Integer.parseInt(bundle.getString("tur")), imageView);
+        else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
+            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), imageView);
         }
-        txt_isim.setText(bundle.getString("isim"));
-        if(!bundle.containsKey("kupe_no")||bundle.getString("kupe_no").length()==0){
+        txt_isim.setText(hayvanVeriler.getIsim());
+        if(hayvanVeriler.getKupe_no()==null||hayvanVeriler.getKupe_no().length()==0){
             txt_kupe_no.setText(new StringBuilder(getString(R.string.kupe_no_yok)));
         }
         else{
-            txt_kupe_no.setText(new StringBuilder(bundle.getString("kupe_no")));
+            txt_kupe_no.setText(new StringBuilder(hayvanVeriler.getKupe_no()));
         }
-        txt_tarih1.setText(new StringBuilder(bundle.getString("tohumlama_tarihi")));
-        hayvanDuzenleyici.set_text(bundle.getInt("is_evcilhayvan"),Integer.parseInt(bundle.getString("tur")), txt_tur);
-        if(!bundle.containsKey("dogum_tarihi")||bundle.getString("dogum_tarihi").length()==0){
+        txt_tarih1.setText(new StringBuilder(hayvanVeriler.getTohumlama_tarihi()));
+        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), txt_tur);
+        if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
             txt_tarih2.setText(getString(R.string.text_NA));
             txt_kalan.setText(getString(R.string.text_NA));
         }
         else{
-            txt_tarih2.setText(new StringBuilder(bundle.getString("dogum_tarihi")));
+            txt_tarih2.setText(new StringBuilder(hayvanVeriler.getDogum_tarihi()));
             if(get_gun_sayisi()>=0){
                 txt_kalan.setText(new StringBuilder(String.valueOf(get_gun_sayisi())));
             }
@@ -70,18 +70,31 @@ public class ActivityDetails extends AppCompatActivity {
             public void onClick(View v) {
                 Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
                 Bundle veri_paketi=new Bundle();
-                veri_paketi.putInt("kayit_id",bundle.getInt("ID"));
-                veri_paketi.putCharSequence("kayit_isim",bundle.getString("isim"));
-                veri_paketi.putCharSequence("kayit_kupe_no",bundle.getString("kupe_no"));
-                veri_paketi.putCharSequence("kayit_tur",bundle.getString("tur"));
-                veri_paketi.putCharSequence("kayit_tarih1",bundle.getString("tohumlama_tarihi"));
-                veri_paketi.putCharSequence("kayit_tarih2",bundle.getString("dogum_tarihi"));
-                veri_paketi.putCharSequence("kayit_gorsel_isim",bundle.getString("fotograf_isim"));
-                veri_paketi.putInt("isPet",bundle.getInt("is_evcilhayvan"));
+                veri_paketi.putInt("kayit_id",hayvanVeriler.getId());
+                veri_paketi.putCharSequence("kayit_isim",hayvanVeriler.getIsim());
+                veri_paketi.putCharSequence("kayit_kupe_no",hayvanVeriler.getKupe_no());
+                veri_paketi.putCharSequence("kayit_tur",hayvanVeriler.getTur());
+                veri_paketi.putCharSequence("kayit_tarih1",hayvanVeriler.getTohumlama_tarihi());
+                veri_paketi.putCharSequence("kayit_tarih2",hayvanVeriler.getDogum_tarihi());
+                veri_paketi.putCharSequence("kayit_gorsel_isim",hayvanVeriler.getFotograf_isim());
+                veri_paketi.putInt("isPet",hayvanVeriler.getIs_evcilhayvan());
+                veri_paketi.putInt("dogumGrcklsti",hayvanVeriler.getDogum_grcklsti());
                 data.putExtras(veri_paketi);
                 startActivity(data);
             }
         });
+        if(get_gun_sayisi()<0){
+            if(hayvanVeriler.getDogum_grcklsti()==0){
+                Snackbar mySnackbar = Snackbar.make(findViewById(R.id.main_layout),R.string.dogum_gerceklesti_uyarı, 8000);
+                mySnackbar.setAction(R.string.yes, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new SQLiteDatabaseHelper(ActivityDetails.this).isaretle_dogum_gerceklesti(hayvanVeriler.getId());
+                    }
+                });
+                mySnackbar.show();
+            }
+        }
     }
 
     private int get_gun_sayisi(){
@@ -97,7 +110,7 @@ public class ActivityDetails extends AppCompatActivity {
             e.printStackTrace();
         }
         try {
-            dogum=date_formatter.parse(bundle.getString("dogum_tarihi"));
+            dogum=date_formatter.parse(hayvanVeriler.getDogum_tarihi());
         } catch (ParseException e) {
             e.printStackTrace();
         }

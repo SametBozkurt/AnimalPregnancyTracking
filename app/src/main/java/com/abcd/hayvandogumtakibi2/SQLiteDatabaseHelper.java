@@ -21,23 +21,26 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final String SUTUN_5="dogum_tarihi";
     private static final String SUTUN_6="fotograf_isim";
     private static final String SUTUN_7="evcil_hayvan";
+    private static final String SUTUN_8="dogum_grcklsti";
     private static final String DATABASE_ALTER_CONF_V2 = "ALTER TABLE "
             + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_6 + " string;";
     private static final String DATABASE_ALTER_CONF_V3 = "ALTER TABLE "
             + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_7 + " INTEGER;";
+    private static final String DATABASE_ALTER_CONF_V4 = "ALTER TABLE "
+            + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_8 + " INTEGER DEFAULT 0;";
     private Calendar takvim=Calendar.getInstance();
     private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
     private Date bugun,dogum;
 
     public SQLiteDatabaseHelper(Context context) {
-        super(context, VERITABANI_ISIM, null, 3);
+        super(context, VERITABANI_ISIM, null, 4);
         init();
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE "+VERITABANI_ISIM+"(id INTEGER PRIMARY KEY,isim TEXT,hayvan_turu TEXT,kupe_no TEXT," +
-                "tohumlama_tarihi TEXT,dogum_tarihi TEXT,fotograf_isim TEXT,evcil_hayvan INTEGER" + ")");
+                "tohumlama_tarihi TEXT,dogum_tarihi TEXT,fotograf_isim TEXT,evcil_hayvan INTEGER,dogum_grcklsti INTEGER DEFAULT 0" + ")");
     }
 
     @Override
@@ -45,12 +48,17 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         //i--->Eski veritabani surum kodu
         //i1--->Yeni veritabani surun kodu
         if(i<i1){
-            if(i==2){
+            if(i==3){
+                sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V4);
+            }
+            else if(i==2){
                 sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V3);
+                sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V4);
             }
             else if(i==1){
                 sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V2);
                 sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V3);
+                sqLiteDatabase.execSQL(DATABASE_ALTER_CONF_V4);
             }
         }
     }
@@ -77,8 +85,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         database.insert(VERITABANI_ISIM,null,values);
         database.close();
     }
-    ArrayList<HayvanVeriler> getAllData(){
-        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<HayvanVeriler>();
+    ArrayList<HayvanVeriler> getSimpleData(){
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
         Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
@@ -90,12 +98,32 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(4),
                     cursor.getString(5),
                     cursor.getString(6),
-                    cursor.getInt(7)));
+                    cursor.getInt(7), 0));
         }
+        cursor.close();
         return hayvanVerilerArrayList;
     }
-    ArrayList<HayvanVeriler> getKritikOlanlar(){
+    ArrayList<HayvanVeriler> getAllData(){
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
+        SQLiteDatabase database=this.getReadableDatabase();
+        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+                null,null,null,null,null);
+        while(cursor.moveToNext()){
+            hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8)));
+        }
+        cursor.close();
+        return hayvanVerilerArrayList;
+    }
 
+    ArrayList<HayvanVeriler> getKritikOlanlar(){
         String date_dogum;
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
@@ -123,11 +151,32 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(4),
                         cursor.getString(5),
                         cursor.getString(6),
-                        cursor.getInt(7)));
+                        cursor.getInt(7),0));
             }
         }
+        cursor.close();
         return  hayvanVerilerArrayList;
     }
+
+    HayvanVeriler getDataById(int id){
+        HayvanVeriler hayvanVeriler = null;
+        SQLiteDatabase database=this.getReadableDatabase();
+        Cursor cursor=database.rawQuery("SELECT * FROM kayitlar WHERE ID='"+id+"'", null);
+        while(cursor.moveToNext()){
+            hayvanVeriler=new HayvanVeriler(cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8));
+        }
+        cursor.close();
+        return hayvanVeriler;
+    }
+
     ArrayList<HayvanVeriler> getAramaSonuclari(boolean isimAranacak, String aranacak){
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
@@ -143,8 +192,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(4),
                         cursor.getString(5),
                         cursor.getString(6),
-                        cursor.getInt(7)));
+                        cursor.getInt(7),0));
             }
+            cursor.close();
         }
         else{
             Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
@@ -158,8 +208,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(4),
                         cursor.getString(5),
                         cursor.getString(6),
-                        cursor.getInt(7)));
+                        cursor.getInt(7),0));
             }
+            cursor.close();
         }
         return hayvanVerilerArrayList;
     }
@@ -168,7 +219,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(VERITABANI_ISIM,"id=? ",new String[]{Integer.toString(ID)});
     }
     void guncelle(int ID, String newIsim, String newTur, String newKupe_No,
-                  String newTohumTarihi, String newDogumTarihi, String newFotografIsim){
+                  String newTohumTarihi, String newDogumTarihi, String newFotografIsim,int dogum_grcklsti){
         SQLiteDatabase database=this.getReadableDatabase();
         ContentValues newValues=new ContentValues();
         newValues.put(SUTUN_1,newIsim);
@@ -177,6 +228,13 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         newValues.put(SUTUN_4,newTohumTarihi);
         newValues.put(SUTUN_5,newDogumTarihi);
         newValues.put(SUTUN_6,newFotografIsim);
+        newValues.put(SUTUN_8,dogum_grcklsti);
+        database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
+    }
+    void isaretle_dogum_gerceklesti(int ID){
+        SQLiteDatabase database=this.getReadableDatabase();
+        ContentValues newValues=new ContentValues();
+        newValues.put(SUTUN_8, 1);
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
     }
 }

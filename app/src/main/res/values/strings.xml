@@ -159,4 +159,6 @@
     <string name="text_NA" translatable="false">—</string>
     <string name="APP_URL" translatable="false">https://play.google.com/store/apps/details?id=com.sariyazilim.hayvangebeliktakibi</string>
     <string name="POLICY_URL" translatable="false">https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html</string>
+    <string name="dogum_gerceklesti_uyarı">Has that birth happened?</string>
+    <string name="yes">Yes</string>
 </resources>

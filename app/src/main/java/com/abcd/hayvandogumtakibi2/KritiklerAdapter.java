@@ -66,13 +66,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
             @Override
             public void onClick(View v) {
                 Bundle data=new Bundle();
-                data.putString("isim",hayvanVeriler.getIsim());
-                data.putString("tur",hayvanVeriler.getTur());
-                data.putString("kupe_no",hayvanVeriler.getKupe_no());
-                data.putString("tohumlama_tarihi",hayvanVeriler.getTohumlama_tarihi());
-                data.putString("dogum_tarihi",hayvanVeriler.getDogum_tarihi());
-                data.putString("fotograf_isim",hayvanVeriler.getFotograf_isim());
-                data.putInt("is_evcilhayvan",hayvanVeriler.getIs_evcilhayvan());
+                data.putInt("ID",hayvanVeriler.getId());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);
