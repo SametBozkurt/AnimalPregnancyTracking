@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,14 +34,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String INTENT_ACTION= "SET_AN_ALARM" ;
     boolean is_opened = false;
     private TextView txt_pet,txt_barn;
     private SQLiteDatabaseHelper databaseHelper;
     private RecyclerView recyclerView;
     private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private FloatingActionButton btn_add,btn_pet,btn_barn;
-    private RelativeLayout relativeLayout;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
 
     @Override
@@ -59,7 +56,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         dosya_kontrol();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_bar_menu,menu);
@@ -71,7 +67,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         int item_id=item.getItemId();
         if(item_id==R.id.kayit_bul){
             if(hayvanVerilerArrayList.size()==0){
-                Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
             }
             else{
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
@@ -94,31 +90,28 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         switch (id){
             case R.id.nav_critics:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                    break;
+                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKritikler.class));
-                    break;
                 }
+                break;
             case R.id.nav_edit:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                    break;
+                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKayitDuzenle.class));
-                    break;
                 }
+                break;
             case R.id.nav_search:
                 if(hayvanVerilerArrayList.size()==0){
-                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                    break;
+                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
-                    break;
                 }
+                break;
             case R.id.nav_calculator:
                 startActivity(new Intent(PrimaryActivity.this,ActivityTarihHesapla.class));
                 break;
@@ -152,6 +145,11 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_period:
                 startActivity(new Intent(PrimaryActivity.this,ActivityPeriods.class));
                 break;
+            case R.id.nav_happened:
+                if(hayvanVerilerArrayList.size()==0){
+                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -165,7 +163,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         NavigationView navigationView;
         if(hayvanVerilerArrayList.size()==0){
             setContentView(R.layout.activity_primary_msg);
-            relativeLayout=findViewById(R.id.relativeLayout);
             toolbar = findViewById(R.id.toolbar);
             btn_add = findViewById(R.id.create);
             btn_pet = findViewById(R.id.fab_pet);
@@ -228,7 +225,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         }
         else{
             setContentView(R.layout.activity_primary);
-            relativeLayout=findViewById(R.id.main_layout);
             toolbar = findViewById(R.id.toolbar);
             databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
             btn_add = findViewById(R.id.create);
@@ -310,6 +306,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                String INTENT_ACTION= "SET_AN_ALARM" ;
                 sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
             }
         }

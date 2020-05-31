@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.io.File;
@@ -29,46 +30,47 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
 
+    @NonNull
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter,parent,false);
+    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
-        final HayvanVeriler hayvanVeriler1=hayvanVeriler.get(position);
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        final HayvanVeriler mHayvanVeriler=hayvanVeriler.get(position);
         switch(code){
             case 0:
-                holder.textView.setText(new StringBuilder(hayvanVeriler1.getIsim()));
+                holder.textView.setText(new StringBuilder(mHayvanVeriler.getIsim()));
                 break;
             case 1:
-                if(hayvanVeriler1.getKupe_no()==null||hayvanVeriler1.getKupe_no().length()==0){
+                if(mHayvanVeriler.getKupe_no()==null||mHayvanVeriler.getKupe_no().length()==0){
                     holder.textView.setText(new StringBuilder(context.getString(R.string.kupe_no_yok)));
                 }
                 else{
-                    holder.textView.setText(new StringBuilder(hayvanVeriler1.getKupe_no()));
+                    holder.textView.setText(new StringBuilder(mHayvanVeriler.getKupe_no()));
                 }
                 break;
             case 2:
-                holder.textView.setText(new StringBuilder(hayvanVeriler1.getTohumlama_tarihi()));
+                holder.textView.setText(new StringBuilder(mHayvanVeriler.getTohumlama_tarihi()));
                 break;
             case 3:
-                holder.textView.setText(new StringBuilder(hayvanVeriler1.getDogum_tarihi()));
+                holder.textView.setText(new StringBuilder(mHayvanVeriler.getDogum_tarihi()));
                 break;
         }
-        if(hayvanVeriler1.getFotograf_isim().length()!=0){
-            File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim());
+        if(mHayvanVeriler.getFotograf_isim().length()!=0){
+            File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),mHayvanVeriler.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
-        else if(hayvanVeriler1.getFotograf_isim()==null||hayvanVeriler1.getFotograf_isim().length()==0){
-            hayvanDuzenleyici.set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.img_animal);
+        else if(mHayvanVeriler.getFotograf_isim()==null||mHayvanVeriler.getFotograf_isim().length()==0){
+            hayvanDuzenleyici.set_img(mHayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(mHayvanVeriler.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle data=new Bundle();
-                data.putInt("ID",hayvanVeriler1.getId());
+                data.putInt("ID",mHayvanVeriler.getId());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);

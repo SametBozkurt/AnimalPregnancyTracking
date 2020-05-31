@@ -106,7 +106,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     ArrayList<HayvanVeriler> getAllData(){
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
             hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),

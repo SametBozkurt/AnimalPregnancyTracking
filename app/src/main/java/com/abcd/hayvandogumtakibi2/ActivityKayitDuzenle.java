@@ -37,7 +37,6 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,hayvanVerilerArrayList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(ActivityKayitDuzenle.this);
         recyclerView.setLayoutManager(layoutManager);
-        //recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(duzenleAdapter);
     }
 

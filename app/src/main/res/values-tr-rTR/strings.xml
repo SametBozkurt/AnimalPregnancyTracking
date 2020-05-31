@@ -150,4 +150,7 @@
     <string name="activity_permissions">Başlamadan önce…</string>
     <string name="dogum_gerceklesti_uyarı">Bu doğum gerçekleşti mi?</string>
     <string name="yes">Evet</string>
+    <string name="edit_blocked_msg">Bu kayıt gerçekleşti olarak işaretlenmiş, artık değiştirilemez.</string>
+    <string name="dgm_grck_card_info">Doğum gerçekleşti</string>
+    <string name="nav_gerceklesen_dgmlar">Gerçekleşmiş Doğumlar</string>
 </resources>

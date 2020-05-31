@@ -150,4 +150,7 @@
     <string name="activity_permissions">Before get started…</string>
     <string name="dogum_gerceklesti_uyarı">Has that birth happened?</string>
     <string name="yes">Yes</string>
+    <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
+    <string name="dgm_grck_card_info">Birth happened</string>
+    <string name="nav_gerceklesen_dgmlar">Happened Births</string>
 </resources>

@@ -15,6 +15,11 @@
                 android:title="@string/nav_critics">
             </item>
             <item
+                android:id="@+id/nav_happened"
+                android:icon="@drawable/ic_gerceklesen_dogumlar"
+                android:title="@string/nav_gerceklesen_dgmlar">
+            </item>
+            <item
                 android:id="@+id/nav_search"
                 android:icon="@drawable/ic_search"
                 android:title="@string/nav_search">

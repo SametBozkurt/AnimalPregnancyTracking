@@ -31,4 +31,5 @@
     <color name="arama_sonuclari_adapter_background">#ffe54c</color>
     <color name="GCMIconColor">#138EE9</color>
     <color name="purple800">#6A1B9A</color>
+    <color name="action_color">#4DD0E1</color>
 </resources>

@@ -25,7 +25,7 @@ public class ActivityDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         hayvanVeriler=new SQLiteDatabaseHelper(this).getDataById(bundle.getInt("ID"));
         ImageView imageView = findViewById(R.id.img_hayvan);
         TextView txt_isim = findViewById(R.id.txt_isim);
@@ -68,19 +68,25 @@ public class ActivityDetails extends AppCompatActivity {
         icon_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
-                Bundle veri_paketi=new Bundle();
-                veri_paketi.putInt("kayit_id",hayvanVeriler.getId());
-                veri_paketi.putCharSequence("kayit_isim",hayvanVeriler.getIsim());
-                veri_paketi.putCharSequence("kayit_kupe_no",hayvanVeriler.getKupe_no());
-                veri_paketi.putCharSequence("kayit_tur",hayvanVeriler.getTur());
-                veri_paketi.putCharSequence("kayit_tarih1",hayvanVeriler.getTohumlama_tarihi());
-                veri_paketi.putCharSequence("kayit_tarih2",hayvanVeriler.getDogum_tarihi());
-                veri_paketi.putCharSequence("kayit_gorsel_isim",hayvanVeriler.getFotograf_isim());
-                veri_paketi.putInt("isPet",hayvanVeriler.getIs_evcilhayvan());
-                veri_paketi.putInt("dogumGrcklsti",hayvanVeriler.getDogum_grcklsti());
-                data.putExtras(veri_paketi);
-                startActivity(data);
+                hayvanVeriler=new SQLiteDatabaseHelper(ActivityDetails.this).getDataById(bundle.getInt("ID"));
+                if(hayvanVeriler.getDogum_grcklsti()==0){
+                    Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
+                    Bundle veri_paketi=new Bundle();
+                    veri_paketi.putInt("kayit_id",hayvanVeriler.getId());
+                    veri_paketi.putCharSequence("kayit_isim",hayvanVeriler.getIsim());
+                    veri_paketi.putCharSequence("kayit_kupe_no",hayvanVeriler.getKupe_no());
+                    veri_paketi.putCharSequence("kayit_tur",hayvanVeriler.getTur());
+                    veri_paketi.putCharSequence("kayit_tarih1",hayvanVeriler.getTohumlama_tarihi());
+                    veri_paketi.putCharSequence("kayit_tarih2",hayvanVeriler.getDogum_tarihi());
+                    veri_paketi.putCharSequence("kayit_gorsel_isim",hayvanVeriler.getFotograf_isim());
+                    veri_paketi.putInt("isPet",hayvanVeriler.getIs_evcilhayvan());
+                    veri_paketi.putInt("dogumGrcklsti",hayvanVeriler.getDogum_grcklsti());
+                    data.putExtras(veri_paketi);
+                    startActivity(data);
+                }
+                else{
+                    Snackbar.make(findViewById(R.id.main_layout),R.string.edit_blocked_msg,5000).show();
+                }
             }
         });
         if(get_gun_sayisi()<0){
@@ -92,6 +98,7 @@ public class ActivityDetails extends AppCompatActivity {
                         new SQLiteDatabaseHelper(ActivityDetails.this).isaretle_dogum_gerceklesti(hayvanVeriler.getId());
                     }
                 });
+                mySnackbar.setActionTextColor(getResources().getColor(R.color.action_color));
                 mySnackbar.show();
             }
         }

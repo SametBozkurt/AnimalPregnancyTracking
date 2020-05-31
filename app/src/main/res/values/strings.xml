@@ -12,6 +12,7 @@
     <string name="nav_search">Search For a Record</string>
     <string name="nav_calculator">Date Calculator</string>
     <string name="nav_info">Info</string>
+    <string name="nav_gerceklesen_dgmlar">Happened Births</string>
     <string name="nav_period">Gestation Periods</string>
     <string name="nav_title">Options</string>
     <string name="nav_title2">Application</string>
@@ -161,4 +162,6 @@
     <string name="POLICY_URL" translatable="false">https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html</string>
     <string name="dogum_gerceklesti_uyarı">Has that birth happened?</string>
     <string name="yes">Yes</string>
+    <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
+    <string name="dgm_grck_card_info">Birth happened</string>
 </resources>
