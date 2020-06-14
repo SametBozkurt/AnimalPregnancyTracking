@@ -153,4 +153,5 @@
     <string name="edit_blocked_msg">Bu kayıt gerçekleşti olarak işaretlenmiş, artık değiştirilemez.</string>
     <string name="dgm_grck_card_info">Doğum gerçekleşti</string>
     <string name="nav_gerceklesen_dgmlar">Gerçekleşmiş Doğumlar</string>
+    <string name="gerceklesen_dogum_yok_uyari">Henüz gerçekleşen doğum yok.</string>
 </resources>

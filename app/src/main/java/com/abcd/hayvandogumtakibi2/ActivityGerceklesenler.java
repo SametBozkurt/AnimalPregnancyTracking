@@ -18,13 +18,18 @@ public class ActivityGerceklesenler extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gerceklesenler);
         databaseHelper=new SQLiteDatabaseHelper(this);
         hayvanVerilerArrayList=databaseHelper.getGerceklesenler();
-        recyclerView=findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityGerceklesenler.this,3);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(new GerceklesenlerAdapter(ActivityGerceklesenler.this,hayvanVerilerArrayList));
+        if(hayvanVerilerArrayList.size()==0){
+            setContentView(R.layout.gerceklesen_dogum_yok);
+        }
+        else{
+            setContentView(R.layout.activity_gerceklesenler);
+            recyclerView=findViewById(R.id.recyclerView);
+            GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityGerceklesenler.this,3);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(new KayitlarAdapter(ActivityGerceklesenler.this,hayvanVerilerArrayList,0));
+        }
         toolbar=findViewById(R.id.activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

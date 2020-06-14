@@ -153,4 +153,5 @@
     <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
     <string name="dgm_grck_card_info">Birth happened</string>
     <string name="nav_gerceklesen_dgmlar">Happened Births</string>
+    <string name="gerceklesen_dogum_yok_uyari">There\'s no happened birth yet.</string>
 </resources>

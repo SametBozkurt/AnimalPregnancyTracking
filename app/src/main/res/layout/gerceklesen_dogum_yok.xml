@@ -2,8 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ActivityKritikler"
     android:background="@color/layout_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -19,9 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:elevation="@dimen/margin_kategori_1"
-            app:title="@string/activity_kritikler_title"
-            android:background="@color/colorPrimary"
-             />
+            app:title="@string/nav_gerceklesen_dgmlar"
+            android:background="@color/colorPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/no_critical"
+            android:src="@mipmap/no_happened"
             android:contentDescription="@null" />
 
         <TextView
@@ -47,7 +44,7 @@
             android:fontFamily="@font/comfortaa_bold"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:text="@string/kayit_yok_uyari_kritikler"
+            android:text="@string/gerceklesen_dogum_yok_uyari"
             android:textSize="18sp"
             style="@style/STYLE_WARNING_TEXT"/>
 
