@@ -149,6 +149,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 if(hayvanVerilerArrayList.size()==0){
                     Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
+                else {
+                    startActivity(new Intent(this,ActivityGerceklesenler.class));
+                }
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

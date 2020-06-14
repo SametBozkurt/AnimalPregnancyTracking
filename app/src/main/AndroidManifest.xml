@@ -22,12 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".ActivityPermission"
-            android:label="@string/activity_permissions"
-            android:theme="@style/NoActionBar"
-            android:screenOrientation="fullSensor" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_bildirim" />
@@ -39,8 +33,59 @@
             android:value="@string/gcm_notification_channel_id" />
 
         <activity
+            android:name=".ActivityKayitAra"
+            android:label="@string/activity_ara_title"
+            android:screenOrientation="locked"
+            android:theme="@style/NoActionBar2" />
+        <activity
+            android:name=".ActivityTarihHesapla"
+            android:screenOrientation="locked"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ActivityEdit"
+            android:screenOrientation="locked"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".PrimaryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityKayitDuzenle"
+            android:label="@string/activity_duzenle_title"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityKritikler"
+            android:label="@string/activity_kritikler_title"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityDogumKayit"
+            android:screenOrientation="locked"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ActivityPeriods"
+            android:label="@string/activity_periods_title"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityDetails"
+            android:screenOrientation="locked"
+            android:theme="@style/NoActionBar4" />
+        <activity
+            android:name=".ActivityGerceklesenler"
+            android:label="@string/nav_gerceklesen_dgmlar"
+            android:screenOrientation="locked"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityPermission"
+            android:label="@string/activity_permissions"
+            android:screenOrientation="locked"
+            android:theme="@style/NoActionBar" />
+        <activity
             android:name=".DemoActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="locked"
             android:theme="@style/NoActionBar3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,47 +94,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ActivityKayitAra"
-            android:label="@string/activity_ara_title"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/NoActionBar2" />
-        <activity
-            android:name=".ActivityTarihHesapla"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".ActivityEdit"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".PrimaryActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ActivityKayitDuzenle"
-            android:label="@string/activity_duzenle_title"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ActivityKritikler"
-            android:label="@string/activity_kritikler_title"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ActivityDogumKayit"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".ActivityPeriods"
-            android:label="@string/activity_periods_title"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ActivityDetails"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/NoActionBar4" />
 
         <receiver
             android:name=".TarihKontrol"

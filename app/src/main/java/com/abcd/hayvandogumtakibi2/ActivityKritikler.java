@@ -31,34 +31,23 @@ public class ActivityKritikler extends AppCompatActivity {
         hayvanVerilerArrayList=sqLiteDatabaseHelper.getKritikOlanlar();
         if(hayvanVerilerArrayList.size()==0){
             setContentView(R.layout.yaklasan_dogum_yok);
-            toolbar=findViewById(R.id.activity_toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
         }
         else{
             setContentView(R.layout.activity_kritikler);
             recyclerView=findViewById(R.id.recyclerView);
             GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityKritikler.this,3);
             recyclerView.setLayoutManager(gridLayoutManager);
-            //recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(new KritiklerAdapter(ActivityKritikler.this,hayvanVerilerArrayList));
-            toolbar=findViewById(R.id.activity_toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
         }
+        toolbar=findViewById(R.id.activity_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

@@ -103,6 +103,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return hayvanVerilerArrayList;
     }
+
     ArrayList<HayvanVeriler> getAllData(){
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
@@ -127,7 +128,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         String date_dogum;
         ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
             if(cursor.getString(5).equals(null)||cursor.getString(5).equals("")){
@@ -143,7 +144,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             }
             long fark_ms=dogum.getTime()-bugun.getTime();
             long gun_sayisi=(fark_ms/(1000*60*60*24));
-            if(gun_sayisi<30){
+            if(gun_sayisi<30 && cursor.getInt(8)==0){
                 hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
@@ -214,6 +215,28 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
         return hayvanVerilerArrayList;
     }
+
+    ArrayList<HayvanVeriler> getGerceklesenler(){
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
+        SQLiteDatabase database=this.getReadableDatabase();
+        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
+                SUTUN_8+" LIKE ?",new String[]{"%1%"},
+                null,null,null);
+        while(cursor.moveToNext()){
+            hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8)));
+        }
+        cursor.close();
+        return hayvanVerilerArrayList;
+    }
+
     void girdiSil(int ID){
         SQLiteDatabase sqLiteDatabase=SQLiteDatabaseHelper.this.getReadableDatabase();
         sqLiteDatabase.delete(VERITABANI_ISIM,"id=? ",new String[]{Integer.toString(ID)});
