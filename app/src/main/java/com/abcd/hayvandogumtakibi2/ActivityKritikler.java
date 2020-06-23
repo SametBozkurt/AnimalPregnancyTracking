@@ -12,14 +12,13 @@ public class ActivityKritikler extends AppCompatActivity {
 
     SQLiteDatabaseHelper databaseHelper;
     RecyclerView recyclerView;
-    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databaseHelper=new SQLiteDatabaseHelper(ActivityKritikler.this);
-        dosya_kontrol(databaseHelper);
+        dosya_kontrol();
     }
 
     @Override
@@ -27,8 +26,8 @@ public class ActivityKritikler extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void dosya_kontrol(SQLiteDatabaseHelper sqLiteDatabaseHelper){
-        hayvanVerilerArrayList=sqLiteDatabaseHelper.getKritikOlanlar();
+    private void dosya_kontrol(){
+        ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
         if(hayvanVerilerArrayList.size()==0){
             setContentView(R.layout.yaklasan_dogum_yok);
         }

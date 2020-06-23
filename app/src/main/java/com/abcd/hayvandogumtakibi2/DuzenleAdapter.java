@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomViewHolder> {
 
@@ -24,12 +27,16 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private SQLiteDatabaseHelper databaseHelper;
     private HayvanDuzenleyici hayvanDuzenleyici;
+    private DateFormat dateFormat;
+    private Date date;
 
     DuzenleAdapter(Context context, ArrayList<HayvanVeriler> arrayList){
         this.mContext=context;
         this.hayvanVerilerArrayList=arrayList;
         databaseHelper=new SQLiteDatabaseHelper(context);
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
+        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        date=new Date();
     }
 
     @NonNull
@@ -44,14 +51,16 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         final HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
         if(hayvanVeriler.getKupe_no().length()==0){
-            holder.txt_kupe_no.setText(new StringBuilder(mContext.getString(R.string.listview_kupe_no)).append(mContext.getString(R.string.kupe_no_yok)));
+            holder.txt_kupe_no.setText(mContext.getString(R.string.kupe_no_yok));
         }
         else{
-            holder.txt_kupe_no.setText(new StringBuilder(mContext.getString(R.string.listview_kupe_no)).append(hayvanVeriler.getKupe_no()));
+            holder.txt_kupe_no.setText(hayvanVeriler.getKupe_no());
         }
         hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.txt_tur);
-        holder.txt_tarih1.setText(new StringBuilder(mContext.getString(R.string.listView_tarih1)).append(hayvanVeriler.getTohumlama_tarihi()));
-        holder.txt_tarih2.setText(new StringBuilder(mContext.getString(R.string.listView_tarih2)).append(hayvanVeriler.getDogum_tarihi()));
+        date.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
+        holder.txt_tarih1.setText(dateFormat.format(date));
+        date.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
+        holder.txt_tarih2.setText(dateFormat.format(date));
         holder.button_duzenle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

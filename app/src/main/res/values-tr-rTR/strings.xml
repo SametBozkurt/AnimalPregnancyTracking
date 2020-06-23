@@ -127,7 +127,7 @@
     <string name="photo_picker_item_gallery">Galeriden seç</string>
     <string name="photo_picker_title">Fotoğraf seç</string>
     <string name="photo_picker_item_remove">Fotoğrafı kaldır</string>
-    <string name="title_req_perms">Başlamadan önce...</string>
+    <string name="title_req_perms">Başlamadan önce…</string>
     <string name="reqs_info">
         "Bu uygulama düzgün çalışması için bazı izinlere ihtiyaç duyar."
         "Uygulamanın düzgün çalışması adına, bu izinleri vermenizi tavsiye ediyoruz."
@@ -154,4 +154,6 @@
     <string name="dgm_grck_card_info">Doğum gerçekleşti</string>
     <string name="nav_gerceklesen_dgmlar">Gerçekleşmiş Doğumlar</string>
     <string name="gerceklesen_dogum_yok_uyari">Henüz gerçekleşen doğum yok.</string>
+    <string name="menu_dev_tools">Geliştirici Araçları</string>
+    <string name="button_multiple_creation">Kayıt(lar) Oluştur</string>
 </resources>

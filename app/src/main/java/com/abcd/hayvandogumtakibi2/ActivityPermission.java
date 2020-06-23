@@ -14,7 +14,7 @@ import android.widget.Button;
 public class ActivityPermission extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_CODE = 21323;
-    int sayac = 0;
+    short sayac = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

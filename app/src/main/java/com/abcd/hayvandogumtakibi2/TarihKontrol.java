@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class TarihKontrol extends BroadcastReceiver {
@@ -21,8 +20,8 @@ public class TarihKontrol extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new SQLiteDatabaseHelper(context).getSimpleData();
-        if(hayvanVerilerArrayList.size()!=0){
+        int dbSize = new SQLiteDatabaseHelper(context).getSize();
+        if(dbSize!=0){
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 JobScheduler scheduler=(JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
                 JobInfo.Builder jobBuilder=new JobInfo.Builder(JOB_ID,new ComponentName(context.getPackageName(),DateDedectorService.class.getName()));

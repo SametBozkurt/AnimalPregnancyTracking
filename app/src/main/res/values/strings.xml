@@ -84,6 +84,8 @@
     <string name="activity_sil_title">Remove Record</string>
     <string name="activity_tarih_hesapla_title">Date Calculator</string>
     <string name="menu_kayit_bul">Search for a record</string>
+    <string name="menu_dev_tools">Developer\'s Activity</string>
+    <string name="button_multiple_creation">Create Record(s)</string>
     <string name="activity_ara_title">Search</string>
     <string name="activity_permissions">Before get started…</string>
     <string name="radio_button_isim">Names</string>
@@ -142,7 +144,7 @@
     <string name="photo_picker_item_gallery">From gallery</string>
     <string name="photo_picker_item_camera">Open camera</string>
     <string name="photo_picker_item_remove">Remove photo</string>
-    <string name="title_req_perms">Before get started...</string>
+    <string name="title_req_perms">Before get started…</string>
     <string name="allow_text">Allow</string>
     <string name="reqs_info">
         "This app needs some permissions to work properly."

@@ -26,17 +26,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.FileProvider;
 import androidx.exifinterface.media.ExifInterface;
 
-public class ActivityEdit extends AppCompatActivity {
+public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
@@ -47,12 +47,13 @@ public class ActivityEdit extends AppCompatActivity {
     Spinner tur_sec;
     RelativeLayout main_Layout;
     SQLiteDatabaseHelper databaseHelper;
-    String secilen_tur,secilen_tarih1,secilen_tarih2,gorsel_ad,gorsel_adres;
+    String secilen_tur,gorsel_ad,gorsel_adres;
     Calendar takvim, takvim2;
-    Date date,date2;
+    Date date1,date2;
     Bundle data_bundle;
     TextInputLayout textInputLayout;
     ImageView photo;
+    DateFormat dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,9 @@ public class ActivityEdit extends AppCompatActivity {
         takvim=Calendar.getInstance();
         takvim2=Calendar.getInstance();
         secilen_tur="";
+        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        date1=new Date();
+        date2=new Date();
         degerleri_yerlestir();
     }
 
@@ -84,19 +88,10 @@ public class ActivityEdit extends AppCompatActivity {
         data_bundle=getIntent().getExtras();
         kayit_id=data_bundle.getInt("kayit_id");
         petCode=data_bundle.getInt("isPet");
-        try {
-            date=new SimpleDateFormat("dd/MM/yyyy").parse((String)data_bundle.getCharSequence("kayit_tarih1"));
-            takvim.setTime(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            date2=new SimpleDateFormat("dd/MM/yyyy").parse((String)data_bundle.getCharSequence("kayit_tarih2"));
-            takvim2.setTime(date2);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        date1.setTime(Long.parseLong(String.valueOf(data_bundle.getCharSequence("kayit_tarih1"))));
+        takvim.setTime(date1);
+        date2.setTime(Long.parseLong(String.valueOf(data_bundle.getCharSequence("kayit_tarih2"))));
+        takvim2.setTime(date2);
         ArrayAdapter<String> spinnerAdapter;
         switch(petCode){
             case 0:
@@ -117,12 +112,10 @@ public class ActivityEdit extends AppCompatActivity {
         }
         txt_isim.setText(data_bundle.getCharSequence("kayit_isim"));
         txt_kupe_no.setText(data_bundle.getCharSequence("kayit_kupe_no"));
-        dollenme_tarihi.setText(data_bundle.getCharSequence("kayit_tarih1"));
-        dogum_tarihi.setText(data_bundle.getCharSequence("kayit_tarih2"));
+        dollenme_tarihi.setText(dateFormat.format(date1));
+        dogum_tarihi.setText(dateFormat.format(date2));
         secilen_tur= (String)data_bundle.getCharSequence("kayit_tur");
         tur_sec.setSelection(Integer.parseInt((String)data_bundle.getCharSequence("kayit_tur")));
-        secilen_tarih1= (String)data_bundle.getCharSequence("kayit_tarih1");
-        secilen_tarih2=(String)data_bundle.getCharSequence("kayit_tarih2");
         gorsel_ad=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
         if(gorsel_ad.length()!=0){
             gorsel_adres=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).getAbsolutePath();
@@ -139,7 +132,7 @@ public class ActivityEdit extends AppCompatActivity {
                     case 0://Önceki sürümler için
                         if(position!=6){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            oto_tarih_hesapla(date);
+                            oto_tarih_hesapla(date1);
                         }
                         else{
                             textInputLayout.setHelperText("");
@@ -148,7 +141,7 @@ public class ActivityEdit extends AppCompatActivity {
                     case 1: case 2: //Evcil & çiftlik hayvan ise
                         if(position!=3){
                             textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            oto_tarih_hesapla(date);
+                            oto_tarih_hesapla(date1);
                         }
                         else{
                             textInputLayout.setHelperText("");
@@ -170,19 +163,18 @@ public class ActivityEdit extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         takvim.set(year,month,dayOfMonth);
-                        date=takvim.getTime();
-                        dollenme_tarihi.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                        secilen_tarih1=dayOfMonth+"/"+(month+1)+"/"+year;
+                        date1=takvim.getTime();
+                        dollenme_tarihi.setText(dateFormat.format(date1));
                         boolTarih=true;
                         switch (petCode){
                             case 0://Önceki sürümler için
                                 if(!secilen_tur.equals("6")){
-                                    oto_tarih_hesapla(date);
+                                    oto_tarih_hesapla(date1);
                                 }
                                 break;
                             case 1: case 2: //Evcil kodu //Besi kodu
                                 if(!secilen_tur.equals("3")){
-                                    oto_tarih_hesapla(date);
+                                    oto_tarih_hesapla(date1);
                                 }
                                 break;
                         }
@@ -198,8 +190,9 @@ public class ActivityEdit extends AppCompatActivity {
                 DatePickerDialog dialog=new DatePickerDialog(ActivityEdit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        dogum_tarihi.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                        secilen_tarih2=dayOfMonth+"/"+(month+1)+"/"+year;
+                        takvim2.set(year,month,dayOfMonth);
+                        date2=takvim2.getTime();
+                        dogum_tarihi.setText(dateFormat.format(date2));
                     }
                 },takvim2.get(Calendar.YEAR),takvim2.get(Calendar.MONTH),takvim2.get(Calendar.DAY_OF_MONTH));
                 dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -217,7 +210,7 @@ public class ActivityEdit extends AppCompatActivity {
                 }
                 else{
                     databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
-                            secilen_tur,txt_kupe_no.getText().toString(),secilen_tarih1,dogum_tarihi.getText().toString(),gorsel_ad,data_bundle.getInt("dogumGrcklsti"));
+                            secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),String.valueOf(date2.getTime()),gorsel_ad,data_bundle.getInt("dogumGrcklsti"));
                     startActivity(new Intent(ActivityEdit.this,ActivityKayitDuzenle.class));
                 }
             }
@@ -299,15 +292,10 @@ public class ActivityEdit extends AppCompatActivity {
         if(gorsel_ad.length()!=0){
             new File(picDir,gorsel_ad).delete();
             gorsel_ad="";
-            gorsel_adres=imgFile.getAbsolutePath();
-            gorsel_ad=imgFile.getName();
-            return imgFile;
         }
-        else{
-            gorsel_adres=imgFile.getAbsolutePath();
-            gorsel_ad=imgFile.getName();
-            return imgFile;
-        }
+        gorsel_adres=imgFile.getAbsolutePath();
+        gorsel_ad=imgFile.getName();
+        return imgFile;
     }
     private void dondur(Bitmap bitmap, int orientation){
         Matrix matrix=new Matrix();
@@ -337,13 +325,14 @@ public class ActivityEdit extends AppCompatActivity {
         Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
     }
 
-    private void oto_tarih_hesapla(Date date){
+    @Override
+    public void oto_tarih_hesapla(Date date) {
         TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,this);
         if(boolTarih){
-            dogum_tarihi.setText(tarihHesaplayici.getTarih());
             takvim2=tarihHesaplayici.get_tarih();
+            date2=takvim2.getTime();
+            dogum_tarihi.setText(dateFormat.format(date2));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }
     }
-
 }

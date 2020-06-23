@@ -14,7 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.CustomViewHolder> {
 
@@ -22,12 +25,16 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private Context context;
     private HayvanDuzenleyici hayvanDuzenleyici;
     private int code;
+    private DateFormat dateFormat;
+    private Date date;
 
     KayitlarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList,int code){
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
         this.code=code;
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
+        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
+        date=new Date();
     }
 
     @NonNull
@@ -42,21 +49,23 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         final HayvanVeriler mHayvanVeriler=hayvanVeriler.get(position);
         switch(code){
             case 0:
-                holder.textView.setText(new StringBuilder(mHayvanVeriler.getIsim()));
+                holder.textView.setText(mHayvanVeriler.getIsim());
                 break;
             case 1:
                 if(mHayvanVeriler.getKupe_no()==null||mHayvanVeriler.getKupe_no().length()==0){
-                    holder.textView.setText(new StringBuilder(context.getString(R.string.kupe_no_yok)));
+                    holder.textView.setText(context.getString(R.string.kupe_no_yok));
                 }
                 else{
-                    holder.textView.setText(new StringBuilder(mHayvanVeriler.getKupe_no()));
+                    holder.textView.setText(mHayvanVeriler.getKupe_no());
                 }
                 break;
             case 2:
-                holder.textView.setText(new StringBuilder(mHayvanVeriler.getTohumlama_tarihi()));
+                date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
+                holder.textView.setText(dateFormat.format(date));
                 break;
             case 3:
-                holder.textView.setText(new StringBuilder(mHayvanVeriler.getDogum_tarihi()));
+                date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));
+                holder.textView.setText(dateFormat.format(date));
                 break;
         }
         if(mHayvanVeriler.getFotograf_isim().length()!=0){

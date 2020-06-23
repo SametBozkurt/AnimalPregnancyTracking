@@ -2,10 +2,11 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
 
-import java.text.ParseException;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 class TarihHesaplayici {
 
@@ -24,8 +25,8 @@ class TarihHesaplayici {
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
     private int ispet;
 
-    TarihHesaplayici(int isPet, String isim, Date tarih, Context context){
-        isim_tur=isim;
+    TarihHesaplayici(int isPet, String tur_isim, Date tarih, Context context){
+        isim_tur=tur_isim;
         date1=tarih;
         ispet=isPet;
         mContext=context;

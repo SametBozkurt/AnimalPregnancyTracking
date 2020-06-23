@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 public class DemoActivity extends AppCompatActivity {
 
-    int sayac = 0;
+    short sayac = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,28 @@ public class DemoActivity extends AppCompatActivity {
         }
     }
 
+    private void izinler(){
+        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
+            if(ContextCompat.checkSelfPermission(DemoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
+                    ||ContextCompat.checkSelfPermission(DemoActivity.this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+                Timer timer=new Timer();
+                TimerTask task=new TimerTask() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(DemoActivity.this,ActivityPermission.class));
+                    }
+                };
+                timer.schedule(task,1500);
+            }
+            else{
+                veri_kontrol();
+            }
+        }
+        else{
+            veri_kontrol();
+        }
+    }
+
     private void veri_kontrol(){
        if(getIntent().getExtras()!=null){
            if(getIntent().getExtras().containsKey("key_update")){
@@ -48,7 +70,7 @@ public class DemoActivity extends AppCompatActivity {
                    }
                };
                Timer timer=new Timer();
-               timer.schedule(timerTask,1000);
+               timer.schedule(timerTask,1500);
            }
         }
        else{
@@ -59,30 +81,8 @@ public class DemoActivity extends AppCompatActivity {
                }
            };
            Timer timer=new Timer();
-           timer.schedule(timerTask,1000);
+           timer.schedule(timerTask,1500);
        }
-    }
-
-    private void izinler(){
-        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
-            if(ContextCompat.checkSelfPermission(DemoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
-                    ||ContextCompat.checkSelfPermission(DemoActivity.this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-                Timer timer=new Timer();
-                TimerTask task=new TimerTask() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(DemoActivity.this,ActivityPermission.class));
-                    }
-                };
-                timer.schedule(task,1000);
-            }
-            else{
-                veri_kontrol();
-            }
-        }
-        else{
-            veri_kontrol();
-        }
     }
 
 }

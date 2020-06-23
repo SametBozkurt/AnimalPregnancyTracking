@@ -3,6 +3,7 @@ package com.abcd.hayvandogumtakibi2;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,10 +19,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,13 +39,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String pref_key = "dates_converted";
+    private static final String pref_file = "preferences";
     boolean is_opened = false;
+    private int database_size;
     private TextView txt_pet,txt_barn;
     private SQLiteDatabaseHelper databaseHelper;
     private RecyclerView recyclerView;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private FloatingActionButton btn_add,btn_pet,btn_barn;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +60,13 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         fab_anticlock=AnimationUtils.loadAnimation(this,R.anim.rotation_anticlock);
         new SQLiteDatabaseHelper(PrimaryActivity.this);
         databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
-        hayvanVerilerArrayList=databaseHelper.getSimpleData();
-        dosya_kontrol();
+        database_size=databaseHelper.getSize();
+        preferences = this.getSharedPreferences(pref_file,MODE_PRIVATE);
+        try {
+            dosya_kontrol();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -66,12 +79,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int item_id=item.getItemId();
         if(item_id==R.id.kayit_bul){
-            if(hayvanVerilerArrayList.size()==0){
+            if(database_size==0){
                 Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
             }
             else{
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
             }
+        }
+        else if(item_id==R.id.dev_tools){
+            startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -89,7 +105,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId();
         switch (id){
             case R.id.nav_critics:
-                if(hayvanVerilerArrayList.size()==0){
+                if(database_size==0){
                     Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
@@ -97,7 +113,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
                 break;
             case R.id.nav_edit:
-                if(hayvanVerilerArrayList.size()==0){
+                if(database_size==0){
                     Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
@@ -105,7 +121,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
                 break;
             case R.id.nav_search:
-                if(hayvanVerilerArrayList.size()==0){
+                if(database_size==0){
                     Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
@@ -146,7 +162,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(PrimaryActivity.this,ActivityPeriods.class));
                 break;
             case R.id.nav_happened:
-                if(hayvanVerilerArrayList.size()==0){
+                if(database_size==0){
                     Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else {
@@ -159,12 +175,12 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void dosya_kontrol(){
+    private void dosya_kontrol() throws ParseException {
         Toolbar toolbar;
         DrawerLayout drawer;
         ActionBarDrawerToggle toggle;
         NavigationView navigationView;
-        if(hayvanVerilerArrayList.size()==0){
+        if(database_size==0){
             setContentView(R.layout.activity_primary_msg);
             toolbar = findViewById(R.id.toolbar);
             btn_add = findViewById(R.id.create);
@@ -293,6 +309,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
                     recyclerView=findViewById(R.id.recyclerView);
                     GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
                     recyclerView.setLayoutManager(layoutManager);
@@ -308,6 +325,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                     R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.addDrawerListener(toggle);
             toggle.syncState();
+            tarih_donustur();
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 String INTENT_ACTION= "SET_AN_ALARM" ;
                 sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
@@ -319,6 +337,27 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             startActivity(new Intent(this,ActivityPermission.class));
+        }
+    }
+
+    private void tarih_donustur() throws ParseException {
+        if(!preferences.contains(pref_key)){
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putInt(pref_key,1);
+            editor.apply();
+            Toast.makeText(this,"TARİHLER DÖNÜŞTÜRÜLÜYOR...",Toast.LENGTH_SHORT).show();
+            ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+            Date date_dollenme,date_dogum;
+            int sayac=0;
+            while(sayac<hayvanVerilerArrayList.size()){
+                date_dollenme = simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi());
+                date_dogum = simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi());
+                databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
+                        String.valueOf(date_dollenme.getTime()),
+                        String.valueOf(date_dogum.getTime()));
+                sayac++;
+            }
         }
     }
 }

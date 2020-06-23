@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import java.util.ArrayList;
 import androidx.core.app.NotificationCompat;
 
 class Bildirimler {
@@ -16,19 +15,18 @@ class Bildirimler {
     private static final String NOTIFICATION_CHANNEL_ID="Tarih Kontrol";
     private static final String NOTIFICATION_CHANNEL_NAME="Kritik Uyarılar";
     private Context mContext;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    private int dbSize;
 
     Bildirimler(Context context){
         mContext=context;
-        SQLiteDatabaseHelper veritabani_yonetici=new SQLiteDatabaseHelper(context);
-        hayvanVerilerArrayList=veritabani_yonetici.getKritikOlanlar();
-        if(hayvanVerilerArrayList.size()>0){
+        dbSize=new SQLiteDatabaseHelper(context).getKritikOlanlar().size();
+        if(dbSize>0){
             bildirim_ver();
         }
     }
 
     private void bildirim_ver(){
-        if(hayvanVerilerArrayList.size()>0){
+        if(dbSize>0){
             Intent intent = new Intent(mContext, ActivityKritikler.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             NotificationManager notificationManager = (NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);

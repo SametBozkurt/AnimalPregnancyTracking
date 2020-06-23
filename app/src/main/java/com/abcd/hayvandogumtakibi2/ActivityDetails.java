@@ -11,14 +11,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ActivityDetails extends AppCompatActivity {
-    private Date bugun,dogum;
-    private SimpleDateFormat date_formatter=new SimpleDateFormat("dd/MM/yyyy");
+
     private HayvanVeriler hayvanVeriler;
 
     @Override
@@ -27,6 +26,12 @@ public class ActivityDetails extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         final Bundle bundle = getIntent().getExtras();
         hayvanVeriler=new SQLiteDatabaseHelper(this).getDataById(bundle.getInt("ID"));
+        Date date_dollenme, date_dogum;
+        date_dollenme=new Date();
+        date_dogum=new Date();
+        date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
+        date_dogum.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
+        DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         ImageView imageView = findViewById(R.id.img_hayvan);
         TextView txt_isim = findViewById(R.id.txt_isim);
         TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
@@ -50,14 +55,14 @@ public class ActivityDetails extends AppCompatActivity {
         else{
             txt_kupe_no.setText(new StringBuilder(hayvanVeriler.getKupe_no()));
         }
-        txt_tarih1.setText(new StringBuilder(hayvanVeriler.getTohumlama_tarihi()));
+        txt_tarih1.setText(dateFormat.format(date_dollenme));
         hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), txt_tur);
         if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
             txt_tarih2.setText(getString(R.string.text_NA));
             txt_kalan.setText(getString(R.string.text_NA));
         }
         else{
-            txt_tarih2.setText(new StringBuilder(hayvanVeriler.getDogum_tarihi()));
+            txt_tarih2.setText(dateFormat.format(date_dogum));
             if(get_gun_sayisi()>=0){
                 txt_kalan.setText(new StringBuilder(String.valueOf(get_gun_sayisi())));
             }
@@ -105,25 +110,8 @@ public class ActivityDetails extends AppCompatActivity {
     }
 
     private int get_gun_sayisi(){
-        Calendar takvim= Calendar.getInstance();
-        int gun,ay,yil;
-        gun=takvim.get(Calendar.DAY_OF_MONTH);
-        ay=takvim.get(Calendar.MONTH)+1;
-        yil=takvim.get(Calendar.YEAR);
-        String date_bugun=gun+"/"+ay+"/"+yil;
-        try {
-            bugun=date_formatter.parse(date_bugun);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            dogum=date_formatter.parse(hayvanVeriler.getDogum_tarihi());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long fark_ms=dogum.getTime()-bugun.getTime();
-        long gun_sayisi=(fark_ms/(1000*60*60*24));
-        return (int)gun_sayisi;
+        long gun=(Long.parseLong(hayvanVeriler.getDogum_tarihi())- Calendar.getInstance().getTimeInMillis())/(1000*60*60*24);
+        return (int)gun;
     }
 
 }

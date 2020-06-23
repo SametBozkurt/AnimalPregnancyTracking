@@ -94,6 +94,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ActivityDevTools"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="locked"
+            android:label="@string/menu_dev_tools" />
 
         <receiver
             android:name=".TarihKontrol"

@@ -12,18 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.CustomViewHolder> {
 
     private ArrayList<HayvanVeriler> hayvanVeriler;
     private Context context;
     private HayvanDuzenleyici hayvanDuzenleyici;
+    private DateFormat dateFormat;
+    private Date date;
 
     AramalarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList){
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
+        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        date=new Date();
     }
 
     @NonNull
@@ -37,9 +44,16 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         HayvanVeriler hayvanVeriler1=hayvanVeriler.get(position);
         holder.txt_isim.setText(hayvanVeriler1.getIsim());
-        holder.txt_kupe_no.setText(context.getString(R.string.listview_kupe_no)+hayvanVeriler1.getKupe_no());
-        holder.txt_tarih1.setText(context.getString(R.string.listView_tarih1)+hayvanVeriler1.getTohumlama_tarihi());
-        holder.txt_tarih2.setText(context.getString(R.string.listView_tarih2)+hayvanVeriler1.getDogum_tarihi());
+        if(hayvanVeriler1.getKupe_no().length()==0){
+            holder.txt_kupe_no.setText(context.getString(R.string.kupe_no_yok));
+        }
+        else{
+            holder.txt_kupe_no.setText(hayvanVeriler1.getKupe_no());
+        }
+        date.setTime(Long.parseLong(hayvanVeriler1.getTohumlama_tarihi()));
+        holder.txt_tarih1.setText(dateFormat.format(date));
+        date.setTime(Long.parseLong(hayvanVeriler1.getDogum_tarihi()));
+        holder.txt_tarih2.setText(dateFormat.format(date));
         hayvanDuzenleyici.set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.txt_tur);
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             Glide.with(context)
