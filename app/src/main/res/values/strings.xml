@@ -167,4 +167,6 @@
     <string name="yes">Yes</string>
     <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
     <string name="dgm_grck_card_info">Birth happened</string>
+    <string name="dialog_title1">Wait a second</string>
+    <string name="dialog_msg1">Adjusting database…</string>
 </resources>

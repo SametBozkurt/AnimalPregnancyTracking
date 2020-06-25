@@ -156,4 +156,6 @@
     <string name="gerceklesen_dogum_yok_uyari">Henüz gerçekleşen doğum yok.</string>
     <string name="menu_dev_tools">Geliştirici Araçları</string>
     <string name="button_multiple_creation">Kayıt(lar) Oluştur</string>
+    <string name="dialog_title1">Bi saniye</string>
+    <string name="dialog_msg1">Veritabanı uyarlanıyor…</string>
 </resources>

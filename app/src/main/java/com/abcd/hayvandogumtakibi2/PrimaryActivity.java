@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -19,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,6 +49,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     private FloatingActionButton btn_add,btn_pet,btn_barn;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
     private SharedPreferences preferences;
+    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
         database_size=databaseHelper.getSize();
         preferences = this.getSharedPreferences(pref_file,MODE_PRIVATE);
-        try {
-            dosya_kontrol();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        dosya_kontrol();
     }
 
     @Override
@@ -175,7 +172,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void dosya_kontrol() throws ParseException {
+    private void dosya_kontrol() {
         Toolbar toolbar;
         DrawerLayout drawer;
         ActionBarDrawerToggle toggle;
@@ -305,14 +302,14 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                     //Besi hayvanı ise 2
                 }
             });
+            hayvanVerilerArrayList = databaseHelper.getSimpleData();
+            recyclerView=findViewById(R.id.recyclerView);
+            GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
+            recyclerView.setLayoutManager(layoutManager);
             goruntuleme_kategorisi.setAdapter(spinner_adapter);
             goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
-                    recyclerView=findViewById(R.id.recyclerView);
-                    GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
-                    recyclerView.setLayoutManager(layoutManager);
+                public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                     recyclerView.setAdapter(new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList,position));
                 }
                 @Override
@@ -340,24 +337,50 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         }
     }
 
-    private void tarih_donustur() throws ParseException {
+    private void tarih_donustur() {
         if(!preferences.contains(pref_key)){
             SharedPreferences.Editor editor=preferences.edit();
             editor.putInt(pref_key,1);
             editor.apply();
-            Toast.makeText(this,"TARİHLER DÖNÜŞTÜRÜLÜYOR...",Toast.LENGTH_SHORT).show();
-            ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
-            Date date_dollenme,date_dogum;
-            int sayac=0;
-            while(sayac<hayvanVerilerArrayList.size()){
-                date_dollenme = simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi());
-                date_dogum = simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi());
-                databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
-                        String.valueOf(date_dollenme.getTime()),
-                        String.valueOf(date_dogum.getTime()));
-                sayac++;
-            }
+            final ProgressDialog progressDialog=new ProgressDialog(this);
+            progressDialog.setTitle(R.string.dialog_title1);
+            progressDialog.setMessage(getString(R.string.dialog_msg1));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+                    int sayac=0;
+                    Date date_dollenme = new Date(),date_dogum = new Date();
+                    while(sayac<hayvanVerilerArrayList.size()) {
+                        try {
+                            date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
+                        }
+                        try {
+                            date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
+                        }
+                        databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
+                                String.valueOf(date_dollenme.getTime()),
+                                String.valueOf(date_dogum.getTime()));
+                        sayac++;
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                    hayvanVerilerArrayList=databaseHelper.getSimpleData();
+                }
+            }).start();
         }
     }
 }

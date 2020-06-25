@@ -156,4 +156,6 @@
     <string name="gerceklesen_dogum_yok_uyari">There\'s no happened birth yet.</string>
     <string name="menu_dev_tools">Developer\'s Activity</string>
     <string name="button_multiple_creation">Create Record(s)</string>
+    <string name="dialog_title1">Wait a second</string>
+    <string name="dialog_msg1">Adjusting database…</string>
 </resources>
