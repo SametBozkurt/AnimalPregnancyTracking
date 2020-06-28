@@ -115,9 +115,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/random_layout"
-        android:orientation="horizontal"
         android:background="@color/fab_tint"
-        android:paddingBottom="@dimen/margin_kategori_1"
+        android:paddingBottom="@dimen/margin_kategori_2"
+        android:paddingTop="@dimen/margin_kategori_2"
         android:layout_below="@id/appBarLayout">
 
         <LinearLayout
@@ -127,7 +127,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/margin_kategori_1"
             android:orientation="horizontal">
 
             <ImageView
@@ -135,6 +134,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_show"
                 android:tint="@android:color/background_light"
+                android:layout_gravity="center_vertical"
                 android:contentDescription="@null"/>
 
             <TextView
@@ -148,18 +148,16 @@
                 android:layout_marginStart="@dimen/margin_kategori_1"
                 android:layout_marginEnd="@dimen/margin_kategori_1"/>
 
-        </LinearLayout>
+            <Spinner
+                android:id="@+id/kategori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/background_light"
+                android:layout_margin="@dimen/margin_kategori_1"
+                android:layout_gravity="center_vertical"
+                android:popupBackground="@color/purple800" />
 
-        <Spinner
-            android:id="@+id/kategori"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/background_light"
-            app:layout_constraintTop_toBottomOf="@id/layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/margin_kategori_1"
-            android:popupBackground="@color/purple800" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

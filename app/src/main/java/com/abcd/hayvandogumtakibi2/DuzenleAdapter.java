@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomViewHolder> {
 
@@ -27,16 +24,12 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private SQLiteDatabaseHelper databaseHelper;
     private HayvanDuzenleyici hayvanDuzenleyici;
-    private DateFormat dateFormat;
-    private Date date;
 
     DuzenleAdapter(Context context, ArrayList<HayvanVeriler> arrayList){
         this.mContext=context;
         this.hayvanVerilerArrayList=arrayList;
         databaseHelper=new SQLiteDatabaseHelper(context);
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
-        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        date=new Date();
     }
 
     @NonNull
@@ -50,17 +43,6 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         final HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
-        if(hayvanVeriler.getKupe_no().length()==0){
-            holder.txt_kupe_no.setText(mContext.getString(R.string.kupe_no_yok));
-        }
-        else{
-            holder.txt_kupe_no.setText(hayvanVeriler.getKupe_no());
-        }
-        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.txt_tur);
-        date.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
-        holder.txt_tarih1.setText(dateFormat.format(date));
-        date.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
-        holder.txt_tarih2.setText(dateFormat.format(date));
         holder.button_duzenle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +81,16 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         else{
             hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle data=new Bundle();
+                data.putInt("ID",hayvanVeriler.getId());
+                Intent intent=new Intent(mContext,ActivityDetails.class);
+                intent.putExtras(data);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -108,18 +100,14 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_tur,txt_isim,txt_tarih1,txt_tarih2,txt_kupe_no;
+        TextView txt_isim;
         Button button_duzenle,button_sil;
         ImageView img_animal;
 
         CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
-            txt_tur=itemView.findViewById(R.id.txt_tur);
             txt_isim=itemView.findViewById(R.id.txt_isim);
-            txt_tarih1=itemView.findViewById(R.id.txt_tarih1);
-            txt_tarih2=itemView.findViewById(R.id.txt_tarih2);
-            txt_kupe_no=itemView.findViewById(R.id.txt_kupe_no);
             button_duzenle=itemView.findViewById(R.id.button_edit);
             button_sil=itemView.findViewById(R.id.button_del);
         }

@@ -104,4 +104,8 @@
         <item name="android:background">#ffeb3b</item>
         <item name="dialogCornerRadius">10dp</item>
     </style>
+    <style name="ButtonEffect1" parent="Widget.AppCompat.Button.Borderless">
+        <item name="itemRippleColor">#ffffff</item>
+        <item name="rippleColor">#ffffff</item>
+    </style>
 </resources>

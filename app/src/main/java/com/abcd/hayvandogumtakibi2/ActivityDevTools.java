@@ -44,7 +44,7 @@ public class ActivityDevTools extends AppCompatActivity {
                         int id=0;
                         int dgm_grcklsti=0;
                         for(int i=0;i<sayac[0];i++){
-                            String isim="0000"+ i;
+                            String isim="test"+ i;
                             String tur=String.valueOf(new Random().nextInt(4));
                             String kupe_no="0000"+ i;
                             String tarih1=String.valueOf(today_in_millis-(one_day_in_millis*(27+i)));
@@ -79,8 +79,6 @@ public class ActivityDevTools extends AppCompatActivity {
 
             }
         });
-
-
 
     }
 }
