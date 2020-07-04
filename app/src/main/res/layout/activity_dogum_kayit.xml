@@ -57,7 +57,6 @@
                     android:src="@drawable/icon_photo_add" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/layout_input_isim"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="41dp"
@@ -93,7 +92,6 @@
                         android:layout_gravity="center_vertical"/>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layout_input_id"
                         style="@style/KayitEkleInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -138,7 +136,6 @@
                         android:contentDescription="@null"/>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_tarih1"
                         style="@style/KayitEkleInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

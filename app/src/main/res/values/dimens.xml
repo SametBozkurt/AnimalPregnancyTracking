@@ -1,7 +1,5 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">180dp</dimen>
     <dimen name="textView_uyari_size">18sp</dimen>
     <dimen name="margin_kategori_1">5dp</dimen>
     <dimen name="margin_kategori_2">8dp</dimen>
@@ -10,15 +8,10 @@
     <dimen name="margin_kategori_5">20dp</dimen>
     <dimen name="margin_kategori_6">25dp</dimen>
     <dimen name="button_stroke_width">2dp</dimen>
-    <dimen name="text_input_width">2dp</dimen>
     <dimen name="title_layout_height">110dp</dimen>
-    <dimen name="activity_bul_title_height">200dp</dimen>
     <dimen name="title_size">36sp</dimen>
-    <dimen name="activity_bul_title_size">30sp</dimen>
     <dimen name="nav_header_title_size">16sp</dimen>
-    <dimen name="add_button_stroke_radius">18dp</dimen>
     <dimen name="button_elevation">12dp</dimen>
     <dimen name="card_corner_radius">12dp</dimen>
-    <dimen name="circle_image_width">2dp</dimen>
     <dimen name="dialog_corner_radius">12dp</dimen>
 </resources>

@@ -7,9 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
-public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
+public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTools {
 
+    private static SQLiteDatabaseHelper databaseHelper=null;
+    private static final long DAY_IN_MILLIS = 1000*60*60*24;
     private static final String VERITABANI_ISIM="kayitlar";
     private static final String SUTUN_1="isim";
     private static final String SUTUN_2="hayvan_turu";
@@ -26,7 +29,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_ALTER_CONF_V4 = "ALTER TABLE "
             + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_8 + " INTEGER DEFAULT 0;";
 
-    public SQLiteDatabaseHelper(Context context) {
+    public static SQLiteDatabaseHelper getInstance(Context context){
+        if(databaseHelper==null){
+            databaseHelper=new SQLiteDatabaseHelper(context);
+        }
+        return databaseHelper;
+    }
+
+    private SQLiteDatabaseHelper(Context context) {
         super(context, VERITABANI_ISIM, null, 4);
     }
 
@@ -89,10 +99,23 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     int getSize(){
+        ArrayList<HayvanVeriler> arrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
         Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id"},
                 null,null,null,null,null);
-        return cursor.getCount();
+        while (cursor.moveToNext()){
+            arrayList.add(new HayvanVeriler(cursor.getInt(0),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    0,
+                    0));
+        }
+        cursor.close();
+        return arrayList.size();
     }
 
     ArrayList<HayvanVeriler> getAllData(){
@@ -128,8 +151,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             else{
                 date_dogum_in_millis=Long.parseLong(cursor.getString(5));
             }
-            long gun_sayisi=(date_dogum_in_millis-Calendar.getInstance().getTimeInMillis())/(1000*60*60*24);
-            if(gun_sayisi<30 && cursor.getInt(8)==0){
+            if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
                 hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
@@ -251,5 +273,16 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         newValues.put(SUTUN_4,tarih1);
         newValues.put(SUTUN_5,tarih2);
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(id)});
+    }
+
+    @Override
+    public void oto_tarih_hesapla(Date date) {
+
+    }
+
+    @Override
+    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
+        long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/DAY_IN_MILLIS;
+        return (int)gun;
     }
 }

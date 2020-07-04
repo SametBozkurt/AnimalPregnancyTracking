@@ -40,7 +40,7 @@ public class ActivityDevTools extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        SQLiteDatabaseHelper sqLiteDatabaseHelper=new SQLiteDatabaseHelper(ActivityDevTools.this);
+                        SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
                         int id=0;
                         int dgm_grcklsti=0;
                         for(int i=0;i<sayac[0];i++){

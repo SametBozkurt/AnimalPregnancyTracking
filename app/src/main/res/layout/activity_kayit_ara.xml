@@ -7,99 +7,92 @@
     tools:context=".ActivityKayitAra"
     android:background="@color/kayit_bul_title_layout_background">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_kategori_4"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:layout_alignParentTop="true"
+        android:focusableInTouchMode="true"
+        android:layout_centerInParent="true">
 
-        <LinearLayout
-            android:id="@+id/search_bar"
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/comfortaa_bold"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/activity_ara_title"
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_kategori_4"
-            android:orientation="vertical"
-            android:focusable="true"
-            android:layout_alignParentTop="true"
-            android:focusableInTouchMode="true"
-            android:layout_centerInParent="true">
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginTop="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:hint="@string/hint_bul"
+            app:hintEnabled="true"
+            style="@style/KayitBulInputStyle">
 
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/comfortaa_bold"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/activity_ara_title"
-                android:textColor="@android:color/background_light"
-                android:textSize="@dimen/title_size"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_kategori_1"
-                android:layout_marginTop="@dimen/margin_kategori_1"
-                android:layout_marginEnd="@dimen/margin_kategori_1"
-                android:hint="@string/hint_bul"
-                app:hintEnabled="true"
-                style="@style/KayitBulInputStyle">
+                android:drawableEnd="@drawable/icon_search"
+                android:textColor="@android:color/background_light"
+                android:inputType="textPersonName"
+                android:fontFamily="@font/comfortaa_bold"
+                android:lines="1"
+                android:maxLength="30"
+                android:theme="@style/InputSearch"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/bul"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/icon_search"
-                    android:textColor="@android:color/background_light"
-                    android:inputType="textPersonName"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:lines="1"
-                    android:maxLength="30"
-                    android:theme="@style/InputSearch"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_group"
+            android:layout_gravity="center_horizontal"
+            android:checkedButton="@id/radio_button_isim">
 
-            <RadioGroup
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_group"
-                android:layout_gravity="center_horizontal"
-                android:checkedButton="@id/radio_button_isim">
+                android:fontFamily="sans-serif-black"
+                android:text="@string/radio_group_hint"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/background_light" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_button_isim"
+                android:textColor="@android:color/background_light"
+                android:buttonTint="@android:color/background_light"
+                android:text="@string/radio_button_isim"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_button_kupe_no"
+                android:text="@string/radio_button_kupe_no"
+                android:textColor="@android:color/background_light"
+                android:buttonTint="@android:color/background_light"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:text="@string/radio_group_hint"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/background_light" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/radio_button_isim"
-                    android:textColor="@android:color/background_light"
-                    android:buttonTint="@android:color/background_light"
-                    android:text="@string/radio_button_isim"/>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/radio_button_kupe_no"
-                    android:text="@string/radio_button_kupe_no"
-                    android:textColor="@android:color/background_light"
-                    android:buttonTint="@android:color/background_light"/>
+        </RadioGroup>
+    </LinearLayout>
 
-            </RadioGroup>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/layout_sonuclar"
-            android:layout_below="@id/search_bar"
-            android:layout_marginStart="@dimen/margin_kategori_1"
-            android:layout_marginEnd="@dimen/margin_kategori_1"
-            android:layout_marginTop="@dimen/margin_kategori_1">
-
-        </RelativeLayout>
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout_sonuclar"
+        android:layout_below="@id/search_bar"
+        android:layout_marginStart="@dimen/margin_kategori_1"
+        android:layout_marginEnd="@dimen/margin_kategori_1"
+        android:layout_marginTop="@dimen/margin_kategori_1">
 
     </RelativeLayout>
 

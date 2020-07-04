@@ -19,8 +19,8 @@ import java.util.Calendar;
 
 public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.CustomViewHolder> {
 
-    private Context context;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    private final Context context;
+    private final ArrayList<HayvanVeriler> hayvanVerilerArrayList;
 
 
     KritiklerAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList1){
@@ -79,8 +79,9 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_isim, txt_durum;
-        ImageView img_animal;
+        final TextView txt_isim;
+        final TextView txt_durum;
+        final ImageView img_animal;
 
         CustomViewHolder(View itemView) {
             super(itemView);

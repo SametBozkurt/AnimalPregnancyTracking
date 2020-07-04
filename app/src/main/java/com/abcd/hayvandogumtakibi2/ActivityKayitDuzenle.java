@@ -1,5 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,12 +33,33 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
             }
         });
         recyclerView=findViewById(R.id.recyclerView);
-        databaseHelper=new SQLiteDatabaseHelper(ActivityKayitDuzenle.this);
-        hayvanVerilerArrayList=databaseHelper.getAllData();
-        DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,hayvanVerilerArrayList);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(duzenleAdapter);
+        final ProgressDialog dialog=new ProgressDialog(this);
+        dialog.setTitle(R.string.dialog_title1);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(600);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        hayvanVerilerArrayList=databaseHelper.getAllData();
+                        DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,hayvanVerilerArrayList);
+                        recyclerView.setAdapter(duzenleAdapter);
+                        dialog.dismiss();
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ActivityKayitAra extends AppCompatActivity {
 
     TextInputEditText inputAranacak;
     RadioGroup myRadioGroup;
-    RadioButton radioButtonIsimler,radioButtonID;
+    RadioButton radioButtonIsimler;
     SQLiteDatabaseHelper databaseHelper;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     RelativeLayout layout_sonuclar;
@@ -34,12 +34,11 @@ public class ActivityKayitAra extends AppCompatActivity {
         inputAranacak=findViewById(R.id.bul);
         myRadioGroup=findViewById(R.id.radio_group);
         radioButtonIsimler=findViewById(R.id.radio_button_isim);
-        radioButtonID=findViewById(R.id.radio_button_kupe_no);
         layout_sonuclar=findViewById(R.id.layout_sonuclar);
         recyclerView=new RecyclerView(ActivityKayitAra.this);
         textViewUyari=new TextView(ActivityKayitAra.this);
         img=new ImageView(ActivityKayitAra.this);
-        databaseHelper=new SQLiteDatabaseHelper(ActivityKayitAra.this);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         inputAranacak.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -145,8 +144,4 @@ public class ActivityKayitAra extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 }

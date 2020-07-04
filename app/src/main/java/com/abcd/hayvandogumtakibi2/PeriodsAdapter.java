@@ -13,9 +13,9 @@ import java.util.Arrays;
 
 public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomViewHolder> {
 
-    private Context context;
-    private ArrayList<String> arrayList_all_species;
-    private HayvanDuzenleyici hayvanDuzenleyici;
+    private final Context context;
+    private final ArrayList<String> arrayList_all_species;
+    private final HayvanDuzenleyici hayvanDuzenleyici;
 
     PeriodsAdapter(Context context){
         this.context=context;
@@ -43,8 +43,8 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_gun;
-        ImageView img_animal;
+        final TextView txt_gun;
+        final ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);

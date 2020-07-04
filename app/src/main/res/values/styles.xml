@@ -60,10 +60,7 @@
         <item name="android:textColor">@color/colorAccentPicker</item>
         <item name="rippleColor">@color/colorAccentPicker</item>
     </style>
-    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorAccent">@color/colorAccentPicker</item>
-        <item name="materialButtonStyle">@style/PickerButtonStyle</item>
-    </style>
+
     <style name="FABStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="tint">@android:color/background_light</item>
     </style>
@@ -99,13 +96,5 @@
     <style name="KayitEkleInputStyle" parent="@style/Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/input_background_tint</item>
         <item name="hintTextColor">@color/input_background_tint</item>
-    </style>
-    <style name="PhotoPickerDialogStyle" parent="Theme.MaterialComponents.Dialog">
-        <item name="android:background">#ffeb3b</item>
-        <item name="dialogCornerRadius">10dp</item>
-    </style>
-    <style name="ButtonEffect1" parent="Widget.AppCompat.Button.Borderless">
-        <item name="itemRippleColor">#ffffff</item>
-        <item name="rippleColor">#ffffff</item>
     </style>
 </resources>

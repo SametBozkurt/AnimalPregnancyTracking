@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 class HayvanDuzenleyici {
 
-    private Context context;
+    private final Context context;
 
     HayvanDuzenleyici(Context mContext){
         context=mContext;

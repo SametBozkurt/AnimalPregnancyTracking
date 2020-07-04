@@ -16,12 +16,10 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cardView"
             app:cardBackgroundColor="@color/arama_sonuclari_adapter_background"
             app:cardCornerRadius="@dimen/card_corner_radius">
 
             <RelativeLayout
-                android:id="@+id/text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

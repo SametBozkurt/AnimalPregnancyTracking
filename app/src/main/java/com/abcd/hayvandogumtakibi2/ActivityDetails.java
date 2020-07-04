@@ -16,16 +16,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActivityDetails extends AppCompatActivity {
+public class ActivityDetails extends AppCompatActivity implements CalendarTools {
 
     private HayvanVeriler hayvanVeriler;
+    private static final long DAY_IN_MILLIS = 1000*60*60*24;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         final Bundle bundle = getIntent().getExtras();
-        hayvanVeriler=new SQLiteDatabaseHelper(this).getDataById(bundle.getInt("ID"));
+        hayvanVeriler=SQLiteDatabaseHelper.getInstance(this).getDataById(bundle.getInt("ID"));
         Date date_dollenme, date_dogum;
         date_dollenme=new Date();
         date_dogum=new Date();
@@ -63,8 +64,8 @@ public class ActivityDetails extends AppCompatActivity {
         }
         else{
             txt_tarih2.setText(dateFormat.format(date_dogum));
-            if(get_gun_sayisi()>=0){
-                txt_kalan.setText(new StringBuilder(String.valueOf(get_gun_sayisi())));
+            if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))>=0){
+                txt_kalan.setText(new StringBuilder(String.valueOf(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi())))));
             }
             else{
                 txt_kalan.setText(getString(R.string.text_NA));
@@ -73,7 +74,6 @@ public class ActivityDetails extends AppCompatActivity {
         icon_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hayvanVeriler=new SQLiteDatabaseHelper(ActivityDetails.this).getDataById(bundle.getInt("ID"));
                 if(hayvanVeriler.getDogum_grcklsti()==0){
                     Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
                     Bundle veri_paketi=new Bundle();
@@ -94,13 +94,13 @@ public class ActivityDetails extends AppCompatActivity {
                 }
             }
         });
-        if(get_gun_sayisi()<0){
+        if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))<0){
             if(hayvanVeriler.getDogum_grcklsti()==0){
                 Snackbar mySnackbar = Snackbar.make(findViewById(R.id.main_layout),R.string.dogum_gerceklesti_uyarı, 8000);
                 mySnackbar.setAction(R.string.yes, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new SQLiteDatabaseHelper(ActivityDetails.this).isaretle_dogum_gerceklesti(hayvanVeriler.getId());
+                        SQLiteDatabaseHelper.getInstance(ActivityDetails.this).isaretle_dogum_gerceklesti(hayvanVeriler.getId());
                     }
                 });
                 mySnackbar.setActionTextColor(getResources().getColor(R.color.action_color));
@@ -109,8 +109,14 @@ public class ActivityDetails extends AppCompatActivity {
         }
     }
 
-    private int get_gun_sayisi(){
-        long gun=(Long.parseLong(hayvanVeriler.getDogum_tarihi())- Calendar.getInstance().getTimeInMillis())/(1000*60*60*24);
+    @Override
+    public void oto_tarih_hesapla(Date date) {
+
+    }
+
+    @Override
+    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
+        long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/DAY_IN_MILLIS;
         return (int)gun;
     }
 

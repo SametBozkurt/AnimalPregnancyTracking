@@ -2,31 +2,18 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,34 +21,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String pref_key = "dates_converted";
-    private static final String pref_file = "preferences";
-    boolean is_opened = false;
     private int database_size;
-    private TextView txt_pet,txt_barn;
-    private SQLiteDatabaseHelper databaseHelper;
-    private RecyclerView recyclerView;
-    private FloatingActionButton btn_add,btn_pet,btn_barn;
-    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
-    private SharedPreferences preferences;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         izin_kontrol();
         super.onCreate(savedInstanceState);
-        fab_open= AnimationUtils.loadAnimation(this,R.anim.fab_on);
-        fab_close=AnimationUtils.loadAnimation(this,R.anim.fab_off);
-        fab_clock=AnimationUtils.loadAnimation(this,R.anim.rotation_clock);
-        fab_anticlock=AnimationUtils.loadAnimation(this,R.anim.rotation_anticlock);
-        databaseHelper=new SQLiteDatabaseHelper(PrimaryActivity.this);
-        database_size=databaseHelper.getSize();
-        preferences = this.getSharedPreferences(pref_file,MODE_PRIVATE);
+        setContentView(R.layout.activity_primary);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        database_size=SQLiteDatabaseHelper.getInstance(this).getSize();
         dosya_kontrol();
     }
 
@@ -131,7 +113,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 String ver="";
                 try{
                     PackageInfo packageInfo=getPackageManager().getPackageInfo(PrimaryActivity.this.getPackageName(),0);
-                    ver+=packageInfo.versionName;
+                    ver=packageInfo.versionName;
                 }
                 catch(PackageManager.NameNotFoundException e){
                     e.printStackTrace();
@@ -173,102 +155,11 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
 
     private void dosya_kontrol() {
         if(database_size==0){
-            setContentView(R.layout.activity_primary_msg);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok(this)).commit();
         }
         else{
-            setContentView(R.layout.activity_primary);
-            Spinner goruntuleme_kategorisi = findViewById(R.id.kategori);
-            ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(this,R.layout.spinner_kategori, getResources().getStringArray(R.array.goruntuleme_kategorileri));
-            spinner_adapter.setDropDownViewResource(R.layout.spinner_kategori);
-            hayvanVerilerArrayList = databaseHelper.getSimpleData();
-            recyclerView=findViewById(R.id.recyclerView);
-            GridLayoutManager layoutManager=new GridLayoutManager(PrimaryActivity.this,3);
-            recyclerView.setLayoutManager(layoutManager);
-            goruntuleme_kategorisi.setAdapter(spinner_adapter);
-            goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    ProgressDialog dialog=new ProgressDialog(PrimaryActivity.this);
-                    dialog.setTitle(R.string.dialog_title1);
-                    dialog.setMessage(getString(R.string.dialog_msg2));
-                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    recyclerView.setAdapter(new KayitlarAdapter(PrimaryActivity.this,hayvanVerilerArrayList,position));
-                    dialog.dismiss();
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            tarih_donustur();
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-                String INTENT_ACTION= "SET_AN_ALARM" ;
-                sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
-            }
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar(PrimaryActivity.this)).commit();
         }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        btn_add = findViewById(R.id.create);
-        btn_pet = findViewById(R.id.fab_pet);
-        btn_barn = findViewById(R.id.fab_barn);
-        txt_pet = findViewById(R.id.text_pet);
-        txt_barn = findViewById(R.id.text_barn);
-        setSupportActionBar(toolbar);
-        navigationView.setNavigationItemSelectedListener(this);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(is_opened){
-                    txt_pet.startAnimation(fab_close);
-                    btn_pet.startAnimation(fab_close);
-                    txt_barn.startAnimation(fab_close);
-                    btn_barn.startAnimation(fab_close);
-                    btn_add.startAnimation(fab_anticlock);
-                    btn_pet.setClickable(false);
-                    btn_barn.setClickable(false);
-                    is_opened=false;
-                }
-                else{
-                    txt_pet.startAnimation(fab_open);
-                    btn_pet.startAnimation(fab_open);
-                    txt_barn.startAnimation(fab_open);
-                    btn_barn.startAnimation(fab_open);
-                    btn_add.startAnimation(fab_clock);
-                    btn_pet.setClickable(true);
-                    btn_barn.setClickable(true);
-                    is_opened = true;
-                }
-            }
-        });
-        btn_pet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
-                Bundle datas=new Bundle();
-                datas.putInt("isPet",1);
-                bundle_intent.putExtras(datas);
-                PrimaryActivity.this.startActivity(bundle_intent);
-                //Evcil hayvan ise 1
-            }
-        });
-        btn_barn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
-                Bundle datas=new Bundle();
-                datas.putInt("isPet",2);
-                bundle_intent.putExtras(datas);
-                PrimaryActivity.this.startActivity(bundle_intent);
-                //Besi hayvanı ise 2
-            }
-        });
     }
 
     private void izin_kontrol() {
@@ -278,50 +169,4 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         }
     }
 
-    private void tarih_donustur() {
-        if(!preferences.contains(pref_key)){
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putInt(pref_key,1);
-            editor.apply();
-            final ProgressDialog progressDialog=new ProgressDialog(this);
-            progressDialog.setTitle(R.string.dialog_title1);
-            progressDialog.setMessage(getString(R.string.dialog_msg1));
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
-                    int sayac=0;
-                    Date date_dollenme = new Date(),date_dogum = new Date();
-                    while(sayac<hayvanVerilerArrayList.size()) {
-                        try {
-                            date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
-                        }
-                        try {
-                            date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
-                        }
-                        databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
-                                String.valueOf(date_dollenme.getTime()),
-                                String.valueOf(date_dogum.getTime()));
-                        sayac++;
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    progressDialog.dismiss();
-                    hayvanVerilerArrayList=databaseHelper.getSimpleData();
-                }
-            }).start();
-        }
-    }
 }

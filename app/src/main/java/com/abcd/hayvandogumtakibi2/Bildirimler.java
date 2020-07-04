@@ -14,12 +14,12 @@ class Bildirimler {
 
     private static final String NOTIFICATION_CHANNEL_ID="Tarih Kontrol";
     private static final String NOTIFICATION_CHANNEL_NAME="Kritik Uyarılar";
-    private Context mContext;
-    private int dbSize;
+    private final Context mContext;
+    private final int dbSize;
 
     Bildirimler(Context context){
         mContext=context;
-        dbSize=new SQLiteDatabaseHelper(context).getKritikOlanlar().size();
+        dbSize=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar().size();
         if(dbSize>0){
             bildirim_ver();
         }

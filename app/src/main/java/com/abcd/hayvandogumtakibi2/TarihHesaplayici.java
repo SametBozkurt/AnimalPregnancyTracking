@@ -1,18 +1,12 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.content.Context;
-
-import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 class TarihHesaplayici {
 
-    private String isim_tur;
-    private Date date1;
-    private Context mContext;
+    private final String isim_tur;
+    private final Date date1;
     static final int DAY_COW = 283;
     static final int DAY_SHEEP = 152;
     static final int DAY_GOAT = 150;
@@ -23,19 +17,20 @@ class TarihHesaplayici {
     static final int DAY_DONKEY = 365;
     static final int DAY_HORSE = 335;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
-    private int ispet;
+    private final int ispet;
+    String class_name;
 
-    TarihHesaplayici(int isPet, String tur_isim, Date tarih, Context context){
+    TarihHesaplayici(int isPet, String tur_isim, Date tarih, String class_name){
         isim_tur=tur_isim;
         date1=tarih;
         ispet=isPet;
-        mContext=context;
+        this.class_name=class_name;
     }
 
     Calendar get_tarih(){
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(date1);
-        if(mContext.getClass().getName().equals(ActivityName)){
+        if(class_name.equals(ActivityName)){
             switch(isim_tur){
                 case "0":
                     calendar.add(Calendar.DATE,DAY_COW);
@@ -146,142 +141,6 @@ class TarihHesaplayici {
             }
         }
         return calendar;
-    }
-
-    String getTarih(){
-        String dogum_tarihi;
-        SimpleDateFormat format_date=new SimpleDateFormat("dd/MM/yyyy");
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date1);
-        if(mContext.getClass().getName().equals(ActivityName)){
-            switch(isim_tur){
-                case "0":
-                    calendar.add(Calendar.DATE,DAY_COW);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "1":
-                    calendar.add(Calendar.DATE,DAY_SHEEP);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "2":
-                    calendar.add(Calendar.DATE,DAY_GOAT);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "3":
-                    calendar.add(Calendar.DATE,DAY_CAT);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "4":
-                    calendar.add(Calendar.DATE,DAY_DOG);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "5":
-                    calendar.add(Calendar.DATE,DAY_HAMSTER);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "6":
-                    calendar.add(Calendar.DATE,DAY_HORSE);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "7":
-                    calendar.add(Calendar.DATE,DAY_DONKEY);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-                case "8":
-                    calendar.add(Calendar.DATE,DAY_CAMEL);
-                    dogum_tarihi=format_date.format(calendar.getTime());
-                    return dogum_tarihi;
-            }
-        }
-        else{
-            switch(ispet){
-                case 0: //tum hayvanlar
-                    switch(isim_tur){
-                        case "0":
-                            calendar.add(Calendar.DATE,DAY_COW);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "1":
-                            calendar.add(Calendar.DATE,DAY_SHEEP);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "2":
-                            calendar.add(Calendar.DATE,DAY_GOAT);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "3":
-                            calendar.add(Calendar.DATE,DAY_CAT);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "4":
-                            calendar.add(Calendar.DATE,DAY_DOG);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "5":
-                            calendar.add(Calendar.DATE,DAY_HAMSTER);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "7":
-                            calendar.add(Calendar.DATE,DAY_HORSE);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "8":
-                            calendar.add(Calendar.DATE,DAY_DONKEY);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "9":
-                            calendar.add(Calendar.DATE,DAY_CAMEL);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                    }
-                    break;
-                case 1: //evcil hayvanlar
-                    switch(isim_tur){
-                        case "0":
-                            calendar.add(Calendar.DATE,DAY_CAT);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "1":
-                            calendar.add(Calendar.DATE,DAY_DOG);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "2":
-                            calendar.add(Calendar.DATE,DAY_HAMSTER);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                    }
-                    break;
-                case 2: //besi hayvanları
-                    switch(isim_tur){
-                        case "0":
-                            calendar.add(Calendar.DATE,DAY_COW);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "1":
-                            calendar.add(Calendar.DATE,DAY_SHEEP);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "2":
-                            calendar.add(Calendar.DATE,DAY_GOAT);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "4":
-                            calendar.add(Calendar.DATE,DAY_HORSE);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "5":
-                            calendar.add(Calendar.DATE,DAY_DONKEY);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                        case "6":
-                            calendar.add(Calendar.DATE,DAY_CAMEL);
-                            dogum_tarihi=format_date.format(calendar.getTime());
-                            return dogum_tarihi;
-                    }
-                    break;
-            }
-        }
-        return null;
     }
 
 }

@@ -21,12 +21,12 @@ import java.util.Locale;
 
 public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.CustomViewHolder> {
 
-    private ArrayList<HayvanVeriler> hayvanVeriler;
-    private Context context;
-    private HayvanDuzenleyici hayvanDuzenleyici;
-    private int code;
-    private DateFormat dateFormat;
-    private Date date;
+    private final ArrayList<HayvanVeriler> hayvanVeriler;
+    private final Context context;
+    private final HayvanDuzenleyici hayvanDuzenleyici;
+    private final int code;
+    private final DateFormat dateFormat;
+    private final Date date;
 
     KayitlarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList,int code){
         this.context=context;
@@ -94,8 +94,8 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
-        ImageView img_animal;
+        final TextView textView;
+        final ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);

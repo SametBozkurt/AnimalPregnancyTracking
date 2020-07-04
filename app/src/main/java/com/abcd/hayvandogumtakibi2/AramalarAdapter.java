@@ -19,11 +19,11 @@ import java.util.Locale;
 
 public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.CustomViewHolder> {
 
-    private ArrayList<HayvanVeriler> hayvanVeriler;
-    private Context context;
-    private HayvanDuzenleyici hayvanDuzenleyici;
-    private DateFormat dateFormat;
-    private Date date;
+    private final ArrayList<HayvanVeriler> hayvanVeriler;
+    private final Context context;
+    private final HayvanDuzenleyici hayvanDuzenleyici;
+    private final DateFormat dateFormat;
+    private final Date date;
 
     AramalarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList){
         this.context=context;
@@ -73,8 +73,12 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_tur,txt_isim,txt_tarih1,txt_tarih2,txt_kupe_no;
-        ImageView img_animal;
+        final TextView txt_tur;
+        final TextView txt_isim;
+        final TextView txt_tarih1;
+        final TextView txt_tarih2;
+        final TextView txt_kupe_no;
+        final ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);

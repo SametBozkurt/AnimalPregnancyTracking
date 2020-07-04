@@ -41,15 +41,16 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     private static final int GALLERY_REQ_CODE=12321;
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
     private boolean boolTarih=true;
-    private int kayit_id,petCode;
+    private int kayit_id,petCode,calisma_sayaci=0;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
     Button kaydet,iptal;
     Spinner tur_sec;
     RelativeLayout main_Layout;
     SQLiteDatabaseHelper databaseHelper;
-    String secilen_tur,gorsel_ad,gorsel_adres;
-    Calendar takvim, takvim2;
-    Date date1,date2;
+    String secilen_tur="",gorsel_ad,gorsel_adres;
+    final Calendar takvim=Calendar.getInstance();
+    Calendar takvim2=Calendar.getInstance();
+    Date date1=new Date(),date2=new Date();
     Bundle data_bundle;
     TextInputLayout textInputLayout;
     ImageView photo;
@@ -69,19 +70,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         main_Layout=findViewById(R.id.ana_katman);
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         photo=findViewById(R.id.add_photo);
-        databaseHelper=new SQLiteDatabaseHelper(ActivityEdit.this);
-        takvim=Calendar.getInstance();
-        takvim2=Calendar.getInstance();
-        secilen_tur="";
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        date1=new Date();
-        date2=new Date();
         degerleri_yerlestir();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     private void degerleri_yerlestir(){
@@ -127,28 +118,36 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                secilen_tur=String.valueOf(position);
-                switch (petCode){
-                    case 0://Önceki sürümler için
-                        if(position!=6){
-                            textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            oto_tarih_hesapla(date1);
-                        }
-                        else{
-                            textInputLayout.setHelperText("");
-                        }
-                        break;
-                    case 1: case 2: //Evcil & çiftlik hayvan ise
-                        if(position!=3){
-                            textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            oto_tarih_hesapla(date1);
-                        }
-                        else{
-                            textInputLayout.setHelperText("");
-                        }
-                        break;
+                /*
+                Activity her başladığında, yani onCreate() metodu çalıştığında, Spinner nesnesine/view'ine ait
+                onItemSelected metodu da çalışmakta ve oto_tarih_hesapla() metodu çalıştırılarak elle seçilmiş dogum
+                tarihlerinde sorunlara yol açmakta, bu yüzden calisma_sayaci ile onItemSelected() metodunun Activity
+                içinde kaç kez çalıştığı bilgisi tutulmaktadır.
+                */
+                if(calisma_sayaci>0){
+                    calisma_sayaci+=1;
+                    secilen_tur=String.valueOf(position);
+                    switch (petCode){
+                        case 0://Önceki sürümler için
+                            if(position!=6){
+                                textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
+                                oto_tarih_hesapla(date1);
+                            }
+                            else{
+                                textInputLayout.setHelperText("");
+                            }
+                            break;
+                        case 1: case 2: //Evcil & çiftlik hayvan ise
+                            if(position!=3){
+                                textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
+                                oto_tarih_hesapla(date1);
+                            }
+                            else{
+                                textInputLayout.setHelperText("");
+                            }
+                            break;
+                    }
                 }
-
             }
 
             @Override
@@ -285,10 +284,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public File getImageFile(){
-        StringBuilder dosya_adi=new StringBuilder("ANM").append(System.currentTimeMillis());
+    private File getImageFile(){
         File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),dosya_adi+".jpg");
+        File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM" + System.currentTimeMillis() +".jpg");
         if(gorsel_ad.length()!=0){
             new File(picDir,gorsel_ad).delete();
             gorsel_ad="";
@@ -327,12 +325,17 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,this);
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
         if(boolTarih){
             takvim2=tarihHesaplayici.get_tarih();
             date2=takvim2.getTime();
             dogum_tarihi.setText(dateFormat.format(date2));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
+        return 0;
     }
 }

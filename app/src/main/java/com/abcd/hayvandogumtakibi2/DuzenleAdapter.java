@@ -20,15 +20,15 @@ import java.util.ArrayList;
 
 public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomViewHolder> {
 
-    private Context mContext;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    private SQLiteDatabaseHelper databaseHelper;
-    private HayvanDuzenleyici hayvanDuzenleyici;
+    private final Context mContext;
+    private final ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    private final SQLiteDatabaseHelper databaseHelper;
+    private final HayvanDuzenleyici hayvanDuzenleyici;
 
     DuzenleAdapter(Context context, ArrayList<HayvanVeriler> arrayList){
         this.mContext=context;
         this.hayvanVerilerArrayList=arrayList;
-        databaseHelper=new SQLiteDatabaseHelper(context);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
 
@@ -100,9 +100,10 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_isim;
-        Button button_duzenle,button_sil;
-        ImageView img_animal;
+        final TextView txt_isim;
+        final Button button_duzenle;
+        final Button button_sil;
+        final ImageView img_animal;
 
         CustomViewHolder(View itemView) {
             super(itemView);

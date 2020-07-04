@@ -1,19 +1,14 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.app.DatePickerDialog;
-import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,9 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
@@ -70,7 +64,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dogum_kayit);
         dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        dbYoneticisi=new SQLiteDatabaseHelper(ActivityDogumKayit.this);
+        dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
         photo=findViewById(R.id.add_photo);
         edit_isim=findViewById(R.id.isim);
         edit_kupe_no=findViewById(R.id.kupe_no);
@@ -231,7 +225,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     }
 
     private void kayit_gir(View snackbar_view){
-        Bundle data_pack=getIntent().getExtras();
         if (edit_isim.length()==0||btn_tarih_dollenme.length()==0||btn_tarih_dogum.length()==0){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
@@ -335,7 +328,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(_isPet,secilen_tur,date,this);
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(_isPet,secilen_tur,date,getClass().getName());
         if(boolTarih){
             hesaplanan_tarih=tarihHesaplayici.get_tarih();
             date_dogum=hesaplanan_tarih.getTime();
@@ -343,4 +336,10 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
+        return 0;
+    }
+
 }
