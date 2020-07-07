@@ -1,37 +1,46 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
-import android.view.View;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int database_size;
+    private static final String ADMOB_TEST_ID1 = "ca-app-pub-3940256099942544/1033173712";
+    private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
+    int database_size;
+    byte ad_show_counter=0;
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    InterstitialAd mInterstitialAd = new InterstitialAd(this);
+    AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        izin_kontrol();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primary);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -45,6 +54,20 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         toggle.syncState();
         database_size=SQLiteDatabaseHelper.getInstance(this).getSize();
         dosya_kontrol();
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        if(ad_show_counter==0){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    show_ads();
+                }
+            }, 6000);
+            ad_show_counter+=1;
+        }
     }
 
     @Override
@@ -158,15 +181,55 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok(this)).commit();
         }
         else{
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar(PrimaryActivity.this)).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar(this)).commit();
         }
     }
 
-    private void izin_kontrol() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            startActivity(new Intent(this,ActivityPermission.class));
-        }
+    private void show_ads(){
+        mInterstitialAd.setAdUnitId(ADMOB_TEST_ID1);
+        adRequest=new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                //Toast.makeText(PrimaryActivity.this,"Ad Yüklendi.",Toast.LENGTH_SHORT).show();
+                mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                //Toast.makeText(PrimaryActivity.this,"Ad Yüklenemedi, Kod: "+errorCode,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                //Log.e("DURUM","Ad Açıldı");
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdClicked() {
+                //Log.e("DURUM","Ad Tıklandı");
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+                //Log.e("DURUM","Kullanıcı Adden ayrıldı");
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+                //Log.e("DURUM","Ad Kapandı");
+                mInterstitialAd.setAdListener(null);
+                adRequest=null;
+                mInterstitialAd=null;
+            }
+        });
     }
 
 }

@@ -138,21 +138,11 @@ public class ActivityPermission extends AppCompatActivity {
                 },600);
             }
             else{
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(ActivityPermission.this, PrimaryActivity.class));
-                    }
-                },1000);
+                startActivity(new Intent(ActivityPermission.this, PrimaryActivity.class));
             }
         }
         else{
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(ActivityPermission.this, PrimaryActivity.class));
-                }
-            },1000);
+            startActivity(new Intent(ActivityPermission.this, PrimaryActivity.class));
         }
     }
 

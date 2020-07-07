@@ -23,6 +23,10 @@
         android:theme="@style/AppTheme">
 
         <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9721232821183013~3399623800" />
+
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_bildirim" />
         <meta-data
