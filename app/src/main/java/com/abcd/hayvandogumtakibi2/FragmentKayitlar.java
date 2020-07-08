@@ -25,8 +25,8 @@ import java.util.ArrayList;
 
 public class FragmentKayitlar extends Fragment {
 
-    final SQLiteDatabaseHelper databaseHelper;
-    final Context context;
+    SQLiteDatabaseHelper databaseHelper;
+    Context context;
     Animation fab_open, fab_close, fab_clock, fab_anticlock;
     FloatingActionButton btn_add,btn_pet,btn_barn;
     TextView txt_pet,txt_barn;
@@ -35,16 +35,18 @@ public class FragmentKayitlar extends Fragment {
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     boolean is_opened = false;
 
-    public FragmentKayitlar(Context context){
+    @Override
+    public void onAttach(@NonNull Context context) {
         this.context=context;
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+        super.onAttach(context);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_records,container,false);
-        new Thread(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
                 fab_open= AnimationUtils.loadAnimation(context,R.anim.fab_on);
@@ -52,7 +54,7 @@ public class FragmentKayitlar extends Fragment {
                 fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
                 fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
             }
-        }).start();
+        });
         btn_add = view.findViewById(R.id.create);
         btn_pet = view.findViewById(R.id.fab_pet);
         btn_barn = view.findViewById(R.id.fab_barn);
@@ -162,5 +164,7 @@ public class FragmentKayitlar extends Fragment {
         }
         return view;
     }
+
+
 
 }

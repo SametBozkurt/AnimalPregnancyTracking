@@ -8,7 +8,7 @@ android {
         applicationId "com.sariyazilim.hayvangebeliktakibi"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 30
+        versionCode 31
         versionName '1.2.1-Beta'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

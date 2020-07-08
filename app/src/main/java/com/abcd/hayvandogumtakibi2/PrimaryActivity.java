@@ -32,7 +32,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     private static final String ADMOB_TEST_ID1 = "ca-app-pub-3940256099942544/1033173712";
     private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     int database_size;
-    byte ad_show_counter=0;
     DrawerLayout drawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
@@ -53,21 +52,20 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         database_size=SQLiteDatabaseHelper.getInstance(this).getSize();
-        dosya_kontrol();
+        if(savedInstanceState==null){
+            dosya_kontrol();
+        }
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        if(ad_show_counter==0){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    show_ads();
-                }
-            }, 6000);
-            ad_show_counter+=1;
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                show_ads();
+            }
+        }, 3000);
     }
 
     @Override
@@ -103,6 +101,8 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         int id = item.getItemId();
         switch (id){
             case R.id.nav_critics:
@@ -171,17 +171,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
                 break;
         }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void dosya_kontrol() {
         if(database_size==0){
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok(this)).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commit();
         }
         else{
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar(this)).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commit();
         }
     }
 
@@ -192,39 +190,11 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                //Toast.makeText(PrimaryActivity.this,"Ad Yüklendi.",Toast.LENGTH_SHORT).show();
                 mInterstitialAd.show();
             }
 
             @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                //Toast.makeText(PrimaryActivity.this,"Ad Yüklenemedi, Kod: "+errorCode,Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onAdOpened() {
-                //Log.e("DURUM","Ad Açıldı");
-                // Code to be executed when the ad is displayed.
-            }
-
-            @Override
-            public void onAdClicked() {
-                //Log.e("DURUM","Ad Tıklandı");
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-                //Log.e("DURUM","Kullanıcı Adden ayrıldı");
-            }
-
-            @Override
             public void onAdClosed() {
-                // Code to be executed when the interstitial ad is closed.
-                //Log.e("DURUM","Ad Kapandı");
                 mInterstitialAd.setAdListener(null);
                 adRequest=null;
                 mInterstitialAd=null;
