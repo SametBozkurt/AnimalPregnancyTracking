@@ -32,9 +32,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     private static final String ADMOB_TEST_ID1 = "ca-app-pub-3940256099942544/1033173712";
     private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     int database_size;
-    DrawerLayout drawer;
-    NavigationView navigationView;
-    ActionBarDrawerToggle toggle;
     InterstitialAd mInterstitialAd = new InterstitialAd(this);
     AdRequest adRequest;
 
@@ -44,10 +41,10 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_primary);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -201,5 +198,5 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
-
 }
+

@@ -89,15 +89,16 @@
             android:name=".ActivityPermission"
             android:label="@string/activity_permissions"
             android:screenOrientation="locked"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar"
+            android:noHistory="true"/>
         <activity
             android:name=".DemoActivity"
             android:screenOrientation="locked"
-            android:theme="@style/NoActionBar3">
+            android:theme="@style/NoActionBar3"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -105,7 +106,7 @@
             android:name=".ActivityDevTools"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="locked"
-            android:label="@string/menu_dev_tools" />
+            android:label="@string/menu_dev_tools"/>
 
         <receiver
             android:name=".TarihKontrol"

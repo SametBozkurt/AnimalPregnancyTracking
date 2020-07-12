@@ -23,7 +23,6 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     private final ArrayList<HayvanVeriler> hayvanVeriler;
     private final Context context;
-    private final HayvanDuzenleyici hayvanDuzenleyici;
     private final int code;
     private final DateFormat dateFormat;
     private final Date date;
@@ -32,7 +31,6 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
         this.code=code;
-        hayvanDuzenleyici=new HayvanDuzenleyici(context);
         dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
         date=new Date();
     }
@@ -73,7 +71,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else if(mHayvanVeriler.getFotograf_isim()==null||mHayvanVeriler.getFotograf_isim().length()==0){
-            hayvanDuzenleyici.set_img(mHayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(mHayvanVeriler.getTur()),holder.img_animal);
+            HayvanDuzenleyici.set_img(context,mHayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(mHayvanVeriler.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

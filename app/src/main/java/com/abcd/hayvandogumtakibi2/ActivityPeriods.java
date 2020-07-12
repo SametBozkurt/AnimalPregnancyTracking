@@ -9,7 +9,9 @@ import androidx.appcompat.widget.Toolbar;
 
 public class ActivityPeriods extends AppCompatActivity {
 
+    RecyclerView recyclerView;
     Toolbar toolbar;
+    byte sayac=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +27,32 @@ public class ActivityPeriods extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        recyclerView=findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(new PeriodsAdapter(this));
+    }
+
+    @Override
+    protected void onResume() {
+        if(sayac!=0){
+            recyclerView.setAdapter(new PeriodsAdapter(this));
+        }
+        else{
+            sayac+=1;
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        recyclerView.setAdapter(null);
+        super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

@@ -12,56 +12,34 @@ import java.util.ArrayList;
 
 public class ActivityGerceklesenler extends AppCompatActivity {
 
-    SQLiteDatabaseHelper databaseHelper;
-    RecyclerView recyclerView;
-    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        hayvanVerilerArrayList=databaseHelper.getGerceklesenler();
+        setContentView(R.layout.activity_gerceklesenler);
+        final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getGerceklesenler();
+        final Toolbar toolbar=findViewById(R.id.activity_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         if(hayvanVerilerArrayList.size()==0){
-            setContentView(R.layout.gerceklesen_dogum_yok);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentGerceklesenDogumYok()).commit();
         }
         else{
-            setContentView(R.layout.activity_gerceklesenler);
-            recyclerView=findViewById(R.id.recyclerView);
-            toolbar=findViewById(R.id.activity_toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
-            GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityGerceklesenler.this,3);
-            recyclerView.setLayoutManager(gridLayoutManager);
-            final ProgressDialog dialog=new ProgressDialog(this);
-            dialog.setTitle(R.string.dialog_title1);
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setCancelable(false);
-            dialog.show();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(600);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    recyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            recyclerView.setAdapter(new KayitlarAdapter(ActivityGerceklesenler.this,hayvanVerilerArrayList,0));
-                            dialog.dismiss();
-                        }
-                    });
-                }
-            }).start();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentGerceklesenDogumlar()).commit();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
 }

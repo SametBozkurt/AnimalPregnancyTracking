@@ -34,6 +34,7 @@ public class FragmentKayitlar extends Fragment {
     Spinner goruntuleme_kategorisi;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     boolean is_opened = false;
+    byte sayac=0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -45,7 +46,7 @@ public class FragmentKayitlar extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_records,container,false);
+        final View view=inflater.inflate(R.layout.fragment_records,container,false);
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -71,12 +72,12 @@ public class FragmentKayitlar extends Fragment {
         goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                final ProgressDialog dialog=new ProgressDialog(context);
-                dialog.setTitle(R.string.dialog_title1);
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                dialog.setCancelable(false);
-                dialog.show();
-                Thread kayitlar_thread=new Thread(new Runnable() {
+                final ProgressDialog[] dialog = {new ProgressDialog(context)};
+                dialog[0].setTitle(R.string.dialog_title1);
+                dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog[0].setCancelable(false);
+                dialog[0].show();
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -89,12 +90,12 @@ public class FragmentKayitlar extends Fragment {
                             public void run() {
                                 hayvanVerilerArrayList = databaseHelper.getSimpleData();
                                 recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,position));
-                                dialog.dismiss();
+                                dialog[0].dismiss();
+                                dialog[0] =null;
                             }
                         });
                     }
-                });
-                kayitlar_thread.start();
+                }).start();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -165,6 +166,45 @@ public class FragmentKayitlar extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        if(sayac!=0){
+            final ProgressDialog[] dialog = {new ProgressDialog(context)};
+            dialog[0].setTitle(R.string.dialog_title1);
+            dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog[0].setCancelable(false);
+            dialog[0].show();
+            Thread kayitlar_thread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(600);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            hayvanVerilerArrayList = databaseHelper.getSimpleData();
+                            recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
+                            dialog[0].dismiss();
+                            dialog[0] =null;
+                        }
+                    });
+                }
+            });
+            kayitlar_thread.start();
+        }
+        else{
+            sayac+=1;
+        }
+        super.onResume();
+    }
 
-
+    @Override
+    public void onStop() {
+        hayvanVerilerArrayList=null;
+        recyclerView.setAdapter(null);
+        super.onStop();
+    }
 }

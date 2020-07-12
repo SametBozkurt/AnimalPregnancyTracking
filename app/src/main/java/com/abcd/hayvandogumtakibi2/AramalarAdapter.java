@@ -21,14 +21,12 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     private final ArrayList<HayvanVeriler> hayvanVeriler;
     private final Context context;
-    private final HayvanDuzenleyici hayvanDuzenleyici;
     private final DateFormat dateFormat;
     private final Date date;
 
     AramalarAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList){
         this.context=context;
         this.hayvanVeriler=hayvanVerilerArrayList;
-        hayvanDuzenleyici=new HayvanDuzenleyici(context);
         dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         date=new Date();
     }
@@ -54,14 +52,14 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         holder.txt_tarih1.setText(dateFormat.format(date));
         date.setTime(Long.parseLong(hayvanVeriler1.getDogum_tarihi()));
         holder.txt_tarih2.setText(dateFormat.format(date));
-        hayvanDuzenleyici.set_text(hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.txt_tur);
+        HayvanDuzenleyici.set_text(context,hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.txt_tur);
         if(hayvanVeriler1.getFotograf_isim().length()!=0){
             Glide.with(context)
                     .load(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim()))).
                     into(holder.img_animal);
         }
         else{
-            hayvanDuzenleyici.set_img(hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.img_animal);
+            HayvanDuzenleyici.set_img(context,hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.img_animal);
         }
     }
 

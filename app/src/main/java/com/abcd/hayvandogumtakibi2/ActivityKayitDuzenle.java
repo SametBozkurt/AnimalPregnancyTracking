@@ -1,7 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +16,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     SQLiteDatabaseHelper databaseHelper;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     Toolbar toolbar;
+    byte sayac=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +29,18 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityKayitDuzenle.this,PrimaryActivity.class));
+                onBackPressed();
             }
         });
         recyclerView=findViewById(R.id.recyclerView);
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
-        final ProgressDialog dialog=new ProgressDialog(this);
-        dialog.setTitle(R.string.dialog_title1);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setCancelable(false);
-        dialog.show();
+        final ProgressDialog[] dialog = {new ProgressDialog(this)};
+        dialog[0].setTitle(R.string.dialog_title1);
+        dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog[0].setCancelable(false);
+        dialog[0].show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +55,8 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                         hayvanVerilerArrayList=databaseHelper.getAllData();
                         DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,hayvanVerilerArrayList);
                         recyclerView.setAdapter(duzenleAdapter);
-                        dialog.dismiss();
+                        dialog[0].dismiss();
+                        dialog[0] =null;
                     }
                 });
             }
@@ -63,7 +64,51 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        startActivity(new Intent(ActivityKayitDuzenle.this,PrimaryActivity.class));
+    protected void onResume() {
+        if(sayac!=0){
+            final ProgressDialog[] dialog = {new ProgressDialog(this)};
+            dialog[0].setTitle(R.string.dialog_title1);
+            dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog[0].setCancelable(false);
+            dialog[0].show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(600);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            hayvanVerilerArrayList=databaseHelper.getAllData();
+                            DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,hayvanVerilerArrayList);
+                            recyclerView.setAdapter(duzenleAdapter);
+                            dialog[0].dismiss();
+                            dialog[0] =null;
+                        }
+                    });
+                }
+            }).start();
+        }
+        else{
+            sayac+=1;
+        }
+        super.onResume();
     }
+
+    @Override
+    protected void onStop() {
+        hayvanVerilerArrayList=null;
+        recyclerView.setAdapter(null);
+        super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
 }

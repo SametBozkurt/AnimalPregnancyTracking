@@ -15,12 +15,10 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     private final Context context;
     private final ArrayList<String> arrayList_all_species;
-    private final HayvanDuzenleyici hayvanDuzenleyici;
 
     PeriodsAdapter(Context context){
         this.context=context;
         arrayList_all_species = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.all_species)));
-        hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
 
     @NonNull
@@ -32,8 +30,8 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        hayvanDuzenleyici.set_text(3,position,holder.txt_gun);
-        hayvanDuzenleyici.set_img(3,position,holder.img_animal);
+        HayvanDuzenleyici.set_text(context,3,position,holder.txt_gun);
+        HayvanDuzenleyici.set_img(context,3,position,holder.img_animal);
     }
 
     @Override

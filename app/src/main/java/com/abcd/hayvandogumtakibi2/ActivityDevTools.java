@@ -1,23 +1,17 @@
 package com.abcd.hayvandogumtakibi2;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
 import java.util.Random;
 
 public class ActivityDevTools extends AppCompatActivity {
 
     private static final long one_day_in_millis = 1000*60*60*24;
-
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this,PrimaryActivity.class));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +25,12 @@ public class ActivityDevTools extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog progressDialog=new ProgressDialog(ActivityDevTools.this);
-                progressDialog.setTitle("İşlem Gerçekleştiriliyor");
-                progressDialog.setMessage("Lütfen bekleyiniz.");
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.show();
-                progressDialog.setCancelable(false);
+                final ProgressDialog[] progressDialog = {new ProgressDialog(ActivityDevTools.this)};
+                progressDialog[0].setTitle("İşlem Gerçekleştiriliyor");
+                progressDialog[0].setMessage("Lütfen bekleyiniz.");
+                progressDialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog[0].show();
+                progressDialog[0].setCancelable(false);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -57,7 +51,8 @@ public class ActivityDevTools extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        progressDialog.dismiss();
+                        progressDialog[0].dismiss();
+                        progressDialog[0] =null;
                     }
                 }).start();
             }
@@ -70,15 +65,17 @@ public class ActivityDevTools extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

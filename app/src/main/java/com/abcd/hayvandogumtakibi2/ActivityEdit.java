@@ -54,12 +54,13 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     Bundle data_bundle;
     TextInputLayout textInputLayout;
     ImageView photo;
-    DateFormat dateFormat;
+    final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        data_bundle=getIntent().getExtras();
         txt_isim=findViewById(R.id.isim);
         txt_kupe_no=findViewById(R.id.kupe_no);
         dollenme_tarihi= findViewById(R.id.dollenme_tarihi);
@@ -71,12 +72,10 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         photo=findViewById(R.id.add_photo);
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         degerleri_yerlestir();
     }
 
     private void degerleri_yerlestir(){
-        data_bundle=getIntent().getExtras();
         kayit_id=data_bundle.getInt("kayit_id");
         petCode=data_bundle.getInt("isPet");
         date1.setTime(Long.parseLong(String.valueOf(data_bundle.getCharSequence("kayit_tarih1"))));
@@ -125,7 +124,6 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 içinde kaç kez çalıştığı bilgisi tutulmaktadır.
                 */
                 if(calisma_sayaci>0){
-                    calisma_sayaci+=1;
                     secilen_tur=String.valueOf(position);
                     switch (petCode){
                         case 0://Önceki sürümler için
@@ -147,6 +145,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                             }
                             break;
                     }
+                }
+                else{
+                    calisma_sayaci+=1;
                 }
             }
 
@@ -209,8 +210,10 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 }
                 else{
                     databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
-                            secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),String.valueOf(date2.getTime()),gorsel_ad,data_bundle.getInt("dogumGrcklsti"));
-                    startActivity(new Intent(ActivityEdit.this,ActivityKayitDuzenle.class));
+                            secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
+                            String.valueOf(date2.getTime()),gorsel_ad,data_bundle.getInt("dogumGrcklsti"));
+                    finish();
+                    startActivity(new Intent(ActivityEdit.this,PrimaryActivity.class));
                 }
             }
         });
@@ -325,9 +328,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
+        //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
         if(boolTarih){
-            takvim2=tarihHesaplayici.get_tarih();
+            takvim2=TarihHesaplayici.get_tarih(petCode,secilen_tur,date,getClass().getName());
             date2=takvim2.getTime();
             dogum_tarihi.setText(dateFormat.format(date2));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
@@ -337,5 +340,11 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
         return 0;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

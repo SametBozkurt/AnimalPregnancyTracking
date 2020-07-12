@@ -144,5 +144,4 @@
     <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
     <string name="dialog_title1">Wait a second</string>
     <string name="dialog_msg1">Adjusting database…</string>
-    <string name="dialog_msg2">Reading database…</string>
 </resources>

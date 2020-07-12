@@ -5,8 +5,6 @@ import java.util.Date;
 
 class TarihHesaplayici {
 
-    private final String isim_tur;
-    private final Date date1;
     static final int DAY_COW = 283;
     static final int DAY_SHEEP = 152;
     static final int DAY_GOAT = 150;
@@ -17,21 +15,12 @@ class TarihHesaplayici {
     static final int DAY_DONKEY = 365;
     static final int DAY_HORSE = 335;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
-    private final int ispet;
-    String class_name;
 
-    TarihHesaplayici(int isPet, String tur_isim, Date tarih, String class_name){
-        isim_tur=tur_isim;
-        date1=tarih;
-        ispet=isPet;
-        this.class_name=class_name;
-    }
-
-    Calendar get_tarih(){
+    static Calendar get_tarih(int isPet, String tur_isim, Date tarih, String class_name){
         Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date1);
+        calendar.setTime(tarih);
         if(class_name.equals(ActivityName)){
-            switch(isim_tur){
+            switch(tur_isim){
                 case "0":
                     calendar.add(Calendar.DATE,DAY_COW);
                     break;
@@ -62,9 +51,9 @@ class TarihHesaplayici {
             }
         }
         else{
-            switch(ispet){
+            switch(isPet){
                 case 0: //tum hayvanlar
-                    switch(isim_tur){
+                    switch(tur_isim){
                         case "0":
                             calendar.add(Calendar.DATE,DAY_COW);
                             break;
@@ -98,7 +87,7 @@ class TarihHesaplayici {
                     }
                     break;
                 case 1: //evcil hayvanlar
-                    switch(isim_tur){
+                    switch(tur_isim){
                         case "0":
                             calendar.add(Calendar.DATE,DAY_CAT);
                             break;
@@ -114,7 +103,7 @@ class TarihHesaplayici {
                     }
                     break;
                 case 2: //besi hayvanları
-                    switch(isim_tur){
+                    switch(tur_isim){
                         case "0":
                             calendar.add(Calendar.DATE,DAY_COW);
                             break;

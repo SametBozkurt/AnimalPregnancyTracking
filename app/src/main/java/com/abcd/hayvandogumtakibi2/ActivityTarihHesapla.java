@@ -26,7 +26,7 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
     private NestedScrollView main_layout;
     final int petCode=0;
     private Date date_dollenme=new Date();
-    DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+    final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +82,9 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
+        //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
         if(boolTarih){
-            Date date_dogum = tarihHesaplayici.get_tarih().getTime();
+            Date date_dogum = TarihHesaplayici.get_tarih(petCode,secilen_tur,date,getClass().getName()).getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
             Snackbar.make(main_layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }
@@ -93,6 +93,12 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
         return 0;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
 }

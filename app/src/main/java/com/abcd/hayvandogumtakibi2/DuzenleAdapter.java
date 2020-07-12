@@ -23,13 +23,11 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private final Context mContext;
     private final ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private final SQLiteDatabaseHelper databaseHelper;
-    private final HayvanDuzenleyici hayvanDuzenleyici;
 
     DuzenleAdapter(Context context, ArrayList<HayvanVeriler> arrayList){
         this.mContext=context;
         this.hayvanVerilerArrayList=arrayList;
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-        hayvanDuzenleyici=new HayvanDuzenleyici(context);
     }
 
     @NonNull
@@ -79,18 +77,8 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
             Glide.with(mContext).load(Uri.fromFile(new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).into(holder.img_animal);
         }
         else{
-            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
+            HayvanDuzenleyici.set_img(mContext,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle data=new Bundle();
-                data.putInt("ID",hayvanVeriler.getId());
-                Intent intent=new Intent(mContext,ActivityDetails.class);
-                intent.putExtras(data);
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override

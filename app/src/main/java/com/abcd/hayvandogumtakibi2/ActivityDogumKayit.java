@@ -219,9 +219,11 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
 
     @Override
     public void onBackPressed() {
-        if(gorsel_ad.length()!=0)
-            new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).delete();
+        if(gorsel_ad.length()!=0) {
+            new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
+        }
         super.onBackPressed();
+        finish();
     }
 
     private void kayit_gir(View snackbar_view){
@@ -232,7 +234,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             HayvanVeriler hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
                     String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
             dbYoneticisi.veri_yaz(hayvanVeriler);
-            startActivity(new Intent(ActivityDogumKayit.this,PrimaryActivity.class));
+            onBackPressed();
         }
     }
 
@@ -328,9 +330,9 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(_isPet,secilen_tur,date,getClass().getName());
+        //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(_isPet,secilen_tur,date,getClass().getName());
         if(boolTarih){
-            hesaplanan_tarih=tarihHesaplayici.get_tarih();
+            hesaplanan_tarih=TarihHesaplayici.get_tarih(_isPet,secilen_tur,date,getClass().getName());
             date_dogum=hesaplanan_tarih.getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();

@@ -134,5 +134,4 @@
     <string name="button_multiple_creation">Create Record(s)</string>
     <string name="dialog_title1">Wait a second</string>
     <string name="dialog_msg1">Adjusting database…</string>
-    <string name="dialog_msg2">Reading database…</string>
 </resources>

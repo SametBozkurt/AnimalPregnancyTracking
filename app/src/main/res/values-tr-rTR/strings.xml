@@ -134,5 +134,4 @@
     <string name="button_multiple_creation">Kayıt(lar) Oluştur</string>
     <string name="dialog_title1">Bi saniye</string>
     <string name="dialog_msg1">Veritabanı uyarlanıyor…</string>
-    <string name="dialog_msg2">Veritabanı okunuyor…</string>
 </resources>

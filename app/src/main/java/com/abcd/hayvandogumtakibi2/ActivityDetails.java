@@ -41,13 +41,12 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
         TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
         ImageView icon_edit = findViewById(R.id.btn_edit);
-        HayvanDuzenleyici hayvanDuzenleyici = new HayvanDuzenleyici(this);
         if(hayvanVeriler.getFotograf_isim().length()!=0){
             File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
             Glide.with(this).load(Uri.fromFile(gorselFile)).into(imageView);
         }
         else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
-            hayvanDuzenleyici.set_img(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), imageView);
+            HayvanDuzenleyici.set_img(this,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), imageView);
         }
         txt_isim.setText(hayvanVeriler.getIsim());
         if(hayvanVeriler.getKupe_no()==null||hayvanVeriler.getKupe_no().length()==0){
@@ -57,7 +56,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
             txt_kupe_no.setText(new StringBuilder(hayvanVeriler.getKupe_no()));
         }
         txt_tarih1.setText(dateFormat.format(date_dollenme));
-        hayvanDuzenleyici.set_text(hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), txt_tur);
+        HayvanDuzenleyici.set_text(this,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), txt_tur);
         if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
             txt_tarih2.setText(getString(R.string.text_NA));
             txt_kalan.setText(getString(R.string.text_NA));
@@ -118,6 +117,12 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
         long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/DAY_IN_MILLIS;
         return (int)gun;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
 }
