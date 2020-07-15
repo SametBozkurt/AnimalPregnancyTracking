@@ -30,10 +30,11 @@ import com.google.android.material.snackbar.Snackbar;
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String ADMOB_TEST_ID1 = "ca-app-pub-3940256099942544/1033173712";
-    private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
-    int database_size;
+    //private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
+    int database_size, sayac=0;
     InterstitialAd mInterstitialAd = new InterstitialAd(this);
     AdRequest adRequest;
+    SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        database_size=SQLiteDatabaseHelper.getInstance(this).getSize();
+        database_size=databaseHelper.getSize();
         if(savedInstanceState==null){
             dosya_kontrol();
         }
@@ -63,6 +64,16 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 show_ads();
             }
         }, 3000);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(sayac!=0){
+            database_size=databaseHelper.getSize();
+            dosya_kontrol();
+        }
+        sayac++;
     }
 
     @Override
@@ -82,9 +93,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
             }
         }
-        else if(item_id==R.id.dev_tools){
+        /* else if(item_id==R.id.dev_tools){
             startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
-        }
+        } */
         return super.onOptionsItemSelected(item);
     }
 
