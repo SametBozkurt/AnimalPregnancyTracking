@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityKritikler extends AppCompatActivity {
 
-    private byte sayac=0;
     private SQLiteDatabaseHelper databaseHelper;
     private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
 
@@ -44,26 +43,15 @@ public class ActivityKritikler extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if(sayac==0){
-            sayac+=1;
+    protected void onRestart() {
+        super.onRestart();
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
+        if(hayvanVerilerArrayList.size()==0){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumYok()).commitAllowingStateLoss();
         }
         else{
-            databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-            hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
-            if(hayvanVerilerArrayList.size()==0){
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumYok()).commit();
-            }
-            else{
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumlar()).commit();
-            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumlar()).commitAllowingStateLoss();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 }

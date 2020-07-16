@@ -17,28 +17,20 @@ import java.util.ArrayList;
 
 public class ActivityKayitAra extends AppCompatActivity {
 
-    TextInputEditText inputAranacak;
-    RadioGroup myRadioGroup;
-    RadioButton radioButtonIsimler;
-    SQLiteDatabaseHelper databaseHelper;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    RelativeLayout layout_sonuclar;
-    RecyclerView recyclerView;
-    TextView textViewUyari;
-    ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit_ara);
-        inputAranacak=findViewById(R.id.bul);
-        myRadioGroup=findViewById(R.id.radio_group);
-        radioButtonIsimler=findViewById(R.id.radio_button_isim);
-        layout_sonuclar=findViewById(R.id.layout_sonuclar);
-        recyclerView=new RecyclerView(ActivityKayitAra.this);
-        textViewUyari=new TextView(ActivityKayitAra.this);
-        img=new ImageView(ActivityKayitAra.this);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        final TextInputEditText inputAranacak=findViewById(R.id.bul);
+        final RadioGroup myRadioGroup=findViewById(R.id.radio_group);
+        final RadioButton radioButtonIsimler=findViewById(R.id.radio_button_isim);
+        final RelativeLayout layout_sonuclar=findViewById(R.id.layout_sonuclar);
+        final RecyclerView recyclerView=new RecyclerView(ActivityKayitAra.this);
+        final TextView textViewUyari=new TextView(ActivityKayitAra.this);
+        final ImageView img=new ImageView(ActivityKayitAra.this);
+        final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         inputAranacak.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

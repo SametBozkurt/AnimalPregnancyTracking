@@ -24,7 +24,6 @@ public class DemoActivity extends AppCompatActivity {
     SharedPreferences preferences;
     private static final String pref_key = "dates_converted";
     private static final String pref_file = "preferences";
-    int sayac = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +34,9 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        if(sayac>0){
-            super.onStart();
-            izinler();
-        }
-        else{
-            sayac+=1;
-            super.onStart();
-        }
+    protected void onRestart() {
+        super.onRestart();
+        izinler();
     }
 
     private void izinler(){

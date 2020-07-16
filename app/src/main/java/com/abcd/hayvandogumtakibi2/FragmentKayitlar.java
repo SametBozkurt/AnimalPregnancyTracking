@@ -3,7 +3,6 @@ package com.abcd.hayvandogumtakibi2;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -34,7 +33,6 @@ public class FragmentKayitlar extends Fragment {
     Spinner goruntuleme_kategorisi;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     boolean is_opened = false;
-    byte sayac=0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -159,52 +157,7 @@ public class FragmentKayitlar extends Fragment {
                 //Besi hayvanı ise 2
             }
         });
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-            String INTENT_ACTION= "SET_AN_ALARM" ;
-            context.sendBroadcast(new Intent(context,TarihKontrol.class).setAction(INTENT_ACTION));
-        }
         return view;
     }
 
-    @Override
-    public void onResume() {
-        if(sayac!=0){
-            final ProgressDialog[] dialog = {new ProgressDialog(context)};
-            dialog[0].setTitle(R.string.dialog_title1);
-            dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog[0].setCancelable(false);
-            dialog[0].show();
-            Thread kayitlar_thread=new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(600);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    recyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            hayvanVerilerArrayList = databaseHelper.getSimpleData();
-                            recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
-                            dialog[0].dismiss();
-                            dialog[0] =null;
-                        }
-                    });
-                }
-            });
-            kayitlar_thread.start();
-        }
-        else{
-            sayac+=1;
-        }
-        super.onResume();
-    }
-
-    @Override
-    public void onStop() {
-        hayvanVerilerArrayList=null;
-        recyclerView.setAdapter(null);
-        super.onStop();
-    }
 }

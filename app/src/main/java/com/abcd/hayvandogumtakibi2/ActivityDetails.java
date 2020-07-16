@@ -109,9 +109,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     }
 
     @Override
-    public void oto_tarih_hesapla(Date date) {
-
-    }
+    public void oto_tarih_hesapla(Date date) {}
 
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {

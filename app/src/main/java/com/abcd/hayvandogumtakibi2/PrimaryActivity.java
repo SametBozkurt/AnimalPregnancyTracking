@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -31,7 +32,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
 
     private static final String ADMOB_TEST_ID1 = "ca-app-pub-3940256099942544/1033173712";
     //private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
-    int database_size, sayac=0;
+    int database_size;
     InterstitialAd mInterstitialAd = new InterstitialAd(this);
     AdRequest adRequest;
     SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
@@ -53,6 +54,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if(savedInstanceState==null){
             dosya_kontrol();
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                    final String INTENT_ACTION= "SET_AN_ALARM" ;
+                    PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
+                }
+            }
+        }).start();
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -67,13 +77,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if(sayac!=0){
-            database_size=databaseHelper.getSize();
-            dosya_kontrol();
+    protected void onRestart() {
+        super.onRestart();
+        database_size=databaseHelper.getSize();
+        if(database_size!=0){
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commitAllowingStateLoss();
         }
-        sayac++;
+        else{
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commitAllowingStateLoss();
+        }
     }
 
     @Override

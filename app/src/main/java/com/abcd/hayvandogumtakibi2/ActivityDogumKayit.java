@@ -177,8 +177,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         iptal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(gorsel_ad.length()!=0)
-                    new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).delete();
                 onBackPressed();
             }
         });
@@ -219,10 +217,10 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         if(gorsel_ad.length()!=0) {
             new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
         }
-        super.onBackPressed();
         finish();
     }
 
@@ -330,7 +328,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(_isPet,secilen_tur,date,getClass().getName());
         if(boolTarih){
             hesaplanan_tarih=TarihHesaplayici.get_tarih(_isPet,secilen_tur,date,getClass().getName());
             date_dogum=hesaplanan_tarih.getTime();

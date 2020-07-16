@@ -23,7 +23,6 @@ import java.util.TimerTask;
 public class ActivityPermission extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_CODE = 21323;
-    int sayac = 0;
     SQLiteDatabaseHelper databaseHelper;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     SharedPreferences preferences;
@@ -38,15 +37,9 @@ public class ActivityPermission extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        if(sayac>0){
-            super.onStart();
-            izin_kontrol();
-        }
-        else{
-            sayac+=1;
-            super.onStart();
-        }
+    protected void onRestart() {
+        super.onRestart();
+        izin_kontrol();
     }
 
     @Override
