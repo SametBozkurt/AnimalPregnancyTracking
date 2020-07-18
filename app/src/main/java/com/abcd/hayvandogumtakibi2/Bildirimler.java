@@ -18,7 +18,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 class Bildirimler {
 
-    private static final String pref_key = "dates_converted";
+    private static final String pref_key = "dates_converted_new";
     private static final String pref_file = "preferences";
     private static final String NOTIFICATION_CHANNEL_ID="Tarih Kontrol";
     private static final String NOTIFICATION_CHANNEL_NAME="Kritik Uyarılar";
@@ -26,7 +26,7 @@ class Bildirimler {
     private final SharedPreferences preferences;
     private final SQLiteDatabaseHelper databaseHelper;
 
-    Bildirimler(Context context){
+    public Bildirimler(Context context){
         mContext=context;
         preferences = context.getSharedPreferences(pref_file,MODE_PRIVATE);
         databaseHelper=SQLiteDatabaseHelper.getInstance(mContext);
@@ -70,17 +70,27 @@ class Bildirimler {
             int sayac=0;
             Date date_dollenme = new Date(),date_dogum = new Date();
             while(sayac<hayvanVerilerArrayList.size()) {
-                try {
-                    date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
+                if(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()==null||hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi().isEmpty()){
+                    date_dollenme.setTime(System.currentTimeMillis());
                 }
-                try {
-                    date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
+                else{
+                    try {
+                        date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
+                    }
+                }
+                if(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()==null||hayvanVerilerArrayList.get(sayac).getDogum_tarihi().isEmpty()){
+                    date_dogum.setTime(System.currentTimeMillis());
+                }
+                else{
+                    try {
+                        date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
+                    }
                 }
                 databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
                         String.valueOf(date_dollenme.getTime()),

@@ -27,20 +27,18 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         setContentView(R.layout.activity_details);
         final Bundle bundle = getIntent().getExtras();
         hayvanVeriler=SQLiteDatabaseHelper.getInstance(this).getDataById(bundle.getInt("ID"));
-        Date date_dollenme, date_dogum;
-        date_dollenme=new Date();
-        date_dogum=new Date();
+        final Date date_dollenme=new Date(), date_dogum=new Date();
         date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
         date_dogum.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
-        DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        ImageView imageView = findViewById(R.id.img_hayvan);
-        TextView txt_isim = findViewById(R.id.txt_isim);
-        TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
-        TextView txt_tur = findViewById(R.id.txt_tur);
-        TextView txt_tarih1 = findViewById(R.id.txt_tarih1);
-        TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
-        TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
-        ImageView icon_edit = findViewById(R.id.btn_edit);
+        final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        final ImageView imageView = findViewById(R.id.img_hayvan);
+        final TextView txt_isim = findViewById(R.id.txt_isim);
+        final TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
+        final TextView txt_tur = findViewById(R.id.txt_tur);
+        final TextView txt_tarih1 = findViewById(R.id.txt_tarih1);
+        final TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
+        final TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
+        final ImageView icon_edit = findViewById(R.id.btn_edit);
         if(hayvanVeriler.getFotograf_isim().length()!=0){
             File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
             Glide.with(this).load(Uri.fromFile(gorselFile)).into(imageView);
@@ -74,8 +72,8 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
             @Override
             public void onClick(View v) {
                 if(hayvanVeriler.getDogum_grcklsti()==0){
-                    Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
-                    Bundle veri_paketi=new Bundle();
+                    final Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
+                    final Bundle veri_paketi=new Bundle();
                     veri_paketi.putInt("kayit_id",hayvanVeriler.getId());
                     veri_paketi.putCharSequence("kayit_isim",hayvanVeriler.getIsim());
                     veri_paketi.putCharSequence("kayit_kupe_no",hayvanVeriler.getKupe_no());
@@ -95,7 +93,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         });
         if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))<0){
             if(hayvanVeriler.getDogum_grcklsti()==0){
-                Snackbar mySnackbar = Snackbar.make(findViewById(R.id.main_layout),R.string.dogum_gerceklesti_uyarı, 8000);
+                final Snackbar mySnackbar = Snackbar.make(findViewById(R.id.main_layout),R.string.dogum_gerceklesti_uyarı, 8000);
                 mySnackbar.setAction(R.string.yes, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -113,7 +111,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
 
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
-        long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/DAY_IN_MILLIS;
+        final long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/DAY_IN_MILLIS;
         return (int)gun;
     }
 

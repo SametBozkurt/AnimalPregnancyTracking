@@ -22,7 +22,7 @@ public class DemoActivity extends AppCompatActivity {
     SQLiteDatabaseHelper databaseHelper;
     ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     SharedPreferences preferences;
-    private static final String pref_key = "dates_converted";
+    private static final String pref_key = "dates_converted_new";
     private static final String pref_file = "preferences";
 
     @Override
@@ -91,21 +91,31 @@ public class DemoActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         hayvanVerilerArrayList=databaseHelper.getSimpleData();
-                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+                        final SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
                         int sayac=0;
-                        Date date_dollenme = new Date(),date_dogum = new Date();
+                        final Date date_dollenme = new Date(),date_dogum = new Date();
                         while(sayac<hayvanVerilerArrayList.size()) {
-                            try {
-                                date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
+                            if(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()==null||hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi().isEmpty()){
+                                date_dollenme.setTime(System.currentTimeMillis());
                             }
-                            try {
-                                date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
+                            else{
+                                try {
+                                    date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
+                                }
+                            }
+                            if(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()==null||hayvanVerilerArrayList.get(sayac).getDogum_tarihi().isEmpty()){
+                                date_dogum.setTime(System.currentTimeMillis());
+                            }
+                            else{
+                                try {
+                                    date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
+                                }
                             }
                             databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
                                     String.valueOf(date_dollenme.getTime()),

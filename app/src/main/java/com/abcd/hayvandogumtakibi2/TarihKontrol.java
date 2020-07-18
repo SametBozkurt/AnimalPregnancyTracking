@@ -20,7 +20,7 @@ public class TarihKontrol extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int dbSize = SQLiteDatabaseHelper.getInstance(context).getSize();
+        final int dbSize = SQLiteDatabaseHelper.getInstance(context).getSize();
         if(dbSize!=0){
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 JobScheduler scheduler=(JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);

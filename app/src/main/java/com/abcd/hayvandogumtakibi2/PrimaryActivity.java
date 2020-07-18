@@ -54,15 +54,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if(savedInstanceState==null){
             dosya_kontrol();
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-                    final String INTENT_ACTION= "SET_AN_ALARM" ;
-                    PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
-                }
-            }
-        }).start();
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -199,6 +190,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commit();
         }
         else{
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                        final String INTENT_ACTION= "SET_AN_ALARM" ;
+                        PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
+                    }
+                }
+            }).start();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commit();
         }
     }
