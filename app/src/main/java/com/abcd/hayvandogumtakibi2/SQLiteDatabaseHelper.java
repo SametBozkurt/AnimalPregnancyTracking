@@ -140,30 +140,30 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
 
     ArrayList<HayvanVeriler> getKritikOlanlar(){
         long date_dogum_in_millis;
-        ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
-        SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
+        final ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
+        final SQLiteDatabase database=this.getReadableDatabase();
+        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
-            if(cursor.getString(5) == null ||cursor.getString(5).equals("")){
+            if(cursor.getString(5) == null ||cursor.getString(5).isEmpty()){
                 continue;
             }
             else{
                 date_dogum_in_millis=Long.parseLong(cursor.getString(5));
-            }
-            if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
-                hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        cursor.getInt(7),0));
+                if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
+                    hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getInt(7),0));
+                }
             }
         }
         cursor.close();
-        return  hayvanVerilerArrayList;
+        return hayvanVerilerArrayList;
     }
 
     HayvanVeriler getDataById(int id){
