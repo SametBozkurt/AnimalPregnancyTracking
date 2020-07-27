@@ -20,24 +20,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.ArrayList;
 
 public class FragmentKayitlar extends Fragment {
 
-    SQLiteDatabaseHelper databaseHelper;
     Context context;
     Animation fab_open, fab_close, fab_clock, fab_anticlock;
     FloatingActionButton btn_add,btn_pet,btn_barn;
     TextView txt_pet,txt_barn;
     RecyclerView recyclerView;
     Spinner goruntuleme_kategorisi;
-    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     boolean is_opened = false;
 
     @Override
     public void onAttach(@NonNull Context context) {
         this.context=context;
-        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         super.onAttach(context);
     }
 
@@ -86,7 +82,6 @@ public class FragmentKayitlar extends Fragment {
                         recyclerView.post(new Runnable() {
                             @Override
                             public void run() {
-                                hayvanVerilerArrayList = databaseHelper.getSimpleData();
                                 //recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,position));
                                 recyclerView.setAdapter(new KayitlarAdapter(context,position));
                                 dialog[0].dismiss();

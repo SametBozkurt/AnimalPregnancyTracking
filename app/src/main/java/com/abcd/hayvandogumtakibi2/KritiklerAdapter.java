@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.CustomViewHolder> {
 
@@ -23,9 +25,9 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     private final ArrayList<HayvanVeriler> hayvanVerilerArrayList;
 
 
-    KritiklerAdapter(Context context, ArrayList<HayvanVeriler> hayvanVerilerArrayList1){
+    KritiklerAdapter(Context context){
         this.context=context;
-        this.hayvanVerilerArrayList=hayvanVerilerArrayList1;
+        this.hayvanVerilerArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar();
     }
 
     @NonNull
@@ -91,7 +93,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     }
 
     private int get_gun_sayisi(long dogum_tarihi_in_millis){
-        long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/(1000*60*60*24);
+        long gun=(dogum_tarihi_in_millis-System.currentTimeMillis())/(1000*60*60*24);
         return (int)gun;
     }
 

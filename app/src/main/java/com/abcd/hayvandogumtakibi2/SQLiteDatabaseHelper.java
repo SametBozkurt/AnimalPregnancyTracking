@@ -2,11 +2,9 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +29,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
             + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_7 + " INTEGER;";
     private static final String DATABASE_ALTER_CONF_V4 = "ALTER TABLE "
             + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_8 + " INTEGER DEFAULT 0;";
+    private String CONVERTED_DATE1, CONVERTED_DATE2;
 
     public static SQLiteDatabaseHelper getInstance(Context context){
         if(databaseHelper==null){
@@ -157,16 +156,16 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                 }
                 catch(Exception e){
                     convert_date(cursor.getInt(0), cursor.getString(4), cursor.getString(5));
+                    date_dogum_in_millis=Long.parseLong(CONVERTED_DATE2);
                 }
-                finally {
-                    date_dogum_in_millis=Long.parseLong(cursor.getString(5));
+                finally{
                     if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
                         hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
                                 cursor.getString(1),
                                 cursor.getString(2),
                                 cursor.getString(3),
-                                cursor.getString(4),
-                                cursor.getString(5),
+                                CONVERTED_DATE1,
+                                CONVERTED_DATE2,
                                 cursor.getString(6),
                                 cursor.getInt(7),0));
                     }
@@ -307,6 +306,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         else{
             try {
                 date_dollenme.setTime(simpleDateFormat.parse(date1).getTime());
+                CONVERTED_DATE1=String.valueOf(date_dollenme.getTime());
             } catch (ParseException e) {
                 date_dollenme.setTime(Long.parseLong(date1));
             }
@@ -317,6 +317,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         else{
             try {
                 date_dogum.setTime(simpleDateFormat.parse(date2).getTime());
+                CONVERTED_DATE2=String.valueOf(date_dogum.getTime());
             } catch (ParseException e) {
                 date_dogum.setTime(Long.parseLong(date2));
             }

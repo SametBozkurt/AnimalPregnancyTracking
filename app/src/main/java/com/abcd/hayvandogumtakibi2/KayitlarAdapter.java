@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -29,6 +27,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private final DateFormat dateFormat;
     private final Date date;
     private SQLiteDatabaseHelper databaseHelper;
+    private HayvanVeriler mHayvanVeriler;
 
     KayitlarAdapter(Context context,int code){
         this.context=context;
@@ -48,7 +47,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        final HayvanVeriler mHayvanVeriler=hayvanVeriler.get(position);
+        mHayvanVeriler=hayvanVeriler.get(position);
         switch(code){
             case 0:
                 holder.textView.setText(mHayvanVeriler.getIsim());
@@ -66,9 +65,9 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                     date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
                 }
                 catch(Exception e){
-                    Toast.makeText(context, e.getMessage(),Toast.LENGTH_SHORT);
                     databaseHelper.convert_date(mHayvanVeriler.getId(),mHayvanVeriler.getTohumlama_tarihi(),mHayvanVeriler.getDogum_tarihi());
                     hayvanVeriler=databaseHelper.getSimpleData();
+                    mHayvanVeriler=hayvanVeriler.get(position);
                 }
                 finally {
                     date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
@@ -80,9 +79,9 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                     date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));
                 }
                 catch(Exception e){
-                    Toast.makeText(context, e.getMessage(),Toast.LENGTH_SHORT);
                     databaseHelper.convert_date(mHayvanVeriler.getId(),mHayvanVeriler.getTohumlama_tarihi(),mHayvanVeriler.getDogum_tarihi());
                     hayvanVeriler=databaseHelper.getSimpleData();
+                    mHayvanVeriler=hayvanVeriler.get(position);
                 }
                 finally {
                     date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));

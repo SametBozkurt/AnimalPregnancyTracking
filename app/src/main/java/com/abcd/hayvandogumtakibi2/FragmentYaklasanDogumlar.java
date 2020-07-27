@@ -29,7 +29,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_kritikler,container,false);
         recyclerView=view.findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
+        final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(gridLayoutManager);
         final ProgressDialog[] dialog = {new ProgressDialog(context)};
         dialog[0].setTitle(R.string.dialog_title1);
@@ -47,9 +47,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-                        final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
-                        recyclerView.setAdapter(new KritiklerAdapter(context, hayvanVerilerArrayList));
+                        recyclerView.setAdapter(new KritiklerAdapter(context));
                         dialog[0].dismiss();
                         dialog[0] =null;
                     }
