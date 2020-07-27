@@ -30,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String ADMOB_TEST_ID1 = "ca-app-pub-3940256099942544/1033173712";
+    private static final String ADMOB_TEST_ID = "ca-app-pub-3940256099942544/1033173712";
     //private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     int database_size;
     InterstitialAd mInterstitialAd = new InterstitialAd(this);
@@ -96,9 +96,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
             }
         }
-        /* else if(item_id==R.id.dev_tools){
+        else if(item_id==R.id.dev_tools){
             startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
-        } */
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -204,7 +204,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     }
 
     private void show_ads(){
-        mInterstitialAd.setAdUnitId(ADMOB_TEST_ID1);
+        mInterstitialAd.setAdUnitId(ADMOB_TEST_ID);
         adRequest=new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
         mInterstitialAd.setAdListener(new AdListener() {

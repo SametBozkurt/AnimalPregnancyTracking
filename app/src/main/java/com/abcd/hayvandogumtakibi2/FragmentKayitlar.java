@@ -87,7 +87,8 @@ public class FragmentKayitlar extends Fragment {
                             @Override
                             public void run() {
                                 hayvanVerilerArrayList = databaseHelper.getSimpleData();
-                                recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,position));
+                                //recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,position));
+                                recyclerView.setAdapter(new KayitlarAdapter(context,position));
                                 dialog[0].dismiss();
                                 dialog[0] =null;
                             }

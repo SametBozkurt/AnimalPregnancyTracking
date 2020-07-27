@@ -49,7 +49,8 @@ public class FragmentGerceklesenDogumlar extends Fragment {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
+                        //recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
+                        recyclerView.setAdapter(new KayitlarAdapter(context,0));
                         dialog[0].dismiss();
                         dialog[0] =null;
                     }

@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -20,15 +19,25 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
 
     private HayvanVeriler hayvanVeriler;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
+    private SQLiteDatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         final Bundle bundle = getIntent().getExtras();
-        hayvanVeriler=SQLiteDatabaseHelper.getInstance(this).getDataById(bundle.getInt("ID"));
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        hayvanVeriler=databaseHelper.getDataById(bundle.getInt("ID"));
         final Date date_dollenme=new Date(), date_dogum=new Date();
-        date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
+        try {
+            date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
+        }
+        catch (Exception e){
+            databaseHelper.convert_date(hayvanVeriler.getId(),hayvanVeriler.getTohumlama_tarihi(),hayvanVeriler.getDogum_tarihi());
+        }
+        finally {
+            date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
+        }
         date_dogum.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
         final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         final ImageView imageView = findViewById(R.id.img_hayvan);
@@ -97,7 +106,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                 mySnackbar.setAction(R.string.yes, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SQLiteDatabaseHelper.getInstance(ActivityDetails.this).isaretle_dogum_gerceklesti(hayvanVeriler.getId());
+                        databaseHelper.isaretle_dogum_gerceklesti(hayvanVeriler.getId());
                     }
                 });
                 mySnackbar.setActionTextColor(getResources().getColor(R.color.action_color));
@@ -111,7 +120,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
 
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
-        final long gun=(dogum_tarihi_in_millis-Calendar.getInstance().getTimeInMillis())/DAY_IN_MILLIS;
+        final long gun=(dogum_tarihi_in_millis-System.currentTimeMillis())/DAY_IN_MILLIS;
         return (int)gun;
     }
 
