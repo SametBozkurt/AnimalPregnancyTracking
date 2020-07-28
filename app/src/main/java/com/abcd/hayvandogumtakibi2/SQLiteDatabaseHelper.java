@@ -81,20 +81,33 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         database.insert(VERITABANI_ISIM,null,values);
         database.close();
     }
+
     ArrayList<HayvanVeriler> getSimpleData(){
+        long date_in_millis;
         final ArrayList<HayvanVeriler> hayvanVerilerArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 null,null,null,null,null);
         while(cursor.moveToNext()){
-            hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getInt(7), 0));
+            CONVERTED_DATE1=cursor.getString(4);
+            CONVERTED_DATE2=cursor.getString(5);
+            try{
+                date_in_millis=Long.parseLong(cursor.getString(4));
+                date_in_millis=Long.parseLong(cursor.getString(5));
+            }
+            catch(Exception e){
+                convert_date(cursor.getInt(0), cursor.getString(4), cursor.getString(5));
+            }
+            finally{
+                hayvanVerilerArrayList.add(new HayvanVeriler(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        CONVERTED_DATE1,
+                        CONVERTED_DATE2,
+                        cursor.getString(6),
+                        cursor.getInt(7),0));
+            }
         }
         cursor.close();
         return hayvanVerilerArrayList;
@@ -151,7 +164,10 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                 continue;
             }
             else{
+                CONVERTED_DATE1=cursor.getString(4);
+                CONVERTED_DATE2=cursor.getString(5);
                 try{
+                    date_dogum_in_millis=Long.parseLong(cursor.getString(4));
                     date_dogum_in_millis=Long.parseLong(cursor.getString(5));
                 }
                 catch(Exception e){
@@ -258,6 +274,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         final SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
         sqLiteDatabase.delete(VERITABANI_ISIM,"id=? ",new String[]{Integer.toString(ID)});
     }
+
     void guncelle(int ID, String newIsim, String newTur, String newKupe_No,
                   String newTohumTarihi, String newDogumTarihi, String newFotografIsim,int dogum_grcklsti){
         final SQLiteDatabase database=this.getReadableDatabase();
@@ -271,12 +288,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         newValues.put(SUTUN_8,dogum_grcklsti);
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
     }
+
     void isaretle_dogum_gerceklesti(int ID){
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();
         newValues.put(SUTUN_8, 1);
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
     }
+
     void tarih_donustur(int id, String tarih1, String tarih2){
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();

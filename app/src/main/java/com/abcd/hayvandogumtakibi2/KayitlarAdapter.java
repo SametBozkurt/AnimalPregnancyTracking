@@ -21,21 +21,18 @@ import java.util.Locale;
 
 public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.CustomViewHolder> {
 
-    private ArrayList<HayvanVeriler> hayvanVeriler;
+    private final ArrayList<HayvanVeriler> hayvanVeriler;
     private final Context context;
     private final int code;
     private final DateFormat dateFormat;
     private final Date date;
-    private SQLiteDatabaseHelper databaseHelper;
-    private HayvanVeriler mHayvanVeriler;
 
     KayitlarAdapter(Context context,int code){
         this.context=context;
+        this.hayvanVeriler=SQLiteDatabaseHelper.getInstance(context).getSimpleData();
         this.code=code;
         dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
         date=new Date();
-        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-        this.hayvanVeriler=databaseHelper.getSimpleData();
     }
 
     @NonNull
@@ -47,7 +44,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        mHayvanVeriler=hayvanVeriler.get(position);
+        final HayvanVeriler mHayvanVeriler=hayvanVeriler.get(position);
         switch(code){
             case 0:
                 holder.textView.setText(mHayvanVeriler.getIsim());
@@ -61,31 +58,11 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                 }
                 break;
             case 2:
-                try {
-                    date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
-                }
-                catch(Exception e){
-                    databaseHelper.convert_date(mHayvanVeriler.getId(),mHayvanVeriler.getTohumlama_tarihi(),mHayvanVeriler.getDogum_tarihi());
-                    hayvanVeriler=databaseHelper.getSimpleData();
-                    mHayvanVeriler=hayvanVeriler.get(position);
-                }
-                finally {
-                    date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
-                }
+                date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
                 holder.textView.setText(dateFormat.format(date));
                 break;
             case 3:
-                try {
-                    date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));
-                }
-                catch(Exception e){
-                    databaseHelper.convert_date(mHayvanVeriler.getId(),mHayvanVeriler.getTohumlama_tarihi(),mHayvanVeriler.getDogum_tarihi());
-                    hayvanVeriler=databaseHelper.getSimpleData();
-                    mHayvanVeriler=hayvanVeriler.get(position);
-                }
-                finally {
-                    date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));
-                }
+                date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));
                 holder.textView.setText(dateFormat.format(date));
                 break;
         }

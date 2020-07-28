@@ -6,35 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import static android.content.Context.MODE_PRIVATE;
 
 class Bildirimler {
 
-    private static final String pref_key = "dates_converted_new";
-    private static final String pref_file = "preferences";
     private static final String NOTIFICATION_CHANNEL_ID="Tarih Kontrol";
     private static final String NOTIFICATION_CHANNEL_NAME="Kritik Uyarılar";
     private final Context mContext;
-    private final SharedPreferences preferences;
-    private final SQLiteDatabaseHelper databaseHelper;
 
     public Bildirimler(Context context){
         mContext=context;
-        preferences = context.getSharedPreferences(pref_file,MODE_PRIVATE);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(mContext);
-        int dbSize = databaseHelper.getSize();
-        if(dbSize >0){
-            tarih_donustur();
-        }
-        dbSize =databaseHelper.getKritikOlanlar().size();
+        final int dbSize = SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar().size();
         if(dbSize >0){
             bildirim_ver();
         }
@@ -59,44 +43,5 @@ class Bildirimler {
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setAutoCancel(true);
         notificationManager.notify(0, notificationBuilder.build());
-    }
-    private void tarih_donustur(){
-        if(!preferences.contains(pref_key)){
-            final SharedPreferences.Editor editor=preferences.edit();
-            editor.putInt(pref_key,1);
-            editor.apply();
-            final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
-            final SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
-            int sayac=0;
-            Date date_dollenme = new Date(),date_dogum = new Date();
-            while(sayac<hayvanVerilerArrayList.size()) {
-                if(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()==null||hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi().isEmpty()){
-                    date_dollenme.setTime(System.currentTimeMillis());
-                }
-                else{
-                    try {
-                        date_dollenme.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()).getTime());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        date_dollenme.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getTohumlama_tarihi()));
-                    }
-                }
-                if(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()==null||hayvanVerilerArrayList.get(sayac).getDogum_tarihi().isEmpty()){
-                    date_dogum.setTime(System.currentTimeMillis());
-                }
-                else{
-                    try {
-                        date_dogum.setTime(simpleDateFormat.parse(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()).getTime());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        date_dogum.setTime(Long.parseLong(hayvanVerilerArrayList.get(sayac).getDogum_tarihi()));
-                    }
-                }
-                databaseHelper.tarih_donustur(hayvanVerilerArrayList.get(sayac).getId(),
-                        String.valueOf(date_dollenme.getTime()),
-                        String.valueOf(date_dogum.getTime()));
-                sayac++;
-            }
-        }
     }
 }

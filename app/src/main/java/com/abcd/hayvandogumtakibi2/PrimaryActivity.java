@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -190,7 +189,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commit();
         }
         else{
-            new Thread(new Runnable() {
+            /* new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
@@ -198,7 +197,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                         PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
                     }
                 }
-            }).start();
+            }).start(); */
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commit();
         }
     }
