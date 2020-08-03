@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,23 +18,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String ADMOB_TEST_ID = "ca-app-pub-3940256099942544/1033173712";
-    //private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
+    //private static final String INTERSTITIAL_TEST_ID = "ca-app-pub-3940256099942544/1033173712";
+    //private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     int database_size;
-    InterstitialAd mInterstitialAd = new InterstitialAd(this);
-    AdRequest adRequest;
-    SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+    //InterstitialAd mInterstitialAd = new InterstitialAd(this);
+    //AdRequest adRequest;
+    final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +47,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if(savedInstanceState==null){
             dosya_kontrol();
         }
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        /* MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
@@ -63,7 +57,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             public void run() {
                 show_ads();
             }
-        }, 3000);
+        }, 3000); */
     }
 
     @Override
@@ -104,16 +98,17 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     @Override
     public void onBackPressed() {
         finish();
-        Intent i=new Intent(Intent.ACTION_MAIN);
+        final Intent i=new Intent(Intent.ACTION_MAIN);
         i.addCategory(Intent.CATEGORY_HOME);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        int id = item.getItemId();
+        final int id = item.getItemId();
         switch (id){
             case R.id.nav_critics:
                 if(database_size==0){
@@ -153,13 +148,13 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 }
                 final Dialog dialog=new Dialog(PrimaryActivity.this,R.style.AppInfoDialogStyle);
                 dialog.setContentView(R.layout.app_info_layout);
-                TextView txt_version=dialog.findViewById(R.id.app_version);
-                Button vote=dialog.findViewById(R.id.btn_cancel);
+                final TextView txt_version=dialog.findViewById(R.id.app_version);
+                final Button vote=dialog.findViewById(R.id.btn_cancel);
                 txt_version.setText(new StringBuilder(PrimaryActivity.this.getString(R.string.app_version)).append(ver));
                 vote.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.APP_URL)));
+                        final Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.APP_URL)));
                         startActivity(intent);
                     }
                 });
@@ -189,21 +184,21 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commit();
         }
         else{
-            /* new Thread(new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                    if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N){
                         final String INTENT_ACTION= "SET_AN_ALARM" ;
                         PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
                     }
                 }
-            }).start(); */
+            }).start();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commit();
         }
     }
 
-    private void show_ads(){
-        mInterstitialAd.setAdUnitId(ADMOB_TEST_ID);
+    /* private void show_ads(){
+        mInterstitialAd.setAdUnitId(INTERSTITIAL_TEST_ID);
         adRequest=new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
         mInterstitialAd.setAdListener(new AdListener() {
@@ -211,7 +206,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             public void onAdLoaded() {
                 mInterstitialAd.show();
             }
-
             @Override
             public void onAdClosed() {
                 mInterstitialAd.setAdListener(null);
@@ -219,6 +213,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 mInterstitialAd=null;
             }
         });
-    }
+    } */
 }
 

@@ -28,7 +28,15 @@
         android:layout_height="fill_parent"
         android:id="@+id/fragment_container"
         android:layout_below="@id/toolbar_layout"
+        android:layout_above="@id/ad_view_container"
         android:layout_margin="@dimen/margin_kategori_2">
     </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

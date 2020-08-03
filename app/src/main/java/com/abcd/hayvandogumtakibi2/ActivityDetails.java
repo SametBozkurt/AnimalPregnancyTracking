@@ -1,14 +1,27 @@
 package com.abcd.hayvandogumtakibi2;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.text.DateFormat;
@@ -19,27 +32,17 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
 
     private HayvanVeriler hayvanVeriler;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
-    private SQLiteDatabaseHelper databaseHelper;
+    private AdView adView;
+    private FrameLayout adContainerView;
+    //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
+    private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        final Bundle bundle = getIntent().getExtras();
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        hayvanVeriler=databaseHelper.getDataById(bundle.getInt("ID"));
-        final Date date_dollenme=new Date(), date_dogum=new Date();
-        try {
-            date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
-        }
-        catch (Exception e){
-            databaseHelper.convert_date(hayvanVeriler.getId(),hayvanVeriler.getTohumlama_tarihi(),hayvanVeriler.getDogum_tarihi());
-        }
-        finally {
-            date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
-        }
-        date_dogum.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
         final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        final ConstraintLayout parent_layout=findViewById(R.id.parent_layout);
         final ImageView imageView = findViewById(R.id.img_hayvan);
         final TextView txt_isim = findViewById(R.id.txt_isim);
         final TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
@@ -48,13 +51,25 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         final TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
         final TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
         final ImageView icon_edit = findViewById(R.id.btn_edit);
-        if(hayvanVeriler.getFotograf_isim().length()!=0){
-            File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
-            Glide.with(this).load(Uri.fromFile(gorselFile)).into(imageView);
-        }
-        else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
-            HayvanDuzenleyici.set_img(this,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), imageView);
-        }
+        adContainerView=findViewById(R.id.ad_view_container);
+        final Bundle bundle = getIntent().getExtras();
+        final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        hayvanVeriler=databaseHelper.getDataById(bundle.getInt("ID"));
+        final Date date_dollenme=new Date(), date_dogum=new Date();
+        date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
+        date_dogum.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
+        parent_layout.post(new Runnable() {
+            @Override
+            public void run() {
+                if(hayvanVeriler.getFotograf_isim().length()!=0){
+                    final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+                    Glide.with(ActivityDetails.this).load(Uri.fromFile(gorselFile)).into(imageView);
+                }
+                else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
+                    HayvanDuzenleyici.set_img(ActivityDetails.this,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), imageView);
+                }
+            }
+        });
         txt_isim.setText(hayvanVeriler.getIsim());
         if(hayvanVeriler.getKupe_no()==null||hayvanVeriler.getKupe_no().length()==0){
             txt_kupe_no.setText(new StringBuilder(getString(R.string.kupe_no_yok)));
@@ -64,19 +79,24 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         }
         txt_tarih1.setText(dateFormat.format(date_dollenme));
         HayvanDuzenleyici.set_text(this,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), txt_tur);
-        if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
-            txt_tarih2.setText(getString(R.string.text_NA));
-            txt_kalan.setText(getString(R.string.text_NA));
-        }
-        else{
-            txt_tarih2.setText(dateFormat.format(date_dogum));
-            if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))>=0){
-                txt_kalan.setText(new StringBuilder(String.valueOf(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi())))));
+        parent_layout.post(new Runnable() {
+            @Override
+            public void run() {
+                if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
+                    txt_tarih2.setText(getString(R.string.text_NA));
+                    txt_kalan.setText(getString(R.string.text_NA));
+                }
+                else{
+                    txt_tarih2.setText(dateFormat.format(date_dogum));
+                    if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))>=0){
+                        txt_kalan.setText(new StringBuilder(String.valueOf(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi())))));
+                    }
+                    else{
+                        txt_kalan.setText(getString(R.string.text_NA));
+                    }
+                }
             }
-            else{
-                txt_kalan.setText(getString(R.string.text_NA));
-            }
-        }
+        });
         icon_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +133,22 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                 mySnackbar.show();
             }
         }
+        final ConnectivityManager connectivityManager=(ConnectivityManager)this.getSystemService(CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        if(networkInfo!=null){
+            if(networkInfo.isConnected()){
+                adContainerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MobileAds.initialize(ActivityDetails.this, new OnInitializationCompleteListener() {
+                            @Override
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        loadBanner();
+                    }
+                },500);
+            }
+        }
     }
 
     @Override
@@ -128,6 +164,54 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    private void loadBanner() {
+        adView = new AdView(this);
+        adView.setAdUnitId(BANNER_TEST_ID);
+        adContainerView.removeAllViews();
+        adContainerView.addView(adView);
+        final AdSize adSize = getAdSize();
+        adView.setAdSize(adSize);
+        final AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        final Display display = getWindowManager().getDefaultDisplay();
+        final DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        final float density = outMetrics.density;
+        float adWidthPixels = adContainerView.getWidth();
+        if (adWidthPixels == 0) {
+            adWidthPixels = outMetrics.widthPixels;
+        }
+        final int adWidth = (int) (adWidthPixels / density);
+        return AdSize.getCurrentOrientationBannerAdSizeWithWidth(this, adWidth);
     }
 
 }

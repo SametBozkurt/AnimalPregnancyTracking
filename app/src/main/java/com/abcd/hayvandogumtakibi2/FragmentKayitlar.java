@@ -57,15 +57,15 @@ public class FragmentKayitlar extends Fragment {
         txt_barn = view.findViewById(R.id.text_barn);
         recyclerView=view.findViewById(R.id.recyclerView);
         goruntuleme_kategorisi = view.findViewById(R.id.kategori);
-        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(context,R.layout.spinner_kategori,
+        final ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(context,R.layout.spinner_kategori,
                 getResources().getStringArray(R.array.goruntuleme_kategorileri));
         spinner_adapter.setDropDownViewResource(R.layout.spinner_kategori);
-        GridLayoutManager layoutManager=new GridLayoutManager(context,3);
+        final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(layoutManager);
         goruntuleme_kategorisi.setAdapter(spinner_adapter);
         goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
                 final ProgressDialog[] dialog = {new ProgressDialog(context)};
                 dialog[0].setTitle(R.string.dialog_title1);
                 dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -134,8 +134,8 @@ public class FragmentKayitlar extends Fragment {
         btn_pet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bundle_intent=new Intent(context,ActivityDogumKayit.class);
-                Bundle datas=new Bundle();
+                final Intent bundle_intent=new Intent(context,ActivityDogumKayit.class);
+                final Bundle datas=new Bundle();
                 datas.putInt("isPet",1);
                 bundle_intent.putExtras(datas);
                 context.startActivity(bundle_intent);
@@ -145,8 +145,8 @@ public class FragmentKayitlar extends Fragment {
         btn_barn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bundle_intent=new Intent(getContext(),ActivityDogumKayit.class);
-                Bundle datas=new Bundle();
+                final Intent bundle_intent=new Intent(getContext(),ActivityDogumKayit.class);
+                final Bundle datas=new Bundle();
                 datas.putInt("isPet",2);
                 bundle_intent.putExtras(datas);
                 context.startActivity(bundle_intent);
