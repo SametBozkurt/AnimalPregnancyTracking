@@ -48,7 +48,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerView);
         adContainerView=findViewById(R.id.ad_view_container);
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3);
+        final GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
         final ProgressDialog[] dialog = {new ProgressDialog(this)};
         dialog[0].setTitle(R.string.dialog_title1);
@@ -84,7 +84,9 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                     public void run() {
                         MobileAds.initialize(ActivityKayitDuzenle.this, new OnInitializationCompleteListener() {
                             @Override
-                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+                            }
                         });
                         loadBanner();
                     }
@@ -169,6 +171,6 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
             adWidthPixels = outMetrics.widthPixels;
         }
         final int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getCurrentOrientationBannerAdSizeWithWidth(this, adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
     }
 }

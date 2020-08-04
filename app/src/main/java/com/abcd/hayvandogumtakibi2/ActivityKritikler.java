@@ -128,7 +128,7 @@ public class ActivityKritikler extends AppCompatActivity {
             adWidthPixels = outMetrics.widthPixels;
         }
         final int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getCurrentOrientationBannerAdSizeWithWidth(this, adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
     }
 
 }

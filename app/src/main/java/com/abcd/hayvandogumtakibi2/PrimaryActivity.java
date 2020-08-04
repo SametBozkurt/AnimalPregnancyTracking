@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,23 +21,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class PrimaryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //private static final String INTERSTITIAL_TEST_ID = "ca-app-pub-3940256099942544/1033173712";
+    private static final String INTERSTITIAL_TEST_ID = "ca-app-pub-3940256099942544/1033173712";
     //private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     int database_size;
-    //InterstitialAd mInterstitialAd = new InterstitialAd(this);
-    //AdRequest adRequest;
+    InterstitialAd mInterstitialAd = new InterstitialAd(this);
+    AdRequest adRequest;
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primary);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        final RelativeLayout relativeLayout=findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -47,17 +57,22 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if(savedInstanceState==null){
             dosya_kontrol();
         }
-        /* MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
+        final ConnectivityManager connectivityManager=(ConnectivityManager)this.getSystemService(CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        if(networkInfo!=null){
+            if(networkInfo.isConnected()){
+                relativeLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
+                            @Override
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        show_ads();
+                    }
+                },500);
             }
-        });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                show_ads();
-            }
-        }, 3000); */
+        }
     }
 
     @Override
@@ -197,7 +212,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         }
     }
 
-    /* private void show_ads(){
+    private void show_ads(){
         mInterstitialAd.setAdUnitId(INTERSTITIAL_TEST_ID);
         adRequest=new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
@@ -213,6 +228,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 mInterstitialAd=null;
             }
         });
-    } */
+    }
 }
 

@@ -211,7 +211,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
             adWidthPixels = outMetrics.widthPixels;
         }
         final int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getCurrentOrientationBannerAdSizeWithWidth(this, adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
     }
 
 }
