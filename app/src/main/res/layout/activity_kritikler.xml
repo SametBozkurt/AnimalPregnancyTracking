@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityKritikler"
+    android:id="@+id/parent"
     android:background="@color/layout_background">
 
     <com.google.android.material.appbar.AppBarLayout

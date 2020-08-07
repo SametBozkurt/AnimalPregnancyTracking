@@ -11,6 +11,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -34,6 +35,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
     private AdView adView;
     private FrameLayout adContainerView;
+    private LinearLayout linearLayout;
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
@@ -52,6 +54,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         final TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
         final ImageView icon_edit = findViewById(R.id.btn_edit);
         adContainerView=findViewById(R.id.ad_view_container);
+        linearLayout=findViewById(R.id.linear_layout);
         final Bundle bundle = getIntent().getExtras();
         final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         hayvanVeriler=databaseHelper.getDataById(bundle.getInt("ID"));
@@ -170,6 +173,8 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     protected void onDestroy() {
         if (adView != null) {
             adView.destroy();
+            adContainerView.removeAllViews();
+            linearLayout.removeAllViews();
         }
         super.onDestroy();
     }

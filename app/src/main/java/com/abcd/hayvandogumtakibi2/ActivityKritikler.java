@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
@@ -27,12 +28,14 @@ public class ActivityKritikler extends AppCompatActivity {
     private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
     private FrameLayout adContainerView;
     private AdView adView;
+    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kritikler);
         final Toolbar toolbar = findViewById(R.id.activity_toolbar);
+        relativeLayout=findViewById(R.id.parent);
         adContainerView=findViewById(R.id.ad_view_container);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,12 +48,17 @@ public class ActivityKritikler extends AppCompatActivity {
         });
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
-        if(hayvanVerilerArrayList.size()==0){
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumYok()).commit();
-        }
-        else{
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumlar()).commit();
-        }
+        relativeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if(hayvanVerilerArrayList.size()==0){
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumYok()).commit();
+                }
+                else{
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumlar()).commit();
+                }
+            }
+        });
         final ConnectivityManager connectivityManager=(ConnectivityManager)this.getSystemService(CONNECTIVITY_SERVICE);
         final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
         if(networkInfo!=null){
@@ -81,17 +89,26 @@ public class ActivityKritikler extends AppCompatActivity {
         super.onRestart();
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
-        if(hayvanVerilerArrayList.size()==0){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumYok()).commitAllowingStateLoss();
-        }
-        else{
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumlar()).commitAllowingStateLoss();
-        }
+        relativeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if(hayvanVerilerArrayList.size()==0){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumYok()).commitAllowingStateLoss();
+                }
+                else{
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumlar()).commitAllowingStateLoss();
+                }
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
-        if (adView != null) { adView.destroy(); }
+        if (adView != null) {
+            adView.destroy();
+            adContainerView.removeAllViews();
+            relativeLayout.removeAllViews();
+        }
         super.onDestroy();
     }
 

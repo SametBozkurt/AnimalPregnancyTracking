@@ -10,12 +10,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/ad_view_container">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/linear_layout"
             android:background="@color/layout_background"
             android:orientation="vertical"
             tools:context="com.abcd.hayvandogumtakibi2.ActivityDetails">
@@ -58,14 +58,14 @@
                     android:layout_height="30dp"
                     android:background="@drawable/ripple_effect"
                     android:src="@drawable/button_duzenle_icon"
-                    android:tint="@android:color/background_light"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/margin_kategori_3"
                     android:layout_marginEnd="@dimen/margin_kategori_3"
                     android:contentDescription="@null"
                     android:clickable="true"
-                    android:focusable="true" />
+                    android:focusable="true"
+                    app:tint="@android:color/background_light" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,8 +84,8 @@
                     android:contentDescription="@null"
                     android:src="@drawable/icon_tag"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/button_background_2"
-                    android:layout_marginStart="@dimen/margin_kategori_1" />
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    app:tint="@color/button_background_2" />
 
                 <TextView
                     android:id="@+id/txt_kupe_no"
@@ -115,8 +115,8 @@
                     android:contentDescription="@null"
                     android:src="@drawable/icon_model"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/button_background_2"
-                    android:layout_marginStart="@dimen/margin_kategori_1" />
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    app:tint="@color/button_background_2" />
 
                 <TextView
                     android:id="@+id/txt_tur"
@@ -146,7 +146,7 @@
                     android:contentDescription="@null"
                     android:src="@drawable/icon_calendar"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/button_background_2"
+                    app:tint="@color/button_background_2"
                     android:layout_marginStart="@dimen/margin_kategori_1" />
 
                 <TextView
@@ -177,8 +177,8 @@
                     android:contentDescription="@null"
                     android:src="@drawable/icon_calendar"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/button_background_2"
-                    android:layout_marginStart="@dimen/margin_kategori_1" />
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    app:tint="@color/button_background_2" />
 
                 <TextView
                     android:id="@+id/txt_tarih2"
@@ -204,8 +204,8 @@
                     android:src="@drawable/icon_clock"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin_kategori_3"
-                    android:tint="@color/button_background_2"
-                    android:contentDescription="@null"/>
+                    android:contentDescription="@null"
+                    app:tint="@color/button_background_2" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

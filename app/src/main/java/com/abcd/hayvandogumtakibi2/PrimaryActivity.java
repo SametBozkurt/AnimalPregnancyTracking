@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,18 +39,19 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     InterstitialAd mInterstitialAd = new InterstitialAd(this);
     AdRequest adRequest;
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primary);
         final Toolbar toolbar = findViewById(R.id.toolbar);
-        final RelativeLayout relativeLayout=findViewById(R.id.main_layout);
+        relativeLayout=findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PrimaryActivity.this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -57,21 +59,31 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         if(savedInstanceState==null){
             dosya_kontrol();
         }
-        final ConnectivityManager connectivityManager=(ConnectivityManager)this.getSystemService(CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-        if(networkInfo!=null){
-            if(networkInfo.isConnected()){
-                relativeLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
-                            @Override
-                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                        });
-                        show_ads();
+        try {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final ConnectivityManager connectivityManager=(ConnectivityManager)PrimaryActivity.this.getSystemService(CONNECTIVITY_SERVICE);
+                    final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                    if(networkInfo!=null){
+                        if(networkInfo.isConnected()){
+                            relativeLayout.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
+                                        @Override
+                                        public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                                    });
+                                    show_ads();
+                                }
+                            },500);
+                        }
                     }
-                },500);
-            }
+                }
+            }).start();
+        }
+        catch(Exception e){
+            Log.e("ERROR!",e.getMessage());
         }
     }
 
@@ -104,9 +116,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
             }
         }
-        else if(item_id==R.id.dev_tools){
+        /* else if(item_id==R.id.dev_tools){
             startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
-        }
+        } */
         return super.onOptionsItemSelected(item);
     }
 

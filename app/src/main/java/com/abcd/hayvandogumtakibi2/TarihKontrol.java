@@ -19,12 +19,12 @@ public class TarihKontrol extends BroadcastReceiver {
 
     private static final String NOTIFICATION_CHANNEL_ID="Tarih Kontrol";
     private static final String NOTIFICATION_CHANNEL_NAME="Kritik Uyarılar";
-    //private static final long JOB_PERIOD = 30; //30 dk...
-    //private static final long JOB_DEADLINE = 600000; //10dk;
+    private static final long JOB_PERIOD = 30; //30 dk...
+    private static final long JOB_DEADLINE = 600000; //10dk;
     private static final int JOB_ID = 0;
     private static final String ACTION_DAY_CHANGED = "android.intent.action.DATE_CHANGED" ;
-    private static final long JOB_PERIOD_TEST = 3;
-    private static final long JOB_DEADLINE_TEST = 180000;
+    //private static final long JOB_PERIOD_TEST = 3;
+    //private static final long JOB_DEADLINE_TEST = 180000;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,8 +33,8 @@ public class TarihKontrol extends BroadcastReceiver {
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                 JobScheduler scheduler=(JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
                 JobInfo.Builder jobBuilder=new JobInfo.Builder(JOB_ID,new ComponentName(context.getPackageName(),DateDedectorService.class.getName()));
-                jobBuilder.setMinimumLatency(TimeUnit.MILLISECONDS.convert(JOB_PERIOD_TEST,TimeUnit.MINUTES));
-                jobBuilder.setOverrideDeadline(JOB_DEADLINE_TEST);
+                jobBuilder.setMinimumLatency(TimeUnit.MILLISECONDS.convert(JOB_PERIOD,TimeUnit.MINUTES));
+                jobBuilder.setOverrideDeadline(JOB_DEADLINE);
                 scheduler.schedule(jobBuilder.build());
             }
             else if(intent.getAction().equals(ACTION_DAY_CHANGED)){
