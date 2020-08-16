@@ -75,7 +75,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         degerleri_yerlestir();
     }
 
-    private void degerleri_yerlestir(){
+    void degerleri_yerlestir(){
         kayit_id=data_bundle.getInt("kayit_id");
         petCode=data_bundle.getInt("isPet");
         date1.setTime(Long.parseLong(String.valueOf(data_bundle.getCharSequence("kayit_tarih1"))));
@@ -106,14 +106,19 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         dogum_tarihi.setText(dateFormat.format(date2));
         secilen_tur= (String)data_bundle.getCharSequence("kayit_tur");
         tur_sec.setSelection(Integer.parseInt((String)data_bundle.getCharSequence("kayit_tur")));
-        gorsel_ad=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
-        if(gorsel_ad.length()!=0){
-            gorsel_adres=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).getAbsolutePath();
-            Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
-        }
-        else{
-            Glide.with(this).load(R.drawable.icon_photo_add).into(photo);
-        }
+        main_Layout.post(new Runnable() {
+            @Override
+            public void run() {
+                gorsel_ad=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
+                if(gorsel_ad.length()!=0){
+                    gorsel_adres=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).getAbsolutePath();
+                    Glide.with(ActivityEdit.this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
+                }
+                else{
+                    Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
+                }
+            }
+        });
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -226,20 +231,20 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu=new PopupMenu(ActivityEdit.this,photo);
+                final PopupMenu popupMenu=new PopupMenu(ActivityEdit.this,photo);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_photo_picker,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        File photoFile=getImageFile();
-                        Uri photoURI= FileProvider.getUriForFile(ActivityEdit.this,getPackageName(),photoFile);
+                        final File photoFile=getImageFile();
+                        final Uri photoURI= FileProvider.getUriForFile(ActivityEdit.this,getPackageName(),photoFile);
                         if(item.getItemId()==R.id.camera) {
-                            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             camera_intent.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
                             startActivityForResult(camera_intent,TAKING_PHOTO_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.gallery){
-                            Intent gallery_intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            final Intent gallery_intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
@@ -264,8 +269,8 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 case GALLERY_REQ_CODE:
                     Glide.with(this).load(data.getData()).into(photo);
                     try {
-                        InputStream openInputStream=getContentResolver().openInputStream(data.getData());
-                        ExifInterface exif=new ExifInterface(openInputStream);
+                        final InputStream openInputStream=getContentResolver().openInputStream(data.getData());
+                        final ExifInterface exif=new ExifInterface(openInputStream);
                         dondur(MediaStore.Images.Media.getBitmap(getContentResolver(),data.getData()),
                                 exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED));
                         openInputStream.close();
@@ -275,7 +280,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                     break;
                 case TAKING_PHOTO_REQ_CODE:
                     try {
-                        ExifInterface exif=new ExifInterface(gorsel_adres);
+                        final ExifInterface exif=new ExifInterface(gorsel_adres);
                         dondur(BitmapFactory.decodeFile(gorsel_adres),
                                 exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED));
                     } catch (IOException e) {
@@ -288,8 +293,8 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     }
 
     private File getImageFile(){
-        File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM" + System.currentTimeMillis() +".jpg");
+        final File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM" + System.currentTimeMillis() +".jpg");
         if(gorsel_ad.length()!=0){
             new File(picDir,gorsel_ad).delete();
             gorsel_ad="";
@@ -299,7 +304,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         return imgFile;
     }
     private void dondur(Bitmap bitmap, int orientation){
-        Matrix matrix=new Matrix();
+        final Matrix matrix=new Matrix();
         switch (orientation){
             case ExifInterface.ORIENTATION_ROTATE_270:
                 matrix.setRotate(-90);
@@ -312,10 +317,10 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 break;
         }
         try {
-            FileOutputStream fileOutputStream=new FileOutputStream(gorsel_adres);
-            int croped_width=bitmap.getWidth()/5;
-            int croped_height=bitmap.getHeight()/5;
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
+            final FileOutputStream fileOutputStream=new FileOutputStream(gorsel_adres);
+            final int croped_width=bitmap.getWidth()/5;
+            final int croped_height=bitmap.getHeight()/5;
+            final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
             Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,matrix,true).
                     compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
@@ -328,9 +333,8 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
         if(boolTarih){
-            takvim2=TarihHesaplayici.get_tarih(petCode,secilen_tur,date,getClass().getName());
+            takvim2=TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName());
             date2=takvim2.getTime();
             dogum_tarihi.setText(dateFormat.format(date2));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
@@ -346,5 +350,17 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper=null;
+        takvim2=null;
+        data_bundle=null;
+        if(main_Layout!=null){
+            main_Layout.removeAllViews();
+            main_Layout=null;
+        }
     }
 }

@@ -44,7 +44,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_margin="@dimen/margin_kategori_2"
-                android:text="@string/ozel_listview_isim"
+                android:text="@string/hint_isim"
                 android:textColor="@android:color/background_light"
                 android:fontFamily="@font/comfortaa_bold"
                 android:textSize="14sp" />

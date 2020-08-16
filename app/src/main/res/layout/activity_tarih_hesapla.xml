@@ -55,9 +55,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_kategori_1"
                     android:src="@drawable/icon_calendar"
-                    android:tint="@color/input_text_color"
                     android:layout_gravity="center_vertical"
-                    android:contentDescription="@null"/>
+                    android:contentDescription="@null"
+                    app:tint="@color/input_text_color" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/KayitEkleInputStyle"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_kategori_1"
                     android:layout_marginEnd="@dimen/margin_kategori_1"
-                    android:hint="@string/dlg_hint_tarih1"
+                    android:hint="@string/hint_tarih1"
                     app:helperText="@string/date_input_helper_text"
                     app:hintEnabled="true">
 
@@ -92,9 +92,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_kategori_1"
                     android:src="@drawable/icon_calendar"
-                    android:tint="@color/input_text_color"
                     android:layout_gravity="center_vertical"
-                    android:contentDescription="@null"/>
+                    android:contentDescription="@null"
+                    app:tint="@color/input_text_color" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_tarih2"
@@ -104,7 +104,7 @@
                     android:layout_marginLeft="@dimen/margin_kategori_1"
                     android:layout_marginTop="@dimen/margin_kategori_1"
                     android:layout_marginRight="@dimen/margin_kategori_1"
-                    android:hint="@string/dlg_hint_tarih2"
+                    android:hint="@string/hint_tarih2"
                     app:helperText="@string/date_input_helper_text_2"
                     app:hintEnabled="true">
 

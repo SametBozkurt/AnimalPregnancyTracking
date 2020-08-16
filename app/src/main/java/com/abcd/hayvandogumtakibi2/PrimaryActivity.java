@@ -116,9 +116,9 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
             }
         }
-        /* else if(item_id==R.id.dev_tools){
+        else if(item_id==R.id.dev_tools){
             startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
-        } */
+        }
         return super.onOptionsItemSelected(item);
     }
 

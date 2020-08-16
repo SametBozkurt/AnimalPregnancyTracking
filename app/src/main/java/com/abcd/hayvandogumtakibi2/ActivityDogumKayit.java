@@ -329,7 +329,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     @Override
     public void oto_tarih_hesapla(Date date) {
         if(boolTarih){
-            hesaplanan_tarih=TarihHesaplayici.get_tarih(_isPet,secilen_tur,date,getClass().getName());
+            hesaplanan_tarih=TarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date,getClass().getName());
             date_dogum=hesaplanan_tarih.getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();

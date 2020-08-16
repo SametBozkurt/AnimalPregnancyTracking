@@ -8,13 +8,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -24,6 +26,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
@@ -33,9 +36,11 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
 
     private HayvanVeriler hayvanVeriler;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
+    int dogum_gerceklesti=0;
     private AdView adView;
-    private FrameLayout adContainerView;
+    private FrameLayout adContainerView, tarih3_container;
     private LinearLayout linearLayout;
+    private RelativeLayout parent_layout;
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
@@ -43,8 +48,10 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        final ConstraintLayout parent_layout=findViewById(R.id.parent_layout);
+        parent_layout=findViewById(R.id.parent_layout);
+        adContainerView=findViewById(R.id.ad_view_container);
+        tarih3_container=findViewById(R.id.tarih3_container);
+        linearLayout=findViewById(R.id.linear_layout);
         final ImageView imageView = findViewById(R.id.img_hayvan);
         final TextView txt_isim = findViewById(R.id.txt_isim);
         final TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
@@ -53,12 +60,12 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         final TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
         final TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
         final ImageView icon_edit = findViewById(R.id.btn_edit);
-        adContainerView=findViewById(R.id.ad_view_container);
-        linearLayout=findViewById(R.id.linear_layout);
+        final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         final Bundle bundle = getIntent().getExtras();
         final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        hayvanVeriler=databaseHelper.getDataById(bundle.getInt("ID"));
         final Date date_dollenme=new Date(), date_dogum=new Date();
+        hayvanVeriler=databaseHelper.getDataById(bundle.getInt("ID"));
+        dogum_gerceklesti=hayvanVeriler.getDogum_grcklsti();
         date_dollenme.setTime(Long.parseLong(hayvanVeriler.getTohumlama_tarihi()));
         date_dogum.setTime(Long.parseLong(hayvanVeriler.getDogum_tarihi()));
         parent_layout.post(new Runnable() {
@@ -103,7 +110,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         icon_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hayvanVeriler.getDogum_grcklsti()==0){
+                if(dogum_gerceklesti==0){
                     final Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
                     final Bundle veri_paketi=new Bundle();
                     veri_paketi.putInt("kayit_id",hayvanVeriler.getId());
@@ -119,17 +126,18 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                     startActivity(data);
                 }
                 else{
-                    Snackbar.make(findViewById(R.id.main_layout),R.string.edit_blocked_msg,5000).show();
+                    Snackbar.make(parent_layout,R.string.edit_blocked_msg,5000).show();
                 }
             }
         });
         if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))<0){
             if(hayvanVeriler.getDogum_grcklsti()==0){
-                final Snackbar mySnackbar = Snackbar.make(findViewById(R.id.main_layout),R.string.dogum_gerceklesti_uyarı, 8000);
+                final Snackbar mySnackbar = Snackbar.make(parent_layout,R.string.dogum_gerceklesti_uyarı, 8000);
                 mySnackbar.setAction(R.string.yes, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         databaseHelper.isaretle_dogum_gerceklesti(hayvanVeriler.getId());
+                        dogum_gerceklesti=1;
                     }
                 });
                 mySnackbar.setActionTextColor(getResources().getColor(R.color.action_color));
@@ -152,6 +160,23 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                 },500);
             }
         }
+        parent_layout.post(new Runnable() {
+            @Override
+            public void run() {
+                if(hayvanVeriler.getDogum_tarihi()!=null||!hayvanVeriler.getDogum_tarihi().isEmpty()){
+                    if(hayvanVeriler.getIs_evcilhayvan()==2 && Integer.parseInt(hayvanVeriler.getTur())==0){
+                        final LayoutInflater inflater=LayoutInflater.from(ActivityDetails.this);
+                        final View tarih3_view=inflater.inflate(R.layout.layout_kizdirma_tarihi,tarih3_container,false);
+                        final TextView txt_kizidirma_tarihi=tarih3_view.findViewById(R.id.txt_tarih3);
+                        final long date_in_millis=Long.parseLong(hayvanVeriler.getDogum_tarihi());
+                        final Date date = new Date();
+                        date.setTime(TarihHesaplayici.get_kizdirma_tarihi(date_in_millis).getTimeInMillis());
+                        txt_kizidirma_tarihi.setText(dateFormat.format(date));
+                        tarih3_container.addView(tarih3_view);
+                    }
+                }
+            }
+        });
     }
 
     @Override

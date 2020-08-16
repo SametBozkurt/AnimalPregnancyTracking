@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_clock"
                     android:contentDescription="@null"
-                    android:tint="@android:color/background_light"/>
+                    app:tint="@android:color/background_light" />
 
                 <TextView
                     android:id="@+id/txt_durum"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_kategori_3"
-            android:text="@string/ozel_listview_isim"
+            android:text="@string/hint_isim"
             android:textColor="@color/listViewTextColor"
             android:fontFamily="@font/comfortaa_bold"
             android:textSize="14sp" />

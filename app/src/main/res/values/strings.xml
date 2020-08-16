@@ -17,21 +17,16 @@
     <string name="nav_title3">Tools</string>
     <string name="nav_privacy_policy">Privacy Policy</string>
     <string name="vote">Vote</string>
-    <string name="dlg_hint_tarih1">\tInsemination date</string>
-    <string name="dlg_hint_tarih2">Estimated birth date</string>
+    <string name="hint_tarih1">\tInsemination date</string>
+    <string name="hint_tarih2">Estimated birth date</string>
     <string name="kayit_yok_uyari2">There is no record yet, you have to create a record</string>
-    <string name="listView_tarih1">Insemination date:</string>
-    <string name="listView_tarih2">Birth date:</string>
-    <string name="listview_kupe_no">ID no:</string>
-    <string name="listView_tur">Species:</string>
+    <string name="listView_tarih1">Insemination date</string>
+    <string name="listView_tarih2">Birth date</string>
+    <string name="listview_kupe_no">ID no</string>
+    <string name="listView_tur">Species</string>
     <string name="activity_duzenle_title">Edit/Remove Record</string>
     <string name="activity_kritikler_title">Incoming Birth</string>
     <string name="activity_periods_title">Gestation Periods (Avg)</string>
-    <string name="ozel_listview_tur">Species</string>
-    <string name="ozel_listview_isim">Name</string>
-    <string name="ozel_listview_tarih1">Insemination date</string>
-    <string name="ozel_listview_tarih2">Birth date</string>
-    <string name="ozel_listview_kupe_no">ID no</string>
     <string name="tur_0">Cow</string>
     <string name="tur_1">Sheep</string>
     <string name="tur_2">Goat</string>
@@ -144,4 +139,5 @@
     <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
     <string name="dialog_title1">Wait a second</string>
     <string name="dialog_msg1">Adjusting database…</string>
+    <string name="listView_tarih3">Est. Next Dat. For Ins.</string>
 </resources>

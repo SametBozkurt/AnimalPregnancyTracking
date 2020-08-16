@@ -84,7 +84,7 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
     public void oto_tarih_hesapla(Date date) {
         //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
         if(boolTarih){
-            Date date_dogum = TarihHesaplayici.get_tarih(petCode,secilen_tur,date,getClass().getName()).getTime();
+            Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
             Snackbar.make(main_layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }
