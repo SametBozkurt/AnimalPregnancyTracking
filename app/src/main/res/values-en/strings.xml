@@ -130,4 +130,5 @@
     <string name="dialog_title1">Wait a second</string>
     <string name="dialog_msg1">Adjusting database…</string>
     <string name="listView_tarih3">Est. Next Dat. For Ins.</string>
+    <string name="crop_text">Crop</string>
 </resources>

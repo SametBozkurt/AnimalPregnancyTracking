@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,10 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,26 +47,25 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
     private boolean boolTarih=false;
     private RelativeLayout main_Layout;
-    private SQLiteDatabaseHelper dbYoneticisi;
+    private SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
     private Button kaydet,iptal;
     private ImageView photo;
     private Spinner spinner_turler;
-    private Calendar gecerli_takvim,hesaplanan_tarih;
+    private final Calendar gecerli_takvim=Calendar.getInstance();
+    private Calendar hesaplanan_tarih=Calendar.getInstance();
     private String gorsel_adres;
     private String secilen_tur="0";
     private String gorsel_ad="";
     private Date date_dollenme, date_dogum;
     private TextInputLayout textInputLayout;
     private int _isPet;
-    private DateFormat dateFormat;
+    private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dogum_kayit);
-        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
         photo=findViewById(R.id.add_photo);
         edit_isim=findViewById(R.id.isim);
         edit_kupe_no=findViewById(R.id.kupe_no);
@@ -76,8 +77,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         main_Layout=findViewById(R.id.ana_katman);
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-        gecerli_takvim=Calendar.getInstance();
-        hesaplanan_tarih=Calendar.getInstance();
         date_dollenme=gecerli_takvim.getTime();
         _isPet=getIntent().getExtras().getInt("isPet");
         ArrayAdapter<String> spinner_adapter;
@@ -128,7 +127,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog=new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog=new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         gecerli_takvim.set(year,month,dayOfMonth);
@@ -156,7 +155,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         btn_tarih_dogum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog = new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         hesaplanan_tarih.set(year,month,dayOfMonth);
@@ -183,26 +182,34 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu=new PopupMenu(ActivityDogumKayit.this,photo);
+                final PopupMenu popupMenu=new PopupMenu(ActivityDogumKayit.this,photo);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_photo_picker,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        File photoFile=getImageFile();
-                        Uri photoURI= FileProvider.getUriForFile(ActivityDogumKayit.this,getPackageName(),photoFile);
                         if(item.getItemId()==R.id.camera) {
-                            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            camera_intent.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
-                            startActivityForResult(camera_intent,TAKING_PHOTO_REQ_CODE);
+                            final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (camera_intent.resolveActivity(getPackageManager())!=null) {
+                                final File photoFile=getImageFile();
+                                if (photoFile != null) {
+                                    final Uri photoURI= FileProvider.getUriForFile(ActivityDogumKayit.this,getPackageName(),photoFile);
+                                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                    startActivityForResult(camera_intent, TAKING_PHOTO_REQ_CODE);
+                                }
+                            }
                         }
                         else if(item.getItemId()==R.id.gallery){
-                            Intent gallery_intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            final Intent gallery_intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            gallery_intent.setType("image/*");
+                            gallery_intent.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"image/jpeg","image/png","image/jpg"});
+                            gallery_intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
-                            if(gorsel_ad.length()!=0) {
+                            if(!gorsel_ad.isEmpty()) {
                                 new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
                                 gorsel_ad = "";
+                                gorsel_adres = "";
                                 Glide.with(ActivityDogumKayit.this).load(R.drawable.icon_photo_add).into(photo);
                             }
                         }
@@ -229,101 +236,43 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
         else{
-            HayvanVeriler hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+            final HayvanVeriler hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
                     String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
             dbYoneticisi.veri_yaz(hayvanVeriler);
-            onBackPressed();
+            finish();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode==RESULT_OK){
-            switch(requestCode){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null){
+            switch (requestCode){
                 case GALLERY_REQ_CODE:
-                    Glide.with(this).load(data.getData()).into(photo);
-                    try {
-                        InputStream openInputStream=getContentResolver().openInputStream(data.getData());
-                        ExifInterface exif=new ExifInterface(openInputStream);
-                        dondur(MediaStore.Images.Media.getBitmap(getContentResolver(),data.getData()),
-                                exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED),false);
-                        openInputStream.close();
-
-                    }
-                    catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
+                    if(resultCode==RESULT_OK){
+                        launchImageCrop(data.getData());
                     }
                     break;
                 case TAKING_PHOTO_REQ_CODE:
-                    try {
-                        ExifInterface exif=new ExifInterface(gorsel_adres);
-                        dondur(BitmapFactory.decodeFile(gorsel_adres),
-                                exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED),true);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if(resultCode==RESULT_OK){
+                        final File file=new File(gorsel_adres);
+                        launchImageCrop(Uri.fromFile(file));
+                    }
+                    break;
+                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    final CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    if(resultCode==RESULT_OK){
+                        Glide.with(this).load(result.getUri()).into(photo);
+                        try {
+                            final Bitmap photoBitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),result.getUri());
+                            save_photo(photoBitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public File getImageFile() {
-        StringBuilder dosya_adi=new StringBuilder("ANM_").append(System.currentTimeMillis());
-        File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),dosya_adi+".jpg");
-        if(gorsel_ad.length()!=0){
-            new File(picDir,gorsel_ad).delete();
-            gorsel_ad="";
-            gorsel_adres=imgFile.getAbsolutePath();
-            gorsel_ad=imgFile.getName();
-            return imgFile;
-        }
-        else{
-            gorsel_adres=imgFile.getAbsolutePath();
-            gorsel_ad=imgFile.getName();
-            return imgFile;
-        }
-    }
-    private void dondur(Bitmap bitmap,int orientation,boolean from_camera){
-        Matrix matrix=new Matrix();
-        switch (orientation){
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                matrix.setRotate(-90);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                matrix.setRotate(90);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                matrix.setRotate(180);
-                break;
-        }
-        try {
-            FileOutputStream fileOutputStream=null;
-            if(from_camera){
-                fileOutputStream=new FileOutputStream(gorsel_adres);
-            }
-            else{
-                fileOutputStream=new FileOutputStream(getImageFile());
-            }
-            int croped_width=bitmap.getWidth()/5;
-            int croped_height=bitmap.getHeight()/5;
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
-            Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,matrix,true).
-                    compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        Glide.with(this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
     }
 
     @Override
@@ -339,6 +288,56 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
         return 0;
+    }
+
+    private void launchImageCrop(Uri uri){
+        CropImage.activity(uri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1,1)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setCropMenuCropButtonTitle(getString(R.string.crop_text))
+                .start(this);
+    }
+
+    public File getImageFile() {
+        final File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
+        if(!gorsel_ad.isEmpty()){
+            new File(picDir,gorsel_ad).delete();
+            gorsel_ad="";
+        }
+        gorsel_adres=imgFile.getAbsolutePath();
+        gorsel_ad=imgFile.getName();
+        return imgFile;
+    }
+
+    private void save_photo(Bitmap bitmap){
+        int croped_width=bitmap.getWidth();
+        int croped_height=bitmap.getHeight();
+        while(croped_width>1000){
+            croped_width=croped_width/2;
+            croped_height=croped_height/2;
+        }
+        try{
+            FileOutputStream fileOutputStream;
+            if(gorsel_adres==null||gorsel_adres.isEmpty()){
+                fileOutputStream=new FileOutputStream(getImageFile());
+            }
+            else{
+                fileOutputStream=new FileOutputStream(gorsel_adres);
+            }
+            final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
+            Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,null,true).
+                    compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

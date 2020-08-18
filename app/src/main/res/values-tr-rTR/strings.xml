@@ -130,4 +130,5 @@
     <string name="dialog_title1">Bi saniye</string>
     <string name="dialog_msg1">Veritabanı uyarlanıyor…</string>
     <string name="listView_tarih3">Tah. Geb. Hzır Olma Trihi</string>
+    <string name="crop_text">Kırp</string>
 </resources>
