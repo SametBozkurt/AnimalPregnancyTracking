@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,7 +30,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -50,10 +48,10 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     Spinner tur_sec;
     RelativeLayout main_Layout;
     SQLiteDatabaseHelper databaseHelper;
-    String secilen_tur="",gorsel_ad,gorsel_adres;
+    String secilen_tur="",img_name,img_addr;
     final Calendar takvim=Calendar.getInstance();
     Calendar takvim2=Calendar.getInstance();
-    Date date1=new Date(),date2=new Date();
+    Date date1=new Date(), date2=new Date();
     Bundle data_bundle;
     TextInputLayout textInputLayout;
     ImageView photo;
@@ -109,13 +107,13 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         dogum_tarihi.setText(dateFormat.format(date2));
         secilen_tur= (String)data_bundle.getCharSequence("kayit_tur");
         tur_sec.setSelection(Integer.parseInt((String)data_bundle.getCharSequence("kayit_tur")));
+        img_name=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
         main_Layout.post(new Runnable() {
             @Override
             public void run() {
-                gorsel_ad=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
-                if(gorsel_ad.length()!=0){
-                    gorsel_adres=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).getAbsolutePath();
-                    Glide.with(ActivityEdit.this).load(Uri.fromFile(new File(gorsel_adres))).into(photo);
+                if(!img_name.isEmpty()){
+                    img_addr=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name).getAbsolutePath();
+                    Glide.with(ActivityEdit.this).load(Uri.fromFile(new File(img_addr))).into(photo);
                 }
                 else{
                     Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
@@ -219,13 +217,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 else{
                     databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
                             secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
-                            String.valueOf(date2.getTime()),gorsel_ad,data_bundle.getInt("dogumGrcklsti"));
-                    if(gorsel_ad.isEmpty()){
-                        Log.e("Kaydet","BOŞ");
-                    }
-                    else{
-                        Log.e("Kaydet",gorsel_ad);
-                    }
+                            String.valueOf(date2.getTime()),img_name,data_bundle.getInt("dogumGrcklsti"));
                     finish();
                     startActivity(new Intent(ActivityEdit.this,PrimaryActivity.class));
                 }
@@ -264,10 +256,10 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
-                            if(!gorsel_ad.isEmpty()){
-                                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).delete();
-                                gorsel_ad = "";
-                                gorsel_adres = "";
+                            if(!img_name.isEmpty()){
+                                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name).delete();
+                                img_name = "";
+                                img_addr = "";
                                 Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
                             }
                         }
@@ -291,7 +283,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                     break;
                 case TAKING_PHOTO_REQ_CODE:
                     if(resultCode==RESULT_OK){
-                        final File file=new File(gorsel_adres);
+                        final File file=new File(img_addr);
                         launchImageCrop(Uri.fromFile(file));
                     }
                     break;
@@ -356,17 +348,11 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     public File getImageFile() {
         final File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
-        if(!gorsel_ad.isEmpty()){
-            new File(picDir,gorsel_ad).delete();
+        if(!img_name.isEmpty()){
+            new File(picDir,img_name).delete();
         }
-        gorsel_adres=imgFile.getAbsolutePath();
-        gorsel_ad=imgFile.getName();
-        if(gorsel_ad.isEmpty()){
-            Log.e("getImageFile","BOŞ");
-        }
-        else{
-            Log.e("getImageFile",gorsel_ad);
-        }
+        img_addr=imgFile.getAbsolutePath();
+        img_name=imgFile.getName();
         return imgFile;
     }
 
@@ -378,23 +364,12 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
             croped_height=croped_height/2;
         }
         try{
-            FileOutputStream fileOutputStream;
-            if(gorsel_adres==null||gorsel_adres.isEmpty()){
-                Log.e("SavePhoto","BOŞ");
-                fileOutputStream=new FileOutputStream(getImageFile());
-            }
-            else{
-                Log.e("SavePhoto",gorsel_adres);
-                fileOutputStream=new FileOutputStream(gorsel_adres);
-            }
+            final FileOutputStream fileOutputStream=new FileOutputStream(getImageFile());
             final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
             Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,null,true).
                     compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         catch (IOException e) {
             e.printStackTrace();

@@ -24,7 +24,7 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.periods_adapter,parent,false);
+        final View view = LayoutInflater.from(context).inflate(R.layout.periods_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 

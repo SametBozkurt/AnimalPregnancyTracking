@@ -24,21 +24,19 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private final ArrayList<HayvanVeriler> hayvanVeriler;
     private final Context context;
     private final int code;
-    private final DateFormat dateFormat;
-    private final Date date;
+    private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
+    private final Date date=new Date();
 
     KayitlarAdapter(Context context,int code){
         this.context=context;
         this.hayvanVeriler=SQLiteDatabaseHelper.getInstance(context).getSimpleData();
         this.code=code;
-        dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
-        date=new Date();
     }
 
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter,parent,false);
+        final View view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 
@@ -67,7 +65,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                 break;
         }
         if(mHayvanVeriler.getFotograf_isim().length()!=0){
-            File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),mHayvanVeriler.getFotograf_isim());
+            final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),mHayvanVeriler.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else if(mHayvanVeriler.getFotograf_isim()==null||mHayvanVeriler.getFotograf_isim().length()==0){
@@ -76,7 +74,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle data=new Bundle();
+                final Bundle data=new Bundle();
                 data.putInt("ID",mHayvanVeriler.getId());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);

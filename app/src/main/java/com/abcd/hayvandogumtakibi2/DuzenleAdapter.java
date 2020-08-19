@@ -33,7 +33,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(mContext).inflate(R.layout.duzenle_adapter,parent,false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.duzenle_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 
@@ -45,8 +45,8 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
             @Override
             public void onClick(View v) {
                 if(hayvanVeriler.getDogum_grcklsti()==0){
-                    Intent data=new Intent(mContext,ActivityEdit.class);
-                    Bundle veri_paketi=new Bundle();
+                    final Intent data=new Intent(mContext,ActivityEdit.class);
+                    final Bundle veri_paketi=new Bundle();
                     veri_paketi.putInt("kayit_id",hayvanVeriler.getId());
                     veri_paketi.putCharSequence("kayit_isim",hayvanVeriler.getIsim());
                     veri_paketi.putCharSequence("kayit_kupe_no",hayvanVeriler.getKupe_no());

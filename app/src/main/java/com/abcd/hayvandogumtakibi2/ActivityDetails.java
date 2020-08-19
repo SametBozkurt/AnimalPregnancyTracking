@@ -1,5 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -71,7 +72,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         parent_layout.post(new Runnable() {
             @Override
             public void run() {
-                if(hayvanVeriler.getFotograf_isim().length()!=0){
+                if(!hayvanVeriler.getFotograf_isim().isEmpty()){
                     final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
                     Glide.with(ActivityDetails.this).load(Uri.fromFile(gorselFile)).into(imageView);
                 }
@@ -127,6 +128,15 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                 }
                 else{
                     Snackbar.make(parent_layout,R.string.edit_blocked_msg,5000).show();
+                }
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!hayvanVeriler.getFotograf_isim().isEmpty()){
+                    final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+                    show_image(gorselFile.getAbsolutePath());
                 }
             }
         });
@@ -242,6 +252,15 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         }
         final int adWidth = (int) (adWidthPixels / density);
         return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
+    }
+
+    void show_image(String photo_address){
+        final Dialog dialog = new Dialog(this,R.style.ImageDialogStyle);
+        dialog.setContentView(R.layout.image_dialog_layout);
+        dialog.setCanceledOnTouchOutside(true);
+        final ImageView img_animal=dialog.findViewById(R.id.image_animal);
+        Glide.with(this).load(Uri.fromFile(new File(photo_address))).into(img_animal);
+        dialog.show();
     }
 
 }

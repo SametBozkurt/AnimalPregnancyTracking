@@ -31,7 +31,7 @@ public class FragmentGerceklesenDogumlar extends Fragment {
         final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getGerceklesenler();
         final View view=inflater.inflate(R.layout.fragment_gerceklesen_dogumlar,container,false);
         final RecyclerView recyclerView=view.findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
+        final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(gridLayoutManager);
         final ProgressDialog[] dialog = {new ProgressDialog(context)};
         dialog[0].setTitle(R.string.dialog_title1);
@@ -49,7 +49,6 @@ public class FragmentGerceklesenDogumlar extends Fragment {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        //recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
                         recyclerView.setAdapter(new KayitlarAdapter(context,0));
                         dialog[0].dismiss();
                         dialog[0] =null;

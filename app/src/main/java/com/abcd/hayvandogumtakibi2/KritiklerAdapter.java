@@ -33,7 +33,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.kritikler_adapter,parent,false);
+        final View view = LayoutInflater.from(context).inflate(R.layout.kritikler_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 
@@ -42,7 +42,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         final HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
         if(hayvanVeriler.getFotograf_isim().length()!=0){
-            File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+            final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
@@ -64,9 +64,9 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle data=new Bundle();
+                final Bundle data=new Bundle();
                 data.putInt("ID",hayvanVeriler.getId());
-                Intent intent=new Intent(context,ActivityDetails.class);
+                final Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);
             }

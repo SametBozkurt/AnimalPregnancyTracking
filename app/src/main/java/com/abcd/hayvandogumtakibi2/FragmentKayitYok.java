@@ -32,7 +32,7 @@ public class FragmentKayitYok extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_no_record,container,false);
+        final View view=inflater.inflate(R.layout.fragment_no_record,container,false);
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -85,8 +85,8 @@ public class FragmentKayitYok extends Fragment {
         btn_pet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bundle_intent=new Intent(context,ActivityDogumKayit.class);
-                Bundle datas=new Bundle();
+                final Intent bundle_intent=new Intent(context,ActivityDogumKayit.class);
+                final Bundle datas=new Bundle();
                 datas.putInt("isPet",1);
                 bundle_intent.putExtras(datas);
                 context.startActivity(bundle_intent);
@@ -96,8 +96,8 @@ public class FragmentKayitYok extends Fragment {
         btn_barn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bundle_intent=new Intent(getContext(),ActivityDogumKayit.class);
-                Bundle datas=new Bundle();
+                final Intent bundle_intent=new Intent(getContext(),ActivityDogumKayit.class);
+                final Bundle datas=new Bundle();
                 datas.putInt("isPet",2);
                 bundle_intent.putExtras(datas);
                 context.startActivity(bundle_intent);

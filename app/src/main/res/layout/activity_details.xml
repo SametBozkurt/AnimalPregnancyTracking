@@ -31,6 +31,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/img_hayvan"
+                    android:background="@drawable/ripple_effect"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +91,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_kategori_1"
                     android:background="@drawable/item_style_2">
 
                     <ImageView
@@ -135,6 +137,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_kategori_1"
                     android:background="@drawable/item_style_2">
 
                     <ImageView
@@ -180,6 +183,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_kategori_1"
                     android:background="@drawable/item_style_2">
 
                     <ImageView
@@ -225,6 +229,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_kategori_1"
                     android:background="@drawable/item_style_2">
 
                     <ImageView
@@ -310,7 +315,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

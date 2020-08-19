@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CropActivityTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">#673AB7</item>
+        <item name="colorPrimaryDark">#512DA8</item>
+        <item name="colorAccent">#ffffff</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -96,5 +102,8 @@
     <style name="KayitEkleInputStyle" parent="@style/Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/input_background_tint</item>
         <item name="hintTextColor">@color/input_background_tint</item>
+    </style>
+    <style name="ImageDialogStyle" parent="Theme.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
     </style>
 </resources>

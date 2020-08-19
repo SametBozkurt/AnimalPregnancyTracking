@@ -109,7 +109,7 @@
             android:label="@string/menu_dev_tools"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+            android:theme="@style/CropActivityTheme"/>
 
         <receiver
             android:name=".TarihKontrol"

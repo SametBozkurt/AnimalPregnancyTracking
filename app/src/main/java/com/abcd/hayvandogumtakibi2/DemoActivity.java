@@ -49,7 +49,7 @@ public class DemoActivity extends AppCompatActivity {
     private void veri_kontrol(){
        if(getIntent().getExtras()!=null){
            if(getIntent().getExtras().containsKey("key_update")){
-               Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.APP_URL)));
+               final Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.APP_URL)));
                startActivity(intent);
            }
            else{
