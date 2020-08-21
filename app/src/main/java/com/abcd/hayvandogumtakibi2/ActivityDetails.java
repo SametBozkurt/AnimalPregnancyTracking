@@ -35,11 +35,12 @@ import java.util.Locale;
 
 public class ActivityDetails extends AppCompatActivity implements CalendarTools {
 
+    private Boolean isOtherDatesShown=false;
     private HayvanVeriler hayvanVeriler;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
     int dogum_gerceklesti=0;
     private AdView adView;
-    private FrameLayout adContainerView, tarih3_container;
+    private FrameLayout adContainerView, info_container;
     private LinearLayout linearLayout;
     private RelativeLayout parent_layout;
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
@@ -51,7 +52,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         setContentView(R.layout.activity_details);
         parent_layout=findViewById(R.id.parent_layout);
         adContainerView=findViewById(R.id.ad_view_container);
-        tarih3_container=findViewById(R.id.tarih3_container);
+        info_container=findViewById(R.id.info_container);
         linearLayout=findViewById(R.id.linear_layout);
         final ImageView imageView = findViewById(R.id.img_hayvan);
         final TextView txt_isim = findViewById(R.id.txt_isim);
@@ -176,13 +177,44 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                 if(hayvanVeriler.getDogum_tarihi()!=null||!hayvanVeriler.getDogum_tarihi().isEmpty()){
                     if(hayvanVeriler.getIs_evcilhayvan()==2 && Integer.parseInt(hayvanVeriler.getTur())==0){
                         final LayoutInflater inflater=LayoutInflater.from(ActivityDetails.this);
-                        final View tarih3_view=inflater.inflate(R.layout.layout_kizdirma_tarihi,tarih3_container,false);
-                        final TextView txt_kizidirma_tarihi=tarih3_view.findViewById(R.id.txt_tarih3);
-                        final long date_in_millis=Long.parseLong(hayvanVeriler.getDogum_tarihi());
-                        final Date date = new Date();
-                        date.setTime(TarihHesaplayici.get_kizdirma_tarihi(date_in_millis).getTimeInMillis());
-                        txt_kizidirma_tarihi.setText(dateFormat.format(date));
-                        tarih3_container.addView(tarih3_view);
+                        final View view=inflater.inflate(R.layout.layout_diger_detaylar,info_container,false);
+                        final TextView textView=view.findViewById(R.id.textView);
+                        final FrameLayout frameLayout=view.findViewById(R.id.diger_tarihler_container);
+                        frameLayout.setAlpha(0f);
+                        textView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(!isOtherDatesShown){
+                                    frameLayout.animate().alpha(1f).setDuration(200).start();
+                                    final LayoutInflater inflater=LayoutInflater.from(ActivityDetails.this);
+                                    final View view1=inflater.inflate(R.layout.layout_kizdirma_tarihi,frameLayout,false);
+                                    final TextView txt_kizidirma_tarihi=view1.findViewById(R.id.txt_tarih3);
+                                    final TextView txt_kuruya_alma=view1.findViewById(R.id.txt_tarih4);
+                                    final long date_in_millis=Long.parseLong(hayvanVeriler.getDogum_tarihi());
+                                    final Date date = new Date();
+                                    date.setTime(TarihHesaplayici.get_kizdirma_tarihi(date_in_millis));
+                                    txt_kizidirma_tarihi.setText(dateFormat.format(date));
+                                    date.setTime(TarihHesaplayici.get_kuruya_alma_tarihi(date_in_millis));
+                                    txt_kuruya_alma.setText(dateFormat.format(date));
+                                    frameLayout.addView(view1);
+                                    textView.setText(getString(R.string.hide_other_details));
+                                    frameLayout.setAlpha(1f);
+                                    isOtherDatesShown=true;
+                                }
+                                else{
+                                    frameLayout.animate().alpha(0f).setDuration(200).start();
+                                    frameLayout.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            frameLayout.removeAllViews();
+                                        }
+                                    },210);
+                                    textView.setText(getString(R.string.show_other_details));
+                                    isOtherDatesShown=false;
+                                }
+                            }
+                        });
+                        info_container.addView(view);
                     }
                 }
             }

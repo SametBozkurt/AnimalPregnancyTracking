@@ -14,7 +14,8 @@ class TarihHesaplayici {
     static final int DAY_CAMEL = 390;
     static final int DAY_DONKEY = 365;
     static final int DAY_HORSE = 335;
-    static final int DAY_TO_NEXT_COW = 64;
+    static final int DAY_TO_NEXT_INS_COW = 64;
+    static final int DAY_TO_ABORT_MILKING_COW = -60;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
 
     static Calendar get_dogum_tarihi(int isPet, String tur_isim, Date tarih, String class_name){
@@ -133,11 +134,18 @@ class TarihHesaplayici {
         return calendar;
     }
 
-    static Calendar get_kizdirma_tarihi(long birth_date_in_millis){
+    static long get_kizdirma_tarihi(long birth_date_in_millis){
         final Calendar calendar=Calendar.getInstance();
         calendar.setTimeInMillis(birth_date_in_millis);
-        calendar.add(Calendar.DATE,DAY_TO_NEXT_COW);
-        return calendar;
+        calendar.add(Calendar.DATE,DAY_TO_NEXT_INS_COW);
+        return calendar.getTimeInMillis();
+    }
+
+    static long get_kuruya_alma_tarihi(long birth_date_in_millis){
+        final Calendar calendar=Calendar.getInstance();
+        calendar.setTimeInMillis(birth_date_in_millis);
+        calendar.add(Calendar.DATE,DAY_TO_ABORT_MILKING_COW);
+        return calendar.getTimeInMillis();
     }
 
 }
