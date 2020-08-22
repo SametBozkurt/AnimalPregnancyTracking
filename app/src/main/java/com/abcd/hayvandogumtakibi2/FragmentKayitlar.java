@@ -1,8 +1,9 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -12,14 +13,20 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class FragmentKayitlar extends Fragment {
 
@@ -29,7 +36,10 @@ public class FragmentKayitlar extends Fragment {
     TextView txt_pet,txt_barn;
     RecyclerView recyclerView;
     Spinner goruntuleme_kategorisi;
+    ProgressBar mProgressBar;
+    RelativeLayout relativeLayout;
     boolean is_opened = false;
+    int mPosition=0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,7 +51,8 @@ public class FragmentKayitlar extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_records,container,false);
-        new Handler().post(new Runnable() {
+        relativeLayout=view.findViewById(R.id.main_layout);
+        view.post(new Runnable() {
             @Override
             public void run() {
                 fab_open= AnimationUtils.loadAnimation(context,R.anim.fab_on);
@@ -66,30 +77,15 @@ public class FragmentKayitlar extends Fragment {
         goruntuleme_kategorisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
-                final ProgressDialog[] dialog = {new ProgressDialog(context)};
-                dialog[0].setTitle(R.string.dialog_title1);
-                dialog[0].setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                dialog[0].setCancelable(false);
-                dialog[0].show();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(600);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        recyclerView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,position));
-                                recyclerView.setAdapter(new KayitlarAdapter(context,position));
-                                dialog[0].dismiss();
-                                dialog[0] =null;
-                            }
-                        });
-                    }
-                }).start();
+                mPosition=position;
+                mProgressBar=new ProgressBar(context);
+                final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                mProgressBar.setLayoutParams(mLayoutParams);
+                mProgressBar.setIndeterminate(true);
+                relativeLayout.addView(mProgressBar);
+                new Task1().execute();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -154,6 +150,37 @@ public class FragmentKayitlar extends Fragment {
             }
         });
         return view;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class Task1 extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            recyclerView.animate().alpha(0f).setDuration(200).start();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            relativeLayout.removeView(mProgressBar);
+            recyclerView.animate().alpha(1f).setDuration(200).start();
+            final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+            final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
+            recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,mPosition));
+            mProgressBar=null;
+        }
     }
 
 }

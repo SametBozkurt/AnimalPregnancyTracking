@@ -27,9 +27,9 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
     private final Date date=new Date();
 
-    KayitlarAdapter(Context context,int code){
+    KayitlarAdapter(Context context,ArrayList<HayvanVeriler> arrayList,int code){
         this.context=context;
-        this.hayvanVeriler=SQLiteDatabaseHelper.getInstance(context).getSimpleData();
+        this.hayvanVeriler=arrayList;
         this.code=code;
     }
 
