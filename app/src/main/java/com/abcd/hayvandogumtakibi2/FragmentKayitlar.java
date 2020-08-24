@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,6 @@ public class FragmentKayitlar extends Fragment {
 
     Context context;
     Animation fab_open, fab_close, fab_clock, fab_anticlock;
-    FloatingActionButton btn_add,btn_pet,btn_barn;
-    TextView txt_pet,txt_barn;
     RecyclerView recyclerView;
     Spinner goruntuleme_kategorisi;
     ProgressBar mProgressBar;
@@ -52,6 +49,11 @@ public class FragmentKayitlar extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_records,container,false);
         relativeLayout=view.findViewById(R.id.main_layout);
+        final FloatingActionButton btn_add = view.findViewById(R.id.create);
+        final FloatingActionButton btn_pet = view.findViewById(R.id.fab_pet);
+        final FloatingActionButton btn_barn = view.findViewById(R.id.fab_barn);
+        final TextView txt_pet = view.findViewById(R.id.text_pet);
+        final TextView txt_barn = view.findViewById(R.id.text_barn);
         view.post(new Runnable() {
             @Override
             public void run() {
@@ -61,11 +63,6 @@ public class FragmentKayitlar extends Fragment {
                 fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
             }
         });
-        btn_add = view.findViewById(R.id.create);
-        btn_pet = view.findViewById(R.id.fab_pet);
-        btn_barn = view.findViewById(R.id.fab_barn);
-        txt_pet = view.findViewById(R.id.text_pet);
-        txt_barn = view.findViewById(R.id.text_barn);
         recyclerView=view.findViewById(R.id.recyclerView);
         goruntuleme_kategorisi = view.findViewById(R.id.kategori);
         final ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(context,R.layout.spinner_kategori,
@@ -94,33 +91,33 @@ public class FragmentKayitlar extends Fragment {
         });
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 if(is_opened){
-                    new Handler().post(new Runnable() {
+                    txt_barn.startAnimation(fab_close);
+                    btn_barn.startAnimation(fab_close);
+                    view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             txt_pet.startAnimation(fab_close);
                             btn_pet.startAnimation(fab_close);
-                            txt_barn.startAnimation(fab_close);
-                            btn_barn.startAnimation(fab_close);
-                            btn_add.startAnimation(fab_anticlock);
                         }
-                    });
+                    },200);
+                    btn_add.startAnimation(fab_anticlock);
                     btn_pet.setClickable(false);
                     btn_barn.setClickable(false);
                     is_opened=false;
                 }
                 else{
-                    new Handler().post(new Runnable() {
+                    txt_pet.startAnimation(fab_open);
+                    btn_pet.startAnimation(fab_open);
+                    view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            txt_pet.startAnimation(fab_open);
-                            btn_pet.startAnimation(fab_open);
                             txt_barn.startAnimation(fab_open);
                             btn_barn.startAnimation(fab_open);
-                            btn_add.startAnimation(fab_clock);
                         }
-                    });
+                    },200);
+                    btn_add.startAnimation(fab_clock);
                     btn_pet.setClickable(true);
                     btn_barn.setClickable(true);
                     is_opened = true;

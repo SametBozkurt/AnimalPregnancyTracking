@@ -111,7 +111,7 @@
     <string name="tur_7">Horse</string>
     <string name="tur_8">Donkey</string>
     <string name="tur_9">Camel</string>
-    <string name="reqs_info2">Keep in mind that this app will not collect your any data.</string>
+    <string name="reqs_info2">Keep in mind that this app will not collect your any private data.</string>
     <string name="service_tag">DateDedectorService</string>
     <string name="txt_day">Day(s) to birth</string>
     <string name="txt_day_2">Day(s)</string>
@@ -134,4 +134,12 @@
     <string name="info_kuruya_alma">Est. Dat. of Abort. Milking</string>
     <string name="show_other_details">Click to See Other Details</string>
     <string name="hide_other_details">Click to Hide Other Details</string>
+    <string name="what_perms">What are these permissions?</string>
+    <string name="text_camera">Camera (Click for explanation)</string>
+    <string name="text_storage">Storage (Click for explanation)</string>
+    <string name="cam_per_title">Why camera permission is required?</string>
+    <string name="storage_per_title">Why storage permission is required?</string>
+    <string name="cam_per_exp">Accessing camera hardware is required when you wish take a picture of your animal. In this point, this app requests this permission to access camera properly. This is why it\'s requested.</string>
+    <string name="text_okay">Okay</string>
+    <string name="storage_per_exp">When you pick or capture a photo, it is needed to save in storage. In this point, saving the photo in storage properly, storage permission is required. This is why storage permission is reqired.</string>
 </resources>

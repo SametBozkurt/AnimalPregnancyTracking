@@ -61,6 +61,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_barn"
         android:orientation="horizontal"
         android:layout_marginEnd="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_4"

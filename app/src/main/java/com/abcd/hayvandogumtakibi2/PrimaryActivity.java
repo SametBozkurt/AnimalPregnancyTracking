@@ -171,7 +171,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_info:
                 String ver="";
                 try{
-                    PackageInfo packageInfo=getPackageManager().getPackageInfo(PrimaryActivity.this.getPackageName(),0);
+                    final PackageInfo packageInfo=getPackageManager().getPackageInfo(PrimaryActivity.this.getPackageName(),0);
                     ver=packageInfo.versionName;
                 }
                 catch(PackageManager.NameNotFoundException e){

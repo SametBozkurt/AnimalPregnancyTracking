@@ -111,7 +111,7 @@
     <string name="tur_7">At</string>
     <string name="tur_8">Eşek</string>
     <string name="tur_9">Deve</string>
-    <string name="reqs_info2">Hiçbir verinizin toplanmayacağını aklınızda bulundurunuz.</string>
+    <string name="reqs_info2">Hiçbir kişisel verinizin toplanmayacağını aklınızda bulundurunuz.</string>
     <string name="service_tag">GunDegisimDedektoru</string>
     <string name="txt_day">Gün kaldı</string>
     <string name="txt_day_2">Gün</string>
@@ -134,4 +134,12 @@
     <string name="info_kuruya_alma">Tah. Kur. Alma Trihi</string>
     <string name="show_other_details">Diğ. Det. Gör. İçn Tıklayınız</string>
     <string name="hide_other_details">Diğ. Det. Giz. İçn Tıklayınız</string>
+    <string name="what_perms">Nedir bu izinler?</string>
+    <string name="text_camera">Kamera (Açıklama için tıklayınız)</string>
+    <string name="text_storage">Depolama (Açıklama için tıklayınız)</string>
+    <string name="cam_per_title">Kamera izni neden gerekli?</string>
+    <string name="storage_per_title">Depolama izni neden gerekli?</string>
+    <string name="cam_per_exp">Söz konusu hayvanınızın fotoğrafını çekmek istediğinizde, bu uygulama kameraya erişmek isteyecektir. Bu noktada, bu uygulamanın doğru bir biçimde kameraya erişebilmesi için bu izin gereklidir.</string>
+    <string name="text_okay">Tamam</string>
+    <string name="storage_per_exp">Söz konusu hayvanınızın fotoğrafını çektiğinizde, fotoğrafın depolama birimine kaydedilmesi gerekir. Bu noktada, fotoğrafların depolama birimine düzgün bir şekilde kaydedilmesi için depolama izni gerekmektedir.</string>
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,45 +9,121 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="@dimen/margin_kategori_6"
-        android:layout_marginEnd="@dimen/margin_kategori_6"
+        android:layout_marginTop="@dimen/margin_kategori_6"
         android:fontFamily="sans-serif"
         android:text="@string/title_req_perms"
         android:textColor="@color/input_text_color"
         android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:gravity="center_horizontal"
+        android:layout_marginStart="@dimen/margin_kategori_6"
+        android:layout_marginEnd="@dimen/margin_kategori_6"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/text_informing"
         android:text="@string/reqs_info"
         android:textColor="@color/input_text_color"
         android:textSize="18sp"
+        android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_kategori_6"
         android:paddingStart="@dimen/margin_kategori_6"
         android:paddingEnd="@dimen/margin_kategori_6"
-        app:layout_constraintTop_toBottomOf="@id/text_title"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_below="@id/text_title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_informing"
+        android:text="@string/what_perms"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/text_what_perms"
         android:layout_marginTop="@dimen/margin_kategori_6"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_informing"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect2"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_kategori_2"
+        android:layout_below="@id/text_what_perms"
+        android:layout_marginTop="@dimen/margin_kategori_6"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
+        android:id="@+id/permission_storage"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_storage"
+            android:contentDescription="@null"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_storage"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_kategori_2"
+        android:background="@drawable/ripple_effect2"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_below="@id/permission_storage"
+        android:layout_marginTop="@dimen/margin_kategori_6"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
+        android:id="@+id/permission_camera">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_photo_camera"
+            android:contentDescription="@null"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_camera"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/allow"
+        android:layout_marginBottom="@dimen/margin_kategori_6"
         android:paddingStart="@dimen/margin_kategori_6"
         android:paddingEnd="@dimen/margin_kategori_6"
         android:text="@string/reqs_info2"
         android:textColor="@android:color/black"
+        android:gravity="center_horizontal"
         android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/text_informing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/allow"
@@ -64,6 +140,7 @@
         android:layout_marginStart="@dimen/margin_kategori_6"
         android:layout_marginEnd="@dimen/margin_kategori_6"
         android:layout_marginBottom="@dimen/margin_kategori_6"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
