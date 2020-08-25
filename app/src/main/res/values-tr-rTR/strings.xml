@@ -107,7 +107,7 @@
     <string name="allow_text">İzin ver</string>
     <string name="nav_privacy_policy">Verilerin Gizliliği İlkesi</string>
     <string name="fab_barn_exp">Çiftlik</string>
-    <string name="fab_pet_exp">Evcil</string>
+    <string name="fab_pet_exp">"Evcil  "</string>
     <string name="tur_7">At</string>
     <string name="tur_8">Eşek</string>
     <string name="tur_9">Deve</string>

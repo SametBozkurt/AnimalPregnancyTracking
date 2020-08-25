@@ -121,7 +121,7 @@
         "This app needs some permissions to work properly."
         "We recommend you to allow these permissions."</string>
     <string name="reqs_info2">"Keep in mind that this app will not collect your any private data."</string>
-    <string name="fab_pet_exp">Pet</string>
+    <string name="fab_pet_exp">"Pet  "</string>
     <string name="fab_barn_exp">Barn</string>
     <string name="service_tag">DateDedectorService</string>
     <string name="gcm_notification_channel_id" translatable="false">GCM Service</string>

@@ -36,14 +36,14 @@
         android:id="@+id/create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_1"
         android:elevation="@dimen/button_elevation"
-        app:backgroundTint="@color/fab_tint"
+        app:backgroundTint="#fff"
         android:src="@drawable/icon_add_v2"
-        app:rippleColor="@color/button_ripple_color_light"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        app:rippleColor="#1E88E5"
         app:maxImageSize="32dp"
         style="@style/FABStyle"/>
 
@@ -54,29 +54,30 @@
         android:orientation="horizontal"
         android:layout_marginEnd="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_4"
+        android:elevation="@dimen/button_elevation"
         android:layout_above="@id/create"
-        android:layout_alignParentEnd="true"
-        android:elevation="@dimen/button_elevation">
+        android:layout_alignParentEnd="true">
 
         <TextView
             android:id="@+id/text_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fab_pet_exp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
-            android:padding="5dp"
-            android:textColor="@android:color/white"
-            android:background="#37474f"
-            android:visibility="invisible"/>
+            android:background="#fff"
+            android:fontFamily="@font/varela_round"
+            android:padding="10dp"
+            android:text="@string/fab_pet_exp"
+            android:textColor="@android:color/black"
+            android:visibility="invisible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/sub_fab_tint"
+            app:backgroundTint="#fff"
             android:src="@drawable/icon_pet"
-            app:rippleColor="@color/fab_icon_tint"
+            app:rippleColor="#1E88E5"
             app:maxImageSize="30dp"
             android:visibility="invisible"
             style="@style/FABStyle"/>
@@ -86,6 +87,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_barn"
         android:orientation="horizontal"
         android:layout_marginEnd="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_4"
@@ -97,21 +99,22 @@
             android:id="@+id/text_barn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fab_barn_exp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
-            android:padding="5dp"
-            android:textColor="@android:color/white"
-            android:background="#37474f"
-            android:visibility="invisible"/>
+            android:background="#fff"
+            android:fontFamily="@font/varela_round"
+            android:padding="10dp"
+            android:text="@string/fab_barn_exp"
+            android:textColor="@android:color/black"
+            android:visibility="invisible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_barn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/sub_fab_tint"
+            app:backgroundTint="#fff"
             android:src="@drawable/icon_barn"
-            app:rippleColor="@color/fab_icon_tint"
+            app:rippleColor="#1E88E5"
             app:maxImageSize="30dp"
             android:visibility="invisible"
             style="@style/FABStyle"/>

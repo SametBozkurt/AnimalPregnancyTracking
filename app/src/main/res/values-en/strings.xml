@@ -107,7 +107,7 @@
     <string name="allow_text">Allow</string>
     <string name="nav_privacy_policy">Privacy Policy</string>
     <string name="fab_barn_exp">Barn</string>
-    <string name="fab_pet_exp">Pet</string>
+    <string name="fab_pet_exp">"Pet  "</string>
     <string name="tur_7">Horse</string>
     <string name="tur_8">Donkey</string>
     <string name="tur_9">Camel</string>
