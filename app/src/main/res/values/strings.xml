@@ -149,4 +149,6 @@
     <string name="cam_per_exp">Accessing camera hardware is required when you wish take a picture of your animal. In this point, this app requests this permission to access camera properly. This is why it\'s requested.</string>
     <string name="text_okay">Okay</string>
     <string name="storage_per_exp">When you pick or capture a photo, it is needed to save in storage. In this point, saving the photo in storage properly, storage permission is required. This is why storage permission is reqired.</string>
+    <string name="button_multiple_deletion">Remove All Records</string>
+    <string name="button_clean_the_garbage">Clean The Garbage</string>
 </resources>

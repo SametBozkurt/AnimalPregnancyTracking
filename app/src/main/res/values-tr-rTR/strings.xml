@@ -142,4 +142,6 @@
     <string name="cam_per_exp">Söz konusu hayvanınızın fotoğrafını çekmek istediğinizde, bu uygulama kameraya erişmek isteyecektir. Bu noktada, bu uygulamanın doğru bir biçimde kameraya erişebilmesi için bu izin gereklidir.</string>
     <string name="text_okay">Tamam</string>
     <string name="storage_per_exp">Söz konusu hayvanınızın fotoğrafını çektiğinizde, fotoğrafın depolama birimine kaydedilmesi gerekir. Bu noktada, fotoğrafların depolama birimine düzgün bir şekilde kaydedilmesi için depolama izni gerekmektedir.</string>
+    <string name="button_multiple_deletion">Tüm Kayıtları Sil</string>
+    <string name="button_clean_the_garbage">Çöpü Boşalt</string>
 </resources>

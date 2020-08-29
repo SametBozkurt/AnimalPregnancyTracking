@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -311,12 +312,15 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         return imgFile;
     }
 
-    private void save_photo(Bitmap bitmap){
+    private void save_photo(@NonNull Bitmap bitmap){
         int croped_width=bitmap.getWidth();
         int croped_height=bitmap.getHeight();
         while(croped_width>1000){
-            croped_width=croped_width/2;
-            croped_height=croped_height/2;
+            final double x=croped_width/1.1;
+            croped_width=(int)x;
+            croped_height=(int)x;
+            /*Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
+            ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
         }
         try{
             FileOutputStream fileOutputStream;

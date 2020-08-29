@@ -43,6 +43,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
     private FrameLayout adContainerView, info_container;
     private LinearLayout linearLayout;
     private RelativeLayout parent_layout;
+    private int screen_width=0;
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
@@ -219,6 +220,12 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
                 }
             }
         });
+        parent_layout.post(new Runnable() {
+            @Override
+            public void run() {
+                get_width_pixels();
+            }
+        });
     }
 
     @Override
@@ -291,8 +298,19 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         dialog.setContentView(R.layout.image_dialog_layout);
         dialog.setCanceledOnTouchOutside(true);
         final ImageView img_animal=dialog.findViewById(R.id.image_animal);
+        img_animal.setMinimumHeight(screen_width*3/4);  //Bu işlem dialog boyutunu yatay piksel sayısının
+        img_animal.setMaxHeight(screen_width*4/5);      //%75-%80'i boyutunda tutarak dialog boyutunu stabil tutar.
+        img_animal.setMinimumWidth(screen_width*3/4);
+        img_animal.setMaxWidth(screen_width*4/5);
         Glide.with(this).load(Uri.fromFile(new File(photo_address))).into(img_animal);
         dialog.show();
+    }
+
+    void get_width_pixels(){
+        final Display display = getWindowManager().getDefaultDisplay();
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        screen_width=displayMetrics.widthPixels;
     }
 
 }

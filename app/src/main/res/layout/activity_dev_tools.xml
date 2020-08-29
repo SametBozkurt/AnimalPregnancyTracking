@@ -25,10 +25,12 @@
 
     <Button
         android:id="@+id/kayit_olustur"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/design_default_color_primary_dark"
         android:layout_marginTop="@dimen/margin_kategori_2"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
         android:text="@string/button_multiple_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +47,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/kayit_olustur" />
+
+    <Button
+        android:id="@+id/kayit_sil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#D81B60"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:text="@string/button_multiple_deletion"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
+        app:layout_constraintTop_toBottomOf="@id/seekbar" />
+
+    <Button
+        android:id="@+id/copu_bosalt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00897B"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:text="@string/button_clean_the_garbage"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
+        app:layout_constraintTop_toBottomOf="@id/kayit_sil" />
+
+    <FrameLayout
+        android:id="@+id/progress_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/copu_bosalt"
+        android:layout_marginTop="@dimen/margin_kategori_2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
