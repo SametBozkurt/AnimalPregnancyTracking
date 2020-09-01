@@ -176,7 +176,9 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
             @Override
             public void run() {
                 if(hayvanVeriler.getDogum_tarihi()!=null||!hayvanVeriler.getDogum_tarihi().isEmpty()){
-                    if(hayvanVeriler.getIs_evcilhayvan()==2 && Integer.parseInt(hayvanVeriler.getTur())==0){
+                    final boolean a=hayvanVeriler.getIs_evcilhayvan()==2 && Integer.parseInt(hayvanVeriler.getTur())==0;
+                    final boolean b=hayvanVeriler.getIs_evcilhayvan()==0 && Integer.parseInt(hayvanVeriler.getTur())==0;
+                    if(a||b){
                         final LayoutInflater inflater=LayoutInflater.from(ActivityDetails.this);
                         final View view=inflater.inflate(R.layout.layout_diger_detaylar,info_container,false);
                         final TextView textView=view.findViewById(R.id.textView);

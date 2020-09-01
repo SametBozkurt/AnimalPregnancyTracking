@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#fbc02d</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryDark">#c49000</color>
     <color name="colorPrimaryDark_2">#c8b900</color>
     <color name="listViewTextColor">#37474f</color>
@@ -17,8 +17,6 @@
     <color name="colorAccentPicker">#F57F17</color>
     <color name="image_background">#FFD54F</color>
     <color name="fab_tint">#138EE9</color>
-    <color name="sub_fab_tint">#E91E63</color>
-    <color name="fab_icon_tint">#ffffff</color>
     <color name="input_background_tint">#37474f</color>
     <color name="input_text_color">#37474f</color>
     <color name="nav_header_title_color">#546e7a</color>

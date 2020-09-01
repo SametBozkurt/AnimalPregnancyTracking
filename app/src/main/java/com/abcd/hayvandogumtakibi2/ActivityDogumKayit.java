@@ -3,9 +3,6 @@ package com.abcd.hayvandogumtakibi2;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +26,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,28 +36,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.FileProvider;
-import androidx.exifinterface.media.ExifInterface;
 
 public class ActivityDogumKayit extends AppCompatActivity implements CalendarTools{
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int TAKING_PHOTO_REQ_CODE = 12322;
+    private int _isPet;
     private boolean boolTarih=false;
+    private final Calendar gecerli_takvim=Calendar.getInstance();
+    private Calendar hesaplanan_tarih=Calendar.getInstance();
+    private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
+    private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+    private Date date_dollenme, date_dogum;
     private RelativeLayout main_Layout;
-    private SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
     private Button kaydet,iptal;
     private ImageView photo;
     private Spinner spinner_turler;
-    private final Calendar gecerli_takvim=Calendar.getInstance();
-    private Calendar hesaplanan_tarih=Calendar.getInstance();
+    private TextInputLayout textInputLayout;
     private String gorsel_adres;
     private String secilen_tur="0";
     private String gorsel_ad="";
-    private Date date_dollenme, date_dogum;
-    private TextInputLayout textInputLayout;
-    private int _isPet;
-    private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,8 +232,16 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
         else{
-            final HayvanVeriler hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                    String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
+            final boolean img_exists=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).exists();
+            HayvanVeriler hayvanVeriler;
+            if(img_exists){
+                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
+            }
+            else{
+                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0);
+            }
             dbYoneticisi.veri_yaz(hayvanVeriler);
             finish();
         }

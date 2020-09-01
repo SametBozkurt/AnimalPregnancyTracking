@@ -90,10 +90,10 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
-            recyclerView.animate().alpha(1f).setDuration(200).start();
             hayvanVerilerArrayList=databaseHelper.getAllData();
             final DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,hayvanVerilerArrayList);
             recyclerView.setAdapter(duzenleAdapter);
+            recyclerView.animate().alpha(1f).setDuration(200).start();
         }
     }
 

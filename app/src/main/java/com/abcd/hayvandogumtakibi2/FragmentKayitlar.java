@@ -172,10 +172,10 @@ public class FragmentKayitlar extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
-            recyclerView.animate().alpha(1f).setDuration(200).start();
             final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
             final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
             recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,mPosition));
+            recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }
     }

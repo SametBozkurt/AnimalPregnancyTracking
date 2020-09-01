@@ -88,9 +88,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_kategori_1"
                         android:src="@drawable/icon_tag"
-                        android:tint="@color/input_text_color"
                         android:contentDescription="@null"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_gravity="center_vertical"
+                        app:tint="@color/input_text_color" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/KayitEkleInputStyle"
@@ -134,8 +134,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_kategori_1"
                         android:src="@drawable/icon_calendar"
-                        android:tint="@color/input_text_color"
-                        android:contentDescription="@null"/>
+                        android:contentDescription="@null"
+                        app:tint="@color/input_text_color" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/KayitEkleInputStyle"
@@ -171,8 +171,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_kategori_1"
                         android:src="@drawable/icon_calendar"
-                        android:tint="@color/input_text_color"
-                        android:contentDescription="@null"/>
+                        android:contentDescription="@null"
+                        app:tint="@color/input_text_color" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_tarih2"

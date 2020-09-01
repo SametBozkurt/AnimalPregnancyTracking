@@ -1,19 +1,21 @@
 package com.abcd.hayvandogumtakibi2;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -29,6 +31,8 @@ public class ActivityPeriods extends AppCompatActivity {
     AdView adView;
     FrameLayout adContainerView;
     RelativeLayout relativeLayout;
+    ProgressBar mProgressBar;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class ActivityPeriods extends AppCompatActivity {
         setContentView(R.layout.activity_periods);
         final Toolbar toolbar=findViewById(R.id.toolbar);
         relativeLayout=findViewById(R.id.parent_layout);
-        final RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        recyclerView=findViewById(R.id.recyclerView);
         adContainerView=findViewById(R.id.ad_view_container);
         this.setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,35 +51,34 @@ public class ActivityPeriods extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        relativeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                final GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityPeriods.this,3);
-                recyclerView.setLayoutManager(gridLayoutManager);
-                recyclerView.setAdapter(new PeriodsAdapter(ActivityPeriods.this));
-            }
-        });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityPeriods.this.getSystemService(CONNECTIVITY_SERVICE);
-                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-                if(networkInfo!=null){
-                    if(networkInfo.isConnected()){
-                        adContainerView.postDelayed(new Runnable() {
+        init();
+        final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityPeriods.this.getSystemService(CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        if(networkInfo!=null){
+            if(networkInfo.isConnected()){
+                adContainerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MobileAds.initialize(ActivityPeriods.this, new OnInitializationCompleteListener() {
                             @Override
-                            public void run() {
-                                MobileAds.initialize(ActivityPeriods.this, new OnInitializationCompleteListener() {
-                                    @Override
-                                    public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                                });
-                                loadBanner();
-                            }
-                        },500);
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        loadBanner();
                     }
-                }
+                },500);
             }
-        }).start();
+        }
+    }
+
+    private void init(){
+        mProgressBar=new ProgressBar(this);
+        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        mProgressBar.setLayoutParams(mLayoutParams);
+        mProgressBar.setIndeterminate(true);
+        relativeLayout.addView(mProgressBar);
+        new Task1().execute();
     }
 
     private void loadBanner() {
@@ -129,4 +132,36 @@ public class ActivityPeriods extends AppCompatActivity {
         super.onResume();
         if (adView != null) { adView.resume(); }
     }
+
+    @SuppressLint("StaticFieldLeak")
+    class Task1 extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            recyclerView.setAlpha(0f);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            relativeLayout.removeView(mProgressBar);
+            final GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityPeriods.this,3);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(new PeriodsAdapter(ActivityPeriods.this));
+            recyclerView.animate().alpha(1f).setDuration(200).start();
+            mProgressBar=null;
+        }
+    }
+
 }

@@ -71,8 +71,8 @@ public class FragmentYaklasanDogumlar extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
-            recyclerView.animate().alpha(1f).setDuration(200).start();
             recyclerView.setAdapter(new KritiklerAdapter(context));
+            recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }
     }

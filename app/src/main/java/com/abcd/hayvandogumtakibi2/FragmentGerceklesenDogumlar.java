@@ -73,10 +73,10 @@ public class FragmentGerceklesenDogumlar extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
-            recyclerView.animate().alpha(1f).setDuration(200).start();
             final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
             final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getGerceklesenler();
             recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
+            recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }
     }

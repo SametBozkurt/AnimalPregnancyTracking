@@ -134,8 +134,6 @@
     <string name="dogum_gerceklesti_uyarı">Has that birth happened?</string>
     <string name="yes">Yes</string>
     <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
-    <string name="dialog_title1">Wait a second</string>
-    <string name="dialog_msg1">Adjusting database…</string>
     <string name="info_doguma_hazır_olma">Est. Next Dat. For Ins.</string>
     <string name="crop_text">Crop</string>
     <string name="info_kuruya_alma">Est. Dat. of Abort. Milking</string>
