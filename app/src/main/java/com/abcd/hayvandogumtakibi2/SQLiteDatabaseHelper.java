@@ -275,18 +275,17 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         sqLiteDatabase.delete(VERITABANI_ISIM,"id=? ",new String[]{Integer.toString(ID)});
     }
 
-    void guncelle(int ID, String newIsim, String newTur, String newKupe_No,
-                  String newTohumTarihi, String newDogumTarihi, String newFotografIsim,int dogum_grcklsti){
+    void guncelle(HayvanVeriler hayvanVeriler){
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();
-        newValues.put(SUTUN_1,newIsim);
-        newValues.put(SUTUN_2,newTur);
-        newValues.put(SUTUN_3,newKupe_No);
-        newValues.put(SUTUN_4,newTohumTarihi);
-        newValues.put(SUTUN_5,newDogumTarihi);
-        newValues.put(SUTUN_6,newFotografIsim);
-        newValues.put(SUTUN_8,dogum_grcklsti);
-        database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
+        newValues.put(SUTUN_1,hayvanVeriler.getIsim());
+        newValues.put(SUTUN_2,hayvanVeriler.getTur());
+        newValues.put(SUTUN_3,hayvanVeriler.getKupe_no());
+        newValues.put(SUTUN_4,hayvanVeriler.getTohumlama_tarihi());
+        newValues.put(SUTUN_5,hayvanVeriler.getDogum_tarihi());
+        newValues.put(SUTUN_6,hayvanVeriler.getFotograf_isim());
+        newValues.put(SUTUN_8,hayvanVeriler.getDogum_grcklsti());
+        database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(hayvanVeriler.getId())});
     }
 
     void isaretle_dogum_gerceklesti(int ID){

@@ -34,13 +34,13 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.arama_sonuclari_adapter,parent,false);
+        final View view=LayoutInflater.from(context).inflate(R.layout.arama_sonuclari_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        HayvanVeriler hayvanVeriler1=hayvanVeriler.get(position);
+        final HayvanVeriler hayvanVeriler1=hayvanVeriler.get(position);
         holder.txt_isim.setText(hayvanVeriler1.getIsim());
         if(hayvanVeriler1.getKupe_no().length()==0){
             holder.txt_kupe_no.setText(context.getString(R.string.kupe_no_yok));
@@ -53,10 +53,9 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         date.setTime(Long.parseLong(hayvanVeriler1.getDogum_tarihi()));
         holder.txt_tarih2.setText(dateFormat.format(date));
         HayvanDuzenleyici.set_text(context,hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.txt_tur);
-        if(hayvanVeriler1.getFotograf_isim().length()!=0){
-            Glide.with(context)
-                    .load(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim()))).
-                    into(holder.img_animal);
+        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler1.getFotograf_isim());
+        if(gorselFile.exists()&&gorselFile.isFile()){
+            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
             HayvanDuzenleyici.set_img(context,hayvanVeriler1.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler1.getTur()),holder.img_animal);

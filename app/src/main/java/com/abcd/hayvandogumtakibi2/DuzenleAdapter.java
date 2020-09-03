@@ -73,8 +73,9 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 notifyItemRangeChanged(position,hayvanVerilerArrayList.size());
             }
         });
-        if(hayvanVeriler.getFotograf_isim().length()!=0){
-            Glide.with(mContext).load(Uri.fromFile(new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim()))).into(holder.img_animal);
+        final File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+        if(gorselFile.exists()&&gorselFile.isFile()){
+            Glide.with(mContext).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
             HayvanDuzenleyici.set_img(mContext,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);

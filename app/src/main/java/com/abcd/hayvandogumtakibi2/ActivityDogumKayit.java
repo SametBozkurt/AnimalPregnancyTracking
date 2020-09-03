@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,7 +41,7 @@ import androidx.core.content.FileProvider;
 public class ActivityDogumKayit extends AppCompatActivity implements CalendarTools{
 
     private static final int GALLERY_REQ_CODE=12321;
-    private static final int TAKING_PHOTO_REQ_CODE = 12322;
+    private static final int CAMERA_REQ_CODE = 12322;
     private int _isPet;
     private boolean boolTarih=false;
     private final Calendar gecerli_takvim=Calendar.getInstance();
@@ -54,7 +55,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private ImageView photo;
     private Spinner spinner_turler;
     private TextInputLayout textInputLayout;
-    private String gorsel_adres;
     private String secilen_tur="0";
     private String gorsel_ad="";
 
@@ -190,7 +190,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                                 if (photoFile != null) {
                                     final Uri photoURI= FileProvider.getUriForFile(ActivityDogumKayit.this,getPackageName(),photoFile);
                                     camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                    startActivityForResult(camera_intent, TAKING_PHOTO_REQ_CODE);
+                                    startActivityForResult(camera_intent, CAMERA_REQ_CODE);
                                 }
                             }
                         }
@@ -202,12 +202,12 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
-                            if(!gorsel_ad.isEmpty()) {
-                                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
-                                gorsel_ad = "";
-                                gorsel_adres = "";
-                                Glide.with(ActivityDogumKayit.this).load(R.drawable.icon_photo_add).into(photo);
+                            final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
+                            final boolean img_exists=f.exists();
+                            if(img_exists){
+                                f.delete();
                             }
+                            Glide.with(ActivityDogumKayit.this).load(R.drawable.icon_photo_add).into(photo);
                         }
                         return true;
                     }
@@ -216,35 +216,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             }
         });
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if(gorsel_ad.length()!=0) {
-            new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
-        }
-        finish();
-    }
-
-    private void kayit_gir(View snackbar_view){
-        if (edit_isim.length()==0||btn_tarih_dollenme.length()==0||btn_tarih_dogum.length()==0){
-            Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
-        }
-        else{
-            final boolean img_exists=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad).exists();
-            HayvanVeriler hayvanVeriler;
-            if(img_exists){
-                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
-            }
-            else{
-                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0);
-            }
-            dbYoneticisi.veri_yaz(hayvanVeriler);
-            finish();
-        }
     }
 
     @Override
@@ -257,9 +228,9 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                         launchImageCrop(data.getData());
                     }
                     break;
-                case TAKING_PHOTO_REQ_CODE:
+                case CAMERA_REQ_CODE:
                     if(resultCode==RESULT_OK){
-                        final File file=new File(gorsel_adres);
+                        final File file=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
                         launchImageCrop(Uri.fromFile(file));
                     }
                     break;
@@ -278,6 +249,36 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(gorsel_ad.length()!=0) {
+            new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
+        }
+        finish();
+    }
+
+    private void kayit_gir(View snackbar_view){
+        if (edit_isim.length()==0||btn_tarih_dollenme.length()==0||btn_tarih_dogum.length()==0){
+            Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
+        }
+        else{
+            final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
+            HayvanVeriler hayvanVeriler;
+            if(f.exists()&&f.isFile()){
+                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
+            }
+            else{
+                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0);
+            }
+            dbYoneticisi.veri_yaz(hayvanVeriler);
+            finish();
+        }
+    }
+
 
     @Override
     public void oto_tarih_hesapla(Date date) {
@@ -304,37 +305,30 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     }
 
     public File getImageFile() {
-        final File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
-        if(!gorsel_ad.isEmpty()){
-            new File(picDir,gorsel_ad).delete();
-            gorsel_ad="";
+        final File eski_dosya=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad);
+        if(eski_dosya.exists()&&eski_dosya.isFile()){
+            Log.e("Logger","eski_dosya exists, name:"+eski_dosya.getName());
+            eski_dosya.delete();
         }
-        gorsel_adres=imgFile.getAbsolutePath();
         gorsel_ad=imgFile.getName();
         return imgFile;
     }
 
     private void save_photo(@NonNull Bitmap bitmap){
-        int croped_width=bitmap.getWidth();
-        int croped_height=bitmap.getHeight();
-        while(croped_width>1000){
-            final double x=croped_width/1.1;
-            croped_width=(int)x;
-            croped_height=(int)x;
-            /*Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
+        int cropped_width=bitmap.getWidth();
+        int cropped_height=bitmap.getHeight();
+        while(cropped_width>1000){
+            final double x=cropped_width/1.1;
+            cropped_width=(int)x;
+            cropped_height=(int)x;
+            /**Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
             ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
         }
         try{
-            FileOutputStream fileOutputStream;
-            if(gorsel_adres==null||gorsel_adres.isEmpty()){
-                fileOutputStream=new FileOutputStream(getImageFile());
-            }
-            else{
-                fileOutputStream=new FileOutputStream(gorsel_adres);
-            }
-            final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,croped_width,croped_height,true);
-            Bitmap.createBitmap(scaledBitmap,0,0,croped_width,croped_height,null,true).
+            final FileOutputStream fileOutputStream=new FileOutputStream(getImageFile());
+            final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,cropped_width,cropped_height,true);
+            Bitmap.createBitmap(scaledBitmap,0,0,cropped_width,cropped_height,null,true).
                     compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();

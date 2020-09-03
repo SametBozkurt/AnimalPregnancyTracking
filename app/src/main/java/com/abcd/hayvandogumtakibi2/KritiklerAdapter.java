@@ -41,11 +41,11 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         final HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
         holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
-        if(hayvanVeriler.getFotograf_isim().length()!=0){
-            final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+        if(gorselFile.exists()&&gorselFile.isFile()){
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
-        else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
+        else{
             HayvanDuzenleyici.set_img(context,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
         }
         if(hayvanVeriler.getDogum_tarihi().length()!=0){

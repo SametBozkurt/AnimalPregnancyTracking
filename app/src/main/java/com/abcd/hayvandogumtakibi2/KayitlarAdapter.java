@@ -64,11 +64,11 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                 holder.textView.setText(dateFormat.format(date));
                 break;
         }
-        if(mHayvanVeriler.getFotograf_isim().length()!=0){
-            final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),mHayvanVeriler.getFotograf_isim());
+        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),mHayvanVeriler.getFotograf_isim());
+        if(gorselFile.exists()&&gorselFile.isFile()){
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
-        else if(mHayvanVeriler.getFotograf_isim()==null||mHayvanVeriler.getFotograf_isim().length()==0){
+        else{
             HayvanDuzenleyici.set_img(context,mHayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(mHayvanVeriler.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

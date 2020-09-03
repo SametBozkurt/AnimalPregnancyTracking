@@ -40,7 +40,7 @@ import java.util.Locale;
 public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     private static final int GALLERY_REQ_CODE=12321;
-    private static final int TAKING_PHOTO_REQ_CODE = 12322;
+    private static final int CAMERA_REQ_CODE = 12322;
     private boolean boolTarih=true;
     private int kayit_id,petCode,calisma_sayaci=0;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
@@ -48,7 +48,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     Spinner tur_sec;
     RelativeLayout main_Layout;
     SQLiteDatabaseHelper databaseHelper;
-    String secilen_tur="",img_name,img_addr;
+    String secilen_tur="",img_name="";
     final Calendar takvim=Calendar.getInstance();
     Calendar takvim2=Calendar.getInstance();
     Date date1=new Date(), date2=new Date();
@@ -111,9 +111,11 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         main_Layout.post(new Runnable() {
             @Override
             public void run() {
-                if(!img_name.isEmpty()){
-                    img_addr=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name).getAbsolutePath();
-                    Glide.with(ActivityEdit.this).load(Uri.fromFile(new File(img_addr))).into(photo);
+                final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
+                if(f.exists()&&f.isFile()){
+                    Glide.with(ActivityEdit.this)
+                            .load(Uri.fromFile(new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name)))
+                            .into(photo);
                 }
                 else{
                     Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
@@ -215,9 +217,21 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                     Snackbar.make(v,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
                 }
                 else{
-                    databaseHelper.guncelle(kayit_id,txt_isim.getText().toString(),
-                            secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
-                            String.valueOf(date2.getTime()),img_name,data_bundle.getInt("dogumGrcklsti"));
+                    final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
+                    HayvanVeriler hayvanVeriler;
+                    if(f.exists()&&f.isFile()){
+                        hayvanVeriler=new HayvanVeriler(kayit_id,txt_isim.getText().toString(),
+                                secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
+                                String.valueOf(date2.getTime()),img_name,0,data_bundle.getInt("dogumGrcklsti"));
+
+
+                    }
+                    else{
+                        hayvanVeriler=new HayvanVeriler(kayit_id,txt_isim.getText().toString(),
+                                secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
+                                String.valueOf(date2.getTime()),"",0,data_bundle.getInt("dogumGrcklsti"));
+                    }
+                    databaseHelper.guncelle(hayvanVeriler);
                     finish();
                     startActivity(new Intent(ActivityEdit.this,PrimaryActivity.class));
                 }
@@ -241,11 +255,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                             final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             if (camera_intent.resolveActivity(getPackageManager())!=null) {
                                 final File photoFile=getImageFile();
-                                if (photoFile != null) {
-                                    final Uri photoURI= FileProvider.getUriForFile(ActivityEdit.this,getPackageName(),photoFile);
-                                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                    startActivityForResult(camera_intent, TAKING_PHOTO_REQ_CODE);
-                                }
+                                final Uri photoURI= FileProvider.getUriForFile(ActivityEdit.this,getPackageName(),photoFile);
+                                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(camera_intent, CAMERA_REQ_CODE);
                             }
                         }
                         else if(item.getItemId()==R.id.gallery){
@@ -256,12 +268,11 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                             startActivityForResult(gallery_intent,GALLERY_REQ_CODE);
                         }
                         else if(item.getItemId()==R.id.remove){
-                            if(!img_name.isEmpty()){
-                                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name).delete();
-                                img_name = "";
-                                img_addr = "";
-                                Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
+                            final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
+                            if(f.exists()&&f.isFile()){
+                                f.delete();
                             }
+                            Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
                         }
                         return true;
                     }
@@ -281,9 +292,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                         launchImageCrop(data.getData());
                     }
                     break;
-                case TAKING_PHOTO_REQ_CODE:
+                case CAMERA_REQ_CODE:
                     if(resultCode==RESULT_OK){
-                        final File file=new File(img_addr);
+                        final File file=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
                         launchImageCrop(Uri.fromFile(file));
                     }
                     break;
@@ -346,12 +357,11 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     }
 
     public File getImageFile() {
-        final File picDir=getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
-        if(!img_name.isEmpty()){
-            new File(picDir,img_name).delete();
+        final File eski_dosya=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
+        if(eski_dosya.exists()&&eski_dosya.isFile()){
+            eski_dosya.delete();
         }
-        img_addr=imgFile.getAbsolutePath();
         img_name=imgFile.getName();
         return imgFile;
     }

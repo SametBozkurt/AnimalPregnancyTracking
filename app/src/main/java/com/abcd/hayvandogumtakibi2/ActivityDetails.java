@@ -74,11 +74,11 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         parent_layout.post(new Runnable() {
             @Override
             public void run() {
-                if(!hayvanVeriler.getFotograf_isim().isEmpty()){
-                    final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+                final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+                if(gorselFile.exists()&&gorselFile.isFile()){
                     Glide.with(ActivityDetails.this).load(Uri.fromFile(gorselFile)).into(imageView);
                 }
-                else if(hayvanVeriler.getFotograf_isim()==null||hayvanVeriler.getFotograf_isim().length()==0){
+                else{
                     HayvanDuzenleyici.set_img(ActivityDetails.this,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()), imageView);
                 }
             }
@@ -136,8 +136,8 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!hayvanVeriler.getFotograf_isim().isEmpty()){
-                    final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+                final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+                if(gorselFile.exists()&&gorselFile.isFile()){
                     show_image(gorselFile.getAbsolutePath());
                 }
             }
