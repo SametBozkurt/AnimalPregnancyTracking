@@ -22,12 +22,12 @@ import java.util.ArrayList;
 public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.CustomViewHolder> {
 
     private final Context context;
-    private final ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    private final ArrayList<DataModel> dataModelArrayList;
 
 
     KritiklerAdapter(Context context){
         this.context=context;
-        this.hayvanVerilerArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar();
+        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar();
     }
 
     @NonNull
@@ -39,18 +39,18 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        final HayvanVeriler hayvanVeriler=hayvanVerilerArrayList.get(position);
-        holder.txt_isim.setText(new StringBuilder(hayvanVeriler.getIsim()));
-        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),hayvanVeriler.getFotograf_isim());
+        final DataModel dataModel=dataModelArrayList.get(position);
+        holder.txt_isim.setText(new StringBuilder(dataModel.getIsim()));
+        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
-            HayvanDuzenleyici.set_img(context,hayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(hayvanVeriler.getTur()),holder.img_animal);
+            HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
-        if(hayvanVeriler.getDogum_tarihi().length()!=0){
-            if(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))>=0){
-                holder.txt_durum.setText(new StringBuilder(String.valueOf(get_gun_sayisi(Long.parseLong(hayvanVeriler.getDogum_tarihi()))))
+        if(dataModel.getDogum_tarihi().length()!=0){
+            if(get_gun_sayisi(Long.parseLong(dataModel.getDogum_tarihi()))>=0){
+                holder.txt_durum.setText(new StringBuilder(String.valueOf(get_gun_sayisi(Long.parseLong(dataModel.getDogum_tarihi()))))
                         .append(" ")
                         .append(context.getString(R.string.txt_day_2)));
             }
@@ -58,14 +58,14 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
                 holder.txt_durum.setText(new StringBuilder(context.getString(R.string.text_NA)).append(" ").append(context.getString(R.string.txt_day_2)));
             }
         }
-        else if(hayvanVeriler.getDogum_tarihi()==null||hayvanVeriler.getDogum_tarihi().length()==0){
+        else if(dataModel.getDogum_tarihi()==null||dataModel.getDogum_tarihi().length()==0){
             holder.txt_durum.setText(new StringBuilder(context.getString(R.string.text_NA)).append(" ").append(context.getString(R.string.txt_day_2)));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Bundle data=new Bundle();
-                data.putInt("ID",hayvanVeriler.getId());
+                data.putInt("ID",dataModel.getId());
                 final Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);
@@ -75,7 +75,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     @Override
     public int getItemCount() {
-        return hayvanVerilerArrayList.size();
+        return dataModelArrayList.size();
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {

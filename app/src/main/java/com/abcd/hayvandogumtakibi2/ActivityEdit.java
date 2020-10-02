@@ -7,15 +7,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,27 +47,26 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int CAMERA_REQ_CODE = 12322;
-    private boolean boolTarih=true;
+    private boolean boolTarih=true, otherFieldsIsShown=false;
     private int kayit_id,petCode,calisma_sayaci=0;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
-    Button kaydet,iptal;
+    Button kaydet;
     Spinner tur_sec;
     RelativeLayout main_Layout;
     SQLiteDatabaseHelper databaseHelper;
-    String secilen_tur="",img_name="";
+    String secilen_tur="",img_name="", sperma_name="";
     final Calendar takvim=Calendar.getInstance();
     Calendar takvim2=Calendar.getInstance();
+    DataModel dataModel;
     Date date1=new Date(), date2=new Date();
-    Bundle data_bundle;
     TextInputLayout textInputLayout;
-    ImageView photo;
+    ImageView photo,iptal;
     final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        data_bundle=getIntent().getExtras();
         txt_isim=findViewById(R.id.isim);
         txt_kupe_no=findViewById(R.id.kupe_no);
         dollenme_tarihi= findViewById(R.id.dollenme_tarihi);
@@ -72,16 +77,47 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         main_Layout=findViewById(R.id.ana_katman);
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         photo=findViewById(R.id.add_photo);
+        final TextView txtOtherFields=findViewById(R.id.txt_other_details);
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        final Bundle bundle=getIntent().getExtras();
+        dataModel=databaseHelper.getDataById(bundle.getInt("kayit_id"));
         degerleri_yerlestir();
+        txtOtherFields.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!otherFieldsIsShown){
+                    final LayoutInflater inflater=LayoutInflater.from(ActivityEdit.this);
+                    final FrameLayout container=findViewById(R.id.other_fields_container);
+                    container.setAlpha(0f);
+                    final View view=inflater.inflate(R.layout.kayitlar_dgr_dtylr,container,false);
+                    final EditText edit_sperma=view.findViewById(R.id.sperma_name);
+                    edit_sperma.setText(sperma_name);
+                    edit_sperma.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            sperma_name=s.toString();
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {}
+                    });
+                    container.addView(view);
+                    container.animate().alpha(1f).setDuration(200).start();
+                    otherFieldsIsShown=true;
+                }
+            }
+        });
     }
 
     void degerleri_yerlestir(){
-        kayit_id=data_bundle.getInt("kayit_id");
-        petCode=data_bundle.getInt("isPet");
-        date1.setTime(Long.parseLong(String.valueOf(data_bundle.getCharSequence("kayit_tarih1"))));
+        kayit_id=dataModel.getId();
+        petCode=dataModel.getIs_evcilhayvan();
+        date1.setTime(Long.parseLong(String.valueOf(dataModel.getTohumlama_tarihi())));
         takvim.setTime(date1);
-        date2.setTime(Long.parseLong(String.valueOf(data_bundle.getCharSequence("kayit_tarih2"))));
+        date2.setTime(Long.parseLong(String.valueOf(dataModel.getDogum_tarihi())));
         takvim2.setTime(date2);
         ArrayAdapter<String> spinnerAdapter;
         switch(petCode){
@@ -101,13 +137,14 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 tur_sec.setAdapter(spinnerAdapter);
                 break;
         }
-        txt_isim.setText(data_bundle.getCharSequence("kayit_isim"));
-        txt_kupe_no.setText(data_bundle.getCharSequence("kayit_kupe_no"));
+        txt_isim.setText(dataModel.getIsim());
+        txt_kupe_no.setText(dataModel.getKupe_no());
         dollenme_tarihi.setText(dateFormat.format(date1));
         dogum_tarihi.setText(dateFormat.format(date2));
-        secilen_tur= (String)data_bundle.getCharSequence("kayit_tur");
-        tur_sec.setSelection(Integer.parseInt((String)data_bundle.getCharSequence("kayit_tur")));
-        img_name=(String)data_bundle.getCharSequence("kayit_gorsel_isim");
+        secilen_tur=dataModel.getTur();
+        tur_sec.setSelection(Integer.parseInt(dataModel.getTur()));
+        img_name=dataModel.getFotograf_isim();
+        sperma_name=dataModel.getSperma_kullanilan();
         main_Layout.post(new Runnable() {
             @Override
             public void run() {
@@ -218,20 +255,18 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 }
                 else{
                     final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
-                    HayvanVeriler hayvanVeriler;
+                    DataModel model;
                     if(f.exists()&&f.isFile()){
-                        hayvanVeriler=new HayvanVeriler(kayit_id,txt_isim.getText().toString(),
+                        model=new DataModel(kayit_id,txt_isim.getText().toString(),
                                 secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
-                                String.valueOf(date2.getTime()),img_name,0,data_bundle.getInt("dogumGrcklsti"));
-
-
+                                String.valueOf(date2.getTime()),img_name,0,dataModel.getDogum_grcklsti(),sperma_name);
                     }
                     else{
-                        hayvanVeriler=new HayvanVeriler(kayit_id,txt_isim.getText().toString(),
+                        model=new DataModel(kayit_id,txt_isim.getText().toString(),
                                 secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
-                                String.valueOf(date2.getTime()),"",0,data_bundle.getInt("dogumGrcklsti"));
+                                String.valueOf(date2.getTime()),"",0,dataModel.getDogum_grcklsti(),sperma_name);
                     }
-                    databaseHelper.guncelle(hayvanVeriler);
+                    databaseHelper.guncelle(model);
                     finish();
                     startActivity(new Intent(ActivityEdit.this,PrimaryActivity.class));
                 }
@@ -340,7 +375,6 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         super.onDestroy();
         databaseHelper=null;
         takvim2=null;
-        data_bundle=null;
         if(main_Layout!=null){
             main_Layout.removeAllViews();
             main_Layout=null;

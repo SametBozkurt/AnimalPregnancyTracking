@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -36,9 +37,10 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
         btn_tarih_dollenme=findViewById(R.id.dollenme_tarihi);
         btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
         main_layout=findViewById(R.id.ana_katman);
+        final ImageView iptal=findViewById(R.id.iptal);
         final Calendar gecerli_takvim=Calendar.getInstance();
         date_dollenme=gecerli_takvim.getTime();
-        ArrayList<String> turler_list=new ArrayList<>(9);
+        final ArrayList<String> turler_list=new ArrayList<>(9);
         turler_list.add(getString(R.string.tur_0));
         turler_list.add(getString(R.string.tur_1));
         turler_list.add(getString(R.string.tur_2));
@@ -65,7 +67,7 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog=new DatePickerDialog(ActivityTarihHesapla.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog=new DatePickerDialog(ActivityTarihHesapla.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         gecerli_takvim.set(year,month,dayOfMonth);
@@ -78,13 +80,18 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
                 dialog.show();
             }
         });
+        iptal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
     public void oto_tarih_hesapla(Date date) {
-        //TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(petCode,secilen_tur,date,getClass().getName());
         if(boolTarih){
-            Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime();
+            final Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
             Snackbar.make(main_layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }

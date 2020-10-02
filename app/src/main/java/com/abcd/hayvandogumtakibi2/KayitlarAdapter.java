@@ -21,15 +21,15 @@ import java.util.Locale;
 
 public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.CustomViewHolder> {
 
-    private final ArrayList<HayvanVeriler> hayvanVeriler;
+    private final ArrayList<DataModel> dataModelArrayList;
     private final Context context;
     private final int code;
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
     private final Date date=new Date();
 
-    KayitlarAdapter(Context context,ArrayList<HayvanVeriler> arrayList,int code){
+    KayitlarAdapter(Context context,ArrayList<DataModel> arrayList,int code){
         this.context=context;
-        this.hayvanVeriler=arrayList;
+        this.dataModelArrayList=arrayList;
         this.code=code;
     }
 
@@ -42,40 +42,40 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        final HayvanVeriler mHayvanVeriler=hayvanVeriler.get(position);
+        final DataModel dataModel=dataModelArrayList.get(position);
         switch(code){
             case 0:
-                holder.textView.setText(mHayvanVeriler.getIsim());
+                holder.textView.setText(dataModel.getIsim());
                 break;
             case 1:
-                if(mHayvanVeriler.getKupe_no()==null||mHayvanVeriler.getKupe_no().length()==0){
+                if(dataModel.getKupe_no()==null||dataModel.getKupe_no().length()==0){
                     holder.textView.setText(context.getString(R.string.kupe_no_yok));
                 }
                 else{
-                    holder.textView.setText(mHayvanVeriler.getKupe_no());
+                    holder.textView.setText(dataModel.getKupe_no());
                 }
                 break;
             case 2:
-                date.setTime(Long.parseLong(mHayvanVeriler.getTohumlama_tarihi()));
+                date.setTime(Long.parseLong(dataModel.getTohumlama_tarihi()));
                 holder.textView.setText(dateFormat.format(date));
                 break;
             case 3:
-                date.setTime(Long.parseLong(mHayvanVeriler.getDogum_tarihi()));
+                date.setTime(Long.parseLong(dataModel.getDogum_tarihi()));
                 holder.textView.setText(dateFormat.format(date));
                 break;
         }
-        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),mHayvanVeriler.getFotograf_isim());
+        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
-            HayvanDuzenleyici.set_img(context,mHayvanVeriler.getIs_evcilhayvan(),Integer.parseInt(mHayvanVeriler.getTur()),holder.img_animal);
+            HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Bundle data=new Bundle();
-                data.putInt("ID",mHayvanVeriler.getId());
+                data.putInt("ID",dataModel.getId());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);
@@ -85,7 +85,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
     @Override
     public int getItemCount() {
-        return hayvanVeriler.size();
+        return dataModelArrayList.size();
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {

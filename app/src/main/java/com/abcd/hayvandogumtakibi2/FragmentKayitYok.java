@@ -30,6 +30,9 @@ public class FragmentKayitYok extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_no_record,container,false);
+        if(container!=null){
+            container.clearDisappearingChildren();
+        }
         final FloatingActionButton btn_add = view.findViewById(R.id.create);
         final FloatingActionButton btn_pet = view.findViewById(R.id.fab_pet);
         final FloatingActionButton btn_barn = view.findViewById(R.id.fab_barn);

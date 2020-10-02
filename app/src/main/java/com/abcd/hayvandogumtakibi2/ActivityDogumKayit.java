@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,6 +36,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,7 +49,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private static final int GALLERY_REQ_CODE=12321;
     private static final int CAMERA_REQ_CODE = 12322;
     private int _isPet;
-    private boolean boolTarih=false;
+    private boolean boolTarih=false, otherFieldsIsShown=false;
     private final Calendar gecerli_takvim=Calendar.getInstance();
     private Calendar hesaplanan_tarih=Calendar.getInstance();
     private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
@@ -51,12 +57,12 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private Date date_dollenme, date_dogum;
     private RelativeLayout main_Layout;
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
-    private Button kaydet,iptal;
-    private ImageView photo;
+    private ImageView photo, iptal;
     private Spinner spinner_turler;
     private TextInputLayout textInputLayout;
     private String secilen_tur="0";
     private String gorsel_ad="";
+    private String sperma_name="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +72,13 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         edit_isim=findViewById(R.id.isim);
         edit_kupe_no=findViewById(R.id.kupe_no);
         spinner_turler=findViewById(R.id.spinner);
-        kaydet=findViewById(R.id.kaydet);
+        final Button kaydet=findViewById(R.id.kaydet);
         iptal=findViewById(R.id.iptal);
         btn_tarih_dollenme=findViewById(R.id.dollenme_tarihi);
         btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
         main_Layout=findViewById(R.id.ana_katman);
         textInputLayout=findViewById(R.id.input_layout_tarih2);
+        final TextView txtOtherFields=findViewById(R.id.txt_other_details);
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
         date_dollenme=gecerli_takvim.getTime();
         _isPet=getIntent().getExtras().getInt("isPet");
@@ -215,6 +222,33 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                 popupMenu.show();
             }
         });
+        txtOtherFields.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!otherFieldsIsShown){
+                    final LayoutInflater inflater=LayoutInflater.from(ActivityDogumKayit.this);
+                    final FrameLayout container=findViewById(R.id.other_fields_container);
+                    container.setAlpha(0f);
+                    final View view=inflater.inflate(R.layout.kayitlar_dgr_dtylr,container,false);
+                    final EditText edit_sperma=view.findViewById(R.id.sperma_name);
+                    edit_sperma.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            sperma_name=s.toString();
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {}
+                    });
+                    container.addView(view);
+                    container.animate().alpha(1f).setDuration(200).start();
+                    otherFieldsIsShown=true;
+                }
+            }
+        });
 
     }
 
@@ -265,20 +299,19 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         }
         else{
             final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
-            HayvanVeriler hayvanVeriler;
+            DataModel dataModel;
             if(f.exists()&&f.isFile()){
-                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0);
+                dataModel=new DataModel(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0,sperma_name);
             }
             else{
-                hayvanVeriler=new HayvanVeriler(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
-                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0);
+                dataModel=new DataModel(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
+                        String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0,sperma_name);
             }
-            dbYoneticisi.veri_yaz(hayvanVeriler);
+            dbYoneticisi.veri_yaz(dataModel);
             finish();
         }
     }
-
 
     @Override
     public void oto_tarih_hesapla(Date date) {
@@ -308,7 +341,6 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
         final File eski_dosya=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad);
         if(eski_dosya.exists()&&eski_dosya.isFile()){
-            Log.e("Logger","eski_dosya exists, name:"+eski_dosya.getName());
             eski_dosya.delete();
         }
         gorsel_ad=imgFile.getName();

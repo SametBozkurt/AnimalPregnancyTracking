@@ -13,6 +13,9 @@ public class FragmentYaklasanDogumYok extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(container!=null){
+            container.clearDisappearingChildren();
+        }
         return inflater.inflate(R.layout.fragment_yaklasan_dogum_yok,container,false);
     }
 

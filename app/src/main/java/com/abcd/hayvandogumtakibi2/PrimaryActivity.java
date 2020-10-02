@@ -9,12 +9,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -41,14 +40,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
     AdRequest adRequest;
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
     RelativeLayout relativeLayout;
+    FrameLayout fragment_container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.activity_primary);
         final Toolbar toolbar = findViewById(R.id.toolbar);
+        fragment_container=findViewById(R.id.fragment_container);
         relativeLayout=findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -58,48 +58,41 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        database_size=databaseHelper.getSize();
-        if(savedInstanceState==null){
-            dosya_kontrol();
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
+            final String INTENT_ACTION= "SET_AN_ALARM" ;
+            PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
         }
-        try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final ConnectivityManager connectivityManager=(ConnectivityManager)PrimaryActivity.this.getSystemService(CONNECTIVITY_SERVICE);
-                    final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-                    if(networkInfo!=null){
-                        if(networkInfo.isConnected()){
-                            relativeLayout.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
-                                        @Override
-                                        public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                                    });
-                                    show_ads();
-                                }
-                            },500);
-                        }
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final ConnectivityManager connectivityManager=(ConnectivityManager)PrimaryActivity.this.getSystemService(CONNECTIVITY_SERVICE);
+                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                if(networkInfo!=null){
+                    if(networkInfo.isConnected()){
+                        MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
+                            @Override
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        show_ads();
                     }
                 }
-            }).start();
-        }
-        catch(Exception e){
-            Log.e("ERROR!",e.getMessage());
-        }
+            }
+        },500);
         setProgressBarIndeterminateVisibility(false);
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
+        fragment_container.removeAllViews();
         database_size=databaseHelper.getSize();
-        if(database_size!=0){
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commitAllowingStateLoss();
+        if(database_size==0){
+            final FragmentKayitYok fragmentKayitYok=new FragmentKayitYok();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentKayitYok).commitAllowingStateLoss();
         }
         else{
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commitAllowingStateLoss();
+            final FragmentKayitlar fragmentKayitlar=new FragmentKayitlar();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentKayitlar).commitAllowingStateLoss();
         }
     }
 
@@ -114,15 +107,15 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         int item_id=item.getItemId();
         if(item_id==R.id.kayit_bul){
             if(database_size==0){
-                Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
             }
             else{
                 startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
             }
         }
-        /*else if(item_id==R.id.dev_tools){
+        else if(item_id==R.id.dev_tools){
             startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -143,7 +136,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         switch (id){
             case R.id.nav_critics:
                 if(database_size==0){
-                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKritikler.class));
@@ -151,7 +144,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_edit:
                 if(database_size==0){
-                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKayitDuzenle.class));
@@ -159,7 +152,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_search:
                 if(database_size==0){
-                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
@@ -200,7 +193,7 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_happened:
                 if(database_size==0){
-                    Snackbar.make(findViewById(R.id.relativeLayout),getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else {
                     startActivity(new Intent(this,ActivityGerceklesenler.class));
@@ -210,23 +203,6 @@ public class PrimaryActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void dosya_kontrol() {
-        if(database_size==0){
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitYok()).commit();
-        }
-        else{
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N){
-                        final String INTENT_ACTION= "SET_AN_ALARM" ;
-                        PrimaryActivity.this.sendBroadcast(new Intent(PrimaryActivity.this,TarihKontrol.class).setAction(INTENT_ACTION));
-                    }
-                }
-            }).start();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentKayitlar()).commit();
-        }
-    }
 
     private void show_ads(){
         mInterstitialAd.setAdUnitId(INTERSTITIAL_TEST_ID);

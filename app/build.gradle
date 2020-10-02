@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 42
-        versionName '1.2.2'
+        versionName '1.2.3-160920-hazirlik'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,7 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
-    implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.google.android.gms:play-services-ads:19.4.0'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

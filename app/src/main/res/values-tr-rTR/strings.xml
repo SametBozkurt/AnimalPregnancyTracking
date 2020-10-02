@@ -10,10 +10,10 @@
     <string name="hint_tarih1">Döllenme tarihi</string>
     <string name="hint_tarih2">Yaklaşık doğum tarihi</string>
     <string name="kayit_yok_uyari2">Herhangi bir kayıt oluşturulmamış, kayıt oluşturmanız gerek.</string>
-    <string name="listView_tarih1">Döllenme Tarihi</string>
-    <string name="listView_tarih2">Doğum Tarihi</string>
-    <string name="listview_kupe_no">Küpe No</string>
-    <string name="listView_tur">Tür</string>
+    <string name="tarih1">Döllenme Tarihi</string>
+    <string name="tarih2">Doğum Tarihi</string>
+    <string name="kupe_no">Küpe No</string>
+    <string name="tur">Tür</string>
     <string name="activity_duzenle_title">Kayıt/Sil Düzenle</string>
     <string name="activity_kritikler_title">Doğumu Yaklaşanlar</string>
     <string name="tur_0">İnek</string>
@@ -22,7 +22,7 @@
     <string name="tur_3">Kedi</string>
     <string name="tur_4">Köpek</string>
     <string name="hint_isim">İsim</string>
-    <string name="hint_kupe_no">Küpe no(zorunlu değil)</string>
+    <string name="hint_kupe_no">Küpe no(İsteğe bağlı)</string>
     <string name="button_text_kaydet">Kaydet</string>
     <string name="button_text_iptal">Vazgeç</string>
     <string name="otomatik_hesaplandi_bildirim">Doğum tarihi otomatik olarak hesaplandı.</string>
@@ -142,4 +142,13 @@
     <string name="storage_per_exp">Söz konusu hayvanınızın fotoğrafını çektiğinizde, fotoğrafın depolama birimine kaydedilmesi gerekir. Bu noktada, fotoğrafların depolama birimine düzgün bir şekilde kaydedilmesi için depolama izni gerekmektedir.</string>
     <string name="button_multiple_deletion">Tüm Kayıtları Sil</string>
     <string name="button_clean_the_garbage">Çöpü Boşalt</string>
+    <string name="hint_other_fields">Diğer Alanlar</string>
+    <string name="hint_sperma_name">Tohum adı(İsteğe bağlı)</string>
+    <string name="sperma_name">Tohum adı</string>
+    <string name="activity_details_title">Detaylar</string>
+    <string name="mark_as_hppnd">Gerçekleşti olarak işaretle</string>
+    <string name="happened_birth">Bu doğum gerçekleşmiş</string>
+    <string name="title_dlg_isaretle">Bir dakika...</string>
+    <string name="body_dlg_isaretle">Bu işlem kalıcı olup geri alınamaz. Ayrıca kaydı artık düzenleyemezsiniz. Yine de işaretlemek istediğinizden emin misiniz?</string>
+    <string name="im_sure">Eminim</string>
 </resources>

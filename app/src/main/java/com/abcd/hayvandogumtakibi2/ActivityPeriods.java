@@ -9,11 +9,11 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,36 +38,33 @@ public class ActivityPeriods extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_periods);
-        final Toolbar toolbar=findViewById(R.id.toolbar);
         relativeLayout=findViewById(R.id.parent_layout);
         recyclerView=findViewById(R.id.recyclerView);
         adContainerView=findViewById(R.id.ad_view_container);
-        this.setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        final ImageView cross = findViewById(R.id.iptal);
+        cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
         init();
-        final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityPeriods.this.getSystemService(CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-        if(networkInfo!=null){
-            if(networkInfo.isConnected()){
-                adContainerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+        adContainerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityPeriods.this.getSystemService(CONNECTIVITY_SERVICE);
+                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                if(networkInfo!=null){
+                    if(networkInfo.isConnected()){
                         MobileAds.initialize(ActivityPeriods.this, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
                         loadBanner();
                     }
-                },500);
+                }
             }
-        }
+        },500);
     }
 
     private void init(){

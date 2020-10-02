@@ -12,6 +12,8 @@ import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -53,9 +55,15 @@ public class ActivityDevTools extends AppCompatActivity {
         btn_clean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar=new ProgressBar(ActivityDevTools.this);
-                progress_container.addView(mProgressBar,FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
-                new TaskCopuBosalt().execute();
+                final File f = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                if(f!=null){
+                    mProgressBar=new ProgressBar(ActivityDevTools.this);
+                    progress_container.addView(mProgressBar,FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
+                    new TaskCopuBosalt().execute();
+                }
+                else{
+                    Snackbar.make(findViewById(R.id.parent),"Cöp boş.",Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -102,7 +110,6 @@ public class ActivityDevTools extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
             int id=0;
-            int dgm_grcklsti=0;
             for(int i=0;i<sayac;i++){
                 final String isim="test"+ i;
                 final String tur=String.valueOf(new Random().nextInt(4));
@@ -110,7 +117,7 @@ public class ActivityDevTools extends AppCompatActivity {
                 final String tarih1=String.valueOf(today_in_millis-(one_day_in_millis*(27+i)));
                 final String tarih2=String.valueOf(today_in_millis+(one_day_in_millis*(27+i)));
                 final int petCode=new Random().nextInt(2)+1;
-                sqLiteDatabaseHelper.veri_yaz(new HayvanVeriler(id,isim,tur,kupe_no,tarih1,tarih2,null,petCode,dgm_grcklsti));
+                sqLiteDatabaseHelper.veri_yaz(new DataModel(id,isim,tur,kupe_no,tarih1,tarih2,null,petCode,0,""));
             }
             mProgressBar.setVisibility(View.GONE);
             progress_container.removeView(mProgressBar);
@@ -140,10 +147,10 @@ public class ActivityDevTools extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
-            final ArrayList<HayvanVeriler> hayvanVerilerArrayList=sqLiteDatabaseHelper.getSimpleData();
-            if(hayvanVerilerArrayList.size()>0){
-                for(int index=0;index<hayvanVerilerArrayList.size();index++){
-                    final int id=hayvanVerilerArrayList.get(index).getId();
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData();
+            if(dataModelArrayList.size()>0){
+                for(int index=0;index<dataModelArrayList.size();index++){
+                    final int id=dataModelArrayList.get(index).getId();
                     sqLiteDatabaseHelper.girdiSil(id);
                 }
             }
@@ -168,19 +175,18 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
-            final ArrayList<HayvanVeriler> hayvanVerilerArrayList=sqLiteDatabaseHelper.getSimpleData();
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData();
             final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
             final File[] fileList = dizin.listFiles();
             final ArrayList<String> files_in_db=new ArrayList<>();
-            for(int x=0;x<hayvanVerilerArrayList.size();x++){
-                files_in_db.add(hayvanVerilerArrayList.get(x).getFotograf_isim());
+            for(int x=0;x<dataModelArrayList.size();x++){
+                files_in_db.add(dataModelArrayList.get(x).getFotograf_isim());
             }
             for(int y=0;y<fileList.length;y++){
                 if(!files_in_db.contains(fileList[y].getName())){

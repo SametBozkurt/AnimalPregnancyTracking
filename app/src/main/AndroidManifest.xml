@@ -58,17 +58,17 @@
             android:name=".PrimaryActivity"
             android:label="@string/app_name"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityKayitDuzenle"
             android:label="@string/activity_duzenle_title"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityKritikler"
             android:label="@string/activity_kritikler_title"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityDogumKayit"
             android:screenOrientation="locked"
@@ -77,7 +77,7 @@
             android:name=".ActivityPeriods"
             android:label="@string/activity_periods_title"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityDetails"
             android:screenOrientation="locked"
@@ -86,7 +86,7 @@
             android:name=".ActivityGerceklesenler"
             android:label="@string/nav_gerceklesen_dgmlar"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityPermission"
             android:label="@string/activity_permissions"

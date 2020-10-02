@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/card_corner_radius"
+    app:strokeWidth="2dp"
+    app:strokeColor="#BFBFBF"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/margin_kategori_1">
@@ -18,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/fab_tint">
+            android:background="#DCDCDC">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_hayvan"
@@ -37,7 +39,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/card_background_tint"
+            android:background="@color/fab_tint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -54,14 +56,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_clock"
                     android:contentDescription="@null"
-                    app:tint="@android:color/black" />
+                    app:tint="@android:color/white" />
 
                 <TextView
                     android:id="@+id/txt_gun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:fontFamily="@font/comfortaa_bold"
                     android:layout_marginStart="@dimen/margin_kategori_1"
                     android:layout_gravity="center_vertical"/>

@@ -1,36 +1,47 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.ArrayList;
 
 public class ActivityKayitAra extends AppCompatActivity {
 
-    ArrayList<HayvanVeriler> hayvanVerilerArrayList;
+    ArrayList<DataModel> dataModelArrayList;
+    ProgressBar progressBar;
+    RadioGroup myRadioGroup;
+    RadioButton radioButtonIsimler;
+    RelativeLayout relativeLayout;
+    FrameLayout sonuc_container;
+    String aranacak;
+    SQLiteDatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit_ara);
         final TextInputEditText inputAranacak=findViewById(R.id.bul);
-        final RadioGroup myRadioGroup=findViewById(R.id.radio_group);
-        final RadioButton radioButtonIsimler=findViewById(R.id.radio_button_isim);
-        final RelativeLayout layout_sonuclar=findViewById(R.id.layout_sonuclar);
-        final RecyclerView recyclerView=new RecyclerView(ActivityKayitAra.this);
-        final TextView textViewUyari=new TextView(ActivityKayitAra.this);
-        final ImageView img=new ImageView(ActivityKayitAra.this);
-        final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        myRadioGroup=findViewById(R.id.radio_group);
+        radioButtonIsimler=findViewById(R.id.radio_button_isim);
+        sonuc_container=findViewById(R.id.layout_sonuclar);
+        relativeLayout=findViewById(R.id.main_layout);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         inputAranacak.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -39,93 +50,18 @@ public class ActivityKayitAra extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(myRadioGroup.getCheckedRadioButtonId()==radioButtonIsimler.getId()){
-                    hayvanVerilerArrayList=databaseHelper.getAramaSonuclari(true,String.valueOf(charSequence));
-                    if(String.valueOf(charSequence).equals("")){
-                        layout_sonuclar.removeView(recyclerView);
-                        layout_sonuclar.removeView(img);
-                        layout_sonuclar.removeView(textViewUyari);
-                    }
-                    else{
-                        if(hayvanVerilerArrayList.size()==0){
-                            layout_sonuclar.removeView(recyclerView);
-                            layout_sonuclar.removeView(img);
-                            layout_sonuclar.removeView(textViewUyari);
-                            RelativeLayout.LayoutParams imageLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-                            imageLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                            imageLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                            img.setLayoutParams(imageLayoutParams);
-                            img.setImageResource(R.mipmap.cross_line);
-                            img.setId(R.id.image_cross_line);
-                            textViewUyari.setText(getString(R.string.no_matches));
-                            textViewUyari.setTextAppearance(ActivityKayitAra.this,R.style.NoMatchesStyle);
-                            RelativeLayout.LayoutParams textLayoutParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT);
-                            textLayoutParams.addRule(RelativeLayout.BELOW,R.id.image_cross_line);
-                            textLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                            textViewUyari.setLayoutParams(textLayoutParams);
-                            layout_sonuclar.addView(img);
-                            layout_sonuclar.addView(textViewUyari);
-                        }
-                        else{
-                            layout_sonuclar.removeView(recyclerView);
-                            layout_sonuclar.removeView(img);
-                            layout_sonuclar.removeView(textViewUyari);
-                            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(ActivityKayitAra.this);
-                            RelativeLayout.LayoutParams recyclerParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                                    RelativeLayout.LayoutParams.MATCH_PARENT);
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutParams(recyclerParams);
-                            recyclerView.setAdapter(new AramalarAdapter(ActivityKayitAra.this,hayvanVerilerArrayList));
-                            layout_sonuclar.addView(recyclerView);
-                        }
-                    }
-                }
-                else{
-                    hayvanVerilerArrayList=databaseHelper.getAramaSonuclari(false,String.valueOf(charSequence));
-                    if(String.valueOf(charSequence).equals("")){
-                        layout_sonuclar.removeView(recyclerView);
-                        layout_sonuclar.removeView(img);
-                        layout_sonuclar.removeView(textViewUyari);
-                    }
-                    else{
-                        if(hayvanVerilerArrayList.size()==0){
-                            layout_sonuclar.removeView(recyclerView);
-                            layout_sonuclar.removeView(img);
-                            layout_sonuclar.removeView(textViewUyari);
-                            RelativeLayout.LayoutParams imageLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-                            imageLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                            imageLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                            img.setLayoutParams(imageLayoutParams);
-                            img.setImageResource(R.mipmap.cross_line);
-                            img.setId(R.id.image_cross_line);
-                            textViewUyari.setText(getString(R.string.no_matches));
-                            textViewUyari.setTextAppearance(ActivityKayitAra.this,R.style.NoMatchesStyle);
-                            RelativeLayout.LayoutParams textLayoutParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT);
-                            textLayoutParams.addRule(RelativeLayout.BELOW,R.id.image_cross_line);
-                            textLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                            textViewUyari.setLayoutParams(textLayoutParams);
-                            layout_sonuclar.addView(img);
-                            layout_sonuclar.addView(textViewUyari);
-                        }
-                        else{
-                            layout_sonuclar.removeView(recyclerView);
-                            layout_sonuclar.removeView(img);
-                            layout_sonuclar.removeView(textViewUyari);
-                            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(ActivityKayitAra.this);
-                            RelativeLayout.LayoutParams recyclerParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                                    RelativeLayout.LayoutParams.MATCH_PARENT);
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutParams(recyclerParams);
-                            recyclerView.setAdapter(new AramalarAdapter(ActivityKayitAra.this,hayvanVerilerArrayList));
-                            layout_sonuclar.addView(recyclerView);
-                        }
-                    }
+                sonuc_container.removeAllViews();
+                relativeLayout.removeView(progressBar);
+                if(!charSequence.toString().isEmpty()){
+                    aranacak=charSequence.toString();
+                    progressBar=new ProgressBar(ActivityKayitAra.this);
+                    final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                    progressBar.setLayoutParams(mLayoutParams);
+                    progressBar.setIndeterminate(true);
+                    relativeLayout.addView(progressBar);
+                    new TaskSearch().execute();
                 }
             }
 
@@ -140,6 +76,72 @@ public class ActivityKayitAra extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class TaskSearch extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            final LayoutInflater layoutInflater=LayoutInflater.from(ActivityKayitAra.this);
+            if(myRadioGroup.getCheckedRadioButtonId()==radioButtonIsimler.getId()){
+                dataModelArrayList=databaseHelper.getAramaSonuclari(true,aranacak);
+                if(dataModelArrayList.isEmpty()){
+                    final View sonuclar_view=layoutInflater.inflate(R.layout.arama_snclari_sonuc_yok_lyt,sonuc_container,false);
+                    sonuc_container.addView(sonuclar_view);
+                }
+                else{
+                    final View sonuclar_view=layoutInflater.inflate(R.layout.arama_snclari_lyt,sonuc_container,false);
+                    final RecyclerView recyclerView=sonuclar_view.findViewById(R.id.recyclerView);
+                    final AramalarAdapter aramalarAdapter=new AramalarAdapter(ActivityKayitAra.this,
+                            dataModelArrayList,
+                            true,
+                            aranacak);
+                    final LinearLayoutManager layoutManager=new LinearLayoutManager(ActivityKayitAra.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(aramalarAdapter);
+                    sonuc_container.addView(sonuclar_view);
+                }
+            }
+            else{
+                dataModelArrayList=databaseHelper.getAramaSonuclari(false,aranacak);
+                if(dataModelArrayList.isEmpty()){
+                    final View sonuclar_view=layoutInflater.inflate(R.layout.arama_snclari_sonuc_yok_lyt,sonuc_container,false);
+                    sonuc_container.addView(sonuclar_view);
+                }
+                else{
+                    final View sonuclar_view=layoutInflater.inflate(R.layout.arama_snclari_lyt,sonuc_container,false);
+                    final RecyclerView recyclerView=sonuclar_view.findViewById(R.id.recyclerView);
+                    final AramalarAdapter aramalarAdapter=new AramalarAdapter(ActivityKayitAra.this,
+                            dataModelArrayList,
+                            false,
+                            aranacak);
+                    final LinearLayoutManager layoutManager=new LinearLayoutManager(ActivityKayitAra.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(aramalarAdapter);
+                    sonuc_container.addView(sonuclar_view);
+                }
+            }
+            relativeLayout.removeView(progressBar);
+            progressBar=null;
+        }
     }
 
 }

@@ -1,75 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ana_katman"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/layout_background"
     tools:context=".ActivityDogumKayit">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/button_layout">
+        android:background="#fff"
+        android:padding="3dp"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentTop="true">
 
-        <RelativeLayout
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cross"
+            android:id="@+id/iptal"
+            android:background="@drawable/ripple_effect3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/margin_kategori_4"
+            android:contentDescription="@null"
+            app:tint="#37474f" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_add_v2"
+                android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_kategori_1"
+                app:tint="#37474f" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_kategori_3"
+                android:text="@string/activity_kayit_ekle_title"
+                android:textColor="#37474f"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/kaydet"
+            style="@style/TextButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/comfortaa_bold"
+            android:text="@string/button_text_kaydet"
+            android:textColor="#138EE9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="#138EE9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true">
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/title_layout"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/add_photo"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:clickable="true"
+                android:background="@drawable/ripple_effect3"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_kategori_4"
+                android:layout_marginBottom="@dimen/margin_kategori_3"
+                android:contentDescription="@null"
+                android:focusable="true"
+                android:src="@drawable/icon_photo_add"/>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/title_layout_height"
-                android:layout_alignParentTop="true">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="@dimen/margin_kategori_2"
+                android:hint="@string/hint_isim"
+                style="@style/KayitEkleInputStyle"
+                app:hintEnabled="true">
 
-                <TextView
-                    android:id="@+id/text_title"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/isim"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:text="@string/activity_kayit_ekle_title"
-                    android:textColor="@color/input_text_color"
-                    android:textSize="@dimen/title_size"
-                    android:textStyle="bold" />
+                    android:inputType="textPersonName"
+                    android:lines="1"
+                    android:maxLength="30"
+                    android:theme="@style/InputYeniKayit" />
 
-            </RelativeLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/title_layout"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/margin_kategori_1"
+                android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/add_photo"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/ripple_effect"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_gravity="center_horizontal"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_kategori_2"
+                    android:src="@drawable/icon_tag"
                     android:contentDescription="@null"
-                    android:src="@drawable/icon_photo_add" />
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/input_text_color" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/KayitEkleInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="41dp"
-                    android:layout_marginEnd="@dimen/margin_kategori_1"
-                    android:hint="@string/hint_isim"
-                    style="@style/KayitEkleInputStyle"
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    android:layout_marginEnd="@dimen/margin_kategori_2"
+                    android:hint="@string/hint_kupe_no"
                     app:hintEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/isim"
+                        android:id="@+id/kupe_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:lines="1"
                         android:fontFamily="@font/comfortaa_bold"
                         android:maxLength="30"
@@ -77,172 +156,114 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_marginTop="@dimen/margin_kategori_1"
+                android:layout_marginStart="45dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_kategori_1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_kategori_2"
+                    android:src="@drawable/icon_calendar"
+                    android:contentDescription="@null"
+                    app:tint="@color/input_text_color" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/KayitEkleInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    android:layout_marginEnd="@dimen/margin_kategori_2"
+                    android:hint="@string/hint_tarih1"
+                    app:helperText="@string/date_input_helper_text"
+                    app:hintEnabled="true">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_kategori_1"
-                        android:src="@drawable/icon_tag"
-                        android:contentDescription="@null"
-                        android:layout_gravity="center_vertical"
-                        app:tint="@color/input_text_color" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/KayitEkleInputStyle"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dollenme_tarihi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_kategori_1"
-                        android:layout_marginRight="@dimen/margin_kategori_1"
-                        android:hint="@string/hint_kupe_no"
-                        app:hintEnabled="true">
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:inputType="datetime"
+                        android:focusable="false"
+                        android:theme="@style/InputYeniKayit" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/kupe_no"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:lines="1"
-                            android:fontFamily="@font/comfortaa_bold"
-                            android:maxLength="30"
-                            android:theme="@style/InputYeniKayit"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
-                    </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_kategori_1"
+                android:orientation="horizontal">
 
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_kategori_2"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_calendar"
+                    android:contentDescription="@null"
+                    app:tint="@color/input_text_color" />
 
-                <Spinner
-                    android:id="@+id/spinner"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_tarih2"
+                    style="@style/KayitEkleInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:layout_marginStart="41dp" />
+                    android:layout_marginStart="@dimen/margin_kategori_1"
+                    android:layout_marginEnd="@dimen/margin_kategori_2"
+                    android:hint="@string/hint_tarih2"
+                    app:hintEnabled="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/margin_kategori_1"
-                        android:src="@drawable/icon_calendar"
-                        android:contentDescription="@null"
-                        app:tint="@color/input_text_color" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/KayitEkleInputStyle"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dogum_tarihi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_kategori_1"
-                        android:layout_marginEnd="@dimen/margin_kategori_1"
-                        android:hint="@string/hint_tarih1"
-                        app:helperText="@string/date_input_helper_text"
-                        app:hintEnabled="true">
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:inputType="datetime"
+                        android:focusable="false"
+                        android:theme="@style/InputYeniKayit"/>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/dollenme_tarihi"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/comfortaa_bold"
-                            android:inputType="datetime"
-                            android:focusable="false"
-                            android:theme="@style/InputYeniKayit" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/margin_kategori_1"
-                        android:src="@drawable/icon_calendar"
-                        android:contentDescription="@null"
-                        app:tint="@color/input_text_color" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_tarih2"
-                        style="@style/KayitEkleInputStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_kategori_1"
-                        android:layout_marginRight="@dimen/margin_kategori_1"
-                        android:hint="@string/hint_tarih2"
-                        app:hintEnabled="true">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/dogum_tarihi"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/comfortaa_bold"
-                            android:inputType="datetime"
-                            android:focusable="false"
-                            android:theme="@style/InputYeniKayit"/>
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-        </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_other_details"
+                android:background="?attr/selectableItemBackground"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/comfortaa_bold"
+                android:text="@string/hint_other_fields"
+                android:layout_marginBottom="@dimen/margin_kategori_1"
+                android:layout_marginTop="@dimen/margin_kategori_1"
+                android:textColor="#138EE9"
+                android:textSize="16sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textStyle="italic"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/other_fields_container" />
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_layout"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/margin_kategori_1"
-        android:layout_marginStart="@dimen/margin_kategori_1">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/kaydet"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_text_kaydet"
-            android:textSize="16sp"
-            android:textColor="@android:color/background_light"
-            android:fontFamily="@font/comfortaa_bold"
-            android:backgroundTint="@color/button_background_2"
-            app:iconTint="@android:color/background_light"
-            app:rippleColor="@color/button_ripple_color_light"
-            app:icon="@drawable/icon_btn_save"
-            app:strokeColor="@color/button_background_2"
-            app:strokeWidth="@dimen/button_stroke_width"
-            android:layout_gravity="end"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/iptal"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_kategori_1"
-            android:text="@string/button_text_iptal"
-            android:textColor="@color/button_background_2"
-            android:textSize="16sp"
-            android:fontFamily="@font/comfortaa_bold"
-            app:backgroundTint="@android:color/background_light"
-            app:icon="@drawable/icon_btn_cancel"
-            app:iconTint="@color/button_background_2"
-            app:rippleColor="@color/button_ripple_color"
-            app:strokeWidth="@dimen/button_stroke_width"
-            app:strokeColor="@color/button_background_2"
-            android:layout_gravity="start"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

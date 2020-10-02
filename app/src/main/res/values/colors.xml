@@ -13,16 +13,14 @@
     <color name="button_ripple_color">#4A148C</color>
     <color name="button_ripple_color_light">#C5CAE9</color>
     <color name="card_background_tint">#EBBF00</color>
-    <color name="nav_header_background">#FDD835</color>
     <color name="colorAccentPicker">#F57F17</color>
     <color name="image_background">#FFD54F</color>
     <color name="fab_tint">#138EE9</color>
     <color name="input_background_tint">#37474f</color>
     <color name="input_text_color">#37474f</color>
-    <color name="nav_header_title_color">#546e7a</color>
+    <color name="nav_header_title_color">#37474f</color>
     <color name="arama_sonuclari_adapter_background">#ffe54c</color>
     <color name="GCMIconColor">#138EE9</color>
-    <color name="purple800">#6A1B9A</color>
     <color name="details_item_bckgrnd">#673AB7</color>
     <color name="action_color">#4DD0E1</color>
 </resources>

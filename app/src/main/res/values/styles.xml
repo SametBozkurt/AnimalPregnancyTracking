@@ -14,15 +14,11 @@
         <item name="colorAccent">#ffffff</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
     <style name="NoActionBar" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
+        <item name="colorPrimary">#fff</item>
+        <item name="colorPrimaryDark">#37474f</item>
     </style>
     <style name="NoActionBar2" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">false</item>
@@ -37,7 +33,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
     </style>
-
+    <style name="NoActionBar3a" parent="Theme.MaterialComponents.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
+    </style>
     <style name="NoActionBar4" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -45,7 +46,10 @@
         <item name="colorPrimaryDark">#37474f</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+        <item name="actionOverflowButtonStyle">@style/ActionButtonStyle</item>
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
@@ -68,7 +72,7 @@
     </style>
 
     <style name="FABStyle" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="tint">#1E88E5</item>
+        <item name="tint">#fff</item>
     </style>
 
     <style name="KayitBulInputStyle" parent="@style/Widget.Design.TextInputLayout">
@@ -89,21 +93,36 @@
         <item name="android:textStyle">bold</item>
     </style>
     <style name="AppInfoDialogStyle" parent="Theme.MaterialComponents.Dialog">
-        <item name="android:background">#fdd835</item>
+        <item name="android:background">#fff</item>
         <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
     </style>
     <style name="OkButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="rippleColor">#1E88E5</item>
+        <item name="rippleColor">#546e7a</item>
+        <item name="strokeColor">#546e7a</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="iconTint">#546e7a</item>
     </style>
     <style name="InputYeniKayit" parent="Widget.AppCompat.EditText">
         <item name="android:colorControlActivated">@color/input_background_tint</item>
         <item name="android:backgroundTint">@color/input_background_tint</item>
+        <item name="android:textSize">16sp</item>
     </style>
-    <style name="KayitEkleInputStyle" parent="@style/Widget.Design.TextInputLayout">
+    <style name="KayitEkleInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textColorHint">@color/input_background_tint</item>
         <item name="hintTextColor">@color/input_background_tint</item>
     </style>
     <style name="ImageDialogStyle" parent="Theme.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
+    </style>
+    <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/black</item>
+    </style>
+    <style name="ActionButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">@android:color/black</item>
+    </style>
+    <style name="TextButton1" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+        <item name="android:textSize">15sp</item>
     </style>
 </resources>

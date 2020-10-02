@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/card_background_tint"
+    app:cardBackgroundColor="#DCDCDC"
+    app:strokeWidth="2dp"
+    app:strokeColor="#BFBFBF"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
@@ -15,17 +17,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fab_tint"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/txt_isim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_kategori_1"
+            android:layout_margin="@dimen/margin_kategori_2"
             android:text="@string/hint_isim"
-            android:textColor="@color/listViewTextColor"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textColor="#fff"
             android:fontFamily="@font/comfortaa_bold"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
+    </LinearLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_hayvan"
@@ -40,60 +50,39 @@
             app:civ_border_color="@android:color/background_dark"
             android:contentDescription="@null"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#E53935"
-            android:layout_marginTop="@dimen/margin_kategori_2">
+            android:layout_height="1dp"
+            android:background="#000"
+            android:layout_marginTop="@dimen/margin_kategori_2" />
 
-            <com.google.android.material.button.MaterialButton
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/button_del"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="#7986CB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/margin_kategori_2"
-                android:layout_marginEnd="@dimen/margin_kategori_1"
-                android:text="@string/sil_button_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/background_light"
-                android:textSize="14sp"
-                android:fontFamily="@font/comfortaa_bold"
-                app:icon="@drawable/icon_delete"
-                app:iconTint="@android:color/background_light"
-                app:rippleColor="@android:color/background_light" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#039BE5">
-
-            <com.google.android.material.button.MaterialButton
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/button_edit"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:src="@drawable/button_duzenle_icon"
+                android:layout_margin="@dimen/margin_kategori_2"
+                app:fabSize="mini"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/margin_kategori_1"
-                android:layout_marginEnd="@dimen/margin_kategori_2"
-                android:text="@string/duzenle_button_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/background_light"
-                android:textSize="14sp"
-                android:fontFamily="@font/comfortaa_bold"
-                app:icon="@drawable/button_duzenle_icon"
-                app:iconTint="@android:color/background_light"
-                app:rippleColor="@android:color/background_light" />
+                android:id="@+id/button_del"
+                android:src="@drawable/icon_delete"
+                android:layout_margin="@dimen/margin_kategori_2"
+                app:fabSize="mini"
+                app:backgroundTint="#E57373"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

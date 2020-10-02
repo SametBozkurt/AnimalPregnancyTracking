@@ -4,24 +4,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/layout_background">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar_layout"
-        android:layout_alignParentTop="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="#fff"
+        android:padding="3dp"
+        android:layout_alignParentTop="true">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cross"
+            android:id="@+id/iptal"
+            android:background="@drawable/ripple_effect"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/margin_kategori_4"
+            android:contentDescription="@null"
+            app:tint="#37474f" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_edit_v2"
+                android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_kategori_1"
+                app:tint="#37474f" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_kategori_3"
+                android:text="@string/activity_duzenle_title"
+                android:textColor="#37474f"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

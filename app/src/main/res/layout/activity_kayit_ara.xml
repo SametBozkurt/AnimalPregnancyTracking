@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ActivityKayitAra"
+    android:id="@+id/main_layout"
     android:background="@color/kayit_bul_title_layout_background">
 
     <LinearLayout
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radio_group"
             android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
             android:checkedButton="@id/radio_button_isim">
 
             <TextView
@@ -65,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/radio_group_hint"
+                android:layout_marginEnd="@dimen/margin_kategori_3"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/background_light" />
             <RadioButton
@@ -84,15 +87,13 @@
         </RadioGroup>
     </LinearLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layout_sonuclar"
         android:layout_below="@id/search_bar"
-        android:layout_marginStart="@dimen/margin_kategori_1"
-        android:layout_marginEnd="@dimen/margin_kategori_1"
-        android:layout_marginTop="@dimen/margin_kategori_1">
+        android:layout_margin="@dimen/margin_kategori_1">
 
-    </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

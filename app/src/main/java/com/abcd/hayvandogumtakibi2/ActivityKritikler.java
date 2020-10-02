@@ -7,10 +7,9 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.widget.Toolbar;
-import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
@@ -20,13 +19,15 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
+import java.util.ArrayList;
+
 public class ActivityKritikler extends AppCompatActivity {
 
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
     private SQLiteDatabaseHelper databaseHelper;
-    private ArrayList<HayvanVeriler> hayvanVerilerArrayList;
-    private FrameLayout adContainerView;
+    private ArrayList<DataModel> dataModelArrayList;
+    private FrameLayout adContainerView, fragment_container;
     private AdView adView;
     private RelativeLayout relativeLayout;
 
@@ -34,72 +35,57 @@ public class ActivityKritikler extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kritikler);
-        final Toolbar toolbar = findViewById(R.id.activity_toolbar);
         relativeLayout=findViewById(R.id.parent);
         adContainerView=findViewById(R.id.ad_view_container);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        final ImageView cross=findViewById(R.id.iptal);
+        fragment_container=findViewById(R.id.fragment_container);
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
-        relativeLayout.post(new Runnable() {
+        dataModelArrayList=databaseHelper.getKritikOlanlar();
+        adContainerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(hayvanVerilerArrayList.size()==0){
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumYok()).commit();
-                }
-                else{
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FragmentYaklasanDogumlar()).commit();
-                }
-            }
-        });
-        final ConnectivityManager connectivityManager=(ConnectivityManager)this.getSystemService(CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-        if(networkInfo!=null){
-            if(networkInfo.isConnected()){
-                adContainerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityKritikler.this.getSystemService(CONNECTIVITY_SERVICE);
+                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                if(networkInfo!=null){
+                    if(networkInfo.isConnected()){
                         MobileAds.initialize(ActivityKritikler.this, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
                         loadBanner();
                     }
-                },500);
+                }
             }
-        }
+        },500);
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         databaseHelper=null;
-        hayvanVerilerArrayList=null;
+        dataModelArrayList=null;
+        fragment_container.removeAllViews();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        hayvanVerilerArrayList=databaseHelper.getKritikOlanlar();
-        relativeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if(hayvanVerilerArrayList.size()==0){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumYok()).commitAllowingStateLoss();
-                }
-                else{
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentYaklasanDogumlar()).commitAllowingStateLoss();
-                }
-            }
-        });
+    protected void onStart() {
+        super.onStart();
+        fragment_container.removeAllViews();
+        dataModelArrayList=databaseHelper.getKritikOlanlar();
+        if(dataModelArrayList.size()==0){
+            final FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
+        }
+        else{
+            final FragmentYaklasanDogumlar fragmentYaklasanDogumlar=new FragmentYaklasanDogumlar();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumlar).commitAllowingStateLoss();
+        }
     }
 
     @Override
@@ -108,6 +94,7 @@ public class ActivityKritikler extends AppCompatActivity {
             adView.destroy();
             adContainerView.removeAllViews();
             relativeLayout.removeAllViews();
+            fragment_container.removeAllViews();
         }
         super.onDestroy();
     }

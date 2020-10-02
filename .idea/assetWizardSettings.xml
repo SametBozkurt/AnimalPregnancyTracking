@@ -215,7 +215,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/storage/baseline_storage_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/add_photo_alternate/baseline_add_photo_alternate_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -225,8 +225,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_storage" />
-                            <entry key="sourceFile" value="D:\Android Studio\Çalışma Verileri\ic_gerceklesen_dogumlar.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="color" value="6200ee" />
+                            <entry key="outputName" value="ic_warn" />
+                            <entry key="sourceFile" value="D:\Android Studio\Çalışma Verileri\exclamation-sign-in-a-circle.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -13,6 +13,9 @@ public class FragmentGerceklesenDogumYok extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(container!=null){
+            container.clearDisappearingChildren();
+        }
         return inflater.inflate(R.layout.fragment_gerceklesen_dogum_yok,container,false);
     }
 }

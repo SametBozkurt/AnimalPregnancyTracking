@@ -48,6 +48,9 @@ public class FragmentKayitlar extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_records,container,false);
+        if(container!=null){
+            container.clearDisappearingChildren();
+        }
         relativeLayout=view.findViewById(R.id.main_layout);
         final FloatingActionButton btn_add = view.findViewById(R.id.create);
         final FloatingActionButton btn_pet = view.findViewById(R.id.fab_pet);
@@ -171,10 +174,10 @@ public class FragmentKayitlar extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            relativeLayout.removeView(mProgressBar);
             final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getSimpleData();
-            recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,mPosition));
+            final ArrayList<DataModel> dataModelArrayList=databaseHelper.getSimpleData();
+            recyclerView.setAdapter(new KayitlarAdapter(context,dataModelArrayList,mPosition));
+            relativeLayout.removeView(mProgressBar);
             recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }

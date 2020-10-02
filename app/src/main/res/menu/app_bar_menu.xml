@@ -6,8 +6,8 @@
         android:orderInCategory="100"
         android:title="@string/menu_kayit_bul"
         app:showAsAction="never" />
-     <!-- <item
+     <item
         android:id="@+id/dev_tools"
         android:title="@string/menu_dev_tools"
-        app:showAsAction="never" /> -->
+        app:showAsAction="never" />
 </menu>

@@ -33,6 +33,9 @@ public class FragmentYaklasanDogumlar extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_kritikler,container,false);
+        if(container!=null){
+            container.clearDisappearingChildren();
+        }
         recyclerView=view.findViewById(R.id.recyclerView);
         relativeLayout=view.findViewById(R.id.parent_layout);
         final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);

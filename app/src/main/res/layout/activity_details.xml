@@ -5,71 +5,227 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/layout_background"
     tools:context="com.abcd.hayvandogumtakibi2.ActivityDetails">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:padding="3dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cross"
+            android:id="@+id/iptal"
+            android:background="@drawable/ripple_effect"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/margin_kategori_4"
+            android:contentDescription="@null"
+            app:tint="#37474f" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_information"
+                android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_kategori_1"
+                app:tint="#37474f" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_kategori_3"
+                android:text="@string/activity_details_title"
+                android:textColor="#37474f"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_edit"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@drawable/ripple_effect"
+            android:src="@drawable/button_duzenle_icon"
+            android:contentDescription="@null"
+            android:padding="@dimen/margin_kategori_1"
+            app:tint="#37474f"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/title_layout"
         android:layout_above="@id/ad_view_container">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/linear_layout"
-            android:background="@color/layout_background"
             android:orientation="vertical"
             tools:context="com.abcd.hayvandogumtakibi2.ActivityDetails">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_kategori_3"
-                android:background="@color/button_background_2">
+                android:layout_height="110dp"
+                android:id="@+id/vertical_line"
+                android:layout_marginTop="@dimen/margin_kategori_2"
+                android:layout_marginBottom="@dimen/margin_kategori_1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/img_hayvan"
-                    android:background="@drawable/ripple_effect"
+                    android:background="@drawable/ripple_effect3"
+                    android:layout_marginStart="@dimen/margin_kategori_2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="@dimen/margin_kategori_4"
-                    app:civ_circle_background_color="@color/layout_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:civ_circle_background_color="@color/image_background"
                     app:civ_border_width="2dp"
-                    app:civ_border_color="@android:color/background_dark" />
+                    android:src="@drawable/icon_dog"
+                    app:civ_border_color="#DCDCDC" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="100dp"
+                    android:background="@color/button_background_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="@dimen/margin_kategori_1"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/icon_clock"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_kategori_2"
+                        android:contentDescription="@null"
+                        app:tint="@color/button_background_2" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_kategori_2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_kalan_gun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/comfortaa_bold"
+                            android:text="@string/test_number"
+                            android:textColor="@color/button_background_2"
+                            android:textSize="40sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/comfortaa_bold"
+                            android:text="@string/txt_day"
+                            android:textColor="@color/button_background_2"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mark_layout"
+                android:background="?attr/selectableItemBackground"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/margin_kategori_1"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_mark"
+                    app:tint="#00c853"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mark_as_hppnd"
+                    android:id="@+id/text_mark"
+                    android:textColor="#00c853"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:padding="@dimen/margin_kategori_1"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/item_style_4"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="@dimen/margin_kategori_1"
+                android:layout_marginBottom="@dimen/margin_kategori_1">
 
                 <TextView
                     android:id="@+id/txt_isim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/img_hayvan"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_margin="@dimen/margin_kategori_3"
-                    android:backgroundTint="@color/button_background_2"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/comfortaa_bold"
+                    android:padding="@dimen/margin_kategori_2"
                     android:text="@string/app_name"
-                    android:textColor="@android:color/background_light"
+                    android:textColor="#FFCA28"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/btn_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ripple_effect"
-                    android:src="@drawable/button_duzenle_icon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="@dimen/margin_kategori_3"
-                    android:layout_marginEnd="@dimen/margin_kategori_3"
-                    android:contentDescription="@null"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:tint="@android:color/background_light" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_kategori_2"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:text="@string/listview_kupe_no"
+                    android:text="@string/kupe_no"
                     android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
@@ -109,7 +265,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_bold"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/listview_kupe_no"
+                        android:text="@string/kupe_no"
                         android:textSize="16sp"
                         android:textColor="@color/button_background_2" />
 
@@ -129,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_kategori_2"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:text="@string/listView_tur"
+                    android:text="@string/tur"
                     android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
@@ -155,7 +311,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_bold"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/listView_tur"
+                        android:text="@string/tur"
                         android:textSize="16sp"
                         android:textColor="@color/button_background_2" />
 
@@ -175,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_kategori_2"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:text="@string/listView_tarih1"
+                    android:text="@string/tarih1"
                     android:textColor="@android:color/background_light"
                     android:textSize="14sp" />
 
@@ -201,7 +357,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_bold"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/listView_tarih1"
+                        android:text="@string/tarih1"
                         android:textSize="16sp"
                         android:textColor="@color/button_background_2" />
 
@@ -255,55 +411,24 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_other_details"
+                android:id="@+id/txt_other_details"
+                android:textColor="#138EE9"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:fontFamily="@font/comfortaa_bold"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/margin_kategori_1"
+                android:layout_gravity="center_horizontal"/>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/info_container">
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_margin="@dimen/margin_kategori_1"
-                android:layout_gravity="center_horizontal">
-
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/icon_clock"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/margin_kategori_3"
-                    android:contentDescription="@null"
-                    app:tint="@color/button_background_2" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_kalan_gun"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:fontFamily="@font/comfortaa_bold"
-                        android:text="@string/test_number"
-                        android:textColor="@color/button_background_2"
-                        android:textSize="48sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:fontFamily="@font/comfortaa_bold"
-                        android:text="@string/txt_day"
-                        android:textColor="@color/button_background_2"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:id="@+id/diger_detaylar_container"/>
 
         </LinearLayout>
 

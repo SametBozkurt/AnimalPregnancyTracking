@@ -10,8 +10,8 @@
         android:text="@string/show_other_details"
         android:id="@+id/textView"
         android:textColor="#455a64"
-        android:background="@drawable/ripple_effect"
-        android:layout_margin="@dimen/margin_kategori_1"
+        android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/margin_kategori_1"
         android:layout_gravity="center_horizontal"/>
 
     <FrameLayout

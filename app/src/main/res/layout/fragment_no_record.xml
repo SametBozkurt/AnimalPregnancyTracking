@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/layout_background"
-    android:id="@+id/relativeLayout">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,9 +39,9 @@
         android:layout_marginEnd="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_1"
         android:elevation="@dimen/button_elevation"
-        app:backgroundTint="#fff"
+        app:backgroundTint="#5E35B1"
         android:src="@drawable/icon_add_v2"
-        app:rippleColor="#1E88E5"
+        app:rippleColor="#fff"
         app:maxImageSize="32dp"
         style="@style/FABStyle"/>
 
@@ -64,20 +62,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
-            android:background="#fff"
+            android:background="#5E35B1"
             android:fontFamily="@font/varela_round"
             android:padding="10dp"
             android:text="@string/fab_pet_exp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:visibility="invisible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="#fff"
+            app:backgroundTint="#5E35B1"
             android:src="@drawable/icon_pet"
-            app:rippleColor="#1E88E5"
+            app:rippleColor="#fff"
             app:maxImageSize="30dp"
             android:visibility="invisible"
             style="@style/FABStyle"/>
@@ -100,20 +98,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
-            android:background="#fff"
+            android:background="#5E35B1"
             android:fontFamily="@font/varela_round"
             android:padding="10dp"
             android:text="@string/fab_barn_exp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:visibility="invisible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_barn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="#fff"
+            app:backgroundTint="#5E35B1"
             android:src="@drawable/icon_barn"
-            app:rippleColor="#1E88E5"
+            app:rippleColor="#fff"
             app:maxImageSize="30dp"
             android:visibility="invisible"
             style="@style/FABStyle"/>

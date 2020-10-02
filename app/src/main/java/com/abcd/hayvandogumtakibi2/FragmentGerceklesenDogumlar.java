@@ -35,6 +35,9 @@ public class FragmentGerceklesenDogumlar extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_gerceklesen_dogumlar,container,false);
+        if(container!=null){
+            container.clearDisappearingChildren();
+        }
         recyclerView=view.findViewById(R.id.recyclerView);
         relativeLayout=view.findViewById(R.id.parent_layout);
         final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
@@ -74,8 +77,8 @@ public class FragmentGerceklesenDogumlar extends Fragment {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
             final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<HayvanVeriler> hayvanVerilerArrayList=databaseHelper.getGerceklesenler();
-            recyclerView.setAdapter(new KayitlarAdapter(context,hayvanVerilerArrayList,0));
+            final ArrayList<DataModel> dataModelArrayList=databaseHelper.getGerceklesenler();
+            recyclerView.setAdapter(new KayitlarAdapter(context,dataModelArrayList,0));
             recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }
