@@ -215,7 +215,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/add_photo_alternate/baseline_add_photo_alternate_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/access_time/baseline_access_time_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -226,9 +226,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="6200ee" />
-                            <entry key="outputName" value="ic_warn" />
-                            <entry key="sourceFile" value="D:\Android Studio\Çalışma Verileri\exclamation-sign-in-a-circle.svg" />
+                            <entry key="outputName" value="ic_google_play" />
+                            <entry key="sourceFile" value="D:\Android Studio\Çalışma Verileri\icons8-google-play.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -52,7 +53,8 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private boolean boolTarih=false, otherFieldsIsShown=false;
     private final Calendar gecerli_takvim=Calendar.getInstance();
     private Calendar hesaplanan_tarih=Calendar.getInstance();
-    private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
+    final Context context=this;
+    private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(context);
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private Date date_dollenme, date_dogum;
     private RelativeLayout main_Layout;
@@ -85,13 +87,13 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         ArrayAdapter<String> spinner_adapter;
         switch (_isPet){
             case 1: //Evcil hayvan ise
-                spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
+                spinner_adapter=new ArrayAdapter<>(context,R.layout.spinner_text,
                         getResources().getStringArray(R.array.animal_list_pet));
                 spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
                 spinner_turler.setAdapter(spinner_adapter);
                 break;
             case 2: //Besi hayvanı ise
-                spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
+                spinner_adapter=new ArrayAdapter<>(context,R.layout.spinner_text,
                         getResources().getStringArray(R.array.animal_list_barn));
                 spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
                 spinner_turler.setAdapter(spinner_adapter);
@@ -130,7 +132,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog=new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog=new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         gecerli_takvim.set(year,month,dayOfMonth);
@@ -158,7 +160,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         btn_tarih_dogum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog = new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog = new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         hesaplanan_tarih.set(year,month,dayOfMonth);
@@ -185,7 +187,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu=new PopupMenu(ActivityDogumKayit.this,photo);
+                final PopupMenu popupMenu=new PopupMenu(context,photo);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_photo_picker,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -195,7 +197,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                             if (camera_intent.resolveActivity(getPackageManager())!=null) {
                                 final File photoFile=getImageFile();
                                 if (photoFile != null) {
-                                    final Uri photoURI= FileProvider.getUriForFile(ActivityDogumKayit.this,getPackageName(),photoFile);
+                                    final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
                                     camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                                     startActivityForResult(camera_intent, CAMERA_REQ_CODE);
                                 }
@@ -214,7 +216,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                             if(img_exists){
                                 f.delete();
                             }
-                            Glide.with(ActivityDogumKayit.this).load(R.drawable.icon_photo_add).into(photo);
+                            Glide.with(context).load(R.drawable.icon_photo_add).into(photo);
                         }
                         return true;
                     }
@@ -226,7 +228,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             @Override
             public void onClick(View v) {
                 if(!otherFieldsIsShown){
-                    final LayoutInflater inflater=LayoutInflater.from(ActivityDogumKayit.this);
+                    final LayoutInflater inflater=LayoutInflater.from(context);
                     final FrameLayout container=findViewById(R.id.other_fields_container);
                     container.setAlpha(0f);
                     final View view=inflater.inflate(R.layout.kayitlar_dgr_dtylr,container,false);
@@ -271,7 +273,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                     final CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if(resultCode==RESULT_OK){
-                        Glide.with(this).load(result.getUri()).into(photo);
+                        Glide.with(context).load(result.getUri()).into(photo);
                         try {
                             final Bitmap photoBitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),result.getUri());
                             save_photo(photoBitmap);

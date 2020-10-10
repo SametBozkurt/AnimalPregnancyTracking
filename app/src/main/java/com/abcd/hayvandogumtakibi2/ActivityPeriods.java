@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ public class ActivityPeriods extends AppCompatActivity {
 
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
+    final Context context=this;
     AdView adView;
     FrameLayout adContainerView;
     RelativeLayout relativeLayout;
@@ -52,11 +54,11 @@ public class ActivityPeriods extends AppCompatActivity {
         adContainerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityPeriods.this.getSystemService(CONNECTIVITY_SERVICE);
+                final ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
                 final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
                     if(networkInfo.isConnected()){
-                        MobileAds.initialize(ActivityPeriods.this, new OnInitializationCompleteListener() {
+                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
@@ -68,7 +70,7 @@ public class ActivityPeriods extends AppCompatActivity {
     }
 
     private void init(){
-        mProgressBar=new ProgressBar(this);
+        mProgressBar=new ProgressBar(context);
         final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -79,7 +81,7 @@ public class ActivityPeriods extends AppCompatActivity {
     }
 
     private void loadBanner() {
-        adView = new AdView(this);
+        adView = new AdView(context);
         adView.setAdUnitId(BANNER_TEST_ID);
         adContainerView.removeAllViews();
         adContainerView.addView(adView);
@@ -99,7 +101,7 @@ public class ActivityPeriods extends AppCompatActivity {
             adWidthPixels = outMetrics.widthPixels;
         }
         final int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
     }
 
     @Override
@@ -153,9 +155,9 @@ public class ActivityPeriods extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
-            final GridLayoutManager gridLayoutManager=new GridLayoutManager(ActivityPeriods.this,3);
+            final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
             recyclerView.setLayoutManager(gridLayoutManager);
-            recyclerView.setAdapter(new PeriodsAdapter(ActivityPeriods.this));
+            recyclerView.setAdapter(new PeriodsAdapter(context));
             recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }

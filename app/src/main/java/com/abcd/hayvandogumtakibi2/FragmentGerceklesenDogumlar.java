@@ -78,7 +78,8 @@ public class FragmentGerceklesenDogumlar extends Fragment {
             relativeLayout.removeView(mProgressBar);
             final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
             final ArrayList<DataModel> dataModelArrayList=databaseHelper.getGerceklesenler();
-            recyclerView.setAdapter(new KayitlarAdapter(context,dataModelArrayList,0));
+            final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,dataModelArrayList,0);
+            recyclerView.setAdapter(kayitlarAdapter);
             recyclerView.animate().alpha(1f).setDuration(200).start();
             mProgressBar=null;
         }

@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat;
 public class ActivityPermission extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_CODE = 21323;
+    final Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,10 @@ public class ActivityPermission extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)==
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==
                 PackageManager.PERMISSION_GRANTED){
-            startActivity(new Intent(ActivityPermission.this, PrimaryActivity.class));
+            startActivity(new Intent(context, PrimaryActivity.class));
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -56,7 +58,7 @@ public class ActivityPermission extends AppCompatActivity {
         per_storage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog=new Dialog(ActivityPermission.this,R.style.ImageDialogStyle);
+                final Dialog dialog=new Dialog(context,R.style.ImageDialogStyle);
                 dialog.setContentView(R.layout.per_info_layout);
                 final TextView title=dialog.findViewById(R.id.per_title);
                 final TextView body=dialog.findViewById(R.id.per_explanation);
@@ -77,7 +79,7 @@ public class ActivityPermission extends AppCompatActivity {
         per_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog=new Dialog(ActivityPermission.this,R.style.ImageDialogStyle);
+                final Dialog dialog=new Dialog(context,R.style.ImageDialogStyle);
                 dialog.setContentView(R.layout.per_info_layout);
                 final TextView title=dialog.findViewById(R.id.per_title);
                 final TextView body=dialog.findViewById(R.id.per_explanation);
@@ -98,26 +100,26 @@ public class ActivityPermission extends AppCompatActivity {
     }
 
     private void izin_kontrol(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
-                ||ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
+                ||ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             //Kamera ve depolama izinlerini ister.
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
         }
-        else if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED && ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) ==
+        else if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED && ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA) ==
                 PackageManager.PERMISSION_GRANTED){
             //Sadece depolama izni ister.
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQ_CODE);
         }
-        else if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==
+        else if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==
                 PackageManager.PERMISSION_DENIED){
             //Sadece kamera izni ister.
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
         }
         else{
-            startActivity(new Intent(ActivityPermission.this, PrimaryActivity.class));
+            startActivity(new Intent(context, PrimaryActivity.class));
             //İzinler tamamdır
         }
     }

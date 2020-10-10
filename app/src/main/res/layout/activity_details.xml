@@ -91,7 +91,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:id="@+id/vertical_line"
                 android:layout_marginTop="@dimen/margin_kategori_2"
                 android:layout_marginBottom="@dimen/margin_kategori_1">
 
@@ -131,7 +130,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/icon_clock"
+                        android:src="@drawable/ic_clock"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/margin_kategori_2"
                         android:contentDescription="@null"
@@ -183,7 +182,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_mark"
+                    android:src="@drawable/ic_tick"
                     app:tint="#00c853"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@null" />

@@ -1,97 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ActivityKayitAra"
-    android:id="@+id/main_layout"
-    android:background="@color/kayit_bul_title_layout_background">
+    android:id="@+id/main_layout">
 
-    <LinearLayout
-        android:id="@+id/search_bar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_kategori_4"
-        android:orientation="vertical"
-        android:focusable="true"
-        android:layout_alignParentTop="true"
-        android:focusableInTouchMode="true"
-        android:layout_centerInParent="true">
+        android:background="#fff"
+        android:padding="3dp"
+        android:layout_alignParentTop="true">
 
-        <TextView
-            android:id="@+id/text_title"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/comfortaa_bold"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/activity_ara_title"
-            android:textColor="@android:color/background_light"
-            android:textSize="@dimen/title_size"
-            android:textStyle="bold" />
+            android:src="@drawable/ic_cross"
+            android:id="@+id/iptal"
+            android:background="@drawable/ripple_effect"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/margin_kategori_4"
+            android:contentDescription="@null"
+            app:tint="#37474f" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_kategori_1"
-            android:layout_marginTop="@dimen/margin_kategori_1"
-            android:layout_marginEnd="@dimen/margin_kategori_1"
-            android:hint="@string/hint_bul"
-            app:hintEnabled="true"
-            style="@style/KayitBulInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bul"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_search"
-                android:textColor="@android:color/background_light"
-                android:inputType="textPersonName"
-                android:fontFamily="@font/comfortaa_bold"
-                android:lines="1"
-                android:maxLength="30"
-                android:theme="@style/InputSearch"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RadioGroup
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_group"
-            android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:checkedButton="@id/radio_button_isim">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_search"
+                android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_kategori_1"
+                app:tint="#37474f" />
 
             <TextView
+                android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/radio_group_hint"
-                android:layout_marginEnd="@dimen/margin_kategori_3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/background_light" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radio_button_isim"
-                android:textColor="@android:color/background_light"
-                android:buttonTint="@android:color/background_light"
-                android:text="@string/radio_button_isim"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_button_kupe_no"
-                android:textColor="@android:color/background_light"
-                android:buttonTint="@android:color/background_light"/>
+                android:padding="@dimen/margin_kategori_3"
+                android:text="@string/activity_ara_title"
+                android:textColor="#37474f"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"/>
 
-        </RadioGroup>
-    </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_lyt"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardBackgroundColor="#f5f5f5"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
+        android:focusable="true"
+        android:layout_below="@id/title_layout"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_kategori_1"
+                android:layout_marginEnd="@dimen/margin_kategori_1"
+                android:layout_marginTop="@dimen/margin_kategori_2"
+                android:hint="@string/hint_bul"
+                app:hintEnabled="true"
+                style="@style/KayitBulInputStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bul"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_search"
+                    android:textColor="#1E88E5"
+                    android:inputType="textPersonName"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:lines="1"
+                    android:maxLength="30"
+                    android:theme="@style/InputSearch"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_group"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:checkedButton="@id/radio_button_isim">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/radio_group_hint"
+                    android:layout_marginEnd="@dimen/margin_kategori_3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#1E88E5" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_button_isim"
+                    android:textColor="#1E88E5"
+                    android:buttonTint="#5E35B1"
+                    android:text="@string/radio_button_isim"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_kupe_no"
+                    android:textColor="#1E88E5"
+                    android:buttonTint="#5E35B1"/>
+
+            </RadioGroup>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layout_sonuclar"
-        android:layout_below="@id/search_bar"
+        android:layout_below="@id/search_lyt"
         android:layout_margin="@dimen/margin_kategori_1">
 
     </FrameLayout>

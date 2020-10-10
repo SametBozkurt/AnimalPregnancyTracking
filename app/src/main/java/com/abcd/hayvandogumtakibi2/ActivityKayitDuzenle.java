@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     ArrayList<DataModel> dataModelArrayList;
     RelativeLayout relativeLayout;
     ProgressBar mProgressBar;
+    final Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         setContentView(R.layout.activity_kayit_duzenle);
         relativeLayout=findViewById(R.id.main_layout);
         recyclerView=findViewById(R.id.recyclerView);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         final ImageView cross=findViewById(R.id.iptal);
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,10 +38,9 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        final GridLayoutManager gridLayoutManager=new GridLayoutManager(this,3);
-        //final LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(gridLayoutManager);
-        mProgressBar=new ProgressBar(this);
+        mProgressBar=new ProgressBar(context);
         final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -80,6 +81,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             recyclerView.animate().alpha(0f).setDuration(200).start();
+            recyclerView.setAdapter(null);
         }
 
         @Override
@@ -87,7 +89,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             relativeLayout.removeView(mProgressBar);
             dataModelArrayList=databaseHelper.getAllData();
-            final DuzenleAdapter duzenleAdapter =new DuzenleAdapter(ActivityKayitDuzenle.this,dataModelArrayList);
+            final DuzenleAdapter duzenleAdapter =new DuzenleAdapter(context,dataModelArrayList);
             recyclerView.setAdapter(duzenleAdapter);
             recyclerView.animate().alpha(1f).setDuration(200).start();
         }

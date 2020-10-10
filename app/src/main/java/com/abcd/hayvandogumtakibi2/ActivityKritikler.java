@@ -1,5 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class ActivityKritikler extends AppCompatActivity {
     private FrameLayout adContainerView, fragment_container;
     private AdView adView;
     private RelativeLayout relativeLayout;
+    final Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +41,16 @@ public class ActivityKritikler extends AppCompatActivity {
         adContainerView=findViewById(R.id.ad_view_container);
         final ImageView cross=findViewById(R.id.iptal);
         fragment_container=findViewById(R.id.fragment_container);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         dataModelArrayList=databaseHelper.getKritikOlanlar();
         adContainerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityKritikler.this.getSystemService(CONNECTIVITY_SERVICE);
+                final ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
                 final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
                     if(networkInfo.isConnected()){
-                        MobileAds.initialize(ActivityKritikler.this, new OnInitializationCompleteListener() {
+                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
@@ -66,9 +68,14 @@ public class ActivityKritikler extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        databaseHelper=null;
         dataModelArrayList=null;
         fragment_container.removeAllViews();
     }
@@ -91,6 +98,7 @@ public class ActivityKritikler extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (adView != null) {
+            databaseHelper=null;
             adView.destroy();
             adContainerView.removeAllViews();
             relativeLayout.removeAllViews();
@@ -112,7 +120,7 @@ public class ActivityKritikler extends AppCompatActivity {
     }
 
     private void loadBanner() {
-        adView = new AdView(this);
+        adView = new AdView(context);
         adView.setAdUnitId(BANNER_TEST_ID);
         adContainerView.removeAllViews();
         adContainerView.addView(adView);
@@ -132,7 +140,7 @@ public class ActivityKritikler extends AppCompatActivity {
             adWidthPixels = outMetrics.widthPixels;
         }
         final int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
     }
 
 }

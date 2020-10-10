@@ -1,22 +1,15 @@
 <resources>
-    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-    <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="preferences_tag_day_code" translatable="false">GunKodu</string>
     <string name="app_name">Animal Pregnancy Tracking</string>
-    <string name="nav_header_title">Animal Pregnancy Tracking</string>
-    <string name="nav_edit">Edit Record/Remove</string>
+    <string name="nav_edit">Edit/Remove</string>
     <string name="nav_critics">Incoming Births</string>
     <string name="nav_search">Search For a Record</string>
     <string name="nav_calculator">Date Calculator</string>
-    <string name="nav_info">Info</string>
+    <string name="activity_info_title">About</string>
     <string name="nav_gerceklesen_dgmlar">Happened Births</string>
     <string name="nav_period">Gestation Periods</string>
     <string name="nav_title">Options</string>
-    <string name="nav_title2">Application</string>
-    <string name="nav_title3">Tools</string>
-    <string name="nav_privacy_policy">Privacy Policy</string>
-    <string name="vote">Vote</string>
+    <string name="nav_title2">Others</string>
     <string name="hint_tarih1">Insemination date</string>
     <string name="hint_tarih2">Estimated birth date</string>
     <string name="hint_sperma_name">Sperma name(Optional)</string>
@@ -43,7 +36,6 @@
     <string name="hint_bul">Search</string>
     <string name="hint_kupe_no">ID no(Optional)</string>
     <string name="button_text_kaydet">Save</string>
-    <string name="button_text_iptal">Cancel</string>
     <string name="otomatik_hesaplandi_bildirim">The birth day has been calculated automatically.</string>
     <string name="bildirim_baslik">Incoming Birth Remainder</string>
     <string name="duzenle_button_text">Edit</string>
@@ -51,11 +43,9 @@
     <string name="kayit_yok_uyari_kritikler">Do/doesn\'t seem(s) any incoming birth in a month.</string>
     <string name="gerceklesen_dogum_yok_uyari">There\'s no happened birth yet.</string>
     <string name="activity_kayit_ekle_title">New Record</string>
-    <string name="sil_button_text">Remove</string>
     <string name="deger_yok_uyari">Please, fill the inputs to create a record.</string>
     <string name="bildirim_govde_text">There will be some births in a month.</string>
     <string name="date_input_helper_text">Please select a date</string>
-    <string name="activity_edit_title">Edit Record</string>
     <string name="date_input_helper_text_2">Estimated birth date will be calculated automatically.</string>
     <string name="activity_tarih_hesapla_title">Date Calculator</string>
     <string name="menu_kayit_bul">Search for a record</string>
@@ -67,8 +57,6 @@
     <string name="radio_button_kupe_no">ID numbers</string>
     <string name="radio_group_hint">Search in:</string>
     <string name="no_matches">No matches have been found</string>
-    <string name="dev_name">Developer:Samet Bozkurt</string>
-    <string name="app_version">Version:</string>
     <string name="kupe_no_yok">—</string>
     <string-array name="animal_list">
         <item>Cow</item>
@@ -108,12 +96,6 @@
         <item>Donkey</item>
         <item>Camel</item>
     </string-array>
-    <string-array name="goruntuleme_kategorileri">
-        <item>Names</item>
-        <item>IDs</item>
-        <item>Insemination Dates</item>
-        <item>Birth Dates</item>
-    </string-array>
     <string name="spinner_description">Show that:</string>
     <string name="photo_picker_item_gallery">From gallery</string>
     <string name="photo_picker_item_camera">Open camera</string>
@@ -133,15 +115,11 @@
     <string name="test_number" translatable="false">10</string>
     <string name="text_NA" translatable="false">—</string>
     <string name="APP_URL" translatable="false">https://play.google.com/store/apps/details?id=com.sariyazilim.hayvangebeliktakibi</string>
-    <string name="POLICY_URL" translatable="false">https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html</string>
-    <string name="dogum_gerceklesti_uyarı">Has that birth happened?</string>
-    <string name="yes">Yes</string>
     <string name="edit_blocked_msg">This record has been marked as happened already, you cannot edit it anymore.</string>
     <string name="info_doguma_hazır_olma">Est. Next Dat. For Ins.</string>
     <string name="crop_text">Crop</string>
     <string name="info_kuruya_alma">Est. Dat. of Abort. Milking</string>
     <string name="show_other_details">Click to See Other Details</string>
-    <string name="hide_other_details">Click to Hide Other Details</string>
     <string name="what_perms">What are these permissions?</string>
     <string name="text_camera">Camera (Click for explanation)</string>
     <string name="text_storage">Storage (Click for explanation)</string>
@@ -158,4 +136,14 @@
     <string name="title_dlg_isaretle">Ooops...</string>
     <string name="body_dlg_isaretle">This process cannot be undone and it is permanent. Also you cannot edit this anymore. Are you still sure about to mark it?</string>
     <string name="im_sure">I\'m Sure</string>
+    <string name="nav_all_recs">All Records</string>
+    <string name="cat_name">Names</string>
+    <string name="cat_id">IDs</string>
+    <string name="cat_date1">Ins. Dates</string>
+    <string name="cat_date2">Birth Dates</string>
+    <string name="version">Version:</string>
+    <string name="privacy_policy">Go to Privacy Policy</string>
+    <string name="vote">Vote in Store</string>
+    <string name="APP_POLICY" translatable="false">https://sametbozkurt0.blogspot.com/2019/09/samet-bozkurt-built-animal-pregnancy.html</string>
+    <string name="app_info_subtitle">Developed by Samet Bozkurt</string>
 </resources>

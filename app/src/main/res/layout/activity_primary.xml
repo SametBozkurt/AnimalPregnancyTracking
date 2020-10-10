@@ -1,27 +1,511 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start">
+    android:id="@+id/main_layout"
+    tools:context=".PrimaryActivity">
 
-    <include
-        layout="@layout/app_bar_primary"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:elevation="@dimen/margin_kategori_2"
+        android:padding="8dp"
+        android:layout_alignParentTop="true">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cross"
+            android:id="@+id/iptal"
+            android:background="@drawable/ripple_effect"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/margin_kategori_3"
+            android:contentDescription="@null"
+            app:tint="#37474f" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@mipmap/icon_circular"
+                android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_kategori_1" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_kategori_3"
+                android:text="@string/app_name"
+                android:textColor="#37474f"
+                android:textSize="15sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@drawable/ripple_effect"
+            android:src="@drawable/ic_menu"
+            android:contentDescription="@null"
+            android:padding="@dimen/margin_kategori_1"
+            app:tint="#37474f"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_kategori_2"
+                android:id="@+id/no_rec_msg_container" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_options"
+                app:cardBackgroundColor="#2196F3"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/margin_kategori_1"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nav_title"
+                        android:layout_marginTop="@dimen/margin_kategori_1"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#fff"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/comfortaa_bold"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_kategori_1"
+                        android:layout_marginEnd="@dimen/margin_kategori_1"
+                        android:layout_marginTop="@dimen/margin_kategori_2">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:id="@+id/edit"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_edit"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_edit"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/incoming"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_warning"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_critics"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:id="@+id/happened"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_tick"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_gerceklesen_dgmlar"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_kategori_1"
+                        android:layout_marginEnd="@dimen/margin_kategori_1"
+                        android:layout_marginTop="@dimen/margin_kategori_4"
+                        android:layout_marginBottom="@dimen/margin_kategori_4">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:id="@+id/search"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/icon_search"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_search"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/periods"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_period"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:id="@+id/all_recs"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_view_all"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_all_recs"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#ff8f00"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/margin_kategori_1"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nav_title2"
+                        android:layout_marginTop="@dimen/margin_kategori_1"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#fff"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/comfortaa_bold"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_kategori_1"
+                        android:layout_marginEnd="@dimen/margin_kategori_1"
+                        android:layout_marginTop="@dimen/margin_kategori_4"
+                        android:layout_marginBottom="@dimen/margin_kategori_4">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:id="@+id/calculator"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_calculator"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_calculator"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/about"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/icon_information"
+                                app:tint="#fff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/activity_info_title"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#fff" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_primary"
-        app:itemIconTint="@color/nav_header_title_color"
-        app:itemTextAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Header"
-        app:itemTextColor="@color/nav_header_title_color"
-        app:menu="@menu/activity_primary_drawer" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_kategori_1"
+        android:layout_marginBottom="@dimen/margin_kategori_1"
+        android:elevation="@dimen/button_elevation"
+        app:backgroundTint="#673AB7"
+        android:src="@drawable/icon_add_v2"
+        app:rippleColor="#fff"
+        app:maxImageSize="32dp"
+        style="@style/FABStyle"/>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    <LinearLayout
+        android:id="@+id/layout_pet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginEnd="@dimen/margin_kategori_1"
+        android:layout_marginBottom="@dimen/margin_kategori_4"
+        android:elevation="@dimen/button_elevation"
+        android:layout_above="@id/create"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/text_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fab_pet_exp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            android:fontFamily="@font/varela_round"
+            android:textColor="@android:color/white"
+            android:background="#5E35B1"
+            android:visibility="invisible"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="#673AB7"
+            android:src="@drawable/icon_pet"
+            app:rippleColor="#fff"
+            app:maxImageSize="30dp"
+            android:visibility="invisible"
+            style="@style/FABStyle"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginEnd="@dimen/margin_kategori_1"
+        android:layout_marginBottom="@dimen/margin_kategori_4"
+        android:elevation="@dimen/button_elevation"
+        android:layout_above="@id/layout_pet"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/text_barn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fab_barn_exp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            android:fontFamily="@font/varela_round"
+            android:textColor="@android:color/white"
+            android:background="#5E35B1"
+            android:visibility="invisible"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_barn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="#673AB7"
+            android:src="@drawable/icon_barn"
+            app:rippleColor="#fff"
+            app:maxImageSize="30dp"
+            android:visibility="invisible"
+            style="@style/FABStyle"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,10 +1,13 @@
 package com.abcd.hayvandogumtakibi2;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class ActivityGerceklesenler extends AppCompatActivity {
@@ -12,6 +15,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
     SQLiteDatabaseHelper databaseHelper;
     ArrayList<DataModel> dataModelArrayList;
     FrameLayout fragment_container;
+    final Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         dataModelArrayList=databaseHelper.getGerceklesenler();
     }
 

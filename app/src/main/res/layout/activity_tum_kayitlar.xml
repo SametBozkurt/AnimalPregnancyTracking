@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parent"
+    tools:context="com.abcd.hayvandogumtakibi2.ActivityTumKayitlar">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:padding="3dp"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cross"
+            android:id="@+id/iptal"
+            android:background="@drawable/ripple_effect3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/margin_kategori_4"
+            android:contentDescription="@null"
+            app:tint="#37474f" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_view_all"
+                android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_kategori_1"
+                app:layout_constraintEnd_toStartOf="@id/text_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="#37474f" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_all_recs"
+                android:textColor="#37474f"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:layout_margin="@dimen/margin_kategori_2"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="#f5f5f5"
+        android:id="@+id/card_options">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/varela_round"
+               android:text="@string/spinner_description"
+               android:layout_marginTop="@dimen/margin_kategori_1"
+               android:layout_gravity="center_horizontal"
+               android:textColor="@android:color/black" />
+
+           <RadioGroup
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/radio_group"
+               android:layout_gravity="center_horizontal"
+               android:orientation="horizontal"
+               android:gravity="center_horizontal"
+               android:checkedButton="@id/radio_button_isim">
+
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/radio_button_isim"
+                   android:textColor="@android:color/black"
+                   android:buttonTint="#E91E63"
+                   android:text="@string/cat_name"/>
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/radio_button_id"
+                   android:text="@string/cat_id"
+                   android:textColor="@android:color/black"
+                   android:buttonTint="#E91E63"/>
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/radio_button_date1"
+                   android:text="@string/cat_date1"
+                   android:textColor="@android:color/black"
+                   android:buttonTint="#E91E63"/>
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/radio_button_date2"
+                   android:text="@string/cat_date2"
+                   android:textColor="@android:color/black"
+                   android:buttonTint="#E91E63"/>
+
+           </RadioGroup>
+
+       </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/card_options"
+        android:layout_marginTop="@dimen/margin_kategori_2"/>
+
+</RelativeLayout>

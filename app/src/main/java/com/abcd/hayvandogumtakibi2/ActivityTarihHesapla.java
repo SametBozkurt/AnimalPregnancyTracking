@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,15 +10,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 public class ActivityTarihHesapla extends AppCompatActivity implements CalendarTools {
 
@@ -28,6 +31,7 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
     final int petCode=0;
     private Date date_dollenme=new Date();
     final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+    final Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
         turler_list.add(getString(R.string.tur_7));
         turler_list.add(getString(R.string.tur_8));
         turler_list.add(getString(R.string.tur_9));
-        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,turler_list);
+        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,turler_list);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
         spinner_turler.setAdapter(spinnerAdapter);
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -67,7 +71,7 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog=new DatePickerDialog(ActivityTarihHesapla.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog=new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         gecerli_takvim.set(year,month,dayOfMonth);

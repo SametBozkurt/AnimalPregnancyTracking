@@ -5,12 +5,8 @@
     <dimen name="margin_kategori_2">8dp</dimen>
     <dimen name="margin_kategori_3">10dp</dimen>
     <dimen name="margin_kategori_4">15dp</dimen>
-    <dimen name="margin_kategori_5">20dp</dimen>
     <dimen name="margin_kategori_6">25dp</dimen>
     <dimen name="button_stroke_width">2dp</dimen>
-    <dimen name="title_layout_height">110dp</dimen>
-    <dimen name="title_size">36sp</dimen>
-    <dimen name="nav_header_title_size">16sp</dimen>
     <dimen name="button_elevation">12dp</dimen>
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="dialog_corner_radius">12dp</dimen>

@@ -36,7 +36,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_gerceklesen_dogumlar"
+                android:src="@drawable/ic_tick"
                 android:contentDescription="@null"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/margin_kategori_1"

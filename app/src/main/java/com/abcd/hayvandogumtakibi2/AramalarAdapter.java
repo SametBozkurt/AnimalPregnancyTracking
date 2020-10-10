@@ -1,7 +1,9 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -78,6 +80,16 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         else{
             HayvanDuzenleyici.set_img(context,dataModel1.getIs_evcilhayvan(),Integer.parseInt(dataModel1.getTur()),holder.img_animal);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Bundle data=new Bundle();
+                data.putInt("ID",dataModel1.getId());
+                Intent intent=new Intent(context,ActivityDetails.class);
+                intent.putExtras(data);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

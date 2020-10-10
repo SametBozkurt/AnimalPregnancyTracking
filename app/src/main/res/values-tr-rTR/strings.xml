@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Hayvan Gebelik Takibi</string>
-    <string name="nav_header_title">Hayvan Gebelik Takibi</string>
-    <string name="nav_edit">Kayıt Düzenle/Sil</string>
+    <string name="nav_edit">Düzenle/Sil</string>
     <string name="nav_critics">Doğumu Yaklaşanlar</string>
-    <string name="nav_info">Hakkında</string>
+    <string name="activity_info_title">Hakkında</string>
     <string name="nav_title">Seçenekler</string>
-    <string name="nav_title2">Uygulama</string>
+    <string name="nav_title2">Diğer</string>
     <string name="hint_tarih1">Döllenme tarihi</string>
     <string name="hint_tarih2">Yaklaşık doğum tarihi</string>
     <string name="kayit_yok_uyari2">Herhangi bir kayıt oluşturulmamış, kayıt oluşturmanız gerek.</string>
@@ -24,21 +23,17 @@
     <string name="hint_isim">İsim</string>
     <string name="hint_kupe_no">Küpe no(İsteğe bağlı)</string>
     <string name="button_text_kaydet">Kaydet</string>
-    <string name="button_text_iptal">Vazgeç</string>
     <string name="otomatik_hesaplandi_bildirim">Doğum tarihi otomatik olarak hesaplandı.</string>
     <string name="bildirim_baslik">Yaklaşan Doğum Uyarısı</string>
     <string name="duzenle_button_text">Düzenle</string>
     <string name="kayit_yok_uyari">Herhangi bir gebelik kaydı oluşturulmamış. Oluşturmak için sağ alttaki butona tıklayınız.</string>
     <string name="kayit_yok_uyari_kritikler">1 ay içerisinde herhangi bir doğum gözükmüyor.</string>
     <string name="activity_kayit_ekle_title">Yeni Kayıt</string>
-    <string name="sil_button_text">Sil</string>
     <string name="deger_yok_uyari">Kayıt oluşturmak için lütfen kutuları doldurunuz.</string>
     <string name="bildirim_govde_text">Bir ay içinde gözüken bazı doğumlar var.</string>
     <string name="date_input_helper_text">Lütfen bir tarih seçiniz</string>
-    <string name="activity_edit_title">Kayıt Düzenle</string>
     <string name="date_input_helper_text_2">Tahmini doğum tarihi otomatik olarak hesaplanacaktır.</string>
     <string name="activity_tarih_hesapla_title">Tarih Hesaplayıcı</string>
-    <string name="nav_title3">Araçlar</string>
     <string name="nav_calculator">Tarih Hesaplayıcı</string>
     <string name="tur_5">Hamster</string>
     <string name="menu_kayit_bul">Kayıt ara</string>
@@ -49,8 +44,6 @@
     <string name="radio_group_hint">Şurda ara:</string>
     <string name="no_matches">Herhangi bir eşleşme bulunamadı</string>
     <string name="nav_search">Kayıt Bul</string>
-    <string name="dev_name">Geliştirici:Samet Bozkurt</string>
-    <string name="app_version">Sürüm:</string>
     <string name="kupe_no_yok">—</string>
     <string-array name="animal_list">
         <item>İnek</item>
@@ -90,12 +83,6 @@
         <item>Eşek</item>
         <item>Deve</item>
     </string-array>
-    <string-array name="goruntuleme_kategorileri">
-        <item>İsimler</item>
-        <item>Küpe Numaraları</item>
-        <item>Gebelik Tarihleri</item>
-        <item>Doğum Tarihleri</item>
-    </string-array>
     <string name="photo_picker_item_camera">Kamerayı aç</string>
     <string name="photo_picker_item_gallery">Galeriden seç</string>
     <string name="photo_picker_item_remove">Fotoğrafı kaldır</string>
@@ -105,7 +92,6 @@
         "Uygulamanın düzgün çalışması adına, bu izinleri vermenizi tavsiye ediyoruz."
     </string>
     <string name="allow_text">İzin ver</string>
-    <string name="nav_privacy_policy">Verilerin Gizliliği İlkesi</string>
     <string name="fab_barn_exp">Çiftlik</string>
     <string name="fab_pet_exp">"Evcil  "</string>
     <string name="tur_7">At</string>
@@ -115,13 +101,10 @@
     <string name="service_tag">GunDegisimDedektoru</string>
     <string name="txt_day">Gün kaldı</string>
     <string name="txt_day_2">Gün</string>
-    <string name="vote">Oyla</string>
     <string name="nav_period">Gebelik Süreleri</string>
     <string name="activity_periods_title">Gebelik Süreleri (Ort)</string>
     <string name="spinner_description">Şunu göster:</string>
     <string name="activity_permissions">Başlamadan önce…</string>
-    <string name="dogum_gerceklesti_uyarı">Bu doğum gerçekleşti mi?</string>
-    <string name="yes">Evet</string>
     <string name="edit_blocked_msg">Bu kayıt gerçekleşti olarak işaretlenmiş, artık değiştirilemez.</string>
     <string name="nav_gerceklesen_dgmlar">Gerçekleşmiş Doğumlar</string>
     <string name="gerceklesen_dogum_yok_uyari">Henüz gerçekleşen doğum yok.</string>
@@ -131,7 +114,6 @@
     <string name="crop_text">Kırp</string>
     <string name="info_kuruya_alma">Tah. Kur. Alma Trihi</string>
     <string name="show_other_details">Diğ. Det. Gör. İçn Tıklayınız</string>
-    <string name="hide_other_details">Diğ. Det. Giz. İçn Tıklayınız</string>
     <string name="what_perms">Nedir bu izinler?</string>
     <string name="text_camera">Kamera (Açıklama için tıklayınız)</string>
     <string name="text_storage">Depolama (Açıklama için tıklayınız)</string>
@@ -151,4 +133,13 @@
     <string name="title_dlg_isaretle">Bir dakika...</string>
     <string name="body_dlg_isaretle">Bu işlem kalıcı olup geri alınamaz. Ayrıca kaydı artık düzenleyemezsiniz. Yine de işaretlemek istediğinizden emin misiniz?</string>
     <string name="im_sure">Eminim</string>
+    <string name="nav_all_recs">Tüm Kayıtlar</string>
+    <string name="cat_name">İsimler</string>
+    <string name="cat_id">Küpe Num.</string>
+    <string name="cat_date2">Gblik Tarih.</string>
+    <string name="cat_date1">Doğum Tarih.</string>
+    <string name="version">Versiyon:</string>
+    <string name="privacy_policy">Gizlilik Politikasına Git</string>
+    <string name="vote">Mağazada Oyla</string>
+    <string name="app_info_subtitle">Samet Bozkurt Tarafından Geliştirildi</string>
 </resources>

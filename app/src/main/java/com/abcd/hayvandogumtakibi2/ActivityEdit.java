@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -49,6 +50,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     private static final int CAMERA_REQ_CODE = 12322;
     private boolean boolTarih=true, otherFieldsIsShown=false;
     private int kayit_id,petCode,calisma_sayaci=0;
+    final Context context=this;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
     Button kaydet;
     Spinner tur_sec;
@@ -78,7 +80,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         photo=findViewById(R.id.add_photo);
         final TextView txtOtherFields=findViewById(R.id.txt_other_details);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         final Bundle bundle=getIntent().getExtras();
         dataModel=databaseHelper.getDataById(bundle.getInt("kayit_id"));
         degerleri_yerlestir();
@@ -86,7 +88,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
             @Override
             public void onClick(View v) {
                 if(!otherFieldsIsShown){
-                    final LayoutInflater inflater=LayoutInflater.from(ActivityEdit.this);
+                    final LayoutInflater inflater=LayoutInflater.from(context);
                     final FrameLayout container=findViewById(R.id.other_fields_container);
                     container.setAlpha(0f);
                     final View view=inflater.inflate(R.layout.kayitlar_dgr_dtylr,container,false);
@@ -122,17 +124,17 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         ArrayAdapter<String> spinnerAdapter;
         switch(petCode){
             case 0:
-                spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list));
+                spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list));
                 spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
                 tur_sec.setAdapter(spinnerAdapter);
                 break;
             case 1:
-                spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list_pet));
+                spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list_pet));
                 spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
                 tur_sec.setAdapter(spinnerAdapter);
                 break;
             case 2:
-                spinnerAdapter=new ArrayAdapter<>(this,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list_barn));
+                spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list_barn));
                 spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
                 tur_sec.setAdapter(spinnerAdapter);
                 break;
@@ -150,12 +152,12 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
             public void run() {
                 final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
                 if(f.exists()&&f.isFile()){
-                    Glide.with(ActivityEdit.this)
+                    Glide.with(context)
                             .load(Uri.fromFile(new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name)))
                             .into(photo);
                 }
                 else{
-                    Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
+                    Glide.with(context).load(R.drawable.icon_photo_add).into(photo);
                 }
             }
         });
@@ -204,7 +206,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         dollenme_tarihi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog=new DatePickerDialog(ActivityEdit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog=new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         takvim.set(year,month,dayOfMonth);
@@ -232,7 +234,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         dogum_tarihi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog=new DatePickerDialog(ActivityEdit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog dialog=new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         takvim2.set(year,month,dayOfMonth);
@@ -268,7 +270,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                     }
                     databaseHelper.guncelle(model);
                     finish();
-                    startActivity(new Intent(ActivityEdit.this,PrimaryActivity.class));
+                    startActivity(new Intent(context,PrimaryActivity.class));
                 }
             }
         });
@@ -281,7 +283,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu=new PopupMenu(ActivityEdit.this,photo);
+                final PopupMenu popupMenu=new PopupMenu(context,photo);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_photo_picker,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -290,7 +292,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                             final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             if (camera_intent.resolveActivity(getPackageManager())!=null) {
                                 final File photoFile=getImageFile();
-                                final Uri photoURI= FileProvider.getUriForFile(ActivityEdit.this,getPackageName(),photoFile);
+                                final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
                                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                                 startActivityForResult(camera_intent, CAMERA_REQ_CODE);
                             }
@@ -307,7 +309,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                             if(f.exists()&&f.isFile()){
                                 f.delete();
                             }
-                            Glide.with(ActivityEdit.this).load(R.drawable.icon_photo_add).into(photo);
+                            Glide.with(context).load(R.drawable.icon_photo_add).into(photo);
                         }
                         return true;
                     }
@@ -336,7 +338,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                     final CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if(resultCode==RESULT_OK){
-                        Glide.with(this).load(result.getUri()).into(photo);
+                        Glide.with(context).load(result.getUri()).into(photo);
                         try {
                             final Bitmap photoBitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),result.getUri());
                             save_photo(photoBitmap);

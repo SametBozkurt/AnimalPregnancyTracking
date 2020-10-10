@@ -43,7 +43,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         holder.txt_isim.setText(new StringBuilder(dataModel.getIsim()));
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
-            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
+            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_photo);
         }
         else{
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
@@ -80,15 +80,15 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView txt_isim;
-        final TextView txt_durum;
-        final ImageView img_animal;
+        final TextView txt_isim,txt_durum;
+        final ImageView img_animal,img_photo;
 
         CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
             txt_isim=itemView.findViewById(R.id.txt_isim);
             txt_durum=itemView.findViewById(R.id.txt_durum);
+            img_photo=itemView.findViewById(R.id.photo);
         }
     }
 

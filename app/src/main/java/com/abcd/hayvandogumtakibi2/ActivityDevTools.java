@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +26,7 @@ public class ActivityDevTools extends AppCompatActivity {
     final long today_in_millis=System.currentTimeMillis();
     private ProgressBar mProgressBar;
     private FrameLayout progress_container;
+    final Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class ActivityDevTools extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar=new ProgressBar(ActivityDevTools.this);
+                mProgressBar=new ProgressBar(context);
                 progress_container.addView(mProgressBar,FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
                 new TaskCokluKayit().execute();
             }
@@ -47,7 +49,7 @@ public class ActivityDevTools extends AppCompatActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar=new ProgressBar(ActivityDevTools.this);
+                mProgressBar=new ProgressBar(context);
                 progress_container.addView(mProgressBar,FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
                 new TaskTumKayitlariSil().execute();
             }
@@ -57,7 +59,7 @@ public class ActivityDevTools extends AppCompatActivity {
             public void onClick(View v) {
                 final File f = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 if(f!=null){
-                    mProgressBar=new ProgressBar(ActivityDevTools.this);
+                    mProgressBar=new ProgressBar(context);
                     progress_container.addView(mProgressBar,FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
                     new TaskCopuBosalt().execute();
                 }
@@ -108,7 +110,7 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
+            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
             int id=0;
             for(int i=0;i<sayac;i++){
                 final String isim="test"+ i;
@@ -146,7 +148,7 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
+            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
             final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData();
             if(dataModelArrayList.size()>0){
                 for(int index=0;index<dataModelArrayList.size();index++){
@@ -180,7 +182,7 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(ActivityDevTools.this);
+            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
             final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData();
             final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
             final File[] fileList = dizin.listFiles();
