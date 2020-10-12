@@ -57,7 +57,7 @@ public class ActivityKayitAra extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 sonuc_container.removeAllViews();
-                if(taskSearch.getStatus()==AsyncTask.Status.RUNNING){
+                if(taskSearch!=null && taskSearch.getStatus()==AsyncTask.Status.RUNNING){
                     taskSearch.cancel(true);
                     taskSearch=null;
                 }

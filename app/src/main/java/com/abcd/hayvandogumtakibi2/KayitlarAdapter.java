@@ -67,11 +67,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         }
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
+            holder.textView.setTextColor(Color.WHITE);
             holder.img_animal.setColorFilter(Color.TRANSPARENT);
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
-            holder.img_animal.setColorFilter(Color.WHITE);
+            holder.textView.setTextColor(Color.parseColor("#37474f"));
+            holder.img_animal.setColorFilter(Color.parseColor("#2196F3"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

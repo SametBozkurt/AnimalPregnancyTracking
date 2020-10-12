@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,10 +44,18 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         holder.txt_isim.setText(new StringBuilder(dataModel.getIsim()));
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
+            holder.txt_durum.setTextColor(Color.WHITE);
+            holder.img_clock.setColorFilter(Color.WHITE);
+            holder.txt_isim.setTextColor(Color.WHITE);
+            holder.img_photo.setColorFilter(Color.TRANSPARENT);
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_photo);
         }
         else{
-            HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
+            holder.txt_durum.setTextColor(Color.parseColor("#37474f"));
+            holder.img_clock.setColorFilter(Color.parseColor("#37474f"));
+            holder.txt_isim.setTextColor(Color.parseColor("#37474f"));
+            holder.img_photo.setColorFilter(Color.parseColor("#2196F3"));
+            HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_photo);
         }
         if(dataModel.getDogum_tarihi().length()!=0){
             if(get_gun_sayisi(Long.parseLong(dataModel.getDogum_tarihi()))>=0){
@@ -81,14 +90,14 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         final TextView txt_isim,txt_durum;
-        final ImageView img_animal,img_photo;
+        final ImageView img_photo,img_clock;
 
         CustomViewHolder(View itemView) {
             super(itemView);
-            img_animal=itemView.findViewById(R.id.img_hayvan);
             txt_isim=itemView.findViewById(R.id.txt_isim);
             txt_durum=itemView.findViewById(R.id.txt_durum);
             img_photo=itemView.findViewById(R.id.photo);
+            img_clock=itemView.findViewById(R.id.img_clock);
         }
     }
 

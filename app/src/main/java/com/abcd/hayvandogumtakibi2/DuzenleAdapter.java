@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -67,9 +68,13 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         });
         final File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
+            holder.txt_isim.setTextColor(Color.WHITE);
+            holder.img_animal.setColorFilter(Color.TRANSPARENT);
             Glide.with(mContext).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
+            holder.txt_isim.setTextColor(Color.parseColor("#37474f"));
+            holder.img_animal.setColorFilter(Color.parseColor("#2196F3"));
             HayvanDuzenleyici.set_img(mContext,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
     }

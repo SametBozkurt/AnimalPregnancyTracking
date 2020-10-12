@@ -30,13 +30,12 @@ public class ActivityGerceklesenler extends AppCompatActivity {
             }
         });
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-        dataModelArrayList=databaseHelper.getGerceklesenler();
+        dataModelArrayList=databaseHelper.getSimpleData("dogum_grcklsti=1",null);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        databaseHelper=null;
         dataModelArrayList=null;
     }
 
@@ -44,7 +43,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         fragment_container.removeAllViews();
-        dataModelArrayList=databaseHelper.getGerceklesenler();
+        dataModelArrayList=databaseHelper.getSimpleData("dogum_grcklsti=1",null);
         if(dataModelArrayList.size()==0){
             final FragmentGerceklesenDogumYok fragmentGerceklesenDogumYok=new FragmentGerceklesenDogumYok();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumYok).commitAllowingStateLoss();

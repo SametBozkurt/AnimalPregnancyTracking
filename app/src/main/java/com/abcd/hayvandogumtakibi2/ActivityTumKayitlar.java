@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -13,6 +14,8 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     RadioGroup myRadioGroup;
     final Context context=this;
     int selection_code=0;
+    String selection_gerceklesen_dogumlar=null;
     TaskKayitlariYukle taskKayitlariYukle;
 
     @Override
@@ -31,6 +35,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tum_kayitlar);
         final ImageView cross=findViewById(R.id.iptal);
+        final SwitchMaterial switchMaterial=findViewById(R.id.switch_show_happeneds);
         recyclerView=findViewById(R.id.recyclerView);
         myRadioGroup=findViewById(R.id.radio_group);
         final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
@@ -74,6 +79,19 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                 }
             }
         });
+        switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!isChecked){
+                    selection_gerceklesen_dogumlar="dogum_grcklsti=0";
+                }
+                else{
+                    selection_gerceklesen_dogumlar=null;
+                }
+                taskKayitlariYukle=new TaskKayitlariYukle();
+                initProgressBarAndTask();
+            }
+        });
     }
 
     void initProgressBarAndTask(){
@@ -112,7 +130,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<DataModel> dataModelArrayList=databaseHelper.getSimpleData();
+            final ArrayList<DataModel> dataModelArrayList=databaseHelper.getSimpleData(selection_gerceklesen_dogumlar,"isim ASC");
             final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,dataModelArrayList,selection_code);
             recyclerView.setAdapter(kayitlarAdapter);
             relativeLayout.removeView(mProgressBar);

@@ -149,7 +149,7 @@ public class ActivityDevTools extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData();
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData(null,null);
             if(dataModelArrayList.size()>0){
                 for(int index=0;index<dataModelArrayList.size();index++){
                     final int id=dataModelArrayList.get(index).getId();
@@ -183,7 +183,7 @@ public class ActivityDevTools extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData();
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData(null,null);
             final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
             final File[] fileList = dizin.listFiles();
             final ArrayList<String> files_in_db=new ArrayList<>();

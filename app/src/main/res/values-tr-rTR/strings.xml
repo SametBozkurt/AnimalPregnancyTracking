@@ -136,10 +136,11 @@
     <string name="nav_all_recs">Tüm Kayıtlar</string>
     <string name="cat_name">İsimler</string>
     <string name="cat_id">Küpe Num.</string>
-    <string name="cat_date2">Gblik Tarih.</string>
-    <string name="cat_date1">Doğum Tarih.</string>
+    <string name="cat_date2">Doğum Tarih.</string>
+    <string name="cat_date1">Gblik Tarih.</string>
     <string name="version">Versiyon:</string>
     <string name="privacy_policy">Gizlilik Politikasına Git</string>
     <string name="vote">Mağazada Oyla</string>
     <string name="app_info_subtitle">Samet Bozkurt Tarafından Geliştirildi</string>
+    <string name="swich_show_happeneds">Gerçekleşen doğumları göster</string>
 </resources>

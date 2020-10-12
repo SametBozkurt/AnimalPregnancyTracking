@@ -103,7 +103,7 @@
                    android:layout_height="wrap_content"
                    android:id="@+id/radio_button_isim"
                    android:textColor="@android:color/black"
-                   android:buttonTint="#E91E63"
+                   android:buttonTint="#1E88E5"
                    android:text="@string/cat_name"/>
                <RadioButton
                    android:layout_width="wrap_content"
@@ -111,23 +111,35 @@
                    android:id="@+id/radio_button_id"
                    android:text="@string/cat_id"
                    android:textColor="@android:color/black"
-                   android:buttonTint="#E91E63"/>
+                   android:buttonTint="#1E88E5"/>
                <RadioButton
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:id="@+id/radio_button_date1"
                    android:text="@string/cat_date1"
                    android:textColor="@android:color/black"
-                   android:buttonTint="#E91E63"/>
+                   android:buttonTint="#1E88E5"/>
                <RadioButton
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:id="@+id/radio_button_date2"
                    android:text="@string/cat_date2"
                    android:textColor="@android:color/black"
-                   android:buttonTint="#E91E63"/>
+                   android:buttonTint="#1E88E5"/>
 
            </RadioGroup>
+
+           <com.google.android.material.switchmaterial.SwitchMaterial
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/switch_show_happeneds"
+               android:layout_gravity="center_horizontal"
+               android:checked="true"
+               android:layout_marginStart="@dimen/margin_kategori_3"
+               android:layout_marginEnd="@dimen/margin_kategori_3"
+               android:fontFamily="@font/varela_round"
+               android:text="@string/swich_show_happeneds"
+               style="@style/Widget.App.Switch"/>
 
        </LinearLayout>
 
@@ -137,7 +149,6 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/card_options"
-        android:layout_marginTop="@dimen/margin_kategori_2"/>
+        android:layout_below="@id/card_options"/>
 
 </RelativeLayout>

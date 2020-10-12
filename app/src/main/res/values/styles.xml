@@ -65,6 +65,16 @@
         <item name="tint">#fff</item>
     </style>
 
+    <style name="FABEdit" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="tint">#2196F3</item>
+        <item name="backgroundTint">#fff</item>
+    </style>
+
+    <style name="FABDelete" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="tint">#FF4D4D</item>
+        <item name="backgroundTint">#fff</item>
+    </style>
+
     <style name="KayitBulInputStyle" parent="@style/Widget.Design.TextInputLayout">
         <item name="android:textColorHint">#1E88E5</item>
         <item name="android:backgroundTint">#1E88E5</item>
@@ -106,5 +116,12 @@
     <style name="TextButton1" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
         <item name="android:textSize">15sp</item>
+    </style>
+    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorOnSurface">#1E88E5</item>
+        <item name="colorSecondary">#1E88E5</item>
     </style>
 </resources>

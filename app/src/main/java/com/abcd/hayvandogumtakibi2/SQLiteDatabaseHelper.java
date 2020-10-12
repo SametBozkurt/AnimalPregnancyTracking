@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,12 +95,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         database.close();
     }
 
-    ArrayList<DataModel> getSimpleData(){
+    ArrayList<DataModel> getSimpleData(@Nullable String selectionClause, @Nullable String orderClause){
         long date_in_millis;
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
-        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
-                null,null,null,null,null);
+        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
+                selectionClause,null,null,null, orderClause);
         while(cursor.moveToNext()){
             CONVERTED_DATE1=cursor.getString(4);
             CONVERTED_DATE2=cursor.getString(5);
@@ -121,27 +124,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         }
         cursor.close();
         return dataModelArrayList;
-    }
-
-    int getSize(){
-        final ArrayList<DataModel> arrayList=new ArrayList<>();
-        final SQLiteDatabase database=this.getReadableDatabase();
-        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id"},
-                null,null,null,null,null);
-        while (cursor.moveToNext()){
-            arrayList.add(new DataModel(cursor.getInt(0),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    0,
-                    0,
-                    null));
-        }
-        cursor.close();
-        return arrayList.size();
     }
 
     ArrayList<DataModel> getAllData(){
@@ -227,57 +209,27 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
     ArrayList<DataModel> getAramaSonuclari(boolean isimAranacak, String aranacak){
         final ArrayList<DataModel> hayvanVerilerArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
+        Cursor cursor;
         if(isimAranacak){
-            final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+            cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_1+" LIKE ?",new String[]{"%"+aranacak+"%"},
                     null,null,null);
-            while(cursor.moveToNext()){
-                hayvanVerilerArrayList.add(new DataModel(cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        cursor.getInt(7),0,null));
-            }
-            cursor.close();
+
         }
         else{
-            final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+            cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_3+" LIKE ?",new String[]{"%"+aranacak+"%"},
                     null,null,null);
-            while(cursor.moveToNext()){
-                hayvanVerilerArrayList.add(new DataModel(cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        cursor.getInt(7),0,null));
-            }
-            cursor.close();
         }
-        return hayvanVerilerArrayList;
-    }
-
-    ArrayList<DataModel> getGerceklesenler(){
-        final ArrayList<DataModel> hayvanVerilerArrayList=new ArrayList<>();
-        final SQLiteDatabase database=this.getReadableDatabase();
-        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
-                SUTUN_8+" LIKE ?",new String[]{"%1%"},
-                null,null,null);
         while(cursor.moveToNext()){
             hayvanVerilerArrayList.add(new DataModel(cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
-                    null,
-                    null,
-                    null,
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
                     cursor.getString(6),
-                    cursor.getInt(7),
-                    cursor.getInt(8),null));
+                    cursor.getInt(7),0,null));
         }
         cursor.close();
         return hayvanVerilerArrayList;
@@ -324,9 +276,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
     }
 
     @Override
-    public void oto_tarih_hesapla(Date date) {
-
-    }
+    public void oto_tarih_hesapla(Date date) {}
 
     @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
@@ -361,6 +311,27 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
             }
         }
         tarih_donustur(id, String.valueOf(date_dollenme.getTime()), String.valueOf(date_dogum.getTime()));
+    }
+
+    int getSize(){
+        final ArrayList<DataModel> arrayList=new ArrayList<>();
+        final SQLiteDatabase database=this.getReadableDatabase();
+        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id"},
+                null,null,null,null,null);
+        while (cursor.moveToNext()){
+            arrayList.add(new DataModel(cursor.getInt(0),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    0,
+                    0,
+                    null));
+        }
+        cursor.close();
+        return arrayList.size();
     }
 
 }

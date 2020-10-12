@@ -145,10 +145,10 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
                                 android:fontFamily="@font/abeezee"
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_edit"
-                                android:layout_marginTop="@dimen/margin_kategori_1"
                                 android:textColor="#fff" />
 
                         </LinearLayout>
