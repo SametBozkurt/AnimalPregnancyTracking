@@ -106,6 +106,10 @@
     <style name="ImageDialogStyle" parent="Theme.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
     </style>
+    <style name="DialogStyleTest" parent="Theme.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
+        <item name="colorAccent">#1565C0</item>
+    </style>
     <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/black</item>
@@ -117,11 +121,14 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
         <item name="android:textSize">15sp</item>
     </style>
-    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+
+
+    <!--<style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
     </style>
     <style name="ThemeOverlay.App.Switch" parent="">
-        <item name="colorOnSurface">#1E88E5</item>
+        <item name="colorOnSurface">#64B5F6</item>
         <item name="colorSecondary">#1E88E5</item>
-    </style>
+    </style> -->
+
 </resources>

@@ -143,4 +143,9 @@
     <string name="vote">Vote in Store</string>
     <string name="app_info_subtitle">Developed by Samet Bozkurt</string>
     <string name="swich_show_happeneds">Show happened births</string>
+    <string name="btn_filter">Filter</string>
+    <string name="btn_apply">Apply</string>
+    <string name="orderBy">Order by:</string>
+    <string name="cat_AtoZ">A to Z</string>
+    <string name="cat_ZtoA">Z to A</string>
 </resources>

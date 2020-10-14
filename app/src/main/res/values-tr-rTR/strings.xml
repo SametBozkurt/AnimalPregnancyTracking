@@ -143,4 +143,9 @@
     <string name="vote">Mağazada Oyla</string>
     <string name="app_info_subtitle">Samet Bozkurt Tarafından Geliştirildi</string>
     <string name="swich_show_happeneds">Gerçekleşen doğumları göster</string>
+    <string name="btn_filter">Filtrele</string>
+    <string name="btn_apply">Uygula</string>
+    <string name="orderBy">Sırala:</string>
+    <string name="cat_AtoZ">A\'dan Z\'ye</string>
+    <string name="cat_ZtoA">Z\'den A\'ya</string>
 </resources>
