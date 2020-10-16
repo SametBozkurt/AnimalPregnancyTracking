@@ -1,10 +1,8 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -33,15 +31,12 @@ public class ActivityPeriods extends AppCompatActivity {
     AdView adView;
     FrameLayout adContainerView;
     RelativeLayout relativeLayout;
-    ProgressBar mProgressBar;
-    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_periods);
         relativeLayout=findViewById(R.id.parent_layout);
-        recyclerView=findViewById(R.id.recyclerView);
         adContainerView=findViewById(R.id.ad_view_container);
         final ImageView cross = findViewById(R.id.iptal);
         cross.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +45,7 @@ public class ActivityPeriods extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        init();
+        initProgressBarAndTask();
         adContainerView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -69,15 +64,27 @@ public class ActivityPeriods extends AppCompatActivity {
         },500);
     }
 
-    private void init(){
-        mProgressBar=new ProgressBar(context);
+    void initProgressBarAndTask(){
+        final RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        final ProgressBar progressBar=new ProgressBar(context);
+        progressBar.setIndeterminate(true);
         final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mProgressBar.setLayoutParams(mLayoutParams);
-        mProgressBar.setIndeterminate(true);
-        relativeLayout.addView(mProgressBar);
-        new Task1().execute();
+        progressBar.setLayoutParams(mLayoutParams);
+        relativeLayout.addView(progressBar);
+        recyclerView.setAlpha(0f);
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
+                recyclerView.setLayoutManager(gridLayoutManager);
+                final PeriodsAdapter periodsAdapter=new PeriodsAdapter(context);
+                recyclerView.setAdapter(periodsAdapter);
+                relativeLayout.removeView(progressBar);
+                recyclerView.animate().alpha(1f).setDuration(200).start();
+            }
+        },600);
     }
 
     private void loadBanner() {
@@ -130,37 +137,6 @@ public class ActivityPeriods extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         if (adView != null) { adView.resume(); }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class Task1 extends AsyncTask<String, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            recyclerView.setAlpha(0f);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            relativeLayout.removeView(mProgressBar);
-            final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
-            recyclerView.setLayoutManager(gridLayoutManager);
-            recyclerView.setAdapter(new PeriodsAdapter(context));
-            recyclerView.animate().alpha(1f).setDuration(200).start();
-            mProgressBar=null;
-        }
     }
 
 }

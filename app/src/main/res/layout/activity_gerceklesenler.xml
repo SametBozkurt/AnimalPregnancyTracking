@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="#6a1b9a"
         android:padding="3dp"
         android:id="@+id/toolbar_layout">
 
@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="@dimen/margin_kategori_4"
             android:contentDescription="@null"
-            app:tint="#37474f" />
+            app:tint="#fff" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                 android:contentDescription="@null"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/margin_kategori_1"
-                app:tint="#37474f" />
+                app:tint="#fff" />
 
             <TextView
                 android:id="@+id/text_title"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_kategori_3"
                 android:text="@string/nav_gerceklesen_dgmlar"
-                android:textColor="#37474f"
+                android:textColor="#fff"
                 android:textSize="18sp"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/comfortaa_bold"/>

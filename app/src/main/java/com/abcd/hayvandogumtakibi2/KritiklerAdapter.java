@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,9 +27,9 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     private final ArrayList<DataModel> dataModelArrayList;
 
 
-    KritiklerAdapter(Context context){
+    KritiklerAdapter(Context context, @Nullable String orderClause){
         this.context=context;
-        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar();
+        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(orderClause);
     }
 
     @NonNull

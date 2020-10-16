@@ -1,9 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,17 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import java.util.ArrayList;
-
 public class ActivityTumKayitlar extends AppCompatActivity {
 
-    RecyclerView recyclerView;
     RelativeLayout relativeLayout;
-    ProgressBar mProgressBar;
     final Context context=this;
     int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
     String selection_gerceklesen_dogumlar=null,table_name="isim", orderByClause=table_name+" ASC";
-    TaskKayitlariYukle taskKayitlariYukle;
     boolean switchIsChecked=true;
 
     @Override
@@ -38,11 +31,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         setContentView(R.layout.activity_tum_kayitlar);
         final ImageView cross=findViewById(R.id.iptal);
         final Button btn_filter=findViewById(R.id.btn_filter);
-        recyclerView=findViewById(R.id.recyclerView);
-        final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
-        recyclerView.setLayoutManager(layoutManager);
         relativeLayout=findViewById(R.id.parent);
-        taskKayitlariYukle=new TaskKayitlariYukle();
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,48 +48,27 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     }
 
     void initProgressBarAndTask(){
-        mProgressBar=new ProgressBar(this);
-        mProgressBar.setId(R.id.progress1);
-        mProgressBar.setIndeterminate(true);
+        final RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
+        recyclerView.setLayoutManager(layoutManager);
+        final ProgressBar progressBar=new ProgressBar(this);
+        progressBar.setIndeterminate(true);
         final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mProgressBar.setLayoutParams(mLayoutParams);
-        relativeLayout.addView(mProgressBar);
-        taskKayitlariYukle.execute();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class TaskKayitlariYukle extends AsyncTask<String, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        progressBar.setLayoutParams(mLayoutParams);
+        relativeLayout.addView(progressBar);
+        recyclerView.animate().alpha(0f).setDuration(200).start();
+        recyclerView.setAdapter(null);
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar, orderByClause);
+                recyclerView.setAdapter(kayitlarAdapter);
+                relativeLayout.removeView(progressBar);
+                recyclerView.animate().alpha(1f).setDuration(200).start();
             }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            recyclerView.animate().alpha(0f).setDuration(200).start();
-            recyclerView.setAdapter(null);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<DataModel> dataModelArrayList=databaseHelper.getSimpleData(selection_gerceklesen_dogumlar, orderByClause);
-            final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,dataModelArrayList,selection_code);
-            recyclerView.setAdapter(kayitlarAdapter);
-            relativeLayout.removeView(mProgressBar);
-            recyclerView.animate().alpha(1f).setDuration(200).start();
-            mProgressBar=null;
-        }
+        },600);
     }
 
     void openFilterMenu(){
@@ -162,7 +130,6 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         buttonApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                taskKayitlariYukle=new TaskKayitlariYukle();
                 initProgressBarAndTask();
                 dialog.dismiss();
             }

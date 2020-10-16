@@ -1,8 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,6 @@ public class FragmentYaklasanDogumlar extends Fragment {
     Context context;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
-    ProgressBar mProgressBar;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,44 +37,28 @@ public class FragmentYaklasanDogumlar extends Fragment {
         relativeLayout=view.findViewById(R.id.parent_layout);
         final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(gridLayoutManager);
-        mProgressBar=new ProgressBar(context);
-        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mProgressBar.setLayoutParams(mLayoutParams);
-        mProgressBar.setIndeterminate(true);
-        relativeLayout.addView(mProgressBar);
-        new Task1().execute();
+        initProgressBarAndTask();
         return view;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class Task1 extends AsyncTask<String, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    void initProgressBarAndTask(){
+        final ProgressBar progressBar=new ProgressBar(context);
+        progressBar.setIndeterminate(true);
+        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        progressBar.setLayoutParams(mLayoutParams);
+        relativeLayout.addView(progressBar);
+        recyclerView.setAlpha(0f);
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final KritiklerAdapter kritiklerAdapter=new KritiklerAdapter(context,"dogum_tarihi ASC");
+                recyclerView.setAdapter(kritiklerAdapter);
+                relativeLayout.removeView(progressBar);
+                recyclerView.animate().alpha(1f).setDuration(200).start();
             }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            recyclerView.animate().alpha(0f).setDuration(200).start();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            relativeLayout.removeView(mProgressBar);
-            recyclerView.setAdapter(new KritiklerAdapter(context));
-            recyclerView.animate().alpha(1f).setDuration(200).start();
-            mProgressBar=null;
-        }
+        },600);
     }
 
 }

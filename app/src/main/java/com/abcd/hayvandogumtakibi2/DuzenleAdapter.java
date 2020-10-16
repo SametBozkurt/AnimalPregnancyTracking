@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,10 +26,10 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private final ArrayList<DataModel> dataModelArrayList;
     private final SQLiteDatabaseHelper databaseHelper;
 
-    DuzenleAdapter(Context context, ArrayList<DataModel> arrayList){
+    DuzenleAdapter(Context context,@Nullable String orderClause){
         this.mContext=context;
-        this.dataModelArrayList=arrayList;
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+        this.dataModelArrayList=databaseHelper.getAllData(orderClause);
     }
 
     @NonNull

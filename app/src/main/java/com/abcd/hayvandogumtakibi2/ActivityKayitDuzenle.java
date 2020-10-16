@@ -1,8 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,24 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class ActivityKayitDuzenle extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    SQLiteDatabaseHelper databaseHelper;
-    ArrayList<DataModel> dataModelArrayList;
     RelativeLayout relativeLayout;
-    ProgressBar mProgressBar;
     final Context context=this;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit_duzenle);
         relativeLayout=findViewById(R.id.main_layout);
-        recyclerView=findViewById(R.id.recyclerView);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         final ImageView cross=findViewById(R.id.iptal);
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,61 +29,43 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        mProgressBar=new ProgressBar(context);
+        initProgressBarAndTask();
+    }
+
+    void initProgressBarAndTask(){
+        recyclerView=findViewById(R.id.recyclerView);
+        final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
+        recyclerView.setLayoutManager(layoutManager);
+        final ProgressBar progressBar=new ProgressBar(this);
+        progressBar.setIndeterminate(true);
         final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mProgressBar.setLayoutParams(mLayoutParams);
-        mProgressBar.setIndeterminate(true);
-        relativeLayout.addView(mProgressBar);
-        new Task1().execute();
+        progressBar.setLayoutParams(mLayoutParams);
+        relativeLayout.addView(progressBar);
+        recyclerView.animate().alpha(0f).setDuration(200).start();
+        recyclerView.setAdapter(null);
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                relativeLayout.removeView(progressBar);
+                final DuzenleAdapter duzenleAdapter =new DuzenleAdapter(context,"isim ASC");
+                recyclerView.setAdapter(duzenleAdapter);
+                recyclerView.animate().alpha(1f).setDuration(200).start();
+            }
+        },600);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        relativeLayout.addView(mProgressBar);
-        new Task1().execute();
+        initProgressBarAndTask();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        dataModelArrayList=null;
         recyclerView.setAdapter(null);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class Task1 extends AsyncTask<String, Integer, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                Thread.sleep(600);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            recyclerView.animate().alpha(0f).setDuration(200).start();
-            recyclerView.setAdapter(null);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            relativeLayout.removeView(mProgressBar);
-            dataModelArrayList=databaseHelper.getAllData();
-            final DuzenleAdapter duzenleAdapter =new DuzenleAdapter(context,dataModelArrayList);
-            recyclerView.setAdapter(duzenleAdapter);
-            recyclerView.animate().alpha(1f).setDuration(200).start();
-        }
     }
 
 }

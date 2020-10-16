@@ -38,7 +38,7 @@ public class TarihKontrol extends BroadcastReceiver {
                 scheduler.schedule(jobBuilder.build());
             }
             else if(intent.getAction().equals(ACTION_DAY_CHANGED)){
-                dbSize = SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar().size();
+                dbSize = SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(null).size();
                 if(dbSize > 0){
                     bildirim_ver(context);
                 }

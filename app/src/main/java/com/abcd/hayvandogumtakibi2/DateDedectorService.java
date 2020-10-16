@@ -31,7 +31,7 @@ public class DateDedectorService extends JobService {
         }
         else{
             if(day_code!=calendar.get(Calendar.DAY_OF_WEEK)){
-                final int dbSize = SQLiteDatabaseHelper.getInstance(getApplicationContext()).getKritikOlanlar().size();
+                final int dbSize = SQLiteDatabaseHelper.getInstance(getApplicationContext()).getKritikOlanlar(null).size();
                 if(dbSize >0){
                     bildirim_ver(getApplicationContext());
                 }

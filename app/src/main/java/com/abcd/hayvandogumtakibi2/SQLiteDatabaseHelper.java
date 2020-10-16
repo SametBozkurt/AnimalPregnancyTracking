@@ -126,11 +126,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getAllData(){
+    ArrayList<DataModel> getAllData(@Nullable String orderClause){
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
-                null,null,null,null,null);
+                null,null,null,null,orderClause);
         while(cursor.moveToNext()){
             dataModelArrayList.add(new DataModel(cursor.getInt(0),
                     cursor.getString(1),
@@ -147,12 +147,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getKritikOlanlar(){
+    ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause){
         long date_dogum_in_millis = 0;
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
-                null,null,null,null,null);
+                null,null,null,null,orderClause);
         while(cursor.moveToNext()){
             if(cursor.getString(5) == null ||cursor.getString(5).isEmpty()){
                 continue;
@@ -209,7 +209,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
     ArrayList<DataModel> getAramaSonuclari(boolean isimAranacak, String aranacak){
         final ArrayList<DataModel> hayvanVerilerArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor;
+        final Cursor cursor;
         if(isimAranacak){
             cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                     SUTUN_1+" LIKE ?",new String[]{"%"+aranacak+"%"},

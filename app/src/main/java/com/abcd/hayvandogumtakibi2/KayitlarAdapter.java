@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import java.io.File;
@@ -28,9 +29,9 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
     private final Date date=new Date();
 
-    KayitlarAdapter(Context context,ArrayList<DataModel> arrayList,int code){
+    KayitlarAdapter(Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
         this.context=context;
-        this.dataModelArrayList=arrayList;
+        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSimpleData(selectionClause,orderClause);
         this.code=code;
     }
 

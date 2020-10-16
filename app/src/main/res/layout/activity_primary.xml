@@ -12,7 +12,7 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="#6a1b9a"
         android:elevation="@dimen/margin_kategori_2"
         android:padding="8dp"
         android:layout_alignParentTop="true">
@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="@dimen/margin_kategori_3"
             android:contentDescription="@null"
-            app:tint="#37474f" />
+            app:tint="#fff" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_kategori_3"
                 android:text="@string/app_name"
-                android:textColor="#37474f"
+                android:textColor="#fff"
                 android:textSize="15sp"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/comfortaa_bold"/>
@@ -68,7 +68,7 @@
             android:src="@drawable/ic_menu"
             android:contentDescription="@null"
             android:padding="@dimen/margin_kategori_1"
-            app:tint="#37474f"
+            app:tint="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -429,7 +429,7 @@
         android:layout_marginEnd="@dimen/margin_kategori_1"
         android:layout_marginBottom="@dimen/margin_kategori_1"
         android:elevation="@dimen/button_elevation"
-        app:backgroundTint="#673AB7"
+        app:backgroundTint="#6a1b9a"
         android:src="@drawable/icon_add_v2"
         app:rippleColor="#fff"
         app:maxImageSize="32dp"
@@ -456,14 +456,14 @@
             android:padding="10dp"
             android:fontFamily="@font/varela_round"
             android:textColor="@android:color/white"
-            android:background="#5E35B1"
+            android:background="#6a1b9a"
             android:visibility="invisible"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="#673AB7"
+            app:backgroundTint="#6a1b9a"
             android:src="@drawable/icon_pet"
             app:rippleColor="#fff"
             app:maxImageSize="30dp"
@@ -492,14 +492,14 @@
             android:padding="10dp"
             android:fontFamily="@font/varela_round"
             android:textColor="@android:color/white"
-            android:background="#5E35B1"
+            android:background="#6a1b9a"
             android:visibility="invisible"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_barn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="#673AB7"
+            app:backgroundTint="#6a1b9a"
             android:src="@drawable/icon_barn"
             app:rippleColor="#fff"
             app:maxImageSize="30dp"
