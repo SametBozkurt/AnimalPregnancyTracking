@@ -22,7 +22,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     RelativeLayout relativeLayout;
     final Context context=this;
     int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
-    String selection_gerceklesen_dogumlar=null,table_name="isim", orderByClause=table_name+" ASC";
+    String selection_gerceklesen_dogumlar=null,table_name="isim", orderBy=table_name+" ASC";
     boolean switchIsChecked=true;
 
     @Override
@@ -63,7 +63,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         relativeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar, orderByClause);
+                final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar, orderBy);
                 recyclerView.setAdapter(kayitlarAdapter);
                 relativeLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
@@ -107,10 +107,10 @@ public class ActivityTumKayitlar extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==R.id.radio_button_AtoZ){
-                    orderByClause=table_name+" ASC";
+                    orderBy=table_name+" ASC";
                 }
                 else if(checkedId==R.id.radio_button_ZtoA){
-                    orderByClause=table_name+" DESC";
+                    orderBy=table_name+" DESC";
                 }
                 selectedRadioButtonOrder=checkedId;
             }

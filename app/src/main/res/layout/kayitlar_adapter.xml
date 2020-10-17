@@ -12,22 +12,29 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/margin_kategori_1">
 
-    <ImageView
-        android:id="@+id/img_hayvan"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:adjustViewBounds="false"
-        android:contentDescription="@null" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test_number"
-        android:fontFamily="@font/comfortaa_bold"
-        android:layout_marginStart="@dimen/margin_kategori_2"
-        android:layout_marginBottom="@dimen/margin_kategori_2"
-        android:layout_gravity="bottom|start"/>
+        <ImageView
+            android:id="@+id/img_hayvan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:adjustViewBounds="false"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test_number"
+            android:fontFamily="@font/comfortaa_bold"
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginBottom="@dimen/margin_kategori_2"
+            android:layout_gravity="bottom|start"/>
+
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

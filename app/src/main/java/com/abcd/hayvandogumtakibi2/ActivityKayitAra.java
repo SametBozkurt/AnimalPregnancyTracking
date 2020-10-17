@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
@@ -25,9 +24,10 @@ public class ActivityKayitAra extends AppCompatActivity {
 
     final Context context=this;
     RadioGroup myRadioGroup;
-    RadioButton radioButtonIsimler;
     RelativeLayout relativeLayout;
     FrameLayout sonuc_container;
+    String search_in=SQLiteDatabaseHelper.SUTUN_1;
+    final int RBIsimlerId=R.id.radio_button_isim, RBKupeNoId=R.id.radio_button_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,6 @@ public class ActivityKayitAra extends AppCompatActivity {
         final TextInputEditText inputAranacak=findViewById(R.id.bul);
         final ImageView cross=findViewById(R.id.iptal);
         myRadioGroup=findViewById(R.id.radio_group);
-        radioButtonIsimler=findViewById(R.id.radio_button_isim);
         sonuc_container=findViewById(R.id.layout_sonuclar);
         relativeLayout=findViewById(R.id.main_layout);
         cross.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +59,17 @@ public class ActivityKayitAra extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+        myRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==RBIsimlerId){
+                    search_in=SQLiteDatabaseHelper.SUTUN_1;
+                }
+                else if(checkedId==RBKupeNoId){
+                    search_in=SQLiteDatabaseHelper.SUTUN_3;
+                }
+            }
+        });
     }
 
     void initProgressBarAndTask(final String aranacak){
@@ -76,38 +86,20 @@ public class ActivityKayitAra extends AppCompatActivity {
                 final LayoutInflater layoutInflater=LayoutInflater.from(context);
                 final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
                 final ArrayList<DataModel> dataModelArrayList;
-                if(myRadioGroup.getCheckedRadioButtonId()==radioButtonIsimler.getId()){
-                    dataModelArrayList=databaseHelper.getAramaSonuclari(true,aranacak);
-                    final View sonuclar_view;
-                    if(dataModelArrayList.isEmpty()){
-                        sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_sonuc_yok_lyt, sonuc_container, false);
-                    }
-                    else{
-                        sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_lyt, sonuc_container, false);
-                        final RecyclerView recyclerView=sonuclar_view.findViewById(R.id.recyclerView);
-                        final AramalarAdapter aramalarAdapter=new AramalarAdapter(context,dataModelArrayList,true,aranacak);
-                        final LinearLayoutManager layoutManager=new LinearLayoutManager(context);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(aramalarAdapter);
-                    }
-                    sonuc_container.addView(sonuclar_view);
+                dataModelArrayList=databaseHelper.getAramaSonuclari(search_in,aranacak);
+                final View sonuclar_view;
+                if(dataModelArrayList.isEmpty()){
+                    sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_sonuc_yok_lyt, sonuc_container, false);
                 }
                 else{
-                    dataModelArrayList=databaseHelper.getAramaSonuclari(false,aranacak);
-                    final View sonuclar_view;
-                    if(dataModelArrayList.isEmpty()){
-                        sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_sonuc_yok_lyt, sonuc_container, false);
-                    }
-                    else{
-                        sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_lyt, sonuc_container, false);
-                        final RecyclerView recyclerView=sonuclar_view.findViewById(R.id.recyclerView);
-                        final AramalarAdapter aramalarAdapter=new AramalarAdapter(context,dataModelArrayList,false,aranacak);
-                        final LinearLayoutManager layoutManager=new LinearLayoutManager(context);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(aramalarAdapter);
-                    }
-                    sonuc_container.addView(sonuclar_view);
+                    sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_lyt, sonuc_container, false);
+                    final RecyclerView recyclerView=sonuclar_view.findViewById(R.id.recyclerView);
+                    final AramalarAdapter aramalarAdapter=new AramalarAdapter(context,dataModelArrayList,search_in,aranacak);
+                    final LinearLayoutManager layoutManager=new LinearLayoutManager(context);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(aramalarAdapter);
                 }
+                sonuc_container.addView(sonuclar_view);
                 relativeLayout.removeView(progressBar);
             }
         },200);

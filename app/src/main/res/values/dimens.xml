@@ -10,4 +10,5 @@
     <dimen name="button_elevation">12dp</dimen>
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="dialog_corner_radius">12dp</dimen>
+    <dimen name="image_size">80dp</dimen>
 </resources>

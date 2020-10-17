@@ -12,43 +12,52 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/margin_kategori_1">
 
-    <TextView
-        android:id="@+id/txt_isim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test_number"
-        android:elevation="1dp"
-        android:fontFamily="@font/comfortaa_bold"
-        android:layout_marginStart="@dimen/margin_kategori_2"
-        android:layout_marginTop="@dimen/margin_kategori_2"
-        android:layout_gravity="top|start"/>
-
-    <ImageView
-        android:id="@+id/img_hayvan"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="center"
-        android:adjustViewBounds="false"
-        android:contentDescription="@null" />
+        android:id="@+id/container">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_edit"
-        android:src="@drawable/button_duzenle_icon"
-        android:layout_margin="@dimen/margin_kategori_2"
-        app:fabSize="mini"
-        style="@style/FABEdit"
-        android:layout_gravity="bottom|start"/>
+        <TextView
+            android:id="@+id/txt_isim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test_number"
+            android:elevation="1dp"
+            android:fontFamily="@font/comfortaa_bold"
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginTop="@dimen/margin_kategori_2"
+            android:layout_gravity="top|start"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_del"
-        android:src="@drawable/icon_delete"
-        android:layout_margin="@dimen/margin_kategori_2"
-        app:fabSize="mini"
-        style="@style/FABDelete"
-        android:layout_gravity="bottom|end"/>
+        <ImageView
+            android:id="@+id/img_hayvan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:adjustViewBounds="false"
+            android:contentDescription="@null" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_edit"
+            android:src="@drawable/button_duzenle_icon"
+            android:layout_margin="@dimen/margin_kategori_2"
+            app:fabSize="mini"
+            style="@style/FABEdit"
+            android:layout_gravity="bottom|start"
+            android:contentDescription="@null" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_del"
+            android:src="@drawable/icon_delete"
+            android:layout_margin="@dimen/margin_kategori_2"
+            app:fabSize="mini"
+            style="@style/FABDelete"
+            android:layout_gravity="bottom|end"
+            android:contentDescription="@null" />
+
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

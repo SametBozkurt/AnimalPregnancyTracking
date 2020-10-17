@@ -26,14 +26,13 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
     private final Context context;
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private final Date date=new Date();
-    private final boolean isimler_aranacak;
-    private final String aranan;
+    private final String aranan,selection;
 
-    AramalarAdapter(Context context, ArrayList<DataModel> dataModelArrayList, boolean isimler_aranacak, String aranan){
+    AramalarAdapter(Context context, ArrayList<DataModel> dataModelArrayList, @NonNull String selection,@NonNull String aranan){
         this.context=context;
         this.dataModel=dataModelArrayList;
-        this.isimler_aranacak=isimler_aranacak;
         this.aranan=aranan;
+        this.selection=selection;
     }
 
     @NonNull
@@ -48,8 +47,9 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         final DataModel dataModel1=dataModel.get(position);
         //final String replacedWith = "<font color='red'>" + aranan + "</font>";
         final String replacedWith = "<span style='background-color:#00FEFE'>" + aranan + "</span>";
-        if(isimler_aranacak){
-            final String modifiedString = dataModel1.getIsim().replaceAll(aranan,replacedWith);
+        final String modifiedString;
+        if(selection.contentEquals(SQLiteDatabaseHelper.SUTUN_1)){
+            modifiedString = dataModel1.getIsim().replaceAll(aranan,replacedWith);
             holder.txt_isim.setText(Html.fromHtml(modifiedString));
             if(dataModel1.getKupe_no().length()==0){
                 holder.txt_kupe_no.setText(context.getString(R.string.kupe_no_yok));
@@ -63,7 +63,7 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
                 holder.txt_kupe_no.setText(context.getString(R.string.kupe_no_yok));
             }
             else{
-                final String modifiedString = dataModel1.getKupe_no().replaceAll(aranan,replacedWith);
+                modifiedString = dataModel1.getKupe_no().replaceAll(aranan,replacedWith);
                 holder.txt_kupe_no.setText(Html.fromHtml(modifiedString));
             }
             holder.txt_isim.setText(dataModel1.getIsim());

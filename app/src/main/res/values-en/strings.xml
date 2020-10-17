@@ -148,4 +148,6 @@
     <string name="orderBy">Order by:</string>
     <string name="cat_AtoZ">A to Z</string>
     <string name="cat_ZtoA">Z to A</string>
+    <string name="credit_headline">And also...</string>
+    <string name="credit_body">Thanks for the icons created by:</string>
 </resources>

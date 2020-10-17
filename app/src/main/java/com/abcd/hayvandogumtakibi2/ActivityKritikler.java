@@ -85,7 +85,7 @@ public class ActivityKritikler extends AppCompatActivity {
         super.onStart();
         fragment_container.removeAllViews();
         dataModelArrayList=databaseHelper.getKritikOlanlar(null);
-        if(dataModelArrayList.size()==0){
+        if(dataModelArrayList.isEmpty()){
             final FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
         }

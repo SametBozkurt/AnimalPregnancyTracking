@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.ParseException;
@@ -18,9 +19,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
     private static SQLiteDatabaseHelper databaseHelper=null;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
     private static final String VERITABANI_ISIM="kayitlar";
-    private static final String SUTUN_1="isim";
+    static final String SUTUN_1="isim";
     private static final String SUTUN_2="hayvan_turu";
-    private static final String SUTUN_3="kupe_no";
+    static final String SUTUN_3="kupe_no";
     private static final String SUTUN_4="tohumlama_tarihi";
     private static final String SUTUN_5="dogum_tarihi";
     private static final String SUTUN_6="fotograf_isim";
@@ -126,11 +127,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getAllData(@Nullable String orderClause){
+    ArrayList<DataModel> getAllData(@Nullable String selectionClause, @Nullable String orderClause){
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
-                null,null,null,null,orderClause);
+                selectionClause,null,null,null,orderClause);
         while(cursor.moveToNext()){
             dataModelArrayList.add(new DataModel(cursor.getInt(0),
                     cursor.getString(1),
@@ -206,21 +207,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModel;
     }
 
-    ArrayList<DataModel> getAramaSonuclari(boolean isimAranacak, String aranacak){
+    ArrayList<DataModel> getAramaSonuclari(@NonNull String selection,@NonNull String aranacak){
         final ArrayList<DataModel> hayvanVerilerArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
-        final Cursor cursor;
-        if(isimAranacak){
-            cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
-                    SUTUN_1+" LIKE ?",new String[]{"%"+aranacak+"%"},
-                    null,null,null);
-
-        }
-        else{
-            cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
-                    SUTUN_3+" LIKE ?",new String[]{"%"+aranacak+"%"},
-                    null,null,null);
-        }
+        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
+                selection+" LIKE ?",new String[]{"%"+aranacak+"%"},
+                null,null,null);
         while(cursor.moveToNext()){
             hayvanVerilerArrayList.add(new DataModel(cursor.getInt(0),
                     cursor.getString(1),

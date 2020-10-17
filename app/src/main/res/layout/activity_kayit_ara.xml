@@ -129,6 +129,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/radio_button_id"
                     android:text="@string/radio_button_kupe_no"
                     android:textColor="#1E88E5"
                     android:buttonTint="#5E35B1"/>

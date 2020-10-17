@@ -148,4 +148,6 @@
     <string name="orderBy">Sırala:</string>
     <string name="cat_AtoZ">A\'dan Z\'ye</string>
     <string name="cat_ZtoA">Z\'den A\'ya</string>
+    <string name="credit_headline">Ve ayrıca...</string>
+    <string name="credit_body">Kullanılan ikonlar için kendilerine teşekkür ederiz:</string>
 </resources>

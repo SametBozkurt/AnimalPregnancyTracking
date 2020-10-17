@@ -1,8 +1,11 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +28,8 @@ public class ActivityAppInfo extends AppCompatActivity {
         layout_vote = findViewById(R.id.lyt_vote);
         layout_version = findViewById(R.id.lyt_version);
         final TextView textView_version = findViewById(R.id.txt_version);
+        final TextView txt_attribution1=findViewById(R.id.attribution1);
+        final TextView txt_attribution2=findViewById(R.id.attribution2);
         layout_policy.setAlpha(0f);
         layout_vote.setAlpha(0f);
         layout_version.setAlpha(0f);
@@ -45,6 +50,12 @@ public class ActivityAppInfo extends AppCompatActivity {
         final StringBuilder ver=new StringBuilder();
         ver.append(getString(R.string.version)).append(" ").append(appVer);
         textView_version.setText(ver);
+        txt_attribution1.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_attribution1.setLinkTextColor(Color.BLUE);
+        txt_attribution1.setText(Html.fromHtml(getString(R.string.attrubtion1)));
+        txt_attribution2.setMovementMethod(LinkMovementMethod.getInstance());
+        txt_attribution2.setLinkTextColor(Color.BLUE);
+        txt_attribution2.setText(Html.fromHtml(getString(R.string.attrubtion2)));
         animate_containers();
     }
 

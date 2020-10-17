@@ -95,7 +95,6 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/card_options"
                 app:cardBackgroundColor="#2196F3"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="@dimen/margin_kategori_1"

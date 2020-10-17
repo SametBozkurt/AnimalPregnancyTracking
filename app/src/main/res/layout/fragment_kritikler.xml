@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_filter"
+        android:text="@string/btn_filter"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_kategori_1"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:backgroundTint="#1de9b6"
+        android:fontFamily="@font/comfortaa_bold"
+        android:textColor="#000"
+        app:iconTint="#000"
+        app:icon="@drawable/ic_sort"
+        app:rippleColor="#fff"
+        android:textSize="18sp"
+        android:elevation="@dimen/margin_kategori_1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
 
 </RelativeLayout>

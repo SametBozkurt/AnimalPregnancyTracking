@@ -6,15 +6,20 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -67,12 +72,19 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                 break;
         }
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
+        final FrameLayout.LayoutParams imageView_layoutParams;
         if(gorselFile.exists()&&gorselFile.isFile()){
+            imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            holder.img_animal.setLayoutParams(imageView_layoutParams);
             holder.textView.setTextColor(Color.WHITE);
             holder.img_animal.setColorFilter(Color.TRANSPARENT);
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
+            imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
+                    context.getResources().getDimensionPixelSize(R.dimen.image_size));
+            imageView_layoutParams.gravity= Gravity.CENTER;
+            holder.img_animal.setLayoutParams(imageView_layoutParams);
             holder.textView.setTextColor(Color.parseColor("#37474f"));
             holder.img_animal.setColorFilter(Color.parseColor("#2196F3"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
@@ -98,11 +110,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
         final TextView textView;
         final ImageView img_animal;
+        final FrameLayout frameLayout;
 
         private CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
             textView=itemView.findViewById(R.id.text);
+            frameLayout=itemView.findViewById(R.id.container);
         }
     }
 }
