@@ -23,11 +23,11 @@ import java.util.ArrayList;
 public class ActivityKayitAra extends AppCompatActivity {
 
     final Context context=this;
-    RadioGroup myRadioGroup;
+    RadioGroup radioGroup_SearchIn, radioGroup_OrderBy;
     RelativeLayout relativeLayout;
     FrameLayout sonuc_container;
-    String search_in=SQLiteDatabaseHelper.SUTUN_1;
-    final int RBIsimlerId=R.id.radio_button_isim, RBKupeNoId=R.id.radio_button_id;
+    String search_in=SQLiteDatabaseHelper.SUTUN_1, orderBy=search_in+" ASC";
+    final int RBIsimlerId=R.id.radio_button_isim, RBKupeNoId=R.id.radio_button_id, RBAtoZ=R.id.radio_button_AtoZ, RBZtoA=R.id.radio_button_ZtoA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,8 @@ public class ActivityKayitAra extends AppCompatActivity {
         setContentView(R.layout.activity_kayit_ara);
         final TextInputEditText inputAranacak=findViewById(R.id.bul);
         final ImageView cross=findViewById(R.id.iptal);
-        myRadioGroup=findViewById(R.id.radio_group);
+        radioGroup_SearchIn=findViewById(R.id.radio_group);
+        radioGroup_OrderBy=findViewById(R.id.radio_group_order);
         sonuc_container=findViewById(R.id.layout_sonuclar);
         relativeLayout=findViewById(R.id.main_layout);
         cross.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +60,7 @@ public class ActivityKayitAra extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-        myRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroup_SearchIn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==RBIsimlerId){
@@ -67,6 +68,17 @@ public class ActivityKayitAra extends AppCompatActivity {
                 }
                 else if(checkedId==RBKupeNoId){
                     search_in=SQLiteDatabaseHelper.SUTUN_3;
+                }
+            }
+        });
+        radioGroup_OrderBy.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==RBAtoZ){
+                    orderBy=search_in+" ASC";
+                }
+                else if(checkedId==RBZtoA){
+                    orderBy=search_in+" DESC";
                 }
             }
         });
@@ -86,7 +98,7 @@ public class ActivityKayitAra extends AppCompatActivity {
                 final LayoutInflater layoutInflater=LayoutInflater.from(context);
                 final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
                 final ArrayList<DataModel> dataModelArrayList;
-                dataModelArrayList=databaseHelper.getAramaSonuclari(search_in,aranacak);
+                dataModelArrayList=databaseHelper.getAramaSonuclari(search_in,aranacak,orderBy);
                 final View sonuclar_view;
                 if(dataModelArrayList.isEmpty()){
                     sonuclar_view = layoutInflater.inflate(R.layout.arama_snclari_sonuc_yok_lyt, sonuc_container, false);

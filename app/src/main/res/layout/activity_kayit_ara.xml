@@ -135,6 +135,40 @@
                     android:buttonTint="#5E35B1"/>
 
             </RadioGroup>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_group_order"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:checkedButton="@id/radio_button_AtoZ">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/orderBy"
+                    android:layout_marginEnd="@dimen/margin_kategori_3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#1E88E5" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_button_AtoZ"
+                    android:textColor="#1E88E5"
+                    android:buttonTint="#5E35B1"
+                    android:text="@string/cat_AtoZ"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_button_ZtoA"
+                    android:text="@string/cat_ZtoA"
+                    android:textColor="#1E88E5"
+                    android:buttonTint="#5E35B1"/>
+
+            </RadioGroup>
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

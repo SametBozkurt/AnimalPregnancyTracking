@@ -207,12 +207,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModel;
     }
 
-    ArrayList<DataModel> getAramaSonuclari(@NonNull String selection,@NonNull String aranacak){
+    ArrayList<DataModel> getAramaSonuclari(@NonNull String selection,@NonNull String aranacak,@Nullable String orderBy){
         final ArrayList<DataModel> hayvanVerilerArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
                 selection+" LIKE ?",new String[]{"%"+aranacak+"%"},
-                null,null,null);
+                null,null,orderBy);
         while(cursor.moveToNext()){
             hayvanVerilerArrayList.add(new DataModel(cursor.getInt(0),
                     cursor.getString(1),
