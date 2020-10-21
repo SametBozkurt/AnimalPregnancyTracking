@@ -32,8 +32,8 @@
             android:id="@+id/img_hayvan"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="center"
-            android:adjustViewBounds="false"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:contentDescription="@null" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

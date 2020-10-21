@@ -6,11 +6,11 @@
     <string name="activity_info_title">About</string>
     <string name="nav_title">Options</string>
     <string name="nav_title2">Others</string>
-    <string name="hint_tarih1">Insemination date</string>
+    <string name="hint_tarih1">Date of insemination</string>
     <string name="hint_tarih2">Estimated birth date</string>
     <string name="kayit_yok_uyari2">There is no record yet, you have to create a record</string>
-    <string name="tarih1">Insemination date</string>
-    <string name="tarih2">Birth date</string>
+    <string name="tarih1">Date of insemination</string>
+    <string name="tarih2">Date of birth</string>
     <string name="kupe_no">ID no</string>
     <string name="tur">Species</string>
     <string name="activity_duzenle_title">Edit/Remove Record</string>
@@ -150,4 +150,7 @@
     <string name="cat_ZtoA">Z to A</string>
     <string name="credit_headline">And also...</string>
     <string name="credit_body">Thanks for the icons created by:</string>
+    <string name="hint_dateOfBreeding">Date of birth</string>
+    <string name="enYakinDogumlar">Nearest Birth(s)</string>
+    <string name="tumGoster">Show All</string>
 </resources>

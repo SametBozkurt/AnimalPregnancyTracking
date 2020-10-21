@@ -97,7 +97,6 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#2196F3"
                 app:cardUseCompatPadding="true"
-                app:cardElevation="@dimen/margin_kategori_1"
                 app:cardCornerRadius="@dimen/card_corner_radius">
 
                 <LinearLayout
@@ -323,7 +322,6 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#ff8f00"
                 app:cardUseCompatPadding="true"
-                app:cardElevation="@dimen/margin_kategori_1"
                 app:cardCornerRadius="@dimen/card_corner_radius">
 
                 <LinearLayout
@@ -414,6 +412,11 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/en_yakin_dogumlar" />
 
         </LinearLayout>
 

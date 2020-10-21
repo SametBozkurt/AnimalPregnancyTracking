@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -42,7 +44,7 @@ public class PrimaryActivity extends AppCompatActivity {
     AdRequest adRequest;
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
     RelativeLayout relativeLayout;
-    FrameLayout frameLayout;
+    FrameLayout frameLayout, yakinDogumlarContainer;
     LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator,lyt_about;
 
     @Override
@@ -59,6 +61,7 @@ public class PrimaryActivity extends AppCompatActivity {
         final TextView txt_pet = findViewById(R.id.text_pet);
         final TextView txt_barn = findViewById(R.id.text_barn);
         frameLayout=findViewById(R.id.no_rec_msg_container);
+        yakinDogumlarContainer=findViewById(R.id.en_yakin_dogumlar);
         lyt_edit=findViewById(R.id.edit);
         lyt_incoming=findViewById(R.id.incoming);
         lyt_happened=findViewById(R.id.happened);
@@ -286,6 +289,13 @@ public class PrimaryActivity extends AppCompatActivity {
             final View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
             frameLayout.addView(view);
         }
+        relativeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                yakinDogumlarContainer.removeAllViews();
+                show_enYakinDogumlar();
+            }
+        });
     }
 
     @Override
@@ -313,6 +323,26 @@ public class PrimaryActivity extends AppCompatActivity {
                 mInterstitialAd=null;
             }
         });
+    }
+
+    void show_enYakinDogumlar(){
+        if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
+            final LayoutInflater layoutInflater = LayoutInflater.from(context);
+            final View view = layoutInflater.inflate(R.layout.lyt_en_yakin_dogumlar,yakinDogumlarContainer,false);
+            final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewYakinDogumlar);
+            final LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
+            tumunu_goster.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(context,ActivityKritikler.class));
+                }
+            });
+            final GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+            final KritiklerAdapter kritiklerAdapter = new KritiklerAdapter(context);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(kritiklerAdapter);
+            yakinDogumlarContainer.addView(view);
+        }
     }
 }
 

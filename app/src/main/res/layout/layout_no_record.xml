@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="@dimen/margin_kategori_1"
     app:cardBackgroundColor="#d1c4e9"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardUseCompatPadding="true">
@@ -18,9 +17,8 @@
             android:layout_width="124dp"
             android:layout_height="124dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_no_record"
-            android:contentDescription="@null"
-            app:tint="#5E35B1" />
+            android:src="@mipmap/no_record"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"

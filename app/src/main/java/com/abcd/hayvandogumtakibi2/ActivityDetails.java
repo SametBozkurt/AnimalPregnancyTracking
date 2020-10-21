@@ -68,6 +68,7 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         final TextView txt_tur = findViewById(R.id.txt_tur);
         final TextView txt_tarih1 = findViewById(R.id.txt_tarih1);
         final TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
+        final TextView txt_tarih2_title = findViewById(R.id.txt_tarih2_title);
         final TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
         final ImageView icon_edit = findViewById(R.id.btn_edit);
         final TextView txtOtherFields=findViewById(R.id.txt_other_details);
@@ -106,9 +107,14 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         parent_layout.post(new Runnable() {
             @Override
             public void run() {
-                if(dataModel.getDogum_tarihi()==null||dataModel.getDogum_tarihi().length()==0){
+                if(dataModel.getDogum_tarihi()==null||dataModel.getDogum_tarihi().isEmpty()){
                     txt_tarih2.setText(getString(R.string.text_NA));
                     txt_kalan.setText(getString(R.string.text_NA));
+                }
+                else if(dataModel.getDogum_grcklsti()==1){
+                    txt_kalan.setText(getString(R.string.text_NA));
+                    txt_tarih2_title.setText(getString(R.string.hint_dateOfBreeding));
+                    txt_tarih2.setText(dateFormat.format(date_dogum));
                 }
                 else{
                     txt_tarih2.setText(dateFormat.format(date_dogum));

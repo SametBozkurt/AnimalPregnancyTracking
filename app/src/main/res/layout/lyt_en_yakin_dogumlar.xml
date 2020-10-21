@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="#b2dfdb"
+    app:strokeColor="#00897b"
+    app:strokeWidth="2dp"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enYakinDogumlar"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/comfortaa_bold"
+            android:padding="@dimen/margin_kategori_3"
+            android:background="#00897b"
+            android:textSize="15sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/recyclerViewYakinDogumlar"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/ripple_effect3"
+            android:id="@+id/showAll"
+            android:focusable="true"
+            android:clickable="true"
+            android:padding="@dimen/margin_kategori_1"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_forward"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tumGoster"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/comfortaa_bold"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

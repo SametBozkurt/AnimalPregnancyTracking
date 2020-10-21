@@ -150,4 +150,7 @@
     <string name="cat_ZtoA">Z\'den A\'ya</string>
     <string name="credit_headline">Ve ayrıca...</string>
     <string name="credit_body">Kullanılan ikonlar için kendilerine teşekkür ederiz:</string>
+    <string name="hint_dateOfBreeding">Yavrulama tarihi</string>
+    <string name="enYakinDogumlar">En Yakın Doğumlar</string>
+    <string name="tumGoster">Tümünü Göster</string>
 </resources>

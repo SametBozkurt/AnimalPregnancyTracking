@@ -25,7 +25,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
     int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
-    String table_name="isim", orderBy=table_name+" ASC";
+    String table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=table_name+" ASC";
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -90,19 +90,19 @@ public class FragmentYaklasanDogumlar extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==R.id.radio_button_isim){
                     selection_code=0;
-                    table_name="isim";
+                    table_name=SQLiteDatabaseHelper.SUTUN_1;
                 }
                 else if(checkedId==R.id.radio_button_id){
                     selection_code=1;
-                    table_name="kupe_no";
+                    table_name=SQLiteDatabaseHelper.SUTUN_3;
                 }
                 else if(checkedId==R.id.radio_button_date1){
                     selection_code=2;
-                    table_name="tohumlama_tarihi";
+                    table_name=SQLiteDatabaseHelper.SUTUN_4;
                 }
                 else if(checkedId==R.id.radio_button_date2){
                     selection_code=3;
-                    table_name="dogum_tarihi";
+                    table_name=SQLiteDatabaseHelper.SUTUN_5;
                 }
                 selectedRadioButtonFilter=checkedId;
             }

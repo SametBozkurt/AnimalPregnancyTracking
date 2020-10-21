@@ -20,10 +20,10 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
     private static final String VERITABANI_ISIM="kayitlar";
     static final String SUTUN_1="isim";
-    private static final String SUTUN_2="hayvan_turu";
+    static final String SUTUN_2="hayvan_turu";
     static final String SUTUN_3="kupe_no";
-    private static final String SUTUN_4="tohumlama_tarihi";
-    private static final String SUTUN_5="dogum_tarihi";
+    static final String SUTUN_4="tohumlama_tarihi";
+    static final String SUTUN_5="dogum_tarihi";
     private static final String SUTUN_6="fotograf_isim";
     private static final String SUTUN_7="evcil_hayvan";
     private static final String SUTUN_8="dogum_grcklsti";
@@ -225,6 +225,52 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         }
         cursor.close();
         return hayvanVerilerArrayList;
+    }
+
+    ArrayList<DataModel> getEnYakinDogumlar(){
+        byte sayac=0;
+        long date_dogum_in_millis = 0;
+        final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
+        final SQLiteDatabase database=this.getReadableDatabase();
+        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
+                "dogum_grcklsti=0",null,null,null,SUTUN_5+" ASC");
+        while(cursor.moveToNext()){
+            if(sayac<2){
+                if(cursor.getString(5) == null ||cursor.getString(5).isEmpty()){
+                    continue;
+                }
+                else{
+                    CONVERTED_DATE1=cursor.getString(4);
+                    CONVERTED_DATE2=cursor.getString(5);
+                    try{
+                        date_dogum_in_millis=Long.parseLong(cursor.getString(4));
+                        date_dogum_in_millis=Long.parseLong(cursor.getString(5));
+                    }
+                    catch(Exception e){
+                        check_date_compatibility(cursor.getInt(0), cursor.getString(4), cursor.getString(5));
+                        date_dogum_in_millis=Long.parseLong(CONVERTED_DATE2);
+                    }
+                    finally{
+                        if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
+                            dataModelArrayList.add(new DataModel(cursor.getInt(0),
+                                    cursor.getString(1),
+                                    cursor.getString(2),
+                                    cursor.getString(3),
+                                    CONVERTED_DATE1,
+                                    CONVERTED_DATE2,
+                                    cursor.getString(6),
+                                    cursor.getInt(7),0,null));
+                            sayac+=1;
+                        }
+                    }
+                }
+            }
+            else{
+                break;
+            }
+        }
+        cursor.close();
+        return dataModelArrayList;
     }
 
     void girdiSil(int ID){

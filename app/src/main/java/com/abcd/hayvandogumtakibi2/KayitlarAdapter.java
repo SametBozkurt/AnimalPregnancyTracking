@@ -3,7 +3,6 @@ package com.abcd.hayvandogumtakibi2;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
@@ -78,7 +77,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
             holder.img_animal.setLayoutParams(imageView_layoutParams);
             holder.textView.setTextColor(Color.WHITE);
             holder.img_animal.setColorFilter(Color.TRANSPARENT);
-            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
+            Glide.with(context).load(gorselFile).into(holder.img_animal);
         }
         else{
             imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),

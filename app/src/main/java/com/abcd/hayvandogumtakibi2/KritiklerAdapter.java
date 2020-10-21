@@ -41,6 +41,13 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         this.code=code;
     }
 
+    KritiklerAdapter(Context context){
+        this.context=context;
+        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getEnYakinDogumlar();
+        this.code=0;
+        //Bu constructor en yakın doğumlar için oluşturuldu.
+    }
+
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
