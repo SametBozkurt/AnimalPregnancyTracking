@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.abcd.hayvandogumtakibi2">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true" />
+        android:required="true"/>
+
 
     <application
         android:allowBackup="true"
@@ -24,6 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
+
+        <!--android:requestLegacyExternalStorage="true" -->
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

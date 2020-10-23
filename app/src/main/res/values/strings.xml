@@ -9,7 +9,6 @@
     <string name="nav_gerceklesen_dgmlar">Happened Births</string>
     <string name="nav_period">Gestation Periods</string>
     <string name="nav_title">Options</string>
-    <string name="nav_title2">Others</string>
     <string name="hint_tarih1">Date of insemination</string>
     <string name="hint_tarih2">Estimated birth date</string>
     <string name="hint_sperma_name">Sperma name(Optional)</string>
@@ -159,4 +158,5 @@
     <string name="hint_dateOfBreeding">Date of birth</string>
     <string name="enYakinDogumlar">Nearest Birth(s)</string>
     <string name="tumGoster">Show All</string>
+    <string name="sonOlusturulanlar">Latest Creation(s)</string>
 </resources>

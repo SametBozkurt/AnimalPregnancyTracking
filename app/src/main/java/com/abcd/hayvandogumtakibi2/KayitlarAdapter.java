@@ -39,6 +39,12 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         this.code=code;
     }
 
+    KayitlarAdapter(Context context){
+        this.context=context;
+        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSonOlusturulanlar();
+        this.code=0;
+    }
+
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -155,10 +155,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
                 null,null,null,null,orderClause);
         while(cursor.moveToNext()){
-            if(cursor.getString(5) == null ||cursor.getString(5).isEmpty()){
-                continue;
-            }
-            else{
+            if(cursor.getString(5) != null && !cursor.getString(5).isEmpty()){
                 CONVERTED_DATE1=cursor.getString(4);
                 CONVERTED_DATE2=cursor.getString(5);
                 try{
@@ -236,10 +233,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                 "dogum_grcklsti=0",null,null,null,SUTUN_5+" ASC");
         while(cursor.moveToNext()){
             if(sayac<2){
-                if(cursor.getString(5) == null ||cursor.getString(5).isEmpty()){
-                    continue;
-                }
-                else{
+                if(cursor.getString(5) != null && !cursor.getString(5).isEmpty()){
                     CONVERTED_DATE1=cursor.getString(4);
                     CONVERTED_DATE2=cursor.getString(5);
                     try{
@@ -255,8 +249,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                             dataModelArrayList.add(new DataModel(cursor.getInt(0),
                                     cursor.getString(1),
                                     cursor.getString(2),
-                                    cursor.getString(3),
-                                    CONVERTED_DATE1,
+                                    null,
+                                    null,
                                     CONVERTED_DATE2,
                                     cursor.getString(6),
                                     cursor.getInt(7),0,null));
@@ -264,6 +258,34 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                         }
                     }
                 }
+            }
+            else{
+                break;
+            }
+        }
+        cursor.close();
+        return dataModelArrayList;
+    }
+
+    ArrayList<DataModel> getSonOlusturulanlar(){
+        byte sayac=0;
+        final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
+        final SQLiteDatabase database=this.getReadableDatabase();
+        final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
+                null,null,null,null,"id DESC");
+        while(cursor.moveToNext()){
+            if(sayac<2){
+                dataModelArrayList.add(new DataModel(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        null,
+                        null,
+                        null,
+                        cursor.getString(6),
+                        cursor.getInt(7),
+                        cursor.getInt(8),
+                        cursor.getString(9)));
+                sayac+=1;
             }
             else{
                 break;

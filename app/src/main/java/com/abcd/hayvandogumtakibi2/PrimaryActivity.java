@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,8 +46,8 @@ public class PrimaryActivity extends AppCompatActivity {
     AdRequest adRequest;
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
     RelativeLayout relativeLayout;
-    FrameLayout frameLayout, yakinDogumlarContainer;
-    LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator,lyt_about;
+    FrameLayout frameLayout, yakinDogumlarContainer, sonOlusturulanlarContainer;
+    LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class PrimaryActivity extends AppCompatActivity {
         final TextView txt_barn = findViewById(R.id.text_barn);
         frameLayout=findViewById(R.id.no_rec_msg_container);
         yakinDogumlarContainer=findViewById(R.id.en_yakin_dogumlar);
+        sonOlusturulanlarContainer=findViewById(R.id.son_olusturulanlar);
         lyt_edit=findViewById(R.id.edit);
         lyt_incoming=findViewById(R.id.incoming);
         lyt_happened=findViewById(R.id.happened);
@@ -69,7 +72,6 @@ public class PrimaryActivity extends AppCompatActivity {
         lyt_periods=findViewById(R.id.periods);
         lyt_all_recs=findViewById(R.id.all_recs);
         lyt_calculator=findViewById(R.id.calculator);
-        lyt_about=findViewById(R.id.about);
         database_size=databaseHelper.getSize();
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +89,10 @@ public class PrimaryActivity extends AppCompatActivity {
                                 startActivity(new Intent(context,ActivityKayitAra.class));
                             }
                         }
-                        else if(item.getItemId()==R.id.dev_tools){
+                        else if(item.getItemId()==R.id.dev_tools)
                             startActivity(new Intent(context,ActivityDevTools.class));
-                        }
+                        else if(item.getItemId()==R.id.app_info)
+                            startActivity(new Intent(context, ActivityAppInfo.class));
                         return true;
                     }
                 });
@@ -229,12 +232,6 @@ public class PrimaryActivity extends AppCompatActivity {
                         startActivity(new Intent(context,ActivityTarihHesapla.class));
                     }
                 });
-                lyt_about.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(context, ActivityAppInfo.class));
-                    }
-                });
             }
         });
         relativeLayout.post(new Runnable() {
@@ -289,13 +286,9 @@ public class PrimaryActivity extends AppCompatActivity {
             final View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
             frameLayout.addView(view);
         }
-        relativeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                yakinDogumlarContainer.removeAllViews();
-                show_enYakinDogumlar();
-            }
-        });
+        else{
+            initProgressBarAndTask();
+        }
     }
 
     @Override
@@ -344,5 +337,46 @@ public class PrimaryActivity extends AppCompatActivity {
             yakinDogumlarContainer.addView(view);
         }
     }
+
+    void show_sonOlusturulanlar(){
+        if(database_size!=0){
+            final LayoutInflater layoutInflater = LayoutInflater.from(context);
+            final View view = layoutInflater.inflate(R.layout.lyt_son_olusturulanlar,sonOlusturulanlarContainer,false);
+            final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSonOlusturulanlar);
+            final LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
+            tumunu_goster.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(context,ActivityTumKayitlar.class));
+                }
+            });
+            final GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+            final KayitlarAdapter kayitlarAdapter = new KayitlarAdapter(context);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(kayitlarAdapter);
+            sonOlusturulanlarContainer.addView(view);
+        }
+    }
+
+    void initProgressBarAndTask(){
+        yakinDogumlarContainer.removeAllViews();
+        sonOlusturulanlarContainer.removeAllViews();
+        final ProgressBar progressBar=new ProgressBar(context);
+        progressBar.setIndeterminate(true);
+        final FrameLayout.LayoutParams mLayoutParams=new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mLayoutParams.gravity= Gravity.CENTER;
+        progressBar.setLayoutParams(mLayoutParams);
+        sonOlusturulanlarContainer.addView(progressBar);
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                show_enYakinDogumlar();
+                show_sonOlusturulanlar();
+                sonOlusturulanlarContainer.removeView(progressBar);
+            }
+        },1500);
+    }
+
 }
 
