@@ -21,8 +21,8 @@ public class ActivityTumKayitlar extends AppCompatActivity {
 
     RelativeLayout relativeLayout;
     final Context context=this;
-    int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
-    String selection_gerceklesen_dogumlar=null,table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=table_name+" ASC";
+    int selection_code=0, selectedRadioButtonFilter=0, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
+    String selection_gerceklesen_dogumlar=null,table_name=SQLiteDatabaseHelper.SUTUN_0, orderKey=" ASC", orderBy=table_name+orderKey;
     boolean switchIsChecked=true;
 
     @Override
@@ -74,7 +74,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     void openFilterMenu(){
         final Dialog dialog = new Dialog(context,R.style.DialogStyleTest);
         dialog.setContentView(R.layout.layout_filter_and_sort);
-        final Button buttonApply=dialog.findViewById(R.id.btn_apply);
+        final Button buttonApply=dialog.findViewById(R.id.btn_apply), buttonReset=dialog.findViewById(R.id.btn_reset);
         final RadioGroup radioGroupFilter=dialog.findViewById(R.id.radio_group_filter);
         final RadioGroup radioGroupOrder=dialog.findViewById(R.id.radio_group_order);
         final SwitchMaterial switchMaterial=dialog.findViewById(R.id.switch_show_happeneds);
@@ -88,7 +88,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                     selection_code=0;
                     table_name=SQLiteDatabaseHelper.SUTUN_1;
                 }
-                else if(checkedId==R.id.radio_button_id){
+                else if(checkedId==R.id.radio_button_kupe_no){
                     selection_code=1;
                     table_name=SQLiteDatabaseHelper.SUTUN_3;
                 }
@@ -100,6 +100,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                     selection_code=3;
                     table_name=SQLiteDatabaseHelper.SUTUN_5;
                 }
+                orderBy=table_name+orderKey;
                 selectedRadioButtonFilter=checkedId;
             }
         });
@@ -107,11 +108,12 @@ public class ActivityTumKayitlar extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==R.id.radio_button_AtoZ){
-                    orderBy=table_name+" ASC";
+                    orderKey=" ASC";
                 }
                 else if(checkedId==R.id.radio_button_ZtoA){
-                    orderBy=table_name+" DESC";
+                    orderKey=" DESC";
                 }
+                orderBy=table_name+orderKey;
                 selectedRadioButtonOrder=checkedId;
             }
         });
@@ -130,6 +132,21 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         buttonApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initProgressBarAndTask();
+                dialog.dismiss();
+            }
+        });
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                radioGroupOrder.check(R.id.radio_button_AtoZ);
+                selection_code=0;
+                selectedRadioButtonFilter=0;
+                switchIsChecked=true;
+                table_name=SQLiteDatabaseHelper.SUTUN_0;
+                orderKey=" ASC";
+                orderBy=table_name+orderKey;
+                selection_gerceklesen_dogumlar=null;
                 initProgressBarAndTask();
                 dialog.dismiss();
             }

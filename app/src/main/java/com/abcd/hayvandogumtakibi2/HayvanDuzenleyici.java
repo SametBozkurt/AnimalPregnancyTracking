@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 class HayvanDuzenleyici {
 
-    static void set_text(Context context, int isPet, int tur_kodu, TextView textView){
+    static void set_text(final Context context, final int isPet, final int tur_kodu, final TextView textView){
         final ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
         final ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
         final ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
@@ -56,7 +56,7 @@ class HayvanDuzenleyici {
                 break;
         }
     }
-    static void set_img(Context context, int isPet, int tur_kodu, ImageView imgView){
+    static void set_img(final Context context, final int isPet, final int tur_kodu, final ImageView imgView){
         switch (isPet){
             case 0: //hepsi
                 switch(tur_kodu){

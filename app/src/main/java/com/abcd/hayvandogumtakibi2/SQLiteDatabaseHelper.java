@@ -19,6 +19,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
     private static SQLiteDatabaseHelper databaseHelper=null;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
     private static final String VERITABANI_ISIM="kayitlar";
+    static final String SUTUN_0="id";
     static final String SUTUN_1="isim";
     static final String SUTUN_2="hayvan_turu";
     static final String SUTUN_3="kupe_no";
@@ -231,36 +232,31 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
                 "dogum_grcklsti=0",null,null,null,SUTUN_5+" ASC");
-        while(cursor.moveToNext()){
-            if(sayac<2){
-                if(cursor.getString(5) != null && !cursor.getString(5).isEmpty()){
-                    CONVERTED_DATE1=cursor.getString(4);
-                    CONVERTED_DATE2=cursor.getString(5);
-                    try{
-                        date_dogum_in_millis=Long.parseLong(cursor.getString(4));
-                        date_dogum_in_millis=Long.parseLong(cursor.getString(5));
-                    }
-                    catch(Exception e){
-                        check_date_compatibility(cursor.getInt(0), cursor.getString(4), cursor.getString(5));
-                        date_dogum_in_millis=Long.parseLong(CONVERTED_DATE2);
-                    }
-                    finally{
-                        if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
-                            dataModelArrayList.add(new DataModel(cursor.getInt(0),
-                                    cursor.getString(1),
-                                    cursor.getString(2),
-                                    null,
-                                    null,
-                                    CONVERTED_DATE2,
-                                    cursor.getString(6),
-                                    cursor.getInt(7),0,null));
-                            sayac+=1;
-                        }
+        while(cursor.moveToNext() && sayac<2){
+            if(cursor.getString(5) != null && !cursor.getString(5).isEmpty()){
+                CONVERTED_DATE1=cursor.getString(4);
+                CONVERTED_DATE2=cursor.getString(5);
+                try{
+                    date_dogum_in_millis=Long.parseLong(cursor.getString(4));
+                    date_dogum_in_millis=Long.parseLong(cursor.getString(5));
+                }
+                catch(Exception e){
+                    check_date_compatibility(cursor.getInt(0), cursor.getString(4), cursor.getString(5));
+                    date_dogum_in_millis=Long.parseLong(CONVERTED_DATE2);
+                }
+                finally{
+                    if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
+                        dataModelArrayList.add(new DataModel(cursor.getInt(0),
+                                cursor.getString(1),
+                                cursor.getString(2),
+                                null,
+                                null,
+                                CONVERTED_DATE2,
+                                cursor.getString(6),
+                                cursor.getInt(7),0,null));
+                        sayac+=1;
                     }
                 }
-            }
-            else{
-                break;
             }
         }
         cursor.close();
@@ -272,24 +268,19 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
-                null,null,null,null,"id DESC");
-        while(cursor.moveToNext()){
-            if(sayac<2){
-                dataModelArrayList.add(new DataModel(cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        null,
-                        null,
-                        null,
-                        cursor.getString(6),
-                        cursor.getInt(7),
-                        cursor.getInt(8),
-                        cursor.getString(9)));
-                sayac+=1;
-            }
-            else{
-                break;
-            }
+                null,null,null,null,SUTUN_0+" DESC");
+        while(cursor.moveToNext() && sayac<2){
+            dataModelArrayList.add(new DataModel(cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    null,
+                    null,
+                    null,
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8),
+                    cursor.getString(9)));
+            sayac+=1;
         }
         cursor.close();
         return dataModelArrayList;

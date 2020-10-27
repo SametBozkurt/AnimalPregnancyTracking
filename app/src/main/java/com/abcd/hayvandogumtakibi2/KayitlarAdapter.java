@@ -43,6 +43,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSonOlusturulanlar();
         this.code=0;
+        //Bu constructor son oluşturulanlar için oluşturuldu.
     }
 
     @NonNull
@@ -91,7 +92,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
             imageView_layoutParams.gravity= Gravity.CENTER;
             holder.img_animal.setLayoutParams(imageView_layoutParams);
             holder.textView.setTextColor(Color.parseColor("#37474f"));
-            holder.img_animal.setColorFilter(Color.parseColor("#2196F3"));
+            holder.img_animal.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

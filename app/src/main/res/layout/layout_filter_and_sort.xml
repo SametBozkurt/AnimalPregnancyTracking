@@ -36,10 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radio_group_filter"
-            android:layout_gravity="center_horizontal"
+            android:paddingStart="@dimen/margin_kategori_1"
+            android:paddingEnd="@dimen/margin_kategori_1"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:checkedButton="@id/radio_button_isim">
+            android:gravity="center_horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radio_button_id"
+                android:id="@+id/radio_button_kupe_no"
                 android:text="@string/cat_id"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"/>
@@ -119,17 +119,40 @@
         android:text="@string/swich_show_happeneds"
         android:textColor="#000" />
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_apply"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/btn_apply"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:backgroundTint="#1E88E5"
-        app:icon="@drawable/ic_tick"
-        app:iconSize="22dp"
-        app:iconTint="#fff"
-        android:textColor="#fff"/>
+        android:layout_marginStart="@dimen/margin_kategori_4"
+        android:layout_marginEnd="@dimen/margin_kategori_4">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_apply"
+            android:layout_gravity="end"
+            android:text="@string/btn_apply"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:backgroundTint="#1E88E5"
+            app:icon="@drawable/ic_tick"
+            app:iconSize="22dp"
+            app:iconTint="#fff"
+            android:textColor="#fff"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_reset"
+            android:layout_gravity="start"
+            android:text="@string/btn_resetOrderPreferenes"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:backgroundTint="#fff"
+            app:icon="@drawable/ic_undo"
+            app:iconSize="22dp"
+            app:iconTint="#1E88E5"
+            app:strokeColor="#1E88E5"
+            app:strokeWidth="2dp"
+            android:textColor="#1E88E5"/>
+
+    </FrameLayout>
 
 </LinearLayout>

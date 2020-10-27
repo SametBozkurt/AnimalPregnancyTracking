@@ -153,4 +153,5 @@
     <string name="enYakinDogumlar">En Yakın Doğumlar</string>
     <string name="tumGoster">Tümünü Göster</string>
     <string name="sonOlusturulanlar">Son Oluşturulanlar</string>
+    <string name="btn_resetOrderPreferenes">Sıfırla</string>
 </resources>

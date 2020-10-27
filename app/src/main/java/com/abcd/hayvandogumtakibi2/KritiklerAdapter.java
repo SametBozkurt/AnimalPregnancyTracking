@@ -99,7 +99,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
             holder.txt_durum.setTextColor(Color.parseColor("#37474f"));
             holder.img_clock.setColorFilter(Color.parseColor("#37474f"));
             holder.textView.setTextColor(Color.parseColor("#37474f"));
-            holder.img_photo.setColorFilter(Color.parseColor("#2196F3"));
+            holder.img_photo.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_photo);
         }
         if(dataModel.getDogum_tarihi().length()!=0){

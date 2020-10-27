@@ -62,7 +62,7 @@
     </style>
 
     <style name="FABStyle" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="tint">#fff</item>
+        <item name="tint">@android:color/black</item>
     </style>
 
     <style name="FABEdit" parent="Widget.MaterialComponents.FloatingActionButton">

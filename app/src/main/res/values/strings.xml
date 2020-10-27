@@ -159,4 +159,5 @@
     <string name="enYakinDogumlar">Nearest Birth(s)</string>
     <string name="tumGoster">Show All</string>
     <string name="sonOlusturulanlar">Latest Creation(s)</string>
+    <string name="btn_resetOrderPreferenes">Reset</string>
 </resources>

@@ -85,7 +85,7 @@
         android:paddingEnd="25dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:backgroundTint="#1de9b6"
+        app:backgroundTint="#18ffff"
         android:fontFamily="@font/comfortaa_bold"
         android:textColor="#000"
         app:iconTint="#000"

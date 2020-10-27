@@ -375,7 +375,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 show_sonOlusturulanlar();
                 sonOlusturulanlarContainer.removeView(progressBar);
             }
-        },1500);
+        },1000);
     }
 
 }
