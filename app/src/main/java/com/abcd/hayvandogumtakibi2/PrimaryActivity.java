@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +29,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -46,8 +45,8 @@ public class PrimaryActivity extends AppCompatActivity {
     AdRequest adRequest;
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
     RelativeLayout relativeLayout;
-    FrameLayout frameLayout, yakinDogumlarContainer, sonOlusturulanlarContainer;
-    LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator;
+    FrameLayout frameLayout;
+    LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator,lyt_summary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +62,6 @@ public class PrimaryActivity extends AppCompatActivity {
         final TextView txt_pet = findViewById(R.id.text_pet);
         final TextView txt_barn = findViewById(R.id.text_barn);
         frameLayout=findViewById(R.id.no_rec_msg_container);
-        yakinDogumlarContainer=findViewById(R.id.en_yakin_dogumlar);
-        sonOlusturulanlarContainer=findViewById(R.id.son_olusturulanlar);
         lyt_edit=findViewById(R.id.edit);
         lyt_incoming=findViewById(R.id.incoming);
         lyt_happened=findViewById(R.id.happened);
@@ -72,6 +69,7 @@ public class PrimaryActivity extends AppCompatActivity {
         lyt_periods=findViewById(R.id.periods);
         lyt_all_recs=findViewById(R.id.all_recs);
         lyt_calculator=findViewById(R.id.calculator);
+        lyt_summary=findViewById(R.id.summary);
         database_size=databaseHelper.getSize();
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +230,25 @@ public class PrimaryActivity extends AppCompatActivity {
                         startActivity(new Intent(context,ActivityTarihHesapla.class));
                     }
                 });
+                lyt_summary.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(database_size==0){
+                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                        }
+                        else{
+                            final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
+                            final View view=LayoutInflater.from(context).
+                                    inflate(R.layout.lyt_dialog_summary,(RelativeLayout)findViewById(R.id.parent_layout));
+                            bottomSheetDialog.setContentView(view);
+                            show_sonOlusturulanlar((FrameLayout)view.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
+                            if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
+                                show_enYakinDogumlar((FrameLayout)view.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
+                            }
+                            bottomSheetDialog.show();
+                        }
+                    }
+                });
             }
         });
         relativeLayout.post(new Runnable() {
@@ -286,9 +303,6 @@ public class PrimaryActivity extends AppCompatActivity {
             final View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
             frameLayout.addView(view);
         }
-        else{
-            initProgressBarAndTask();
-        }
     }
 
     @Override
@@ -318,64 +332,42 @@ public class PrimaryActivity extends AppCompatActivity {
         });
     }
 
-    void show_enYakinDogumlar(){
-        if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
-            final LayoutInflater layoutInflater = LayoutInflater.from(context);
-            final View view = layoutInflater.inflate(R.layout.lyt_en_yakin_dogumlar,yakinDogumlarContainer,false);
-            final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewYakinDogumlar);
-            final LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
-            tumunu_goster.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(context,ActivityKritikler.class));
-                }
-            });
-            final GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-            final KritiklerAdapter kritiklerAdapter = new KritiklerAdapter(context);
-            recyclerView.setLayoutManager(gridLayoutManager);
-            recyclerView.setAdapter(kritiklerAdapter);
-            yakinDogumlarContainer.addView(view);
-        }
-    }
-
-    void show_sonOlusturulanlar(){
-        if(database_size!=0){
-            final LayoutInflater layoutInflater = LayoutInflater.from(context);
-            final View view = layoutInflater.inflate(R.layout.lyt_son_olusturulanlar,sonOlusturulanlarContainer,false);
-            final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSonOlusturulanlar);
-            final LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
-            tumunu_goster.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(context,ActivityTumKayitlar.class));
-                }
-            });
-            final GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-            final KayitlarAdapter kayitlarAdapter = new KayitlarAdapter(context);
-            recyclerView.setLayoutManager(gridLayoutManager);
-            recyclerView.setAdapter(kayitlarAdapter);
-            sonOlusturulanlarContainer.addView(view);
-        }
-    }
-
-    void initProgressBarAndTask(){
-        yakinDogumlarContainer.removeAllViews();
-        sonOlusturulanlarContainer.removeAllViews();
-        final ProgressBar progressBar=new ProgressBar(context);
-        progressBar.setIndeterminate(true);
-        final FrameLayout.LayoutParams mLayoutParams=new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.gravity= Gravity.CENTER;
-        progressBar.setLayoutParams(mLayoutParams);
-        sonOlusturulanlarContainer.addView(progressBar);
-        relativeLayout.postDelayed(new Runnable() {
+    void show_enYakinDogumlar(final FrameLayout yakinDogumlarContainer,final BottomSheetDialog bottomSheetDialog){
+        final LayoutInflater layoutInflater = LayoutInflater.from(context);
+        final View view = layoutInflater.inflate(R.layout.lyt_en_yakin_dogumlar,yakinDogumlarContainer,false);
+        final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewYakinDogumlar);
+        final LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
+        tumunu_goster.setOnClickListener(new OnClickListener() {
             @Override
-            public void run() {
-                show_enYakinDogumlar();
-                show_sonOlusturulanlar();
-                sonOlusturulanlarContainer.removeView(progressBar);
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                startActivity(new Intent(context,ActivityKritikler.class));
             }
-        },1000);
+        });
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        final KritiklerAdapter kritiklerAdapter = new KritiklerAdapter(context);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(kritiklerAdapter);
+        yakinDogumlarContainer.addView(view);
+    }
+
+    void show_sonOlusturulanlar(final FrameLayout sonOlusturulanlarContainer,final BottomSheetDialog bottomSheetDialog){
+        final LayoutInflater layoutInflater = LayoutInflater.from(context);
+        final View view = layoutInflater.inflate(R.layout.lyt_son_olusturulanlar,sonOlusturulanlarContainer,false);
+        final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSonOlusturulanlar);
+        final LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
+        tumunu_goster.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                startActivity(new Intent(context,ActivityTumKayitlar.class));
+            }
+        });
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        final KayitlarAdapter kayitlarAdapter = new KayitlarAdapter(context);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(kayitlarAdapter);
+        sonOlusturulanlarContainer.addView(view);
     }
 
 }

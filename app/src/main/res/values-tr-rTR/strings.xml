@@ -154,4 +154,6 @@
     <string name="tumGoster">Tümünü Göster</string>
     <string name="sonOlusturulanlar">Son Oluşturulanlar</string>
     <string name="btn_resetOrderPreferenes">Sıfırla</string>
+    <string name="filter_title">Filtrele ve Sırala</string>
+    <string name="nav_sum">Özet</string>
 </resources>

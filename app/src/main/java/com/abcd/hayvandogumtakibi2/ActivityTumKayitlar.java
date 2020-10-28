@@ -3,7 +3,10 @@ package com.abcd.hayvandogumtakibi2;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -74,6 +77,11 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     void openFilterMenu(){
         final Dialog dialog = new Dialog(context,R.style.DialogStyleTest);
         dialog.setContentView(R.layout.layout_filter_and_sort);
+        final Window window=dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        final WindowManager.LayoutParams winLP=window.getAttributes();
+        winLP.gravity= Gravity.BOTTOM;
+        window.setAttributes(winLP);
         final Button buttonApply=dialog.findViewById(R.id.btn_apply), buttonReset=dialog.findViewById(R.id.btn_reset);
         final RadioGroup radioGroupFilter=dialog.findViewById(R.id.radio_group_filter);
         final RadioGroup radioGroupOrder=dialog.findViewById(R.id.radio_group_order);

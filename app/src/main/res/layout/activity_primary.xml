@@ -314,51 +314,79 @@
 
                     </FrameLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:id="@+id/calculator"
-                        android:layout_marginTop="@dimen/margin_kategori_4"
-                        android:layout_marginBottom="@dimen/margin_kategori_4"
-                        android:background="@drawable/ripple_effect3"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:orientation="vertical">
+                        android:layout_marginStart="@dimen/margin_kategori_1"
+                        android:layout_marginEnd="@dimen/margin_kategori_1"
+                        android:layout_marginBottom="@dimen/margin_kategori_2"
+                        android:layout_marginTop="@dimen/margin_kategori_4">
 
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:contentDescription="@null"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_calculator"
-                            app:tint="#2979ff" />
-
-                        <TextView
-                            android:layout_width="80dp"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:fontFamily="@font/abeezee"
-                            android:gravity="center_horizontal"
-                            android:text="@string/nav_calculator"
-                            android:layout_marginTop="@dimen/margin_kategori_1"
-                            android:textColor="#2979ff" />
+                            android:layout_gravity="start"
+                            android:id="@+id/summary"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
 
-                    </LinearLayout>
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_visibility"
+                                app:tint="#2979ff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_sum"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#2979ff" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/calculator"
+                            android:background="@drawable/ripple_effect3"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:contentDescription="@null"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_calculator"
+                                app:tint="#2979ff" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/abeezee"
+                                android:gravity="center_horizontal"
+                                android:text="@string/nav_calculator"
+                                android:layout_marginTop="@dimen/margin_kategori_1"
+                                android:textColor="#2979ff" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/en_yakin_dogumlar" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/son_olusturulanlar" />
 
         </LinearLayout>
 

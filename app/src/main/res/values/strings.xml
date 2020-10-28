@@ -160,4 +160,6 @@
     <string name="tumGoster">Show All</string>
     <string name="sonOlusturulanlar">Latest Creation(s)</string>
     <string name="btn_resetOrderPreferenes">Reset</string>
+    <string name="filter_title">Filter and Sort</string>
+    <string name="nav_sum">Summary</string>
 </resources>

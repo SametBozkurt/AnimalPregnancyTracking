@@ -39,14 +39,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
             + VERITABANI_ISIM + " ADD COLUMN " + SUTUN_9 + " TEXT DEFAULT '';";
     private String CONVERTED_DATE1, CONVERTED_DATE2;
 
-    public static SQLiteDatabaseHelper getInstance(Context context){
+    public static SQLiteDatabaseHelper getInstance(final Context context){
         if(databaseHelper==null){
             databaseHelper=new SQLiteDatabaseHelper(context);
         }
         return databaseHelper;
     }
 
-    private SQLiteDatabaseHelper(Context context) {
+    private SQLiteDatabaseHelper(final Context context) {
         super(context, VERITABANI_ISIM, null, 5);
     }
 
@@ -232,7 +232,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
                 "dogum_grcklsti=0",null,null,null,SUTUN_5+" ASC");
-        while(cursor.moveToNext() && sayac<2){
+        while(cursor.moveToNext() && sayac<3){
             if(cursor.getString(5) != null && !cursor.getString(5).isEmpty()){
                 CONVERTED_DATE1=cursor.getString(4);
                 CONVERTED_DATE2=cursor.getString(5);
@@ -269,7 +269,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
                 null,null,null,null,SUTUN_0+" DESC");
-        while(cursor.moveToNext() && sayac<2){
+        while(cursor.moveToNext() && sayac<3){
             dataModelArrayList.add(new DataModel(cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
