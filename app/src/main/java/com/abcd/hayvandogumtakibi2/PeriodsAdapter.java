@@ -16,7 +16,7 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
     private final Context context;
     private final ArrayList<String> arrayList_all_species;
 
-    PeriodsAdapter(Context context){
+    PeriodsAdapter(final Context context){
         this.context=context;
         arrayList_all_species = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.all_species)));
     }

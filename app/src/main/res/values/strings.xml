@@ -46,7 +46,7 @@
     <string name="bildirim_govde_text">There will be some births in a month.</string>
     <string name="date_input_helper_text">Please select a date</string>
     <string name="date_input_helper_text_2">Estimated birth date will be calculated automatically.</string>
-    <string name="activity_tarih_hesapla_title">Date Calculator</string>
+    <string name="tarih_hesapla_title">Date Calculator</string>
     <string name="menu_kayit_bul">Search for a record</string>
     <string name="menu_dev_tools">Developer\'s Activity</string>
     <string name="button_multiple_creation">Create Record(s)</string>

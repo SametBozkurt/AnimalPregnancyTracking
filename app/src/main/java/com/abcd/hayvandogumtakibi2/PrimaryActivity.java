@@ -51,7 +51,6 @@ public class PrimaryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.activity_primary);
         relativeLayout=findViewById(R.id.main_layout);
         final ImageView img_menu=findViewById(R.id.img_menu);
@@ -227,7 +226,8 @@ public class PrimaryActivity extends AppCompatActivity {
                 lyt_calculator.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(context,ActivityTarihHesapla.class));
+                        final FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
+                        fragmentTarihHesaplayici.show(getSupportFragmentManager(),null);
                     }
                 });
                 lyt_summary.setOnClickListener(new OnClickListener() {
@@ -264,7 +264,7 @@ public class PrimaryActivity extends AppCompatActivity {
         relativeLayout.post(new Runnable() {
             @Override
             public void run() {
-                fab_open= AnimationUtils.loadAnimation(context,R.anim.fab_on);
+                fab_open=AnimationUtils.loadAnimation(context,R.anim.fab_on);
                 fab_close=AnimationUtils.loadAnimation(context,R.anim.fab_off);
                 fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
                 fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);

@@ -33,13 +33,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
     private final Date date=new Date();
 
-    KayitlarAdapter(Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
+    KayitlarAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSimpleData(selectionClause,orderClause);
         this.code=code;
     }
 
-    KayitlarAdapter(Context context){
+    KayitlarAdapter(final Context context){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSonOlusturulanlar();
         this.code=0;

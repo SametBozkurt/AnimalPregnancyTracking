@@ -83,7 +83,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         }
     }
 
-    void veri_yaz(DataModel dataModel){
+    void kayit_ekle(DataModel dataModel){
         final SQLiteDatabase database=this.getWritableDatabase();
         final ContentValues values=new ContentValues();
         values.put(SUTUN_1,dataModel.getIsim());
@@ -91,6 +91,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         values.put(SUTUN_3,dataModel.getKupe_no());
         values.put(SUTUN_4,dataModel.getTohumlama_tarihi());
         values.put(SUTUN_5,dataModel.getDogum_tarihi());
+        values.put(SUTUN_6,dataModel.getFotograf_isim());
         values.put(SUTUN_7,dataModel.getIs_evcilhayvan());
         values.put(SUTUN_9,dataModel.getSperma_kullanilan());
         database.insert(VERITABANI_ISIM,null,values);

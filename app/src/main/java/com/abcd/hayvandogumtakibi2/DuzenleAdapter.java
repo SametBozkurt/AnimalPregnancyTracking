@@ -34,7 +34,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private final Date date=new Date();
 
-    DuzenleAdapter(Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
+    DuzenleAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
         this.mContext=context;
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         this.dataModelArrayList=databaseHelper.getAllData(selectionClause,orderClause);

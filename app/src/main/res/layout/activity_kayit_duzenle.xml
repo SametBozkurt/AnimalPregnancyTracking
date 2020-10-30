@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar_layout"
+        android:id="@+id/title_layout"
         android:background="#6a1b9a"
         android:padding="3dp"
         android:layout_alignParentTop="true">
@@ -60,33 +60,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_kategori_1"
-        android:layout_below="@id/toolbar_layout" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_layout">
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_filter"
-        android:text="@string/btn_filter"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_kategori_1"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:backgroundTint="#18ffff"
-        android:fontFamily="@font/comfortaa_bold"
-        android:textColor="#000"
-        app:iconTint="#000"
-        app:icon="@drawable/ic_sort"
-        app:rippleColor="#fff"
-        android:textSize="18sp"
-        android:elevation="@dimen/margin_kategori_1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title_layout"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_filter"
+            android:text="@string/btn_filter"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/margin_kategori_1"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:backgroundTint="#18ffff"
+            android:fontFamily="@font/comfortaa_bold"
+            android:textColor="#000"
+            app:iconTint="#000"
+            app:icon="@drawable/ic_sort"
+            app:rippleColor="#fff"
+            android:textSize="18sp"
+            android:elevation="@dimen/margin_kategori_1"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

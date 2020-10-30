@@ -94,7 +94,7 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                Thread.sleep(1500);
+                Thread.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -119,7 +119,7 @@ public class ActivityDevTools extends AppCompatActivity {
                 final String tarih1=String.valueOf(today_in_millis-(one_day_in_millis*(27+i)));
                 final String tarih2=String.valueOf(today_in_millis+(one_day_in_millis*(27+i)));
                 final int petCode=new Random().nextInt(2)+1;
-                sqLiteDatabaseHelper.veri_yaz(new DataModel(id,isim,tur,kupe_no,tarih1,tarih2,null,petCode,0,""));
+                sqLiteDatabaseHelper.kayit_ekle(new DataModel(id,isim,tur,kupe_no,tarih1,tarih2,null,petCode,0,""));
             }
             mProgressBar.setVisibility(View.GONE);
             progress_container.removeView(mProgressBar);
@@ -132,7 +132,7 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                Thread.sleep(1500);
+                Thread.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -167,7 +167,7 @@ public class ActivityDevTools extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                Thread.sleep(1500);
+                Thread.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -190,9 +190,9 @@ public class ActivityDevTools extends AppCompatActivity {
             for(int x=0;x<dataModelArrayList.size();x++){
                 files_in_db.add(dataModelArrayList.get(x).getFotograf_isim());
             }
-            for(int y=0;y<fileList.length;y++){
-                if(!files_in_db.contains(fileList[y].getName())){
-                    new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),fileList[y].getName()).delete();
+            for (File file : fileList) {
+                if (!files_in_db.contains(file.getName())) {
+                    new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), file.getName()).delete();
                 }
             }
             mProgressBar.setVisibility(View.GONE);

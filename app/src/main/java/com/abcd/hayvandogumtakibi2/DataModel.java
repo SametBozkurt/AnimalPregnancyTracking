@@ -13,10 +13,10 @@ public class DataModel {
     private final int is_evcilhayvan;
     private final int dogum_grcklsti;
 
-    public DataModel(int ID,String isim,String tur,
-                         String kupe_no,String tohumlama_tarihi,
-                         String dogum_tarihi,String fotograf_isim,int is_evcilhayvan,
-                         int dogum_grcklsti, String sperma_kullanilan){
+    public DataModel(final int ID,final String isim,final String tur,
+                         final String kupe_no,final String tohumlama_tarihi,
+                         final String dogum_tarihi,final String fotograf_isim,final int is_evcilhayvan,
+                         final int dogum_grcklsti, final String sperma_kullanilan){
         id=ID;
         this.isim=isim;
         this.tur=tur;

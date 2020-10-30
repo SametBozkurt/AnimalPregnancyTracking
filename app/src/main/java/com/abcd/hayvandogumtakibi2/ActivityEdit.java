@@ -1,10 +1,13 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,9 +27,12 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +54,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int CAMERA_REQ_CODE = 12322;
+    private static final int PERMISSION_REQ_CODE = 21323;
     private boolean boolTarih=true, otherFieldsIsShown=false;
     private int kayit_id,petCode,calisma_sayaci=0;
     final Context context=this;
@@ -257,7 +264,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 }
                 else{
                     final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
-                    DataModel model;
+                    final DataModel model;
                     if(f.exists()&&f.isFile()){
                         model=new DataModel(kayit_id,txt_isim.getText().toString(),
                                 secilen_tur,txt_kupe_no.getText().toString(),String.valueOf(date1.getTime()),
@@ -289,12 +296,18 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId()==R.id.camera) {
-                            final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (camera_intent.resolveActivity(getPackageManager())!=null) {
-                                final File photoFile=getImageFile();
-                                final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
-                                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                startActivityForResult(camera_intent, CAMERA_REQ_CODE);
+                            if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
+                                if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)==PackageManager.PERMISSION_DENIED){
+                                    ActivityCompat.
+                                            requestPermissions(ActivityEdit.this,new String[]{Manifest.permission.CAMERA},
+                                                    PERMISSION_REQ_CODE);
+                                }
+                                else{
+                                    open_cam();
+                                }
+                            }
+                            else{
+                                open_cam();
                             }
                         }
                         else if(item.getItemId()==R.id.gallery){
@@ -422,6 +435,26 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    void open_cam(){
+        final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (camera_intent.resolveActivity(getPackageManager())!=null) {
+            final File photoFile=getImageFile();
+            if (photoFile != null) {
+                final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
+                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(camera_intent, CAMERA_REQ_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED){
+            open_cam();
         }
     }
 

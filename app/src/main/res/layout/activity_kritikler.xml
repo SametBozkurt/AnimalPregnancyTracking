@@ -65,8 +65,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/fragment_container"
         android:layout_below="@id/toolbar_layout"
-        android:layout_above="@id/ad_view_container"
-        android:layout_margin="@dimen/margin_kategori_2">
+        android:layout_above="@id/ad_view_container">
     </FrameLayout>
 
     <FrameLayout

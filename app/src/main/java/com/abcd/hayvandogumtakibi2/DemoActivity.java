@@ -1,74 +1,79 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class DemoActivity extends AppCompatActivity {
 
+    final Context context=this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        izinler();
+        final Thread copcuThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                clean_redundants();
+            }
+        });
+        copcuThread.start();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        izinler();
+    protected void onStart() {
+        super.onStart();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(new Intent(context, PrimaryActivity.class));
+            }
+        },1000);
     }
 
-    private void izinler(){
-        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
-            if(ContextCompat.checkSelfPermission(DemoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED
-                    ||ContextCompat.checkSelfPermission(DemoActivity.this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(DemoActivity.this, ActivityPermission.class));
-                    }
-                },1000);
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    void clean_redundants(){
+        final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
+        final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData(null,null);
+        final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
+        final File[] fileList = dizin.listFiles();
+        final ArrayList<String> files_in_db=new ArrayList<>();
+        for(int x=0;x<dataModelArrayList.size();x++){
+            files_in_db.add(dataModelArrayList.get(x).getFotograf_isim());
+        }
+        for (File file : fileList) {
+            if (!files_in_db.contains(file.getName())) {
+                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), file.getName()).delete();
             }
-            else{
-                veri_kontrol();
+        }
+        try {
+            final File caches = new File(context.getCacheDir().getAbsolutePath()+"/image_manager_disk_cache");
+            if (caches != null && caches.isDirectory()) {
+                long totalCacheSize=0;
+                //final long dirSizeThresold_100KB=100*1024;
+                final long dirSizeThresold_100MB=100*1024*1024;
+                final File[] cacheFileArray = caches.listFiles();
+                for(File file:cacheFileArray){
+                    totalCacheSize=totalCacheSize+file.length();
+                }
+                if(totalCacheSize>dirSizeThresold_100MB){
+                    Glide.get(context).clearDiskCache();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else{
-            veri_kontrol();
-        }
-    }
-
-    private void veri_kontrol(){
-       if(getIntent().getExtras()!=null){
-           if(getIntent().getExtras().containsKey("key_update")){
-               final Intent intent=new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.APP_URL)));
-               startActivity(intent);
-           }
-           else{
-               new Timer().schedule(new TimerTask() {
-                   @Override
-                   public void run() {
-                       startActivity(new Intent(DemoActivity.this, PrimaryActivity.class));
-                   }
-               },1000);
-           }
-        }
-       else{
-           new Timer().schedule(new TimerTask() {
-               @Override
-               public void run() {
-                   startActivity(new Intent(DemoActivity.this, PrimaryActivity.class));
-               }
-           },1000);
-       }
     }
 
 }

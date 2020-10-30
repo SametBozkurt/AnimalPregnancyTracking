@@ -1,10 +1,13 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,11 +27,20 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -37,18 +49,12 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Logger;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.core.content.FileProvider;
 
 public class ActivityDogumKayit extends AppCompatActivity implements CalendarTools{
 
     private static final int GALLERY_REQ_CODE=12321;
     private static final int CAMERA_REQ_CODE = 12322;
+    private static final int PERMISSION_REQ_CODE = 21323;
     private int _isPet;
     private boolean boolTarih=false, otherFieldsIsShown=false;
     private final Calendar gecerli_takvim=Calendar.getInstance();
@@ -192,15 +198,17 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.camera) {
-                            final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (camera_intent.resolveActivity(getPackageManager())!=null) {
-                                final File photoFile=getImageFile();
-                                if (photoFile != null) {
-                                    final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
-                                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                    startActivityForResult(camera_intent, CAMERA_REQ_CODE);
+                        if(item.getItemId()==R.id.camera){
+                            if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
+                                if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)==PackageManager.PERMISSION_DENIED){
+                                    ActivityCompat.requestPermissions(ActivityDogumKayit.this,new String[]{Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
                                 }
+                                else{
+                                    open_cam();
+                                }
+                            }
+                            else{
+                                open_cam();
                             }
                         }
                         else if(item.getItemId()==R.id.gallery){
@@ -301,7 +309,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         }
         else{
             final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
-            DataModel dataModel;
+            final DataModel dataModel;
             if(f.exists()&&f.isFile()){
                 dataModel=new DataModel(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
                         String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0,sperma_name);
@@ -310,7 +318,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                 dataModel=new DataModel(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
                         String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0,sperma_name);
             }
-            dbYoneticisi.veri_yaz(dataModel);
+            dbYoneticisi.kayit_ekle(dataModel);
             finish();
         }
     }
@@ -372,6 +380,26 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    void open_cam(){
+        final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (camera_intent.resolveActivity(getPackageManager())!=null) {
+            final File photoFile=getImageFile();
+            if (photoFile != null) {
+                final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
+                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(camera_intent, CAMERA_REQ_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED){
+            open_cam();
         }
     }
 

@@ -20,9 +20,10 @@
         android:layout_marginBottom="@dimen/margin_kategori_1"
         android:elevation="10dp"
         android:src="@mipmap/cross_line"
-        app:backgroundTint="#494949"
+        app:backgroundTint="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

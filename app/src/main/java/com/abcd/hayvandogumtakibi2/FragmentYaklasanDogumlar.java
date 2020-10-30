@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +27,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
 
     Context context;
     RecyclerView recyclerView;
-    RelativeLayout relativeLayout;
+    CoordinatorLayout coordinatorLayout;
     int selection_code=0, selectedRadioButtonFilter=0, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
     String table_name=SQLiteDatabaseHelper.SUTUN_0, orderKey=" ASC", orderBy=table_name+orderKey;
 
@@ -44,7 +45,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
             container.clearDisappearingChildren();
         }
         recyclerView=view.findViewById(R.id.recyclerView);
-        relativeLayout=view.findViewById(R.id.parent_layout);
+        coordinatorLayout=view.findViewById(R.id.parent_layout);
         final Button btn_filter=view.findViewById(R.id.btn_filter);
         final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -61,18 +62,18 @@ public class FragmentYaklasanDogumlar extends Fragment {
     void initProgressBarAndTask(){
         final ProgressBar progressBar=new ProgressBar(context);
         progressBar.setIndeterminate(true);
-        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+        final CoordinatorLayout.LayoutParams mLayoutParams=new CoordinatorLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        mLayoutParams.gravity=Gravity.CENTER;
         progressBar.setLayoutParams(mLayoutParams);
-        relativeLayout.addView(progressBar);
+        coordinatorLayout.addView(progressBar);
         recyclerView.setAlpha(0f);
-        relativeLayout.postDelayed(new Runnable() {
+        coordinatorLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 final KritiklerAdapter kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy);
                 recyclerView.setAdapter(kritiklerAdapter);
-                relativeLayout.removeView(progressBar);
+                coordinatorLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
             }
         },600);

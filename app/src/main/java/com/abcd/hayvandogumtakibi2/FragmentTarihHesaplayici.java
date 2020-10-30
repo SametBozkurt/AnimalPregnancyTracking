@@ -3,18 +3,19 @@ package com.abcd.hayvandogumtakibi2;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -22,39 +23,34 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActivityTarihHesapla extends AppCompatActivity implements CalendarTools {
+public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
 
     private boolean boolTarih=false;
     private EditText btn_tarih_dogum,btn_tarih_dollenme;
     private String secilen_tur;
-    private NestedScrollView main_layout;
     final int petCode=0;
     private Date date_dollenme=new Date();
     final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-    final Context context=this;
+    Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tarih_hesapla);
-        Spinner spinner_turler=findViewById(R.id.spinner);
-        btn_tarih_dollenme=findViewById(R.id.dollenme_tarihi);
-        btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
-        main_layout=findViewById(R.id.ana_katman);
-        final ImageView iptal=findViewById(R.id.iptal);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View view=inflater.inflate(R.layout.fragment_tarih_hesaplayici,container,false);
+        final Spinner spinner_turler=view.findViewById(R.id.spinner);
+        btn_tarih_dollenme=view.findViewById(R.id.dollenme_tarihi);
+        btn_tarih_dogum=view.findViewById(R.id.dogum_tarihi);
         final Calendar gecerli_takvim=Calendar.getInstance();
+        final ArrayList<String> _turler_list=new ArrayList<>(9);
+        loadArrayElements(_turler_list);
         date_dollenme=gecerli_takvim.getTime();
-        final ArrayList<String> turler_list=new ArrayList<>(9);
-        turler_list.add(getString(R.string.tur_0));
-        turler_list.add(getString(R.string.tur_1));
-        turler_list.add(getString(R.string.tur_2));
-        turler_list.add(getString(R.string.tur_3));
-        turler_list.add(getString(R.string.tur_4));
-        turler_list.add(getString(R.string.tur_5));
-        turler_list.add(getString(R.string.tur_7));
-        turler_list.add(getString(R.string.tur_8));
-        turler_list.add(getString(R.string.tur_9));
-        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,turler_list);
+        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,_turler_list);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
         spinner_turler.setAdapter(spinnerAdapter);
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -84,32 +80,27 @@ public class ActivityTarihHesapla extends AppCompatActivity implements CalendarT
                 dialog.show();
             }
         });
-        iptal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        return view;
     }
 
-    @Override
-    public void oto_tarih_hesapla(Date date) {
+    void oto_tarih_hesapla(Date date) {
         if(boolTarih){
             final Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
-            Snackbar.make(main_layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
-        return 0;
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+    void loadArrayElements(final ArrayList<String> turler_list){
+        turler_list.add(getString(R.string.tur_0));
+        turler_list.add(getString(R.string.tur_1));
+        turler_list.add(getString(R.string.tur_2));
+        turler_list.add(getString(R.string.tur_3));
+        turler_list.add(getString(R.string.tur_4));
+        turler_list.add(getString(R.string.tur_5));
+        turler_list.add(getString(R.string.tur_7));
+        turler_list.add(getString(R.string.tur_8));
+        turler_list.add(getString(R.string.tur_9));
     }
 
 }

@@ -35,13 +35,13 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     private final Date date=new Date();
 
 
-    KritiklerAdapter(Context context,int code, @Nullable String orderClause){
+    KritiklerAdapter(final Context context,int code, @Nullable String orderClause){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(orderClause);
         this.code=code;
     }
 
-    KritiklerAdapter(Context context){
+    KritiklerAdapter(final Context context){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getEnYakinDogumlar();
         this.code=0;

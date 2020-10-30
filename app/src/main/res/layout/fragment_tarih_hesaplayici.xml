@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ana_katman"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tarih_hesapla_title"
+        android:textSize="28sp"
+        android:textColor="#E53935"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:padding="@dimen/margin_kategori_2"/>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="@dimen/margin_kategori_1"
+        android:layout_marginBottom="@dimen/margin_kategori_1"
+        android:layout_marginTop="@dimen/margin_kategori_1"
+        android:spinnerMode="dropdown" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:src="@drawable/icon_calendar"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@null"
+            app:tint="@color/input_text_color" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/KayitEkleInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:hint="@string/hint_tarih1"
+            app:helperText="@string/date_input_helper_text"
+            app:hintEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dollenme_tarihi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="datetime"
+                android:fontFamily="@font/comfortaa_bold"
+                android:theme="@style/InputYeniKayit"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:src="@drawable/icon_calendar"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@null"
+            app:tint="@color/input_text_color" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_tarih2"
+            style="@style/KayitEkleInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_kategori_1"
+            android:layout_marginTop="@dimen/margin_kategori_1"
+            android:layout_marginRight="@dimen/margin_kategori_1"
+            android:hint="@string/hint_tarih2"
+            app:helperText="@string/date_input_helper_text_2"
+            app:hintEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dogum_tarihi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="datetime"
+                android:fontFamily="@font/comfortaa_bold"
+                android:theme="@style/InputYeniKayit"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

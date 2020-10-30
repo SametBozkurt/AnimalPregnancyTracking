@@ -32,7 +32,7 @@
     <string name="bildirim_govde_text">Bir ay içinde gözüken bazı doğumlar var.</string>
     <string name="date_input_helper_text">Lütfen bir tarih seçiniz</string>
     <string name="date_input_helper_text_2">Tahmini doğum tarihi otomatik olarak hesaplanacaktır.</string>
-    <string name="activity_tarih_hesapla_title">Tarih Hesaplayıcı</string>
+    <string name="tarih_hesapla_title">Tarih Hesaplayıcı</string>
     <string name="nav_calculator">Tarih Hesaplayıcı</string>
     <string name="tur_5">Hamster</string>
     <string name="menu_kayit_bul">Kayıt ara</string>

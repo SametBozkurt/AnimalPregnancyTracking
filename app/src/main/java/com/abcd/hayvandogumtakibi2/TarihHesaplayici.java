@@ -16,9 +16,9 @@ class TarihHesaplayici {
     static final int DAY_HORSE = 335;
     static final int DAY_TO_NEXT_INS_COW = 64;
     static final int DAY_TO_ABORT_MILKING_COW = -60;
-    private static final String ActivityName = "com.abcd.hayvandogumtakibi2.ActivityTarihHesapla";
+    private static final String ActivityName = "com.abcd.hayvandogumtakibi2.FragmentTarihHesaplayici";
 
-    static Calendar get_dogum_tarihi(int isPet, String tur_isim, Date tarih, String class_name){
+    static Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
         final Calendar calendar=Calendar.getInstance();
         calendar.setTime(tarih);
         if(class_name.equals(ActivityName)){
