@@ -106,10 +106,7 @@
     <style name="ImageDialogStyle" parent="Theme.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
     </style>
-    <style name="DialogStyleTest" parent="Theme.MaterialComponents.Dialog">
-        <item name="dialogCornerRadius">@dimen/dialog_corner_radius</item>
-        <item name="colorAccent">#1565C0</item>
-    </style>
+
     <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/black</item>

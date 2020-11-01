@@ -1,12 +1,9 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -18,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class ActivityKayitDuzenle extends AppCompatActivity {
@@ -25,9 +23,12 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     RelativeLayout relativeLayout;
     final Context context=this;
     RecyclerView recyclerView;
-    int selection_code=0, selectedRadioButtonFilter=0, selectedRadioButtonOrder=R.id.radio_button_AtoZ;
-    String selection_gerceklesen_dogumlar=null,table_name=SQLiteDatabaseHelper.SUTUN_0, orderKey=" ASC", orderBy=table_name+orderKey;
+    int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
+    String selection_gerceklesen_dogumlar=null, table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
     boolean switchIsChecked=true;
+    BottomSheetDialog bottomSheetDialog;
+    RadioGroup radioGroupFilter,radioGroupOrder;
+    SwitchMaterial switchMaterial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,22 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFilterMenu();
+                if(bottomSheetDialog!=null){
+                    radioGroupFilter.check(selectedRadioButtonFilter);
+                    radioGroupOrder.check(selectedRadioButtonOrder);
+                    switchMaterial.setChecked(switchIsChecked);
+                    bottomSheetDialog.show();
+                }
             }
         });
         initProgressBarAndTask();
+        relativeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
+                initFilterMenu();
+            }
+        });
     }
 
     void initProgressBarAndTask(){
@@ -75,33 +88,13 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         },600);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        initProgressBarAndTask();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        recyclerView.setAdapter(null);
-    }
-
-    void openFilterMenu(){
-        final Dialog dialog = new Dialog(context,R.style.DialogStyleTest);
-        dialog.setContentView(R.layout.layout_filter_and_sort);
-        final Window window=dialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        final WindowManager.LayoutParams winLP=window.getAttributes();
-        winLP.gravity= Gravity.BOTTOM;
-        window.setAttributes(winLP);
-        final Button buttonApply=dialog.findViewById(R.id.btn_apply), buttonReset=dialog.findViewById(R.id.btn_reset);
-        final RadioGroup radioGroupFilter=dialog.findViewById(R.id.radio_group_filter);
-        final RadioGroup radioGroupOrder=dialog.findViewById(R.id.radio_group_order);
-        final SwitchMaterial switchMaterial=dialog.findViewById(R.id.switch_show_happeneds);
-        switchMaterial.setChecked(switchIsChecked);
-        radioGroupFilter.check(selectedRadioButtonFilter);
-        radioGroupOrder.check(selectedRadioButtonOrder);
+    void initFilterMenu(){
+        final View view= LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
+        bottomSheetDialog.setContentView(view);
+        final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);
+        radioGroupFilter=view.findViewById(R.id.radio_group_filter);
+        radioGroupOrder=view.findViewById(R.id.radio_group_order);
+        switchMaterial=view.findViewById(R.id.switch_show_happeneds);
         radioGroupFilter.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -121,20 +114,25 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                     selection_code=3;
                     table_name=SQLiteDatabaseHelper.SUTUN_5;
                 }
-                orderBy=table_name+orderKey;
                 selectedRadioButtonFilter=checkedId;
             }
         });
         radioGroupOrder.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.radio_button_AtoZ){
-                    orderKey=" ASC";
+                orderBy=null;
+                if(checkedId==R.id.radio_button_first){
+                    orderBy="id ASC";
+                }
+                else if(checkedId==R.id.radio_button_last){
+                    orderBy="id DESC";
+                }
+                else if(checkedId==R.id.radio_button_AtoZ){
+                    orderBy=table_name+" ASC";
                 }
                 else if(checkedId==R.id.radio_button_ZtoA){
-                    orderKey=" DESC";
+                    orderBy=table_name+" DESC";
                 }
-                orderBy=table_name+orderKey;
                 selectedRadioButtonOrder=checkedId;
             }
         });
@@ -154,25 +152,35 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 initProgressBarAndTask();
-                dialog.dismiss();
+                bottomSheetDialog.dismiss();
             }
         });
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                radioGroupOrder.check(R.id.radio_button_AtoZ);
+                selectedRadioButtonOrder=R.id.radio_button_first;
+                selectedRadioButtonFilter=R.id.radio_button_isim;
                 selection_code=0;
-                selectedRadioButtonFilter=0;
                 switchIsChecked=true;
-                table_name=SQLiteDatabaseHelper.SUTUN_0;
-                orderKey=" ASC";
-                orderBy=table_name+orderKey;
+                table_name=SQLiteDatabaseHelper.SUTUN_1;
                 selection_gerceklesen_dogumlar=null;
+                orderBy=null;
                 initProgressBarAndTask();
-                dialog.dismiss();
+                bottomSheetDialog.dismiss();
             }
         });
-        dialog.show();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initProgressBarAndTask();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        recyclerView.setAdapter(null);
     }
 
 }

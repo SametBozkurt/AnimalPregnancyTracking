@@ -26,6 +26,7 @@ public class DemoActivity extends AppCompatActivity {
             @Override
             public void run() {
                 clean_redundants();
+                clean_caches();
             }
         });
         copcuThread.start();
@@ -52,23 +53,39 @@ public class DemoActivity extends AppCompatActivity {
         for(int x=0;x<dataModelArrayList.size();x++){
             files_in_db.add(dataModelArrayList.get(x).getFotograf_isim());
         }
-        for (File file : fileList) {
+        for(File file:fileList){
             if (!files_in_db.contains(file.getName())) {
                 new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), file.getName()).delete();
             }
         }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    void clean_caches(){
         try {
-            final File caches = new File(context.getCacheDir().getAbsolutePath()+"/image_manager_disk_cache");
-            if (caches != null && caches.isDirectory()) {
+            final String DIR_CACHE_GLIDE = "image_manager_disk_cache";
+            final File cachesDir = context.getCacheDir();
+            final File cachesGlideDir = new File(context.getCacheDir().getAbsolutePath()+"/"+DIR_CACHE_GLIDE);
+            if (cachesDir != null && cachesDir.isDirectory()) {
                 long totalCacheSize=0;
                 //final long dirSizeThresold_100KB=100*1024;
-                final long dirSizeThresold_100MB=100*1024*1024;
-                final File[] cacheFileArray = caches.listFiles();
-                for(File file:cacheFileArray){
-                    totalCacheSize=totalCacheSize+file.length();
+                final long dirSizeThresold_50MB=50*1024*1024;
+                final File[] fileArray1 = cachesDir.listFiles();
+                final File[] fileArray2 = cachesGlideDir.listFiles();
+                for(File file:fileArray1){
+                    totalCacheSize+=file.length();
                 }
-                if(totalCacheSize>dirSizeThresold_100MB){
+                for(File file:fileArray2){
+                    totalCacheSize+=file.length();
+                }
+                //Log.e("CACHE_SIZE",String.valueOf(totalCacheSize));
+                if(totalCacheSize>dirSizeThresold_50MB){
                     Glide.get(context).clearDiskCache();
+                    for(File file:fileArray1){
+                        if(file.isFile()){
+                            file.delete();
+                        }
+                    }
                 }
             }
         } catch (Exception e) {

@@ -26,20 +26,17 @@
         android:textColor="@android:color/black" />
 
     <HorizontalScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_kategori_1"
-        android:layout_marginEnd="@dimen/margin_kategori_1"
-        android:layout_gravity="center_horizontal">
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_3">
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_group_filter"
-            android:paddingStart="@dimen/margin_kategori_1"
-            android:paddingEnd="@dimen/margin_kategori_1"
             android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:id="@+id/radio_group_filter"
+            android:layout_gravity="center_horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -82,31 +79,50 @@
         android:layout_gravity="center_horizontal"
         android:textColor="@android:color/black" />
 
-    <RadioGroup
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radio_group_order"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:checkedButton="@id/radio_button_AtoZ">
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_3">
 
-        <RadioButton
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_button_AtoZ"
-            android:textColor="@android:color/black"
-            android:buttonTint="#1E88E5"
-            android:text="@string/cat_AtoZ"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radio_button_ZtoA"
-            android:text="@string/cat_ZtoA"
-            android:textColor="@android:color/black"
-            android:buttonTint="#1E88E5"/>
+            android:orientation="horizontal"
+            android:id="@+id/radio_group_order">
 
-    </RadioGroup>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_button_first"
+                android:textColor="@android:color/black"
+                android:buttonTint="#1E88E5"
+                android:text="@string/cat_FirstCreations"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_button_last"
+                android:textColor="@android:color/black"
+                android:buttonTint="#1E88E5"
+                android:text="@string/cat_LastCreations"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_button_AtoZ"
+                android:textColor="@android:color/black"
+                android:buttonTint="#1E88E5"
+                android:text="@string/cat_AtoZ"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_button_ZtoA"
+                android:text="@string/cat_ZtoA"
+                android:textColor="@android:color/black"
+                android:buttonTint="#1E88E5"/>
+
+        </RadioGroup>
+
+    </HorizontalScrollView>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_show_happeneds"
