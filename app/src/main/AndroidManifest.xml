@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abcd.hayvandogumtakibi2">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,8 +9,7 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"/>
-
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -22,25 +20,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="true"
+            android:enabled="true">
+        </receiver>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9721232821183013~3399623800" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/icon_bildirim" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/GCMIconColor" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/gcm_notification_channel_id" />
 
         <activity
             android:name=".ActivityAppInfo"
+            android:label="@string/activity_info_title"
             android:screenOrientation="locked"
-            android:theme="@style/NoActionBar"
-            android:label="@string/activity_info_title" />
-
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ActivityTumKayitlar"
             android:label="@string/nav_all_recs"
@@ -110,12 +104,11 @@
             android:theme="@style/CropActivityTheme" />
 
         <receiver
-            android:name=".TarihKontrol"
+            android:name=".AlarmLauncher"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.DATE_CHANGED" />
-                <action android:name="SET_AN_ALARM" />
+                <action android:name="_____SET_AN_ALARM_____" />
             </intent-filter>
         </receiver>
 
@@ -129,12 +122,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <service
-            android:name=".DateDedectorService"
-            android:enabled="true"
-            android:exported="true"
-            android:label="@string/service_tag"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

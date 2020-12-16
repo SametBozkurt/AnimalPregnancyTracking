@@ -52,25 +52,22 @@ import java.util.Locale;
 
 public class ActivityDogumKayit extends AppCompatActivity implements CalendarTools{
 
-    private static final int GALLERY_REQ_CODE=12321;
+    private static final int GALLERY_REQ_CODE = 12321;
     private static final int CAMERA_REQ_CODE = 12322;
     private static final int PERMISSION_REQ_CODE = 21323;
+    private String secilen_tur="0", gorsel_ad="", sperma_name="";
     private int _isPet;
     private boolean boolTarih=false, otherFieldsIsShown=false;
-    private final Calendar gecerli_takvim=Calendar.getInstance();
-    private Calendar hesaplanan_tarih=Calendar.getInstance();
+    private final Calendar gecerli_takvim=Calendar.getInstance(), hesaplanan_tarih=Calendar.getInstance();
     final Context context=this;
     private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(context);
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private Date date_dollenme, date_dogum;
     private RelativeLayout main_Layout;
+    private TextInputLayout textInputLayout;
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
     private ImageView photo, iptal;
     private Spinner spinner_turler;
-    private TextInputLayout textInputLayout;
-    private String secilen_tur="0";
-    private String gorsel_ad="";
-    private String sperma_name="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,8 +300,10 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         finish();
     }
 
-    private void kayit_gir(View snackbar_view){
-        if (edit_isim.length()==0||btn_tarih_dollenme.length()==0||btn_tarih_dogum.length()==0){
+    void kayit_gir(final View snackbar_view){
+        if (edit_isim.getText().toString().isEmpty()||
+                btn_tarih_dollenme.getText().toString().isEmpty()||
+                btn_tarih_dogum.getText().toString().isEmpty()){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
         else{
@@ -326,7 +325,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     @Override
     public void oto_tarih_hesapla(Date date) {
         if(boolTarih){
-            hesaplanan_tarih=TarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date,getClass().getName());
+            hesaplanan_tarih.setTime(TarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date,getClass().getName()).getTime());
             date_dogum=hesaplanan_tarih.getTime();
             btn_tarih_dogum.setText(dateFormat.format(date_dogum));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
@@ -338,7 +337,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         return 0;
     }
 
-    private void launchImageCrop(Uri uri){
+    void launchImageCrop(Uri uri){
         CropImage.activity(uri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1,1)
@@ -357,15 +356,15 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         return imgFile;
     }
 
-    private void save_photo(@NonNull Bitmap bitmap){
+    void save_photo(@NonNull Bitmap bitmap){
         int cropped_width=bitmap.getWidth();
         int cropped_height=bitmap.getHeight();
         while(cropped_width>1000){
-            final double x=cropped_width/1.1;
-            cropped_width=(int)x;
-            cropped_height=(int)x;
+            final double target_resolution=cropped_width/1.1;
+            cropped_width=(int)target_resolution;
+            cropped_height=(int)target_resolution;
             /**Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
-            ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
+             ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
         }
         try{
             final FileOutputStream fileOutputStream=new FileOutputStream(getImageFile());

@@ -12,7 +12,7 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#6a1b9a"
+        android:background="@color/appbar_color"
         android:padding="3dp"
         android:layout_alignParentTop="true">
 

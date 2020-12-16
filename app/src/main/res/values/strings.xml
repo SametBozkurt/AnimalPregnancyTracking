@@ -8,7 +8,7 @@
     <string name="activity_info_title">About</string>
     <string name="nav_gerceklesen_dgmlar">Happened Births</string>
     <string name="nav_period">Gestation Periods</string>
-    <string name="nav_title">Options</string>
+    <string name="nav_title">What do you want?</string>
     <string name="hint_tarih1">Date of insemination</string>
     <string name="hint_tarih2">Estimated birth date</string>
     <string name="hint_sperma_name">Sperma name(Optional)</string>
@@ -101,7 +101,6 @@
     <string name="fab_pet_exp">"Pet  "</string>
     <string name="fab_barn_exp">Barn</string>
     <string name="service_tag">DateDedectorService</string>
-    <string name="gcm_notification_channel_id" translatable="false">GCM Service</string>
     <string name="txt_day">Day(s) to birth</string>
     <string name="txt_day_2">Day(s)</string>
     <string name="test_number" translatable="false">10</string>
@@ -136,7 +135,7 @@
     <string name="orderBy">Order by:</string>
     <string name="cat_AtoZ">A to Z</string>
     <string name="cat_ZtoA">Z to A</string>
-    <string name="credit_headline">And also...</string>
+    <string name="credit_headline">And also…</string>
     <string name="credit_body">Thanks for the icons created by:</string>
     <string name="attrubtion1" translatable="false">&lt;a href=\"https://www.flaticon.com/authors/vitaly-gorbachev\">Vitaly Gorbachev&lt;/a></string>
     <string name="attrubtion2" translatable="false">&lt;a href=\"https://www.flaticon.com/authors/freepik\">Freepik&lt;/a></string>
@@ -149,4 +148,5 @@
     <string name="nav_sum">Summary</string>
     <string name="cat_FirstCreations">First Creations</string>
     <string name="cat_LastCreations">Last Creations</string>
+    <string name="button_alarm_hour">Set Alarm Hour</string>
 </resources>

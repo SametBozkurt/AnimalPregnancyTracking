@@ -55,22 +55,21 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     private static final int GALLERY_REQ_CODE=12321;
     private static final int CAMERA_REQ_CODE = 12322;
     private static final int PERMISSION_REQ_CODE = 21323;
+    String secilen_tur="",img_name="", sperma_name="";
     private boolean boolTarih=true, otherFieldsIsShown=false;
     private int kayit_id,petCode,calisma_sayaci=0;
     final Context context=this;
+    final Calendar takvim=Calendar.getInstance(), takvim2=Calendar.getInstance();
+    Date date1=new Date(), date2=new Date();
+    final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+    DataModel dataModel;
+    SQLiteDatabaseHelper databaseHelper;
+    RelativeLayout main_Layout;
+    TextInputLayout textInputLayout;
     TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
     Button kaydet;
     Spinner tur_sec;
-    RelativeLayout main_Layout;
-    SQLiteDatabaseHelper databaseHelper;
-    String secilen_tur="",img_name="", sperma_name="";
-    final Calendar takvim=Calendar.getInstance();
-    Calendar takvim2=Calendar.getInstance();
-    DataModel dataModel;
-    Date date1=new Date(), date2=new Date();
-    TextInputLayout textInputLayout;
     ImageView photo,iptal;
-    final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,9 +297,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                         if(item.getItemId()==R.id.camera) {
                             if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
                                 if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)==PackageManager.PERMISSION_DENIED){
-                                    ActivityCompat.
-                                            requestPermissions(ActivityEdit.this,new String[]{Manifest.permission.CAMERA},
-                                                    PERMISSION_REQ_CODE);
+                                    ActivityCompat.requestPermissions(ActivityEdit.this,new String[]{Manifest.permission.CAMERA},PERMISSION_REQ_CODE);
                                 }
                                 else{
                                     open_cam();
@@ -367,7 +364,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     @Override
     public void oto_tarih_hesapla(Date date) {
         if(boolTarih){
-            takvim2=TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName());
+            takvim2.setTime(TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime());
             date2=takvim2.getTime();
             dogum_tarihi.setText(dateFormat.format(date2));
             Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
@@ -389,7 +386,6 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     protected void onDestroy() {
         super.onDestroy();
         databaseHelper=null;
-        takvim2=null;
         if(main_Layout!=null){
             main_Layout.removeAllViews();
             main_Layout=null;
@@ -419,9 +415,9 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         int croped_width=bitmap.getWidth();
         int croped_height=bitmap.getHeight();
         while(croped_width>1000){
-            final double x=croped_width/1.1;
-            croped_width=(int)x;
-            croped_height=(int)x;
+            final double target_resolution=croped_width/1.1;
+            croped_width=(int)target_resolution;
+            croped_height=(int)target_resolution;
             /*Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
             ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
         }

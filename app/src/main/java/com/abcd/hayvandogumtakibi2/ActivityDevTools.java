@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class ActivityDevTools extends AppCompatActivity {
 
-    private int sayac=10;
+    private int sayac=10,saat=0;
     private static final long one_day_in_millis = 1000*60*60*24;
     final long today_in_millis=System.currentTimeMillis();
     private ProgressBar mProgressBar;
@@ -36,6 +36,8 @@ public class ActivityDevTools extends AppCompatActivity {
         final Button btn_del=findViewById(R.id.kayit_sil);
         final Button btn_clean = findViewById(R.id.copu_bosalt);
         final SeekBar seekBar=findViewById(R.id.seekbar);
+        final SeekBar seekBar1=findViewById(R.id.seekbar_alarm_hour);
+        final Button btnSetAlarmHour=findViewById(R.id.setAlarmHour);
         progress_container=findViewById(R.id.progress_container);
         btn.setText(new StringBuilder(getString(R.string.button_multiple_creation)).append(": ").append(sayac));
         btn.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,23 @@ public class ActivityDevTools extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-
+        seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                saat = progress;
+                btnSetAlarmHour.setText(new StringBuilder(getString(R.string.button_alarm_hour)).append(": ").append(saat));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        btnSetAlarmHour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PreferencesHolder.setAlarmHour(context,saat);
+            }
+        });
     }
 
     @Override
@@ -149,7 +167,7 @@ public class ActivityDevTools extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData(null,null);
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getAllData(null,null);
             if(dataModelArrayList.size()>0){
                 for(int index=0;index<dataModelArrayList.size();index++){
                     final int id=dataModelArrayList.get(index).getId();
@@ -183,7 +201,7 @@ public class ActivityDevTools extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
-            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData(null,null);
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getAllData(null,null);
             final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
             final File[] fileList = dizin.listFiles();
             final ArrayList<String> files_in_db=new ArrayList<>();

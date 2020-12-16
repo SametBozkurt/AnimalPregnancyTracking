@@ -17,6 +17,7 @@ import java.util.TimerTask;
 public class DemoActivity extends AppCompatActivity {
 
     final Context context=this;
+    private static final String THREAD_CLEANER_NAME = "CleanerThread";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class DemoActivity extends AppCompatActivity {
                 clean_caches();
             }
         });
+        copcuThread.setName(THREAD_CLEANER_NAME);
         copcuThread.start();
     }
 
@@ -45,27 +47,34 @@ public class DemoActivity extends AppCompatActivity {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     void clean_redundants(){
-        final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
-        final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getSimpleData(null,null);
-        final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
-        final File[] fileList = dizin.listFiles();
-        final ArrayList<String> files_in_db=new ArrayList<>();
-        for(int x=0;x<dataModelArrayList.size();x++){
-            files_in_db.add(dataModelArrayList.get(x).getFotograf_isim());
-        }
-        for(File file:fileList){
-            if (!files_in_db.contains(file.getName())) {
-                new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), file.getName()).delete();
+        try{
+            final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
+            final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getAllData(null,null);
+            final File dizin=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString());
+            final File[] fileList = dizin.listFiles();
+            final ArrayList<String> files_in_db=new ArrayList<>();
+            for(int x=0;x<dataModelArrayList.size();x++){
+                files_in_db.add(dataModelArrayList.get(x).getFotograf_isim());
             }
+            if(fileList!=null){
+                for(File file:fileList){
+                    if (!files_in_db.contains(file.getName())) {
+                        new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), file.getName()).delete();
+                    }
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     void clean_caches(){
         try {
-            final String DIR_CACHE_GLIDE = "image_manager_disk_cache";
+            final String DIR_CACHE_GLIDE = "/image_manager_disk_cache";
             final File cachesDir = context.getCacheDir();
-            final File cachesGlideDir = new File(context.getCacheDir().getAbsolutePath()+"/"+DIR_CACHE_GLIDE);
+            final File cachesGlideDir = new File(context.getCacheDir().getAbsolutePath()+DIR_CACHE_GLIDE);
             if (cachesDir != null && cachesDir.isDirectory()) {
                 long totalCacheSize=0;
                 //final long dirSizeThresold_100KB=100*1024;

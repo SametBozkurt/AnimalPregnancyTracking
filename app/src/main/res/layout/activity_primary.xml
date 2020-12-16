@@ -12,7 +12,7 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#6a1b9a"
+        android:background="#5e35b1"
         android:elevation="@dimen/margin_kategori_2"
         android:padding="8dp"
         android:layout_alignParentTop="true">
@@ -95,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="#d1c4e9"
+                app:strokeWidth="1dp"
+                app:strokeColor="#78909c"
                 app:cardCornerRadius="@dimen/card_corner_radius">
 
                 <LinearLayout
@@ -107,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/nav_title"
-                        android:background="#5e35b1"
+                        android:background="@color/options_item_tint"
                         android:gravity="center_horizontal"
                         android:padding="@dimen/margin_kategori_3"
                         android:textColor="#fff"
@@ -137,7 +138,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_edit"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -147,7 +148,7 @@
                                 android:fontFamily="@font/abeezee"
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_edit"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -167,7 +168,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_warning"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -177,7 +178,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_critics"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -197,7 +198,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_tick"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -207,7 +208,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_gerceklesen_dgmlar"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -236,7 +237,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/icon_search"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -246,7 +247,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_search"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -266,7 +267,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_clock"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -276,7 +277,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_period"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -296,7 +297,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_view_all"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -306,7 +307,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_all_recs"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -336,7 +337,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_visibility"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -346,7 +347,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_sum"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -366,7 +367,7 @@
                                 android:contentDescription="@null"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/ic_calculator"
-                                app:tint="#5e35b1" />
+                                app:tint="@color/options_item_tint" />
 
                             <TextView
                                 android:layout_width="90dp"
@@ -376,7 +377,7 @@
                                 android:gravity="center_horizontal"
                                 android:text="@string/nav_calculator"
                                 android:layout_marginTop="@dimen/margin_kategori_1"
-                                android:textColor="#5e35b1" />
+                                android:textColor="@color/options_item_tint" />
 
                         </LinearLayout>
 
@@ -398,7 +399,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/margin_kategori_1"
         android:elevation="@dimen/button_elevation"
-        app:backgroundTint="#18ffff"
+        app:backgroundTint="@color/fab_new_rec_tint"
         android:src="@drawable/icon_add_v2"
         app:rippleColor="#fff"
         app:maxImageSize="32dp"
@@ -424,14 +425,14 @@
             android:padding="10dp"
             android:fontFamily="@font/varela_round"
             android:textColor="@android:color/black"
-            android:background="#18ffff"
+            android:background="@color/fab_new_rec_tint"
             android:visibility="invisible"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="#18ffff"
+            app:backgroundTint="@color/fab_new_rec_tint"
             android:src="@drawable/icon_pet"
             app:rippleColor="#fff"
             android:elevation="@dimen/button_elevation"
@@ -460,14 +461,14 @@
             android:padding="10dp"
             android:fontFamily="@font/varela_round"
             android:textColor="@android:color/black"
-            android:background="#18ffff"
+            android:background="@color/fab_new_rec_tint"
             android:visibility="invisible"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_barn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="#18ffff"
+            app:backgroundTint="@color/fab_new_rec_tint"
             android:src="@drawable/icon_barn"
             app:rippleColor="#fff"
             android:elevation="@dimen/button_elevation"

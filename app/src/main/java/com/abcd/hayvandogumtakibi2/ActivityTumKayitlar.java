@@ -88,7 +88,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     }
 
     void initFilterMenu(){
-        final View view= LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
+        final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
         bottomSheetDialog.setContentView(view);
         final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);
         radioGroupFilter=view.findViewById(R.id.radio_group_filter);

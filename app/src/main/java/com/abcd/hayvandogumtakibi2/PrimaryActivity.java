@@ -86,10 +86,10 @@ public class PrimaryActivity extends AppCompatActivity {
                                 startActivity(new Intent(context,ActivityKayitAra.class));
                             }
                         }
-                        else if(item.getItemId()==R.id.dev_tools)
-                            startActivity(new Intent(context,ActivityDevTools.class));
                         else if(item.getItemId()==R.id.app_info)
                             startActivity(new Intent(context, ActivityAppInfo.class));
+                        else if(item.getItemId()==R.id.dev_tools)
+                            startActivity(new Intent(context,ActivityDevTools.class));
                         return true;
                     }
                 });
@@ -271,8 +271,8 @@ public class PrimaryActivity extends AppCompatActivity {
             }
         });
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
-            final String INTENT_ACTION= "SET_AN_ALARM" ;
-            sendBroadcast(new Intent(context,TarihKontrol.class).setAction(INTENT_ACTION));
+            final String INTENT_ACTION= "_____SET_AN_ALARM_____" ;
+            sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
         }
         relativeLayout.postDelayed(new Runnable() {
             @Override

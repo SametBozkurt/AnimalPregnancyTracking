@@ -70,13 +70,38 @@
         android:layout_marginEnd="@dimen/margin_kategori_2"
         app:layout_constraintTop_toBottomOf="@id/kayit_sil" />
 
+    <SeekBar
+        android:id="@+id/seekbar_alarm_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:max="23"
+        android:outlineProvider="none"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/copu_bosalt" />
+
+    <Button
+        android:id="@+id/setAlarmHour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
+        android:text="@string/button_alarm_hour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_alarm_hour" />
+
     <FrameLayout
         android:id="@+id/progress_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/copu_bosalt"
+        app:layout_constraintTop_toBottomOf="@id/setAlarmHour"
         android:layout_marginTop="@dimen/margin_kategori_2" />
 
 

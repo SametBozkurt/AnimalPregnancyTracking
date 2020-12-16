@@ -4,7 +4,7 @@
     <string name="nav_edit">Edit/Remove</string>
     <string name="nav_critics">Incoming Births</string>
     <string name="activity_info_title">About</string>
-    <string name="nav_title">Options</string>
+    <string name="nav_title">What do you want?</string>
     <string name="hint_tarih1">Date of insemination</string>
     <string name="hint_tarih2">Estimated birth date</string>
     <string name="kayit_yok_uyari2">There is no record yet, you have to create a record</string>
@@ -113,7 +113,7 @@
     <string name="activity_details_title">Details</string>
     <string name="mark_as_hppnd">Mark as happened</string>
     <string name="happened_birth">This birth has happened</string>
-    <string name="title_dlg_isaretle">Ooops...</string>
+    <string name="title_dlg_isaretle">Ooops…</string>
     <string name="body_dlg_isaretle">This process cannot be undone and it is permanent. Also you cannot edit this anymore. Are you still sure about to mark it?</string>
     <string name="im_sure">I\'m Sure</string>
     <string name="nav_all_recs">All Records</string>
@@ -131,7 +131,7 @@
     <string name="orderBy">Order by:</string>
     <string name="cat_AtoZ">A to Z</string>
     <string name="cat_ZtoA">Z to A</string>
-    <string name="credit_headline">And also...</string>
+    <string name="credit_headline">And also…</string>
     <string name="credit_body">Thanks for the icons created by:</string>
     <string name="hint_dateOfBreeding">Date of birth</string>
     <string name="enYakinDogumlar">Nearest Birth(s)</string>
@@ -142,4 +142,5 @@
     <string name="nav_sum">Summary</string>
     <string name="cat_FirstCreations">First Creations</string>
     <string name="cat_LastCreations">Last Creations</string>
+    <string name="button_alarm_hour">Set Alarm Hour</string>
 </resources>

@@ -6,12 +6,12 @@
         android:id="@+id/kayit_bul"
         android:title="@string/menu_kayit_bul"
         app:showAsAction="never" />
-     <item
-        android:id="@+id/dev_tools"
-        android:title="@string/menu_dev_tools"
-        app:showAsAction="never" />
     <item
         android:id="@+id/app_info"
         android:title="@string/activity_info_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/dev_tools"
+        android:title="@string/menu_dev_tools"
         app:showAsAction="never" />
 </menu>

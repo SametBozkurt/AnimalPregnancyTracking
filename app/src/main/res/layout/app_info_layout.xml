@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
-    android:background="#6a1b9a"
+    android:background="#5e35b1"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

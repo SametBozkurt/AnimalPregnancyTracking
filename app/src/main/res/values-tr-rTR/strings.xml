@@ -4,7 +4,7 @@
     <string name="nav_edit">Düzenle/Sil</string>
     <string name="nav_critics">Doğumu Yaklaşanlar</string>
     <string name="activity_info_title">Hakkında</string>
-    <string name="nav_title">Seçenekler</string>
+    <string name="nav_title">Ne yapmak istersiniz?</string>
     <string name="hint_tarih1">Döllenme tarihi</string>
     <string name="hint_tarih2">Yaklaşık doğum tarihi</string>
     <string name="kayit_yok_uyari2">Herhangi bir kayıt oluşturulmamış, kayıt oluşturmanız gerek.</string>
@@ -113,7 +113,7 @@
     <string name="activity_details_title">Detaylar</string>
     <string name="mark_as_hppnd">Gerçekleşti olarak işaretle</string>
     <string name="happened_birth">Bu doğum gerçekleşmiş</string>
-    <string name="title_dlg_isaretle">Bir dakika...</string>
+    <string name="title_dlg_isaretle">Bir dakika…</string>
     <string name="body_dlg_isaretle">Bu işlem kalıcı olup geri alınamaz. Ayrıca kaydı artık düzenleyemezsiniz. Yine de işaretlemek istediğinizden emin misiniz?</string>
     <string name="im_sure">Eminim</string>
     <string name="nav_all_recs">Tüm Kayıtlar</string>
@@ -131,7 +131,7 @@
     <string name="orderBy">Sırala:</string>
     <string name="cat_AtoZ">A\'dan Z\'ye</string>
     <string name="cat_ZtoA">Z\'den A\'ya</string>
-    <string name="credit_headline">Ve ayrıca...</string>
+    <string name="credit_headline">Ve ayrıca…</string>
     <string name="credit_body">Kullanılan ikonlar için kendilerine teşekkür ederiz:</string>
     <string name="hint_dateOfBreeding">Yavrulama tarihi</string>
     <string name="enYakinDogumlar">En Yakın Doğumlar</string>
@@ -142,4 +142,5 @@
     <string name="nav_sum">Özet</string>
     <string name="cat_FirstCreations">İlk Oluşturulanlar</string>
     <string name="cat_LastCreations">Son Oluşturulanlar</string>
+    <string name="button_alarm_hour">Alarm Saati Belirle</string>
 </resources>
