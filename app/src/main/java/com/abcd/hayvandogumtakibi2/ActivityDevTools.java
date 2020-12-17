@@ -40,6 +40,7 @@ public class ActivityDevTools extends AppCompatActivity {
         final Button btnSetAlarmHour=findViewById(R.id.setAlarmHour);
         progress_container=findViewById(R.id.progress_container);
         btn.setText(new StringBuilder(getString(R.string.button_multiple_creation)).append(": ").append(sayac));
+        btnSetAlarmHour.setText(new StringBuilder(getString(R.string.button_alarm_hour)).append(": ").append(saat));
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
