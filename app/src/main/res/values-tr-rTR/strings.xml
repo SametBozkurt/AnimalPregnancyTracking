@@ -125,7 +125,7 @@
     <string name="privacy_policy">Gizlilik Politikasına Git</string>
     <string name="vote">Mağazada Oyla</string>
     <string name="app_info_subtitle">Samet Bozkurt Tarafından Geliştirildi</string>
-    <string name="swich_show_happeneds">Gerçekleşen doğumları göster</string>
+    <string name="switch_show_happeneds">Gerçekleşen doğumları göster</string>
     <string name="btn_filter">Filtrele</string>
     <string name="btn_apply">Uygula</string>
     <string name="orderBy">Sırala:</string>
@@ -143,4 +143,7 @@
     <string name="cat_FirstCreations">İlk Oluşturulanlar</string>
     <string name="cat_LastCreations">Son Oluşturulanlar</string>
     <string name="button_alarm_hour">Alarm Saati Belirle</string>
+    <string name="menu_settings">Ayarlar</string>
+    <string name="title_activity_ayarlar">Ayarlar</string>
+    <string name="switch_notifications_on">Yaklaşan doğumlar için bildirimler</string>
 </resources>

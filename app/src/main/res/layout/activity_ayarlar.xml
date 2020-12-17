@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActivityAyarlar">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_margin="@dimen/margin_kategori_2"
+        android:fontFamily="@font/josefin_sans_semibold"
+        android:text="@string/title_activity_ayarlar"
+        android:textColor="@android:color/black"
+        android:textSize="36sp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_kategori_3"
+        android:layout_marginEnd="@dimen/margin_kategori_3"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/switch_notifications_on"
+        android:textColor="#000" />
+
+</LinearLayout>

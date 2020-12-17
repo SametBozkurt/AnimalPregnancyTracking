@@ -30,45 +30,47 @@ public class AlarmLauncher extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("UYARI","AlarmLauncher");
-        final int dbSize = SQLiteDatabaseHelper.getInstance(context).getSize();
-        if(dbSize!=0){
-            final AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            final Intent alarmIntent = new Intent(context, AlarmLauncher.class);
-            alarmIntent.setAction(INTENT_REPEAT_ALARM_ACTION);
-            final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQ_CODE, alarmIntent, 0);
-            final Calendar calendar = Calendar.getInstance();
-            if(intent.getAction().equals(INTENT_REPEAT_ALARM_ACTION)){
-                final int sizeKritikler = SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(null).size();
-                if(sizeKritikler>0){
-                    bildirim_ver(context);
+        if(PreferencesHolder.getIsIncomingBirthNotEnabled(context)){
+            final int dbSize = SQLiteDatabaseHelper.getInstance(context).getSize();
+            if(dbSize!=0){
+                final AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                final Intent alarmIntent = new Intent(context, AlarmLauncher.class);
+                alarmIntent.setAction(INTENT_REPEAT_ALARM_ACTION);
+                final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQ_CODE, alarmIntent, 0);
+                final Calendar calendar = Calendar.getInstance();
+                if(intent.getAction().equals(INTENT_REPEAT_ALARM_ACTION)){
+                    final int sizeKritikler = SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(null,context).size();
+                    if(sizeKritikler>0){
+                        bildirim_ver(context);
+                    }
+                    calendar.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000);
+                    Log.e("UYARI","AlarmRepeating");
                 }
-                calendar.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000);
-                Log.e("UYARI","AlarmRepeating");
-            }
-            else{
-                Log.e("UYARI","AlarmSetFirst");
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, PreferencesHolder.getAlarmHour(context));
-                calendar.set(Calendar.MINUTE, 30);
-                if(calendar.before(Calendar.getInstance())) {
-                    //If alarm time is before current time, 1 day will be added over alarm time.
-                    calendar.add(Calendar.DATE, 1);
-                    Log.e("UYARI","AlarmSetForNextDay");
+                else{
+                    Log.e("UYARI","AlarmSetFirst");
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+                    calendar.set(Calendar.HOUR_OF_DAY, PreferencesHolder.getAlarmHour(context));
+                    calendar.set(Calendar.MINUTE, 30);
+                    if(calendar.before(Calendar.getInstance())) {
+                        //If alarm time is before current time, 1 day will be added over alarm time.
+                        calendar.add(Calendar.DATE, 1);
+                        Log.e("UYARI","AlarmSetForNextDay");
+                    }
                 }
-            }
             /*
             AlarmManager.setRepeating is buggy and crap, so i have to do it on my own.
             So my plan is creating a custom Intent Action and putting that action in Alarm Intent as an action.
             After that, the app will repeat the alarm help of my algorithm. Annnnnd it's done :)
              */
-            alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-            final AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),pendingIntent);
-            if(alarmClockInfo!=null){
-                calendar.setTimeInMillis(alarmClockInfo.getTriggerTime());
-                Log.e("Info-Ay",String.valueOf(calendar.get(Calendar.MONTH)+1));
-                Log.e("Info-Gun",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                Log.e("Info-Saat",String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
-                Log.e("Info-Dakika",String.valueOf(calendar.get(Calendar.MINUTE)));
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+                final AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),pendingIntent);
+                if(alarmClockInfo!=null){
+                    calendar.setTimeInMillis(alarmClockInfo.getTriggerTime());
+                    Log.e("Info-Ay",String.valueOf(calendar.get(Calendar.MONTH)+1));
+                    Log.e("Info-Gun",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+                    Log.e("Info-Saat",String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
+                    Log.e("Info-Dakika",String.valueOf(calendar.get(Calendar.MINUTE)));
+                }
             }
         }
     }

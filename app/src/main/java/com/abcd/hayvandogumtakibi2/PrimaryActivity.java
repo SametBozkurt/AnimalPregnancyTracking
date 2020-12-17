@@ -90,6 +90,8 @@ public class PrimaryActivity extends AppCompatActivity {
                             startActivity(new Intent(context, ActivityAppInfo.class));
                         else if(item.getItemId()==R.id.dev_tools)
                             startActivity(new Intent(context,ActivityDevTools.class));
+                        else if(item.getItemId()==R.id.settings)
+                            startActivity(new Intent(context,ActivityAyarlar.class));
                         return true;
                     }
                 });

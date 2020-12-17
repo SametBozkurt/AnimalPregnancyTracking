@@ -150,8 +150,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause){
+    ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause, @NonNull final Context context){
         long date_dogum_in_millis = 0;
+        final int day_range=PreferencesHolder.getDayRange(context);
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
@@ -169,7 +170,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                     date_dogum_in_millis=Long.parseLong(CONVERTED_DATE2);
                 }
                 finally{
-                    if(get_gun_sayisi(date_dogum_in_millis)<30 && cursor.getInt(8)==0){
+                    if(get_gun_sayisi(date_dogum_in_millis)<day_range && cursor.getInt(8)==0){
                         dataModelArrayList.add(new DataModel(cursor.getInt(0),
                                 cursor.getString(1),
                                 cursor.getString(2),

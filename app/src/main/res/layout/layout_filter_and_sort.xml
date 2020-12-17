@@ -133,7 +133,7 @@
         android:layout_marginStart="@dimen/margin_kategori_3"
         android:layout_marginEnd="@dimen/margin_kategori_3"
         android:fontFamily="@font/varela_round"
-        android:text="@string/swich_show_happeneds"
+        android:text="@string/switch_show_happeneds"
         android:textColor="#000" />
 
     <FrameLayout
