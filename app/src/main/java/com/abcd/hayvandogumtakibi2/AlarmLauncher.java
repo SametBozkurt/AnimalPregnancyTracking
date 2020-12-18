@@ -73,6 +73,9 @@ public class AlarmLauncher extends BroadcastReceiver {
                 }
             }
         }
+        else{
+            Log.e("UYARI","AlarmNotSet");
+        }
     }
 
     private void bildirim_ver(final Context mContext){
@@ -90,8 +93,8 @@ public class AlarmLauncher extends BroadcastReceiver {
         notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
         notificationBuilder.setColor(Color.BLUE);
         notificationBuilder.setSmallIcon(R.drawable.icon_bildirim);
-        notificationBuilder.setContentTitle(new StringBuilder(mContext.getString(R.string.bildirim_baslik)));
-        notificationBuilder.setContentText(new StringBuilder(mContext.getString(R.string.bildirim_govde_text)));
+        notificationBuilder.setContentTitle(mContext.getString(R.string.bildirim_baslik));
+        notificationBuilder.setContentText(mContext.getString(R.string.bildirim_govde_text));
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setAutoCancel(true);
         notificationManager.notify(0, notificationBuilder.build());

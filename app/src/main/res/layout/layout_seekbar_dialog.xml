@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/days_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/margin_kategori_3"
+        android:fontFamily="@font/josefin_sans_semibold"
+        android:textColor="@android:color/black"
+        android:textSize="30sp" />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:max="30"
+        android:thumbTint="#5e35b1"
+        android:progressTint="#5e35b1"
+        android:outlineProvider="none"
+        android:progress="2"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ok"
+            style="@style/TextButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="@string/text_set"
+            android:textColor="#138EE9"
+            app:rippleColor="#84BCE4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            style="@style/TextButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="@string/text_cancel"
+            android:textColor="#138EE9"
+            app:rippleColor="#84BCE4" />
+
+    </FrameLayout>
+
+</LinearLayout>

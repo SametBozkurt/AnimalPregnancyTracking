@@ -146,4 +146,10 @@
     <string name="menu_settings">Ayarlar</string>
     <string name="title_activity_ayarlar">Ayarlar</string>
     <string name="switch_notifications_on">Yaklaşan doğumlar için bildirimler</string>
+    <string name="text_daily_not_hour">Şu saatte bildirim alınacak:</string>
+    <string name="button_text_change">Değiştir</string>
+    <string name="text_set">Seç</string>
+    <string name="text_cancel">İptal</string>
+    <string name="text_notify_range">Şu kadar gün içinde olan doğumları bildir:</string>
+    <string name="title_notifications">Bildirimler</string>
 </resources>

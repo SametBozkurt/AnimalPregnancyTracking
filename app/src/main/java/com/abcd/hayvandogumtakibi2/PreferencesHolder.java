@@ -27,6 +27,13 @@ public class PreferencesHolder {
         return sharedPref.getInt(CONF_KEY_DAY_RANGE, 30);
     }
 
+    static void setDayRange(final Context context, int range){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(CONF_KEY_DAY_RANGE, range);
+        editor.apply();
+    }
+
     static boolean getIsIncomingBirthNotEnabled(final Context context){
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
         return sharedPref.getBoolean(CONF_KEY_INCOMING_BIRTH_NOT, true);
