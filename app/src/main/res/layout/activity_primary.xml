@@ -127,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:id="@+id/edit"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -157,7 +157,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:id="@+id/incoming"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -187,7 +187,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:id="@+id/happened"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -226,7 +226,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:id="@+id/search"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -256,7 +256,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:id="@+id/periods"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -286,7 +286,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:id="@+id/all_recs"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -326,7 +326,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:id="@+id/summary"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">
@@ -356,7 +356,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:id="@+id/calculator"
-                            android:background="@drawable/ripple_effect3"
+                            android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
                             android:orientation="vertical">

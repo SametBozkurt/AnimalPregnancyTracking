@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,8 @@ public class ActivityAyarlar extends AppCompatActivity {
     final Context context=this;
     private static final int ALARM_REQ_CODE = 1233;
     private static final String ALARM_INTENT = "SET_AN_ALARM";
+    Button changeHour, changeRange;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,8 @@ public class ActivityAyarlar extends AppCompatActivity {
         final TextView notificationHour=findViewById(R.id.text_hour);
         final TextView notifyRange=findViewById(R.id.text_range);
         final SwitchMaterial switchNotifications=findViewById(R.id.switch_notifications);
-        final Button changeHour=findViewById(R.id.change_hour);
-        final Button changeRange=findViewById(R.id.change_the_range);
+        changeHour=findViewById(R.id.change_hour);
+        changeRange=findViewById(R.id.change_the_range);
         switchNotifications.setChecked(PreferencesHolder.getIsIncomingBirthNotEnabled(context));
         switchNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -42,6 +45,7 @@ public class ActivityAyarlar extends AppCompatActivity {
                     PreferencesHolder.setIsIncomingBirthNotEnabled(context,true);
                     sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(ALARM_INTENT));
                     Toast.makeText(context,"Alarm set",Toast.LENGTH_SHORT).show();
+                    enableNotElements();
                 }
                 else{
                     PreferencesHolder.setIsIncomingBirthNotEnabled(context,false);
@@ -50,6 +54,7 @@ public class ActivityAyarlar extends AppCompatActivity {
                     final PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ALARM_REQ_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
                     alarmManager.cancel(pendingIntent);
                     Toast.makeText(context,"Alarm canceled",Toast.LENGTH_SHORT).show();
+                    disableNotElements();
                 }
             }
         });
@@ -86,6 +91,7 @@ public class ActivityAyarlar extends AppCompatActivity {
                                 .append(" ")
                                 .append(selectedHour[0]));
                         PreferencesHolder.setAlarmHour(context,selectedHour[0]);
+                        sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(ALARM_INTENT));
                         timepickerDialog.dismiss();
                     }
                 });
@@ -140,5 +146,26 @@ public class ActivityAyarlar extends AppCompatActivity {
                 seekbarDialog.show();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!PreferencesHolder.getIsIncomingBirthNotEnabled(context)){
+            disableNotElements();
+        }
+    }
+
+    protected void disableNotElements(){
+        changeHour.setEnabled(false);
+        changeRange.setEnabled(false);
+        changeHour.setTextColor(Color.parseColor("#bdbdbd"));
+        changeRange.setTextColor(Color.parseColor("#bdbdbd"));
+    }
+    protected void enableNotElements(){
+        changeHour.setEnabled(true);
+        changeRange.setEnabled(true);
+        changeHour.setTextColor(Color.parseColor("#138EE9"));
+        changeRange.setTextColor(Color.parseColor("#138EE9"));
     }
 }

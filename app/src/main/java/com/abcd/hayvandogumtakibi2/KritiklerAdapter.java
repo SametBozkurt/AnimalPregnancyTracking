@@ -37,7 +37,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     KritiklerAdapter(final Context context,int code, @Nullable String orderClause){
         this.context=context;
-        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(orderClause,context);
+        this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(orderClause,30);
         this.code=code;
     }
 

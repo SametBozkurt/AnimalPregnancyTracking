@@ -39,7 +39,8 @@ public class AlarmLauncher extends BroadcastReceiver {
                 final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQ_CODE, alarmIntent, 0);
                 final Calendar calendar = Calendar.getInstance();
                 if(intent.getAction().equals(INTENT_REPEAT_ALARM_ACTION)){
-                    final int sizeKritikler = SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(null,context).size();
+                    final int sizeKritikler = SQLiteDatabaseHelper.getInstance(context)
+                            .getKritikOlanlar(null,PreferencesHolder.getDayRange(context)).size();
                     if(sizeKritikler>0){
                         bildirim_ver(context);
                     }

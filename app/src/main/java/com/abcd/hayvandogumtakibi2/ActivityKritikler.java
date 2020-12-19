@@ -42,7 +42,7 @@ public class ActivityKritikler extends AppCompatActivity {
         final ImageView cross=findViewById(R.id.iptal);
         fragment_container=findViewById(R.id.fragment_container);
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-        dataModelArrayList=databaseHelper.getKritikOlanlar(null,context);
+        dataModelArrayList=databaseHelper.getKritikOlanlar(null,30);
         adContainerView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -84,7 +84,7 @@ public class ActivityKritikler extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         fragment_container.removeAllViews();
-        dataModelArrayList=databaseHelper.getKritikOlanlar(null, context);
+        dataModelArrayList=databaseHelper.getKritikOlanlar(null, 30);
         if(dataModelArrayList.isEmpty()){
             final FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();

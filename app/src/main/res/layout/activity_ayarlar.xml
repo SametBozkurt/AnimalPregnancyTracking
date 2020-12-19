@@ -6,92 +6,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#5e35b1"
     tools:context=".ActivityAyarlar">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_margin="@dimen/margin_kategori_2"
+        android:gravity="center_horizontal"
         android:fontFamily="@font/josefin_sans_semibold"
         android:text="@string/title_activity_ayarlar"
-        android:textColor="@android:color/black"
-        android:textSize="36sp" />
+        android:textColor="@android:color/white"
+        android:textSize="36sp"
+        android:padding="@dimen/margin_kategori_2"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:background="@drawable/item_style_5"
         android:layout_margin="@dimen/margin_kategori_2"
-        android:fontFamily="@font/open_sans"
-        android:text="@string/title_notifications"
-        android:textColor="#5e35b1"
-        android:textSize="18sp" />
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_notifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_kategori_3"
-        android:layout_marginEnd="@dimen/margin_kategori_3"
-        android:fontFamily="@font/open_sans"
-        android:text="@string/switch_notifications_on"
-        android:textColor="#000" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginTop="@dimen/margin_kategori_3"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="@string/title_notifications"
+            android:textColor="#5e35b1"
+            android:textSize="15sp" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_kategori_3"
             android:layout_marginEnd="@dimen/margin_kategori_3"
             android:fontFamily="@font/open_sans"
-            android:text="@string/text_daily_not_hour"
+            android:text="@string/switch_notifications_on"
             android:textColor="#000" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/change_hour"
-            style="@style/TextButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans"
-            android:text="@string/button_text_change"
-            android:textColor="#138EE9"
-            android:layout_gravity="end"
-            app:rippleColor="#84BCE4" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/text_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="@dimen/margin_kategori_3"
+                android:layout_marginEnd="@dimen/margin_kategori_3"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/text_daily_not_hour"
+                android:textColor="#000" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/change_hour"
+                style="@style/TextButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/button_text_change"
+                android:textColor="#138EE9"
+                android:layout_gravity="end"
+                app:rippleColor="#84BCE4" />
 
-        <TextView
-            android:id="@+id/text_range"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="@dimen/margin_kategori_3"
-            android:layout_marginEnd="@dimen/margin_kategori_3"
-            android:fontFamily="@font/open_sans"
-            android:text="@string/text_notify_range"
-            android:textColor="#000" />
+        </FrameLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/change_the_range"
-            style="@style/TextButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans"
-            android:text="@string/button_text_change"
-            android:textColor="#138EE9"
-            android:layout_gravity="end"
-            app:rippleColor="#84BCE4" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/text_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_alignStart="@id/change_the_range"
+                android:layout_marginStart="@dimen/margin_kategori_3"
+                android:layout_marginEnd="@dimen/margin_kategori_3"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/text_notify_range"
+                android:textColor="#000" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/change_the_range"
+                style="@style/TextButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/button_text_change"
+                android:textColor="#138EE9"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                app:rippleColor="#84BCE4" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

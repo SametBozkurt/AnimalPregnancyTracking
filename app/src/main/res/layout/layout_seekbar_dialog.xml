@@ -29,7 +29,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_kategori_3">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_ok"

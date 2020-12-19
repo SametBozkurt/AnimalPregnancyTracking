@@ -83,7 +83,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         }
     }
 
-    void kayit_ekle(DataModel dataModel){
+    protected void kayit_ekle(DataModel dataModel){
         final SQLiteDatabase database=this.getWritableDatabase();
         final ContentValues values=new ContentValues();
         values.put(SUTUN_1,dataModel.getIsim());
@@ -150,9 +150,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause, @NonNull final Context context){
+    ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause, int range){
         long date_dogum_in_millis = 0;
-        final int day_range=PreferencesHolder.getDayRange(context);
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8},
@@ -166,11 +165,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
                     date_dogum_in_millis=Long.parseLong(cursor.getString(5));
                 }
                 catch(Exception e){
-                    check_date_compatibility(cursor.getInt(0), cursor.getString(4), cursor.getString(5));
+                    check_date_compatibility(cursor.getInt(0),cursor.getString(4),cursor.getString(5));
                     date_dogum_in_millis=Long.parseLong(CONVERTED_DATE2);
                 }
                 finally{
-                    if(get_gun_sayisi(date_dogum_in_millis)<day_range && cursor.getInt(8)==0){
+                    if(get_gun_sayisi(date_dogum_in_millis)<range && cursor.getInt(8)==0){
                         dataModelArrayList.add(new DataModel(cursor.getInt(0),
                                 cursor.getString(1),
                                 cursor.getString(2),
@@ -288,12 +287,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return dataModelArrayList;
     }
 
-    void girdiSil(int ID){
+    protected void girdiSil(int ID){
         final SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
         sqLiteDatabase.delete(VERITABANI_ISIM,"id=? ",new String[]{Integer.toString(ID)});
     }
 
-    void guncelle(DataModel dataModel){
+    protected void guncelle(DataModel dataModel){
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();
         newValues.put(SUTUN_1,dataModel.getIsim());
@@ -307,7 +306,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(dataModel.getId())});
     }
 
-    void isaretle_dogum_gerceklesti(int ID, long now_in_millis, long est_birth_date_millis){
+    protected void isaretle_dogum_gerceklesti(int ID, long now_in_millis, long est_birth_date_millis){
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();
         if(est_birth_date_millis>now_in_millis){
@@ -320,7 +319,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(ID)});
     }
 
-    void tarih_donustur(int id, String tarih1, String tarih2){
+    private void tarih_donustur(int id, String tarih1, String tarih2){
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();
         newValues.put(SUTUN_4,tarih1);
@@ -337,7 +336,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         return (int)gun;
     }
 
-    void check_date_compatibility(int id, String date1, String date2){
+    private void check_date_compatibility(int id, String date1, String date2){
         final SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
         final Date date_dollenme = new Date();
         final Date date_dogum = new Date();
@@ -366,7 +365,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         tarih_donustur(id, String.valueOf(date_dollenme.getTime()), String.valueOf(date_dogum.getTime()));
     }
 
-    int getSize(){
+    protected int getSize(){
         final ArrayList<DataModel> arrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id"},
