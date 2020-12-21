@@ -152,4 +152,9 @@
     <string name="text_cancel">Cancel</string>
     <string name="text_notify_range">Notify me if there is a birth in … day(s):</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_cardAppearance">Card Appearance</string>
+    <string name="text_textSize">Text size of cards:</string>
+    <string name="textsizeLarge">Large-18pt</string>
+    <string name="textsizeMedium">Medium/Default-14pt</string>
+    <string name="textsizeSmall">Small-12pt</string>
 </resources>

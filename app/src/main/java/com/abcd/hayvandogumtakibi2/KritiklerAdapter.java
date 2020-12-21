@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
+        holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
         final DataModel dataModel=dataModelArrayList.get(position);
         holder.textView.setText(new StringBuilder(dataModel.getIsim()));
         switch(code){

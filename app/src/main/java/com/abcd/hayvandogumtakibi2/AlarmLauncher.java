@@ -1,6 +1,5 @@
 package com.abcd.hayvandogumtakibi2;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -26,10 +24,8 @@ public class AlarmLauncher extends BroadcastReceiver {
     private static final String NOTIFICATION_CHANNEL_NAME="Kritik Uyarılar";
     private static final int ALARM_REQ_CODE = 1233;
 
-    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("UYARI","AlarmLauncher");
         if(PreferencesHolder.getIsIncomingBirthNotEnabled(context)){
             final int dbSize = SQLiteDatabaseHelper.getInstance(context).getSize();
             if(dbSize!=0){
@@ -45,17 +41,14 @@ public class AlarmLauncher extends BroadcastReceiver {
                         bildirim_ver(context);
                     }
                     calendar.setTimeInMillis(System.currentTimeMillis()+24*60*60*1000);
-                    Log.e("UYARI","AlarmRepeating");
                 }
                 else{
-                    Log.e("UYARI","AlarmSetFirst");
                     calendar.setTimeInMillis(System.currentTimeMillis());
                     calendar.set(Calendar.HOUR_OF_DAY, PreferencesHolder.getAlarmHour(context));
                     calendar.set(Calendar.MINUTE, 30);
                     if(calendar.before(Calendar.getInstance())) {
                         //If alarm time is before current time, 1 day will be added over alarm time.
                         calendar.add(Calendar.DATE, 1);
-                        Log.e("UYARI","AlarmSetForNextDay");
                     }
                 }
             /*
@@ -64,18 +57,7 @@ public class AlarmLauncher extends BroadcastReceiver {
             After that, the app will repeat the alarm help of my algorithm. Annnnnd it's done :)
              */
                 alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-                final AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),pendingIntent);
-                if(alarmClockInfo!=null){
-                    calendar.setTimeInMillis(alarmClockInfo.getTriggerTime());
-                    Log.e("Info-Ay",String.valueOf(calendar.get(Calendar.MONTH)+1));
-                    Log.e("Info-Gun",String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                    Log.e("Info-Saat",String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
-                    Log.e("Info-Dakika",String.valueOf(calendar.get(Calendar.MINUTE)));
-                }
             }
-        }
-        else{
-            Log.e("UYARI","AlarmNotSet");
         }
     }
 

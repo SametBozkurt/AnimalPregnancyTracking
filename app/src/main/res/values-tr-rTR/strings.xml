@@ -152,4 +152,9 @@
     <string name="text_cancel">İptal</string>
     <string name="text_notify_range">Şu kadar gün içinde olan doğumları bildir:</string>
     <string name="title_notifications">Bildirimler</string>
+    <string name="title_cardAppearance">Kart Görünüşü</string>
+    <string name="text_textSize">Kartların yazı boyutu:</string>
+    <string name="textsizeLarge">Büyük-18pt</string>
+    <string name="textsizeMedium">Orta/Varsayılan-14pt</string>
+    <string name="textsizeSmall">Küçük-12pt</string>
 </resources>

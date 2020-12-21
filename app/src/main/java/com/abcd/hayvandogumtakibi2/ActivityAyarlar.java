@@ -11,10 +11,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,14 +27,18 @@ public class ActivityAyarlar extends AppCompatActivity {
     private static final int ALARM_REQ_CODE = 1233;
     private static final String ALARM_INTENT = "SET_AN_ALARM";
     Button changeHour, changeRange;
-
+    TextView notificationHour, notifyRange, textSize;
+    LinearLayout parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ayarlar);
-        final TextView notificationHour=findViewById(R.id.text_hour);
-        final TextView notifyRange=findViewById(R.id.text_range);
+        parentLayout=findViewById(R.id.linear_layout);
+        notificationHour=findViewById(R.id.text_hour);
+        notifyRange=findViewById(R.id.text_range);
+        textSize=findViewById(R.id.text_size);
+        final Button changeTextSize=findViewById(R.id.change_textSize);
         final SwitchMaterial switchNotifications=findViewById(R.id.switch_notifications);
         changeHour=findViewById(R.id.change_hour);
         changeRange=findViewById(R.id.change_the_range);
@@ -44,7 +49,6 @@ public class ActivityAyarlar extends AppCompatActivity {
                 if(isChecked){
                     PreferencesHolder.setIsIncomingBirthNotEnabled(context,true);
                     sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(ALARM_INTENT));
-                    Toast.makeText(context,"Alarm set",Toast.LENGTH_SHORT).show();
                     enableNotElements();
                 }
                 else{
@@ -53,17 +57,10 @@ public class ActivityAyarlar extends AppCompatActivity {
                     final Intent intent = new Intent(getApplicationContext(), AlarmLauncher.class);
                     final PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ALARM_REQ_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
                     alarmManager.cancel(pendingIntent);
-                    Toast.makeText(context,"Alarm canceled",Toast.LENGTH_SHORT).show();
                     disableNotElements();
                 }
             }
         });
-        notificationHour.setText(new StringBuilder(getString(R.string.text_daily_not_hour))
-                .append(" ")
-                .append(PreferencesHolder.getAlarmHour(context)));
-        notifyRange.setText(new StringBuilder(getString(R.string.text_notify_range))
-                .append(" ")
-                .append(PreferencesHolder.getDayRange(context)));
         changeHour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +143,52 @@ public class ActivityAyarlar extends AppCompatActivity {
                 seekbarDialog.show();
             }
         });
+        changeTextSize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final float[] selectedSize = {14.0f};
+                final Dialog textSizeDialog=new Dialog(context);
+                textSizeDialog.setContentView(R.layout.layout_textsize_dialog);
+                final RadioGroup radioGroup=textSizeDialog.findViewById(R.id.radio_group_textSize);
+                final Button btnPositive=textSizeDialog.findViewById(R.id.btn_ok);
+                final Button btnNegative=textSizeDialog.findViewById(R.id.btn_cancel);
+                final TextView textView=textSizeDialog.findViewById(R.id.title_text);
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        if(checkedId==R.id.sizeLarge){
+                            selectedSize[0] =18.0f;
+                        }
+                        else if(checkedId==R.id.sizeMedium){
+                            selectedSize[0] =14.0f;
+                        }
+                        else if(checkedId==R.id.sizeSmall){
+                            selectedSize[0] =12.0f;
+                        }
+                        textView.setText(new StringBuilder(getString(R.string.text_textSize))
+                                .append(" ")
+                                .append((int)selectedSize[0]));
+                    }
+                });
+                btnPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        textSize.setText(new StringBuilder(getString(R.string.text_textSize))
+                                .append(" ")
+                                .append((int)selectedSize[0]));
+                        PreferencesHolder.setCardTextSize(context,selectedSize[0]);
+                        textSizeDialog.dismiss();
+                    }
+                });
+                btnNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        textSizeDialog.dismiss();
+                    }
+                });
+                textSizeDialog.show();
+            }
+        });
     }
 
     @Override
@@ -154,6 +197,15 @@ public class ActivityAyarlar extends AppCompatActivity {
         if(!PreferencesHolder.getIsIncomingBirthNotEnabled(context)){
             disableNotElements();
         }
+        notificationHour.setText(new StringBuilder(getString(R.string.text_daily_not_hour))
+                .append(" ")
+                .append(PreferencesHolder.getAlarmHour(context)));
+        notifyRange.setText(new StringBuilder(getString(R.string.text_notify_range))
+                .append(" ")
+                .append(PreferencesHolder.getDayRange(context)));
+        textSize.setText(new StringBuilder(getString(R.string.text_textSize))
+                .append(" ")
+                .append((int)PreferencesHolder.getCardTextSize(context)));
     }
 
     protected void disableNotElements(){
@@ -168,4 +220,5 @@ public class ActivityAyarlar extends AppCompatActivity {
         changeHour.setTextColor(Color.parseColor("#138EE9"));
         changeRange.setTextColor(Color.parseColor("#138EE9"));
     }
+
 }

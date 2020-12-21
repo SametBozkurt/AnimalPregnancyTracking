@@ -9,6 +9,7 @@ public class PreferencesHolder {
     private static final String CONF_KEY_HOUR = "alarm_hour";
     private static final String CONF_KEY_DAY_RANGE = "critical_day_range";
     private static final String CONF_KEY_INCOMING_BIRTH_NOT = "is_incoming_birth_not_enabled";
+    private static final String CONF_KEY_TEXT_SIZE_OF_CARDS = "text_size_of_cards";
 
     static int getAlarmHour(final Context context){
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
@@ -43,6 +44,18 @@ public class PreferencesHolder {
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(CONF_KEY_INCOMING_BIRTH_NOT, preference);
+        editor.apply();
+    }
+
+    static float getCardTextSize(final Context context){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        return sharedPref.getFloat(CONF_KEY_TEXT_SIZE_OF_CARDS, 14.0f);
+    }
+
+    static void setCardTextSize(final Context context, float size){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putFloat(CONF_KEY_TEXT_SIZE_OF_CARDS, size);
         editor.apply();
     }
 
