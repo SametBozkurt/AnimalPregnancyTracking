@@ -153,6 +153,9 @@ public class ActivityAyarlar extends AppCompatActivity {
                 final Button btnPositive=textSizeDialog.findViewById(R.id.btn_ok);
                 final Button btnNegative=textSizeDialog.findViewById(R.id.btn_cancel);
                 final TextView textView=textSizeDialog.findViewById(R.id.title_text);
+                textView.setText(new StringBuilder(getString(R.string.text_textSize))
+                        .append(" ")
+                        .append((int)PreferencesHolder.getCardTextSize(context)));
                 radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {

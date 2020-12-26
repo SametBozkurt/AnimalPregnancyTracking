@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_cross"
+            android:src="@drawable/ic_back"
             android:id="@+id/iptal"
             android:background="@drawable/ripple_effect"
             app:layout_constraintStart_toStartOf="parent"

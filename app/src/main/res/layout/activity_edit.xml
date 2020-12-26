@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
+        android:elevation="@dimen/margin_kategori_1"
         android:padding="3dp"
         android:focusableInTouchMode="true"
         android:layout_alignParentTop="true">
@@ -20,7 +21,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_cross"
+            android:src="@drawable/ic_back"
             android:id="@+id/iptal"
             android:background="@drawable/ripple_effect2"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,38 +31,19 @@
             android:contentDescription="@null"
             app:tint="#37474f" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:text="@string/duzenle_button_text"
+            android:textColor="#37474f"
+            android:textSize="@dimen/title_size"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/josefin_sans_semibold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/button_duzenle_icon"
-                android:contentDescription="@null"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/margin_kategori_1"
-                app:layout_constraintEnd_toStartOf="@id/text_title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#37474f" />
-
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/duzenle_button_text"
-                android:textColor="#37474f"
-                android:textSize="18sp"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/comfortaa_bold"/>
-
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/kaydet"

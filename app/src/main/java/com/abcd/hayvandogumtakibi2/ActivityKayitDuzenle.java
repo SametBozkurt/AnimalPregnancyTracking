@@ -58,7 +58,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         relativeLayout.post(new Runnable() {
             @Override
             public void run() {
-                bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
+                bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
                 initFilterMenu();
             }
         });

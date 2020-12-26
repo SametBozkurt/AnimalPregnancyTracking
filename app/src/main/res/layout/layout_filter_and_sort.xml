@@ -11,37 +11,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/filter_title"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textColor="#000"
-        android:textStyle="bold"
+        android:fontFamily="@font/josefin_sans_semibold"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/varela_round"
+        android:fontFamily="@font/josefin_sans_semibold"
+        android:textSize="18sp"
         android:text="@string/spinner_description"
         android:layout_marginTop="@dimen/margin_kategori_2"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/margin_kategori_2"
         android:textColor="@android:color/black" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_kategori_2"
-        android:layout_marginEnd="@dimen/margin_kategori_3">
+        android:layout_marginEnd="@dimen/margin_kategori_2">
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/radio_group_filter"
-            android:layout_gravity="center_horizontal">
+            android:id="@+id/radio_group_filter">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_isim"
+                android:fontFamily="@font/open_sans"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"
                 android:text="@string/cat_name"/>
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_kupe_no"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/cat_id"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"/>
@@ -56,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_date1"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/cat_date1"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"/>
@@ -63,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_date2"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/cat_date2"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"/>
@@ -74,28 +78,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/varela_round"
+        android:fontFamily="@font/josefin_sans_semibold"
         android:text="@string/orderBy"
-        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:layout_marginStart="@dimen/margin_kategori_2"
         android:textColor="@android:color/black" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_kategori_2"
-        android:layout_marginEnd="@dimen/margin_kategori_3">
-
+        android:layout_marginEnd="@dimen/margin_kategori_2">
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/radio_group_order">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_first"
+                android:fontFamily="@font/open_sans"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"
                 android:text="@string/cat_FirstCreations"/>
@@ -103,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_last"
+                android:fontFamily="@font/open_sans"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"
                 android:text="@string/cat_LastCreations"/>
@@ -110,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_AtoZ"
+                android:fontFamily="@font/open_sans"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"
                 android:text="@string/cat_AtoZ"/>
@@ -117,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_button_ZtoA"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/cat_ZtoA"
                 android:textColor="@android:color/black"
                 android:buttonTint="#1E88E5"/>
@@ -132,7 +139,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="@dimen/margin_kategori_3"
         android:layout_marginEnd="@dimen/margin_kategori_3"
-        android:fontFamily="@font/varela_round"
+        android:fontFamily="@font/open_sans"
         android:text="@string/switch_show_happeneds"
         android:textColor="#000" />
 

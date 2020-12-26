@@ -40,13 +40,12 @@ public class PrimaryActivity extends AppCompatActivity {
     int database_size;
     boolean is_opened = false;
     final Context context=this;
-    Animation fab_open, fab_close, fab_clock, fab_anticlock;
-    InterstitialAd mInterstitialAd = new InterstitialAd(context);
     AdRequest adRequest;
-    final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
     RelativeLayout relativeLayout;
     FrameLayout frameLayout;
     LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator,lyt_summary;
+    InterstitialAd mInterstitialAd = new InterstitialAd(context);
+    final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +68,41 @@ public class PrimaryActivity extends AppCompatActivity {
         lyt_all_recs=findViewById(R.id.all_recs);
         lyt_calculator=findViewById(R.id.calculator);
         lyt_summary=findViewById(R.id.summary);
+        final PopupMenu popupMenu=new PopupMenu(context,img_menu);
         database_size=databaseHelper.getSize();
+        if(database_size==0){
+            final LayoutInflater layoutInflater=LayoutInflater.from(context);
+            final View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
+            frameLayout.addView(view);
+        }
+        final Animation fab_open= AnimationUtils.loadAnimation(context,R.anim.fab_on);
+        final Animation fab_close=AnimationUtils.loadAnimation(context,R.anim.fab_off);
+        final Animation fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
+        final Animation fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
+            final String INTENT_ACTION= "SET_AN_ALARM" ;
+            sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
+        }
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                if(networkInfo!=null){
+                    if(networkInfo.isConnected()){
+                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
+                            @Override
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        show_ads();
+                    }
+                }
+            }
+        },500);
+        popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PopupMenu popupMenu=new PopupMenu(context,img_menu);
-                popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -155,144 +183,99 @@ public class PrimaryActivity extends AppCompatActivity {
                 //Besi hayvanı ise 2
             }
         });
-        relativeLayout.post(new Runnable() {
+        cross.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                cross.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
-                lyt_edit.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(database_size==0){
-                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            startActivity(new Intent(context,ActivityKayitDuzenle.class));
-                        }
-                    }
-                });
-                lyt_incoming.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(database_size==0){
-                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            startActivity(new Intent(context,ActivityKritikler.class));
-                        }
-                    }
-                });
-                lyt_happened.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(database_size==0){
-                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            startActivity(new Intent(context,ActivityGerceklesenler.class));
-                        }
-                    }
-                });
-                lyt_search.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(database_size==0){
-                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            startActivity(new Intent(context,ActivityKayitAra.class));
-                        }
-                    }
-                });
-                lyt_periods.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(context,ActivityPeriods.class));
-                    }
-                });
-                lyt_all_recs.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(database_size==0){
-                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            startActivity(new Intent(context,ActivityTumKayitlar.class));
-                        }
-                    }
-                });
-                lyt_calculator.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
-                        fragmentTarihHesaplayici.show(getSupportFragmentManager(),null);
-                    }
-                });
-                lyt_summary.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(database_size==0){
-                            Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
-                            final View view=LayoutInflater.from(context).
-                                    inflate(R.layout.lyt_dialog_summary,(RelativeLayout)findViewById(R.id.parent_layout));
-                            bottomSheetDialog.setContentView(view);
-                            show_sonOlusturulanlar((FrameLayout)view.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
-                            if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
-                                show_enYakinDogumlar((FrameLayout)view.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
-                            }
-                            bottomSheetDialog.show();
-                        }
-                    }
-                });
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
-        relativeLayout.post(new Runnable() {
+        lyt_edit.setOnClickListener(new OnClickListener() {
             @Override
-            public void run() {
+            public void onClick(View v) {
                 if(database_size==0){
-                    final LayoutInflater layoutInflater=LayoutInflater.from(context);
-                    final View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
-                    frameLayout.addView(view);
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(context,ActivityKayitDuzenle.class));
                 }
             }
         });
-        relativeLayout.post(new Runnable() {
+        lyt_incoming.setOnClickListener(new OnClickListener() {
             @Override
-            public void run() {
-                fab_open=AnimationUtils.loadAnimation(context,R.anim.fab_on);
-                fab_close=AnimationUtils.loadAnimation(context,R.anim.fab_off);
-                fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
-                fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
+            public void onClick(View v) {
+                if(database_size==0){
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(context,ActivityKritikler.class));
+                }
             }
         });
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
-            final String INTENT_ACTION= "SET_AN_ALARM" ;
-            sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
-        }
-        relativeLayout.postDelayed(new Runnable() {
+        lyt_happened.setOnClickListener(new OnClickListener() {
             @Override
-            public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
-                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-                if(networkInfo!=null){
-                    if(networkInfo.isConnected()){
-                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
-                            @Override
-                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                        });
-                        show_ads();
+            public void onClick(View v) {
+                if(database_size==0){
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(context,ActivityGerceklesenler.class));
+                }
+            }
+        });
+        lyt_search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(database_size==0){
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(context,ActivityKayitAra.class));
+                }
+            }
+        });
+        lyt_periods.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,ActivityPeriods.class));
+            }
+        });
+        lyt_all_recs.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(database_size==0){
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(context,ActivityTumKayitlar.class));
+                }
+            }
+        });
+        lyt_calculator.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
+                fragmentTarihHesaplayici.show(getSupportFragmentManager(),null);
+            }
+        });
+        lyt_summary.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(database_size==0){
+                    Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
+                    final View view=LayoutInflater.from(context).
+                            inflate(R.layout.lyt_dialog_summary,(RelativeLayout)findViewById(R.id.parent_layout));
+                    bottomSheetDialog.setContentView(view);
+                    show_sonOlusturulanlar((FrameLayout)view.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
+                    if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
+                        show_enYakinDogumlar((FrameLayout)view.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
                     }
+                    bottomSheetDialog.show();
                 }
             }
-        },500);
-        setProgressBarIndeterminateVisibility(false);
+        });
     }
 
     @Override

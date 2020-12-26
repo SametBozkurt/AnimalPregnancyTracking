@@ -12,16 +12,16 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/appbar_color"
-        android:elevation="@dimen/margin_kategori_1"
+        android:background="@android:color/white"
         android:padding="3dp"
+        android:elevation="@dimen/margin_kategori_1"
         android:focusableInTouchMode="true"
         android:layout_alignParentTop="true">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_cross"
+            android:src="@drawable/ic_back"
             android:id="@+id/iptal"
             android:background="@drawable/ripple_effect2"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,40 +29,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="@dimen/margin_kategori_4"
             android:contentDescription="@null"
-            app:tint="#fff" />
+            app:tint="#000" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:text="@string/nav_all_recs"
+            android:textColor="#000"
+            android:textSize="@dimen/title_size"
+            android:fontFamily="@font/josefin_sans_semibold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_view_all"
-                android:contentDescription="@null"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/margin_kategori_1"
-                app:layout_constraintEnd_toStartOf="@id/text_title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#fff" />
-
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nav_all_recs"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/comfortaa_bold"/>
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,22 +63,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_filter"
             android:text="@string/btn_filter"
+            style="@style/FilterButtonStyle"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="@dimen/margin_kategori_1"
             android:paddingStart="25dp"
             android:paddingEnd="25dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            app:backgroundTint="#18ffff"
-            android:fontFamily="@font/comfortaa_bold"
-            android:textColor="#000"
-            app:iconTint="#000"
             app:icon="@drawable/ic_sort"
-            app:rippleColor="#fff"
-            android:textSize="18sp"
             android:elevation="@dimen/margin_kategori_1"
-            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

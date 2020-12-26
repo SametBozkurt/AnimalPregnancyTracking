@@ -17,21 +17,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/btn_filter"
         android:text="@string/btn_filter"
+        style="@style/FilterButtonStyle"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="@dimen/margin_kategori_1"
         android:paddingStart="25dp"
         android:paddingEnd="25dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:backgroundTint="#18ffff"
-        android:fontFamily="@font/comfortaa_bold"
-        android:textColor="#000"
-        app:iconTint="#000"
         app:icon="@drawable/ic_sort"
-        app:rippleColor="#fff"
-        android:textSize="18sp"
         android:elevation="@dimen/margin_kategori_1"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -59,6 +59,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
+        holder.txt_durum.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
         final DataModel dataModel=dataModelArrayList.get(position);
         holder.textView.setText(new StringBuilder(dataModel.getIsim()));
         switch(code){

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 class HayvanDuzenleyici {
 
-    static void set_text(final Context context, final int isPet, final int tur_kodu, final TextView textView){
+    protected static void set_text(final Context context, final int isPet, final int tur_kodu, final TextView textView){
         final ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
         final ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
         final ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
@@ -26,37 +26,46 @@ class HayvanDuzenleyici {
             case 3: //Tüm türler-Diğer yok.
                 switch (tur_kodu){
                     case 0:
-                        textView.setText(TarihHesaplayici.DAY_COW+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_COW))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 1:
-                        textView.setText(TarihHesaplayici.DAY_SHEEP+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_SHEEP))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 2:
-                        textView.setText(TarihHesaplayici.DAY_GOAT+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_GOAT))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 3:
-                        textView.setText(TarihHesaplayici.DAY_CAT+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_CAT))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 4:
-                        textView.setText(TarihHesaplayici.DAY_DOG+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_DOG))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 5:
-                        textView.setText(TarihHesaplayici.DAY_HAMSTER+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_HAMSTER))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 6:
-                        textView.setText(TarihHesaplayici.DAY_HORSE+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_HORSE))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 7:
-                        textView.setText(TarihHesaplayici.DAY_DONKEY+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_DONKEY))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 8:
-                        textView.setText(TarihHesaplayici.DAY_CAMEL+" "+context.getString(R.string.txt_day_2));
+                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_CAMEL))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                 }
                 break;
         }
     }
-    static void set_img(final Context context, final int isPet, final int tur_kodu, final ImageView imgView){
+    protected static void set_img(final Context context, final int isPet, final int tur_kodu, final ImageView imgView){
         switch (isPet){
             case 0: //hepsi
                 switch(tur_kodu){

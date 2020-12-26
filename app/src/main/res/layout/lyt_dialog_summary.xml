@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:text="@string/nav_sum"
         android:textSize="28sp"
-        android:textColor="#E53935"
+        android:textColor="@android:color/white"
         android:gravity="center"
-        android:textStyle="bold"
+        android:fontFamily="@font/josefin_sans_semibold"
         android:padding="@dimen/margin_kategori_2"/>
 
     <FrameLayout

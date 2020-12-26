@@ -12,14 +12,15 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/appbar_color"
+        android:background="@android:color/white"
         android:padding="3dp"
+        android:elevation="@dimen/margin_kategori_1"
         android:layout_alignParentTop="true">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_cross"
+            android:src="@drawable/ic_back"
             android:id="@+id/iptal"
             android:background="@drawable/ripple_effect"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,38 +28,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="@dimen/margin_kategori_4"
             android:contentDescription="@null"
-            app:tint="#fff" />
+            app:tint="#000" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:padding="@dimen/margin_kategori_3"
+            android:text="@string/activity_ara_title"
+            android:textColor="#000"
+            android:textSize="@dimen/title_size"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/josefin_sans_semibold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/icon_search"
-                android:contentDescription="@null"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/margin_kategori_1"
-                app:tint="#fff" />
-
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_kategori_3"
-                android:text="@string/activity_ara_title"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/comfortaa_bold"/>
-
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

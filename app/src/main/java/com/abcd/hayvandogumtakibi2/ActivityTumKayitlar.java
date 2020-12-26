@@ -53,14 +53,9 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                 }
             }
         });
+        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
         initProgressBarAndTask();
-        relativeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
-                initFilterMenu();
-            }
-        });
+        initFilterMenu();
     }
 
     void initProgressBarAndTask(){

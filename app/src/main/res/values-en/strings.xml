@@ -117,10 +117,10 @@
     <string name="body_dlg_isaretle">This process cannot be undone and it is permanent. Also you cannot edit this anymore. Are you still sure about to mark it?</string>
     <string name="im_sure">I\'m Sure</string>
     <string name="nav_all_recs">All Records</string>
-    <string name="cat_name">Names</string>
-    <string name="cat_id">IDs</string>
-    <string name="cat_date1">Ins. Dates</string>
-    <string name="cat_date2">Birth Dates</string>
+    <string name="cat_name">Name</string>
+    <string name="cat_id">ID</string>
+    <string name="cat_date1">Insemination Date</string>
+    <string name="cat_date2">Birth Date</string>
     <string name="version">Version:</string>
     <string name="privacy_policy">Go to Privacy Policy</string>
     <string name="vote">Vote in Store</string>
