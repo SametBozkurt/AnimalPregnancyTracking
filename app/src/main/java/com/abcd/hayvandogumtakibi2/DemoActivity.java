@@ -23,15 +23,17 @@ public class DemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        final Thread copcuThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                clean_redundants();
-                clean_caches();
-            }
-        });
-        copcuThread.setName(THREAD_CLEANER_NAME);
-        copcuThread.start();
+        if(PreferencesHolder.getIsCacheCleanerEnabled(context)){
+            final Thread copcuThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    clean_redundants();
+                    clean_caches();
+                }
+            });
+            copcuThread.setName(THREAD_CLEANER_NAME);
+            copcuThread.start();
+        }
     }
 
     @Override
@@ -46,7 +48,7 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    void clean_redundants(){
+    protected void clean_redundants(){
         try{
             final SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(context);
             final ArrayList<DataModel> dataModelArrayList=sqLiteDatabaseHelper.getAllData(null,null);
@@ -70,7 +72,7 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    void clean_caches(){
+    protected void clean_caches(){
         try {
             final String DIR_CACHE_GLIDE = "/image_manager_disk_cache";
             final File cachesDir = context.getCacheDir();

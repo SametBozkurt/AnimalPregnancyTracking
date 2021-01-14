@@ -29,6 +29,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="@dimen/margin_kategori_4"
             android:contentDescription="@null"
+            android:onClick="viewClick"
             app:tint="#000" />
 
         <TextView
@@ -37,8 +38,8 @@
             android:layout_height="wrap_content"
             android:text="@string/nav_all_recs"
             android:textColor="#000"
-            android:textSize="@dimen/title_size"
             android:fontFamily="@font/josefin_sans_semibold"
+            android:textSize="@dimen/title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +65,7 @@
             android:id="@+id/btn_filter"
             android:text="@string/btn_filter"
             style="@style/FilterButtonStyle"
+            android:onClick="viewClick"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="@dimen/margin_kategori_1"
             android:paddingStart="25dp"

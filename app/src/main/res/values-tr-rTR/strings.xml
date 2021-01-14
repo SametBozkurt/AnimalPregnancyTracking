@@ -157,4 +157,6 @@
     <string name="textsizeLarge">Büyük-18pt</string>
     <string name="textsizeMedium">Orta/Varsayılan-14pt</string>
     <string name="textsizeSmall">Küçük-12pt</string>
+    <string name="title_others">Diğer Seçenekler</string>
+    <string name="switch_cleaner_on">Otomatik önbellek temizleyici</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -43,7 +44,6 @@ public class PrimaryActivity extends AppCompatActivity {
     AdRequest adRequest;
     RelativeLayout relativeLayout;
     FrameLayout frameLayout;
-    LinearLayout lyt_edit,lyt_incoming,lyt_happened,lyt_search,lyt_periods,lyt_all_recs,lyt_calculator,lyt_summary;
     InterstitialAd mInterstitialAd = new InterstitialAd(context);
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
 
@@ -53,21 +53,12 @@ public class PrimaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_primary);
         relativeLayout=findViewById(R.id.main_layout);
         final ImageView img_menu=findViewById(R.id.img_menu);
-        final ImageView cross=findViewById(R.id.iptal);
         final FloatingActionButton btn_add = findViewById(R.id.create);
         final FloatingActionButton btn_pet = findViewById(R.id.fab_pet);
         final FloatingActionButton btn_barn = findViewById(R.id.fab_barn);
         final TextView txt_pet = findViewById(R.id.text_pet);
         final TextView txt_barn = findViewById(R.id.text_barn);
         frameLayout=findViewById(R.id.no_rec_msg_container);
-        lyt_edit=findViewById(R.id.edit);
-        lyt_incoming=findViewById(R.id.incoming);
-        lyt_happened=findViewById(R.id.happened);
-        lyt_search=findViewById(R.id.search);
-        lyt_periods=findViewById(R.id.periods);
-        lyt_all_recs=findViewById(R.id.all_recs);
-        lyt_calculator=findViewById(R.id.calculator);
-        lyt_summary=findViewById(R.id.summary);
         final PopupMenu popupMenu=new PopupMenu(context,img_menu);
         database_size=databaseHelper.getSize();
         if(database_size==0){
@@ -183,99 +174,77 @@ public class PrimaryActivity extends AppCompatActivity {
                 //Besi hayvanı ise 2
             }
         });
-        cross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        lyt_edit.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
+    @SuppressLint("NonConstantResourceId")
+    public void viewClick(View view){
+        switch (view.getId()){
+            case R.id.edit:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(context,ActivityKayitDuzenle.class));
                 }
-            }
-        });
-        lyt_incoming.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.incoming:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(context,ActivityKritikler.class));
                 }
-            }
-        });
-        lyt_happened.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.happened:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(context,ActivityGerceklesenler.class));
                 }
-            }
-        });
-        lyt_search.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.search:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(context,ActivityKayitAra.class));
                 }
-            }
-        });
-        lyt_periods.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.periods:
                 startActivity(new Intent(context,ActivityPeriods.class));
-            }
-        });
-        lyt_all_recs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.all_recs:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     startActivity(new Intent(context,ActivityTumKayitlar.class));
                 }
-            }
-        });
-        lyt_calculator.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.calculator:
                 final FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
                 fragmentTarihHesaplayici.show(getSupportFragmentManager(),null);
-            }
-        });
-        lyt_summary.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.summary:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
                     final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
-                    final View view=LayoutInflater.from(context).
+                    final View view1=LayoutInflater.from(context).
                             inflate(R.layout.lyt_dialog_summary,(RelativeLayout)findViewById(R.id.parent_layout));
-                    bottomSheetDialog.setContentView(view);
-                    show_sonOlusturulanlar((FrameLayout)view.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
+                    bottomSheetDialog.setContentView(view1);
+                    show_sonOlusturulanlar((FrameLayout)view1.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
                     if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
-                        show_enYakinDogumlar((FrameLayout)view.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
+                        show_enYakinDogumlar((FrameLayout)view1.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
                     }
                     bottomSheetDialog.show();
                 }
-            }
-        });
+                break;
+            case R.id.iptal:
+                onBackPressed();
+                break;
+        }
     }
 
     @Override
@@ -299,7 +268,7 @@ public class PrimaryActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void show_ads(){
+    protected void show_ads(){
         mInterstitialAd.setAdUnitId(INTERSTITIAL_TEST_ID);
         adRequest=new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
@@ -317,7 +286,7 @@ public class PrimaryActivity extends AppCompatActivity {
         });
     }
 
-    void show_enYakinDogumlar(final FrameLayout yakinDogumlarContainer,final BottomSheetDialog bottomSheetDialog){
+    protected void show_enYakinDogumlar(final FrameLayout yakinDogumlarContainer,final BottomSheetDialog bottomSheetDialog){
         final LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View view = layoutInflater.inflate(R.layout.lyt_en_yakin_dogumlar,yakinDogumlarContainer,false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewYakinDogumlar);
@@ -336,7 +305,7 @@ public class PrimaryActivity extends AppCompatActivity {
         yakinDogumlarContainer.addView(view);
     }
 
-    void show_sonOlusturulanlar(final FrameLayout sonOlusturulanlarContainer,final BottomSheetDialog bottomSheetDialog){
+    protected void show_sonOlusturulanlar(final FrameLayout sonOlusturulanlarContainer,final BottomSheetDialog bottomSheetDialog){
         final LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View view = layoutInflater.inflate(R.layout.lyt_son_olusturulanlar,sonOlusturulanlarContainer,false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSonOlusturulanlar);

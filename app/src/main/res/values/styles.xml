@@ -132,10 +132,10 @@
         <item name="android:background">@drawable/sum_dialog_background</item>
     </style>
     <style name="FilterButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">#18ffff</item>
-        <item name="fontFamily">@font/josefin_sans_semibold</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="iconTint">@android:color/black</item>
+        <item name="backgroundTint">#5e35b1</item>
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="iconTint">@android:color/white</item>
         <item name="rippleColor">@android:color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>

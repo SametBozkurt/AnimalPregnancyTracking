@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
             android:id="@+id/iptal"
+            android:onClick="viewClick"
             android:background="@drawable/ripple_effect"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -130,6 +131,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -160,6 +162,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -190,6 +193,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -229,6 +233,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -259,6 +264,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -289,6 +295,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -329,6 +336,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView
@@ -359,6 +367,7 @@
                             android:background="@drawable/ripple_effect2"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="viewClick"
                             android:orientation="vertical">
 
                             <ImageView

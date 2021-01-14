@@ -40,9 +40,11 @@ public class ActivityAyarlar extends AppCompatActivity {
         textSize=findViewById(R.id.text_size);
         final Button changeTextSize=findViewById(R.id.change_textSize);
         final SwitchMaterial switchNotifications=findViewById(R.id.switch_notifications);
+        final SwitchMaterial switchCleaner=findViewById(R.id.switch_cleaner);
         changeHour=findViewById(R.id.change_hour);
         changeRange=findViewById(R.id.change_the_range);
         switchNotifications.setChecked(PreferencesHolder.getIsIncomingBirthNotEnabled(context));
+        switchCleaner.setChecked(PreferencesHolder.getIsCacheCleanerEnabled(context));
         switchNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -58,6 +60,17 @@ public class ActivityAyarlar extends AppCompatActivity {
                     final PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ALARM_REQ_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
                     alarmManager.cancel(pendingIntent);
                     disableNotElements();
+                }
+            }
+        });
+        switchCleaner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    PreferencesHolder.setIsCacheCleanerEnabled(context,true);
+                }
+                else{
+                    PreferencesHolder.setIsCacheCleanerEnabled(context,false);
                 }
             }
         });

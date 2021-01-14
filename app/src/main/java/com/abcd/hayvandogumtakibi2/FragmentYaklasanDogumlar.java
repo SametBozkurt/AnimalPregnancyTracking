@@ -61,13 +61,8 @@ public class FragmentYaklasanDogumlar extends Fragment {
             }
         });
         initProgressBarAndTask();
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
-                initFilterMenu();
-            }
-        });
+        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
+        initFilterMenu();
         return view;
     }
 
@@ -92,7 +87,8 @@ public class FragmentYaklasanDogumlar extends Fragment {
     }
 
     void initFilterMenu(){
-        @SuppressLint("InflateParams") final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,null);
+        @SuppressLint("InflateParams")
+        final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,null);
         bottomSheetDialog.setContentView(view);
         final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);
         radioGroupFilter=view.findViewById(R.id.radio_group_filter);

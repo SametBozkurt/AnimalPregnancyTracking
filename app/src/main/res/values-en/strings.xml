@@ -157,4 +157,6 @@
     <string name="textsizeLarge">Large-18pt</string>
     <string name="textsizeMedium">Medium/Default-14pt</string>
     <string name="textsizeSmall">Small-12pt</string>
+    <string name="title_others">Other Options</string>
+    <string name="switch_cleaner_on">Auto cache cleaner</string>
 </resources>

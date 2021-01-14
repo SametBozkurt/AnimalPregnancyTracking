@@ -10,6 +10,7 @@ public class PreferencesHolder {
     private static final String CONF_KEY_DAY_RANGE = "critical_day_range";
     private static final String CONF_KEY_INCOMING_BIRTH_NOT = "is_incoming_birth_not_enabled";
     private static final String CONF_KEY_TEXT_SIZE_OF_CARDS = "text_size_of_cards";
+    private static final String CONF_KEY_CACHE_CLEANER = "is_cache_cleaner_enabled";
 
     static int getAlarmHour(final Context context){
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
@@ -56,6 +57,18 @@ public class PreferencesHolder {
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
         editor.putFloat(CONF_KEY_TEXT_SIZE_OF_CARDS, size);
+        editor.apply();
+    }
+
+    static boolean getIsCacheCleanerEnabled(final Context context){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        return sharedPref.getBoolean(CONF_KEY_CACHE_CLEANER, true);
+    }
+
+    static void setIsCacheCleanerEnabled(final Context context, boolean preference){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(CONF_KEY_CACHE_CLEANER, preference);
         editor.apply();
     }
 

@@ -1,12 +1,12 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -35,36 +35,12 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit_duzenle);
         relativeLayout=findViewById(R.id.main_layout);
-        final ImageView cross=findViewById(R.id.iptal);
-        final Button btn_filter=findViewById(R.id.btn_filter);
-        cross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        btn_filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(bottomSheetDialog!=null){
-                    radioGroupFilter.check(selectedRadioButtonFilter);
-                    radioGroupOrder.check(selectedRadioButtonOrder);
-                    switchMaterial.setChecked(switchIsChecked);
-                    bottomSheetDialog.show();
-                }
-            }
-        });
         initProgressBarAndTask();
-        relativeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
-                initFilterMenu();
-            }
-        });
+        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
+        initFilterMenu();
     }
 
-    void initProgressBarAndTask(){
+    public void initProgressBarAndTask(){
         recyclerView=findViewById(R.id.recyclerView);
         final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(layoutManager);
@@ -88,7 +64,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         },600);
     }
 
-    void initFilterMenu(){
+    public void initFilterMenu(){
         final View view= LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
         bottomSheetDialog.setContentView(view);
         final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);
@@ -169,6 +145,23 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                 bottomSheetDialog.dismiss();
             }
         });
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    public void viewClick(View view){
+        switch(view.getId()){
+            case R.id.iptal:
+                onBackPressed();
+                break;
+            case R.id.btn_filter:
+                if(bottomSheetDialog!=null){
+                    radioGroupFilter.check(selectedRadioButtonFilter);
+                    radioGroupOrder.check(selectedRadioButtonOrder);
+                    switchMaterial.setChecked(switchIsChecked);
+                    bottomSheetDialog.show();
+                }
+                break;
+        }
     }
 
     @Override

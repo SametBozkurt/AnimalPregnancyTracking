@@ -157,4 +157,34 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_style_5"
+        android:layout_margin="@dimen/margin_kategori_2"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginTop="@dimen/margin_kategori_3"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="@string/title_others"
+            android:textColor="#5e35b1"
+            android:textSize="15sp" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_cleaner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_kategori_3"
+            android:layout_marginEnd="@dimen/margin_kategori_3"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/switch_cleaner_on"
+            android:textColor="#000" />
+
+    </LinearLayout>
+
 </LinearLayout>
