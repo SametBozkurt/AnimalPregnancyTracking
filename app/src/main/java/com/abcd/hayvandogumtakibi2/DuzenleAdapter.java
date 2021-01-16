@@ -128,7 +128,6 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         final FloatingActionButton button_duzenle;
         final FloatingActionButton button_sil;
         final ImageView img_animal;
-        final FrameLayout frameLayout;
 
         CustomViewHolder(View itemView) {
             super(itemView);
@@ -136,7 +135,6 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
             textView=itemView.findViewById(R.id.txt_isim);
             button_duzenle=itemView.findViewById(R.id.button_edit);
             button_sil=itemView.findViewById(R.id.button_del);
-            frameLayout=itemView.findViewById(R.id.container);
         }
     }
 }

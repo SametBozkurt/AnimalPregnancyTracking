@@ -50,26 +50,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActivityEdit extends AppCompatActivity implements CalendarTools {
+public class ActivityEdit extends AppCompatActivity {
 
-    private static final int GALLERY_REQ_CODE=12321;
+    private static final int GALLERY_REQ_CODE = 12321;
     private static final int CAMERA_REQ_CODE = 12322;
     private static final int PERMISSION_REQ_CODE = 21323;
-    String secilen_tur="",img_name="", sperma_name="";
+    private String secilen_tur="",img_name="", sperma_name="";
     private boolean boolTarih=true, otherFieldsIsShown=false;
     private int kayit_id,petCode,calisma_sayaci=0;
-    final Context context=this;
-    final Calendar takvim=Calendar.getInstance(), takvim2=Calendar.getInstance();
-    Date date1=new Date(), date2=new Date();
-    final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-    DataModel dataModel;
-    SQLiteDatabaseHelper databaseHelper;
-    RelativeLayout main_Layout;
-    TextInputLayout textInputLayout;
-    TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
-    Button kaydet;
-    Spinner tur_sec;
-    ImageView photo,iptal;
+    private final Context context=this;
+    private final Calendar takvim=Calendar.getInstance(), takvim2=Calendar.getInstance();
+    private Date date1=new Date(), date2=new Date();
+    private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+    private DataModel dataModel;
+    private SQLiteDatabaseHelper databaseHelper;
+    private RelativeLayout main_Layout;
+    private TextInputLayout textInputLayout;
+    private TextInputEditText txt_isim, txt_kupe_no,dollenme_tarihi, dogum_tarihi;
+    private Button kaydet;
+    private Spinner tur_sec;
+    private ImageView photo,iptal;
+    private final TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +88,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         photo=findViewById(R.id.add_photo);
         final TextView txtOtherFields=findViewById(R.id.txt_other_details);
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
-        final Bundle bundle=getIntent().getExtras();
-        dataModel=databaseHelper.getDataById(bundle.getInt("kayit_id"));
+        dataModel=databaseHelper.getDataById(getIntent().getExtras().getInt("kayit_id"));
         degerleri_yerlestir();
         txtOtherFields.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,14 +120,14 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         });
     }
 
-    void degerleri_yerlestir(){
+    private void degerleri_yerlestir(){
         kayit_id=dataModel.getId();
         petCode=dataModel.getIs_evcilhayvan();
         date1.setTime(Long.parseLong(String.valueOf(dataModel.getTohumlama_tarihi())));
         takvim.setTime(date1);
         date2.setTime(Long.parseLong(String.valueOf(dataModel.getDogum_tarihi())));
         takvim2.setTime(date2);
-        ArrayAdapter<String> spinnerAdapter;
+        final ArrayAdapter<String> spinnerAdapter;
         switch(petCode){
             case 0:
                 spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,getResources().getStringArray(R.array.animal_list));
@@ -153,7 +153,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         tur_sec.setSelection(Integer.parseInt(dataModel.getTur()));
         img_name=dataModel.getFotograf_isim();
         sperma_name=dataModel.getSperma_kullanilan();
-        main_Layout.post(new Runnable() {
+        main_Layout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
@@ -166,7 +166,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                     Glide.with(context).load(R.drawable.icon_photo_add).into(photo);
                 }
             }
-        });
+        },100);
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -182,7 +182,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                         case 0://Önceki sürümler için
                             if(position!=6){
                                 textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                                oto_tarih_hesapla(date1);
+                                tarihHesaplayici.sendDate();
                             }
                             else{
                                 textInputLayout.setHelperText("");
@@ -191,7 +191,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                         case 1: case 2: //Evcil & çiftlik hayvan ise
                             if(position!=3){
                                 textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                                oto_tarih_hesapla(date1);
+                                tarihHesaplayici.sendDate();
                             }
                             else{
                                 textInputLayout.setHelperText("");
@@ -222,12 +222,12 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                         switch (petCode){
                             case 0://Önceki sürümler için
                                 if(!secilen_tur.equals("6")){
-                                    oto_tarih_hesapla(date1);
+                                    tarihHesaplayici.sendDate();
                                 }
                                 break;
                             case 1: case 2: //Evcil kodu //Besi kodu
                                 if(!secilen_tur.equals("3")){
-                                    oto_tarih_hesapla(date1);
+                                    tarihHesaplayici.sendDate();
                                 }
                                 break;
                         }
@@ -327,6 +327,17 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 popupMenu.show();
             }
         });
+        tarihHesaplayici.setDateChangeListener(new TarihHesaplayici.DateChangeListener() {
+            @Override
+            public void onNewDateSet() {
+                if(boolTarih){
+                    takvim2.setTime(TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date1,getClass().getName()).getTime());
+                    date2=takvim2.getTime();
+                    dogum_tarihi.setText(dateFormat.format(date2));
+                    Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -362,23 +373,15 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
     }
 
     @Override
-    public void oto_tarih_hesapla(Date date) {
-        if(boolTarih){
-            takvim2.setTime(TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime());
-            date2=takvim2.getTime();
-            dogum_tarihi.setText(dateFormat.format(date2));
-            Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
-        return 0;
-    }
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GarbageCleaner.clean_redundants(context);
+            }
+        });
+        thread.start();
         finish();
     }
 
@@ -392,7 +395,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         }
     }
 
-    private void launchImageCrop(Uri uri){
+    private void launchImageCrop(final Uri uri){
         CropImage.activity(uri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1,1)
@@ -401,7 +404,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
                 .start(this);
     }
 
-    public File getImageFile() {
+    private File getImageFile() {
         final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
         final File eski_dosya=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name);
         if(eski_dosya.exists()&&eski_dosya.isFile()){
@@ -411,7 +414,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         return imgFile;
     }
 
-    private void save_photo(Bitmap bitmap){
+    private void save_photo(final Bitmap bitmap){
         int croped_width=bitmap.getWidth();
         int croped_height=bitmap.getHeight();
         while(croped_width>1000){
@@ -434,7 +437,7 @@ public class ActivityEdit extends AppCompatActivity implements CalendarTools {
         }
     }
 
-    void open_cam(){
+    private void open_cam(){
         final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (camera_intent.resolveActivity(getPackageManager())!=null) {
             final File photoFile=getImageFile();

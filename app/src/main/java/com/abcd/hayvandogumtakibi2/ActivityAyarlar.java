@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,13 +27,11 @@ public class ActivityAyarlar extends AppCompatActivity {
     private static final String ALARM_INTENT = "SET_AN_ALARM";
     Button changeHour, changeRange;
     TextView notificationHour, notifyRange, textSize;
-    LinearLayout parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ayarlar);
-        parentLayout=findViewById(R.id.linear_layout);
         notificationHour=findViewById(R.id.text_hour);
         notifyRange=findViewById(R.id.text_range);
         textSize=findViewById(R.id.text_size);
@@ -66,12 +63,7 @@ public class ActivityAyarlar extends AppCompatActivity {
         switchCleaner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    PreferencesHolder.setIsCacheCleanerEnabled(context,true);
-                }
-                else{
-                    PreferencesHolder.setIsCacheCleanerEnabled(context,false);
-                }
+                PreferencesHolder.setIsCacheCleanerEnabled(context, isChecked);
             }
         });
         changeHour.setOnClickListener(new View.OnClickListener() {

@@ -35,7 +35,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActivityDetails extends AppCompatActivity implements CalendarTools {
+public class ActivityDetails extends AppCompatActivity {
 
     private Boolean isOtherFieldsShown=false;
     private DataModel dataModel;
@@ -245,10 +245,6 @@ public class ActivityDetails extends AppCompatActivity implements CalendarTools 
         });
     }
 
-    @Override
-    public void oto_tarih_hesapla(Date date) {}
-
-    @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
         final long gun=(dogum_tarihi_in_millis-System.currentTimeMillis())/DAY_IN_MILLIS;
         return (int)gun;

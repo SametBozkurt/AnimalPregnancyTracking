@@ -28,10 +28,11 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
     private boolean boolTarih=false;
     private EditText btn_tarih_dogum,btn_tarih_dollenme;
     private String secilen_tur;
-    final int petCode=0;
+    private final int petCode=0;
     private Date date_dollenme=new Date();
-    final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-    Context context;
+    private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+    private final TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance();
+    private Context context;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -50,14 +51,14 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
         final ArrayList<String> _turler_list=new ArrayList<>(9);
         loadArrayElements(_turler_list);
         date_dollenme=gecerli_takvim.getTime();
-        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,_turler_list);
+        final ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,_turler_list);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_text);
         spinner_turler.setAdapter(spinnerAdapter);
         spinner_turler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 secilen_tur=String.valueOf(position);
-                oto_tarih_hesapla(date_dollenme);
+                tarihHesaplayici.sendDate();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -74,24 +75,25 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
                         date_dollenme=gecerli_takvim.getTime();
                         btn_tarih_dollenme.setText(dateFormat.format(date_dollenme));
                         boolTarih=true;
-                        oto_tarih_hesapla(date_dollenme);
+                        tarihHesaplayici.sendDate();
                     }
                 },gecerli_takvim.get(Calendar.YEAR),gecerli_takvim.get(Calendar.MONTH),gecerli_takvim.get(Calendar.DAY_OF_MONTH));
                 dialog.show();
             }
         });
+        tarihHesaplayici.setDateChangeListener(new TarihHesaplayici.DateChangeListener() {
+            @Override
+            public void onNewDateSet() {
+                if(boolTarih){
+                    final Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date_dollenme,getClass().getName()).getTime();
+                    btn_tarih_dogum.setText(dateFormat.format(date_dogum));
+                }
+            }
+        });
         return view;
     }
 
-    void oto_tarih_hesapla(Date date) {
-        if(boolTarih){
-            final Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date,getClass().getName()).getTime();
-            btn_tarih_dogum.setText(dateFormat.format(date_dogum));
-        }
-    }
-
-
-    void loadArrayElements(final ArrayList<String> turler_list){
+    public void loadArrayElements(@NonNull final ArrayList<String> turler_list){
         turler_list.add(getString(R.string.tur_0));
         turler_list.add(getString(R.string.tur_1));
         turler_list.add(getString(R.string.tur_2));

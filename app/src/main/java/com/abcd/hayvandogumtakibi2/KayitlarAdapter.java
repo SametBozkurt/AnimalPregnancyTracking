@@ -118,13 +118,11 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
 
         final TextView textView;
         final ImageView img_animal;
-        final FrameLayout frameLayout;
 
         private CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
             textView=itemView.findViewById(R.id.text);
-            frameLayout=itemView.findViewById(R.id.container);
         }
     }
 }

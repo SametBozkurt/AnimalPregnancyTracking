@@ -139,7 +139,6 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
         final TextView textView,txt_durum;
         final ImageView img_photo,img_clock;
-        final FrameLayout frameLayout;
 
         CustomViewHolder(View itemView) {
             super(itemView);
@@ -147,7 +146,6 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
             txt_durum=itemView.findViewById(R.id.txt_durum);
             img_photo=itemView.findViewById(R.id.photo);
             img_clock=itemView.findViewById(R.id.img_clock);
-            frameLayout=itemView.findViewById(R.id.container);
         }
     }
 

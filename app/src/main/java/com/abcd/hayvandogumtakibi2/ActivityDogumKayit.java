@@ -50,7 +50,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ActivityDogumKayit extends AppCompatActivity implements CalendarTools{
+public class ActivityDogumKayit extends AppCompatActivity{
 
     private static final int GALLERY_REQ_CODE = 12321;
     private static final int CAMERA_REQ_CODE = 12322;
@@ -59,7 +59,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private int _isPet;
     private boolean boolTarih=false, otherFieldsIsShown=false;
     private final Calendar gecerli_takvim=Calendar.getInstance(), hesaplanan_tarih=Calendar.getInstance();
-    final Context context=this;
+    private final Context context=this;
     private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(context);
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private Date date_dollenme, date_dogum;
@@ -68,6 +68,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
     private ImageView photo, iptal;
     private Spinner spinner_turler;
+    private final TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,25 +107,12 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 secilen_tur=String.valueOf(position);
-                switch (_isPet){
-                    case 1: //Evcil hayvan ise
-                        if(position!=3){
-                            textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            oto_tarih_hesapla(date_dollenme);
-                        }
-                        else{
-                            textInputLayout.setHelperText("");
-                        }
-                        break;
-                    case 2: //Besi hayvanı ise
-                        if(position!=3){
-                            textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                            oto_tarih_hesapla(date_dollenme);
-                        }
-                        else{
-                            textInputLayout.setHelperText("");
-                        }
-                        break;
+                if(position!=3){
+                    textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
+                    tarihHesaplayici.sendDate();
+                }
+                else{
+                    textInputLayout.setHelperText("");
                 }
             }
             @Override
@@ -142,17 +130,8 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                         date_dollenme=gecerli_takvim.getTime();
                         btn_tarih_dollenme.setText(dateFormat.format(date_dollenme));
                         boolTarih=true;
-                        switch (_isPet){
-                            case 1: //Evcil hayvan ise
-                                if(!secilen_tur.equals("3")){
-                                    oto_tarih_hesapla(date_dollenme);
-                                }
-                                break;
-                            case 2: //Besi hayvanı ise
-                                if(!secilen_tur.equals("3")){
-                                    oto_tarih_hesapla(date_dollenme);
-                                }
-                                break;
+                        if(!secilen_tur.equals("3")){
+                            tarihHesaplayici.sendDate();
                         }
                     }
                 },gecerli_takvim.get(Calendar.YEAR),gecerli_takvim.get(Calendar.MONTH),gecerli_takvim.get(Calendar.DAY_OF_MONTH));
@@ -256,7 +235,17 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
                 }
             }
         });
-
+        tarihHesaplayici.setDateChangeListener(new TarihHesaplayici.DateChangeListener() {
+            @Override
+            public void onNewDateSet() {
+                if(boolTarih){
+                    hesaplanan_tarih.setTime(TarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date_dollenme,getClass().getName()).getTime());
+                    date_dogum=hesaplanan_tarih.getTime();
+                    btn_tarih_dogum.setText(dateFormat.format(date_dogum));
+                    Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -294,13 +283,17 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(gorsel_ad.length()!=0) {
-            new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad).delete();
-        }
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GarbageCleaner.clean_redundants(context);
+            }
+        });
+        thread.start();
         finish();
     }
 
-    void kayit_gir(final View snackbar_view){
+    public void kayit_gir(final View snackbar_view){
         if (edit_isim.getText().toString().isEmpty()||
                 btn_tarih_dollenme.getText().toString().isEmpty()||
                 btn_tarih_dogum.getText().toString().isEmpty()){
@@ -322,22 +315,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         }
     }
 
-    @Override
-    public void oto_tarih_hesapla(Date date) {
-        if(boolTarih){
-            hesaplanan_tarih.setTime(TarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date,getClass().getName()).getTime());
-            date_dogum=hesaplanan_tarih.getTime();
-            btn_tarih_dogum.setText(dateFormat.format(date_dogum));
-            Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
-        return 0;
-    }
-
-    void launchImageCrop(Uri uri){
+    public void launchImageCrop(final Uri uri){
         CropImage.activity(uri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1,1)
@@ -356,7 +334,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         return imgFile;
     }
 
-    void save_photo(@NonNull Bitmap bitmap){
+    public void save_photo(@NonNull final Bitmap bitmap){
         int cropped_width=bitmap.getWidth();
         int cropped_height=bitmap.getHeight();
         while(cropped_width>1000){
@@ -382,7 +360,7 @@ public class ActivityDogumKayit extends AppCompatActivity implements CalendarToo
         }
     }
 
-    void open_cam(){
+    public void open_cam(){
         final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (camera_intent.resolveActivity(getPackageManager())!=null) {
             final File photoFile=getImageFile();

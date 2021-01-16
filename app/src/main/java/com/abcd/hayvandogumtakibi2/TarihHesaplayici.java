@@ -3,7 +3,7 @@ package com.abcd.hayvandogumtakibi2;
 import java.util.Calendar;
 import java.util.Date;
 
-class TarihHesaplayici {
+public class TarihHesaplayici {
 
     static final int DAY_COW = 283;
     static final int DAY_SHEEP = 152;
@@ -17,8 +17,19 @@ class TarihHesaplayici {
     static final int DAY_TO_NEXT_INS_COW = 64;
     static final int DAY_TO_ABORT_MILKING_COW = -60;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.FragmentTarihHesaplayici";
+    private DateChangeListener dateChangeListener;
+    private static TarihHesaplayici tarihHesaplayici=null;
 
-    static Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
+    private TarihHesaplayici(){}
+
+    public static TarihHesaplayici getInstance(){
+        if(tarihHesaplayici==null){
+            tarihHesaplayici=new TarihHesaplayici();
+        }
+        return tarihHesaplayici;
+    }
+
+    public static Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
         final Calendar calendar=Calendar.getInstance();
         calendar.setTime(tarih);
         if(class_name.equals(ActivityName)){
@@ -134,7 +145,7 @@ class TarihHesaplayici {
         return calendar;
     }
 
-    static long get_kizdirma_tarihi(long birth_date_in_millis){
+    public static long get_kizdirma_tarihi(long birth_date_in_millis){
         final Calendar calendar=Calendar.getInstance();
         calendar.setTimeInMillis(birth_date_in_millis);
         calendar.add(Calendar.DATE,DAY_TO_NEXT_INS_COW);
@@ -146,6 +157,20 @@ class TarihHesaplayici {
         calendar.setTimeInMillis(birth_date_in_millis);
         calendar.add(Calendar.DATE,DAY_TO_ABORT_MILKING_COW);
         return calendar.getTimeInMillis();
+    }
+
+    public interface DateChangeListener{
+        void onNewDateSet();
+    }
+
+    public void setDateChangeListener(final DateChangeListener dateChangeListener){
+        this.dateChangeListener=dateChangeListener;
+    }
+
+    public void sendDate(){
+        if(dateChangeListener!=null){
+            dateChangeListener.onNewDateSet();
+        }
     }
 
 }

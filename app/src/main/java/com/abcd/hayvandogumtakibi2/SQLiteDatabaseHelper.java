@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTools {
+public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     private static SQLiteDatabaseHelper databaseHelper=null;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
@@ -327,10 +327,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper implements CalendarTo
         database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(id)});
     }
 
-    @Override
-    public void oto_tarih_hesapla(Date date) {}
-
-    @Override
     public int get_gun_sayisi(long dogum_tarihi_in_millis) {
         final long gun=(dogum_tarihi_in_millis-System.currentTimeMillis())/DAY_IN_MILLIS;
         return (int)gun;

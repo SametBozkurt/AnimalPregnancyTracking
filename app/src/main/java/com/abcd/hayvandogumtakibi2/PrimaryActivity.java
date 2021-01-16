@@ -46,6 +46,8 @@ public class PrimaryActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     InterstitialAd mInterstitialAd = new InterstitialAd(context);
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+    BottomSheetDialog bottomSheetDialog;
+    View view1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,14 +232,6 @@ public class PrimaryActivity extends AppCompatActivity {
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
-                    final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
-                    final View view1=LayoutInflater.from(context).
-                            inflate(R.layout.lyt_dialog_summary,(RelativeLayout)findViewById(R.id.parent_layout));
-                    bottomSheetDialog.setContentView(view1);
-                    show_sonOlusturulanlar((FrameLayout)view1.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
-                    if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
-                        show_enYakinDogumlar((FrameLayout)view1.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
-                    }
                     bottomSheetDialog.show();
                 }
                 break;
@@ -257,6 +251,12 @@ public class PrimaryActivity extends AppCompatActivity {
             final View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
             frameLayout.addView(view);
         }
+        relativeLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initBottomSheetDialog();
+            }
+        },300);
     }
 
     @Override
@@ -322,6 +322,16 @@ public class PrimaryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(kayitlarAdapter);
         sonOlusturulanlarContainer.addView(view);
+    }
+
+    protected void initBottomSheetDialog(){
+        bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
+        view1=LayoutInflater.from(context).inflate(R.layout.lyt_dialog_summary,(RelativeLayout)findViewById(R.id.parent_layout));
+        bottomSheetDialog.setContentView(view1);
+        show_sonOlusturulanlar((FrameLayout)view1.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
+        if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
+            show_enYakinDogumlar((FrameLayout)view1.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
+        }
     }
 
 }
