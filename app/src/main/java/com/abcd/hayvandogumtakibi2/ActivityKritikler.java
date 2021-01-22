@@ -31,7 +31,8 @@ public class ActivityKritikler extends AppCompatActivity {
     private FrameLayout adContainerView, fragment_container;
     private AdView adView;
     private RelativeLayout relativeLayout;
-    final Context context=this;
+    private final Context context=this;
+    private boolean listModeEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class ActivityKritikler extends AppCompatActivity {
         setContentView(R.layout.activity_kritikler);
         relativeLayout=findViewById(R.id.parent);
         adContainerView=findViewById(R.id.ad_view_container);
-        final ImageView cross=findViewById(R.id.iptal);
+        final ImageView cross=findViewById(R.id.iptal), imgListMode=findViewById(R.id.listMode);
         fragment_container=findViewById(R.id.fragment_container);
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         dataModelArrayList=databaseHelper.getKritikOlanlar(null,30);
@@ -59,6 +60,33 @@ public class ActivityKritikler extends AppCompatActivity {
                 }
             }
         },500);
+        if(dataModelArrayList.isEmpty()){
+           imgListMode.setVisibility(View.INVISIBLE);
+        }
+        else{
+            listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
+            if(listModeEnabled){
+                imgListMode.setImageResource(R.drawable.ic_view_all);
+            }
+            else{
+                imgListMode.setImageResource(R.drawable.ic_tile);
+            }
+            imgListMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listModeEnabled){
+                        listModeEnabled=false;
+                        imgListMode.setImageResource(R.drawable.ic_tile);
+                    }
+                    else{
+                        listModeEnabled=true;
+                        imgListMode.setImageResource(R.drawable.ic_view_all);
+                    }
+                    onStart();
+                    PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
+                }
+            });
+        }
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

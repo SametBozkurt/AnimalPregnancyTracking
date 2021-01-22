@@ -33,14 +33,16 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     private final int code;
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.getDefault());
     private final Date date=new Date();
+    private boolean isListedViewEnabled=false;
 
-    KayitlarAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
+    public KayitlarAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause, boolean isListed){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSimpleData(selectionClause,orderClause);
         this.code=code;
+        this.isListedViewEnabled=isListed;
     }
 
-    KayitlarAdapter(final Context context){
+    public KayitlarAdapter(final Context context){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getSonOlusturulanlar();
         this.code=0;
@@ -50,7 +52,13 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter,parent,false);
+        final View view;
+        if(isListedViewEnabled){
+            view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter_list_design,parent,false);
+        }
+        else{
+            view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter_tile_design,parent,false);
+        }
         return new CustomViewHolder(view);
     }
 
@@ -82,18 +90,30 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         final FrameLayout.LayoutParams imageView_layoutParams;
         if(gorselFile.exists()&&gorselFile.isFile()){
-            imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            holder.img_animal.setLayoutParams(imageView_layoutParams);
-            holder.textView.setTextColor(Color.WHITE);
+            if(isListedViewEnabled){
+                holder.img_animal.setScaleX(1.0f);
+                holder.img_animal.setScaleY(1.0f);
+            }
+            else{
+                imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                holder.img_animal.setLayoutParams(imageView_layoutParams);
+                holder.textView.setTextColor(Color.WHITE);
+            }
             holder.img_animal.setColorFilter(Color.TRANSPARENT);
             Glide.with(context).load(gorselFile).into(holder.img_animal);
         }
         else{
-            imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
-                    context.getResources().getDimensionPixelSize(R.dimen.image_size));
-            imageView_layoutParams.gravity= Gravity.CENTER;
-            holder.img_animal.setLayoutParams(imageView_layoutParams);
-            holder.textView.setTextColor(Color.parseColor("#37474f"));
+            if(isListedViewEnabled){
+                holder.img_animal.setScaleX(0.75f);
+                holder.img_animal.setScaleY(0.75f);
+            }
+            else{
+                imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
+                        context.getResources().getDimensionPixelSize(R.dimen.image_size));
+                imageView_layoutParams.gravity= Gravity.CENTER;
+                holder.img_animal.setLayoutParams(imageView_layoutParams);
+                holder.textView.setTextColor(Color.parseColor("#37474f"));
+            }
             holder.img_animal.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
@@ -114,7 +134,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         return dataModelArrayList.size();
     }
 
-    static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         final TextView textView;
         final ImageView img_animal;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,10 +42,8 @@ public class PrimaryActivity extends AppCompatActivity {
     int database_size;
     boolean is_opened = false;
     final Context context=this;
-    AdRequest adRequest;
     RelativeLayout relativeLayout;
     FrameLayout frameLayout;
-    InterstitialAd mInterstitialAd = new InterstitialAd(context);
     final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
     BottomSheetDialog bottomSheetDialog;
     View view1;
@@ -76,22 +75,7 @@ public class PrimaryActivity extends AppCompatActivity {
             final String INTENT_ACTION= "SET_AN_ALARM" ;
             sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
         }
-        relativeLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
-                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-                if(networkInfo!=null){
-                    if(networkInfo.isConnected()){
-                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
-                            @Override
-                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                        });
-                        show_ads();
-                    }
-                }
-            }
-        },500);
+        new AsyncAdTask(getApplicationContext()).execute();
         popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,20 +252,15 @@ public class PrimaryActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    protected void show_ads(){
+    protected static void show_ads(final Context context1){
+        final InterstitialAd mInterstitialAd = new InterstitialAd(context1);
+        final AdRequest adRequest=new AdRequest.Builder().build();
         mInterstitialAd.setAdUnitId(INTERSTITIAL_TEST_ID);
-        adRequest=new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 mInterstitialAd.show();
-            }
-            @Override
-            public void onAdClosed() {
-                mInterstitialAd.setAdListener(null);
-                adRequest=null;
-                mInterstitialAd=null;
             }
         });
     }
@@ -332,6 +311,49 @@ public class PrimaryActivity extends AppCompatActivity {
         if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
             show_enYakinDogumlar((FrameLayout)view1.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
         }
+    }
+
+
+    protected static class AsyncAdTask extends AsyncTask<String,Integer,String>{
+
+        @SuppressLint("StaticFieldLeak")
+        private final Context mContext;
+        private boolean hasInternetConnection=false;
+
+        public AsyncAdTask(final Context context) {
+            super();
+            this.mContext=context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            final ConnectivityManager connectivityManager=(ConnectivityManager)mContext.getSystemService(CONNECTIVITY_SERVICE);
+            final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+            if(networkInfo!=null){
+                hasInternetConnection=networkInfo.isConnected();
+                if(networkInfo.isConnected()){
+                    MobileAds.initialize(mContext, new OnInitializationCompleteListener() {
+                        @Override
+                        public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                    });
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(hasInternetConnection){
+                show_ads(mContext);
+            }
+        }
+
     }
 
 }

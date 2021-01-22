@@ -1,5 +1,4 @@
 <resources>
-    <string name="preferences_tag_day_code" translatable="false">GunKodu</string>
     <string name="app_name">Animal Pregnancy Tracking</string>
     <string name="nav_edit">Edit/Remove</string>
     <string name="nav_critics">Incoming Births</string>
@@ -100,7 +99,6 @@
     <string name="photo_picker_item_remove">Remove photo</string>
     <string name="fab_pet_exp">"Pet  "</string>
     <string name="fab_barn_exp">Barn</string>
-    <string name="service_tag">DateDedectorService</string>
     <string name="txt_day">Day(s) to birth</string>
     <string name="txt_day_2">Day(s)</string>
     <string name="test_number" translatable="false">10</string>

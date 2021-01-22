@@ -18,16 +18,17 @@ public class DemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        if(PreferencesHolder.getIsCacheCleanerEnabled(context)){
-            final Thread copcuThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
+        final Thread copcuThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(PreferencesHolder.getIsCacheCleanerEnabled(context)){
                     GarbageCleaner.clean_caches(context);
                 }
-            });
-            copcuThread.setName(THREAD_CLEANER_NAME);
-            copcuThread.start();
-        }
+                GarbageCleaner.clean_redundants(context);
+            }
+        });
+        copcuThread.setName(THREAD_CLEANER_NAME);
+        copcuThread.start();
     }
 
     @Override

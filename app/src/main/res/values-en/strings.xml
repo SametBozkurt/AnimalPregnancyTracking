@@ -90,7 +90,6 @@
     <string name="tur_7">Horse</string>
     <string name="tur_8">Donkey</string>
     <string name="tur_9">Camel</string>
-    <string name="service_tag">DateDedectorService</string>
     <string name="txt_day">Day(s) to birth</string>
     <string name="txt_day_2">Day(s)</string>
     <string name="nav_period">Gestation Periods</string>

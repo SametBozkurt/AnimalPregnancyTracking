@@ -32,7 +32,6 @@
             app:tint="#37474f" />
 
         <TextView
-            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/duzenle_button_text"

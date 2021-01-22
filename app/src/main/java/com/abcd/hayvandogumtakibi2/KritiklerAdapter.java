@@ -34,15 +34,16 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     private final int code;
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private final Date date=new Date();
+    private boolean isListedViewEnabled=false;
 
-
-    KritiklerAdapter(final Context context,int code, @Nullable String orderClause){
+    public KritiklerAdapter(final Context context,int code, @Nullable String orderClause, boolean isListed){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(orderClause,30);
         this.code=code;
+        this.isListedViewEnabled=isListed;
     }
 
-    KritiklerAdapter(final Context context){
+    public KritiklerAdapter(final Context context){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getEnYakinDogumlar();
         this.code=0;
@@ -52,7 +53,13 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.kritikler_adapter,parent,false);
+        final View view;
+        if(isListedViewEnabled){
+            view=LayoutInflater.from(context).inflate(R.layout.kritikler_adapter_list_design,parent,false);
+        }
+        else{
+            view=LayoutInflater.from(context).inflate(R.layout.kritikler_adapter_tile_design,parent,false);
+        }
         return new CustomViewHolder(view);
     }
 
@@ -86,22 +93,34 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         final FrameLayout.LayoutParams imageView_layoutParams;
         if(gorselFile.exists()&&gorselFile.isFile()){
-            imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            holder.img_photo.setLayoutParams(imageView_layoutParams);
-            holder.txt_durum.setTextColor(Color.WHITE);
-            holder.img_clock.setColorFilter(Color.WHITE);
-            holder.textView.setTextColor(Color.WHITE);
+            if(isListedViewEnabled){
+                holder.img_photo.setScaleX(1.0f);
+                holder.img_photo.setScaleY(1.0f);
+            }
+            else{
+                imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                holder.img_photo.setLayoutParams(imageView_layoutParams);
+                holder.txt_durum.setTextColor(Color.WHITE);
+                holder.img_clock.setColorFilter(Color.WHITE);
+                holder.textView.setTextColor(Color.WHITE);
+            }
             holder.img_photo.setColorFilter(Color.TRANSPARENT);
             Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_photo);
         }
         else{
-            imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
-                    context.getResources().getDimensionPixelSize(R.dimen.image_size));
-            imageView_layoutParams.gravity= Gravity.CENTER;
-            holder.img_photo.setLayoutParams(imageView_layoutParams);
-            holder.txt_durum.setTextColor(Color.parseColor("#37474f"));
-            holder.img_clock.setColorFilter(Color.parseColor("#37474f"));
-            holder.textView.setTextColor(Color.parseColor("#37474f"));
+            if(isListedViewEnabled){
+                holder.img_photo.setScaleX(0.75f);
+                holder.img_photo.setScaleY(0.75f);
+            }
+            else{
+                imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
+                        context.getResources().getDimensionPixelSize(R.dimen.image_size));
+                imageView_layoutParams.gravity= Gravity.CENTER;
+                holder.img_photo.setLayoutParams(imageView_layoutParams);
+                holder.txt_durum.setTextColor(Color.parseColor("#37474f"));
+                holder.img_clock.setColorFilter(Color.parseColor("#37474f"));
+                holder.textView.setTextColor(Color.parseColor("#37474f"));
+            }
             holder.img_photo.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_photo);
         }

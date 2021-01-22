@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -20,28 +21,57 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class ActivityTumKayitlar extends AppCompatActivity {
 
-    RelativeLayout relativeLayout;
-    final Context context=this;
-    int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
-    String selection_gerceklesen_dogumlar=null, table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
-    boolean switchIsChecked=true;
-    BottomSheetDialog bottomSheetDialog;
-    RadioGroup radioGroupFilter,radioGroupOrder;
-    SwitchMaterial switchMaterial;
+    private RelativeLayout relativeLayout;
+    private final Context context=this;
+    private int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
+    private String selection_gerceklesen_dogumlar=null, table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
+    private boolean switchIsChecked=true,listModeEnabled;
+    private BottomSheetDialog bottomSheetDialog;
+    private RadioGroup radioGroupFilter,radioGroupOrder;
+    private SwitchMaterial switchMaterial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tum_kayitlar);
+        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         relativeLayout=findViewById(R.id.parent);
         bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
+        final ImageView imgListMode=findViewById(R.id.listMode);
+        if(listModeEnabled){
+            imgListMode.setImageResource(R.drawable.ic_view_all);
+        }
+        else{
+            imgListMode.setImageResource(R.drawable.ic_tile);
+        }
+        imgListMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listModeEnabled){
+                    listModeEnabled=false;
+                    imgListMode.setImageResource(R.drawable.ic_tile);
+                }
+                else{
+                    listModeEnabled=true;
+                    imgListMode.setImageResource(R.drawable.ic_view_all);
+                }
+                initProgressBarAndTask();
+                PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
+            }
+        });
         initProgressBarAndTask();
         initFilterMenu();
     }
 
-    public void initProgressBarAndTask(){
+    private void initProgressBarAndTask(){
         final RecyclerView recyclerView=findViewById(R.id.recyclerView);
-        final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
+        final GridLayoutManager layoutManager;
+        if(listModeEnabled){
+            layoutManager=new GridLayoutManager(context,2);
+        }
+        else{
+            layoutManager=new GridLayoutManager(context,3);
+        }
         recyclerView.setLayoutManager(layoutManager);
         final ProgressBar progressBar=new ProgressBar(this);
         progressBar.setIndeterminate(true);
@@ -55,7 +85,8 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         relativeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar, orderBy);
+                final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar,
+                        orderBy,listModeEnabled);
                 recyclerView.setAdapter(kayitlarAdapter);
                 relativeLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
@@ -63,7 +94,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         },600);
     }
 
-    public void initFilterMenu(){
+    private void initFilterMenu(){
         final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
         bottomSheetDialog.setContentView(view);
         final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);

@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -437,6 +438,7 @@ public class ActivityEdit extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private void open_cam(){
         final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (camera_intent.resolveActivity(getPackageManager())!=null) {

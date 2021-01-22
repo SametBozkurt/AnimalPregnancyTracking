@@ -24,13 +24,14 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class FragmentYaklasanDogumlar extends Fragment {
 
-    Context context;
-    RecyclerView recyclerView;
-    CoordinatorLayout coordinatorLayout;
-    int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
-    String table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
-    BottomSheetDialog bottomSheetDialog;
-    RadioGroup radioGroupFilter,radioGroupOrder;
+    private Context context;
+    private RecyclerView recyclerView;
+    private CoordinatorLayout coordinatorLayout;
+    private int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
+    private String table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
+    private BottomSheetDialog bottomSheetDialog;
+    private RadioGroup radioGroupFilter,radioGroupOrder;
+    private boolean listModeEnabled;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -45,10 +46,17 @@ public class FragmentYaklasanDogumlar extends Fragment {
         if(container!=null){
             container.clearDisappearingChildren();
         }
+        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         recyclerView=view.findViewById(R.id.recyclerView);
         coordinatorLayout=view.findViewById(R.id.parent_layout);
         final Button btn_filter=view.findViewById(R.id.btn_filter);
-        final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
+        final GridLayoutManager gridLayoutManager;
+        if(listModeEnabled){
+            gridLayoutManager=new GridLayoutManager(context,2);
+        }
+        else{
+            gridLayoutManager=new GridLayoutManager(context,3);
+        }
         recyclerView.setLayoutManager(gridLayoutManager);
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +74,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
         return view;
     }
 
-    void initProgressBarAndTask(){
+    private void initProgressBarAndTask(){
         final ProgressBar progressBar=new ProgressBar(context);
         progressBar.setIndeterminate(true);
         final CoordinatorLayout.LayoutParams mLayoutParams=new CoordinatorLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -78,7 +86,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
         coordinatorLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final KritiklerAdapter kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy);
+                final KritiklerAdapter kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy,listModeEnabled);
                 recyclerView.setAdapter(kritiklerAdapter);
                 coordinatorLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
@@ -86,7 +94,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
         },600);
     }
 
-    void initFilterMenu(){
+    private void initFilterMenu(){
         @SuppressLint("InflateParams")
         final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,null);
         bottomSheetDialog.setContentView(view);

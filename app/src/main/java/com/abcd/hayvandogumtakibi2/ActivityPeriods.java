@@ -27,22 +27,46 @@ public class ActivityPeriods extends AppCompatActivity {
 
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
-    final Context context=this;
-    AdView adView;
-    FrameLayout adContainerView;
-    RelativeLayout relativeLayout;
+    private final Context context=this;
+    private AdView adView;
+    private FrameLayout adContainerView;
+    private RelativeLayout relativeLayout;
+    private boolean listModeEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_periods);
+        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         relativeLayout=findViewById(R.id.parent_layout);
         adContainerView=findViewById(R.id.ad_view_container);
         final ImageView cross = findViewById(R.id.iptal);
+        final ImageView imgListMode=findViewById(R.id.listMode);
+        if(listModeEnabled){
+            imgListMode.setImageResource(R.drawable.ic_view_all);
+        }
+        else{
+            imgListMode.setImageResource(R.drawable.ic_tile);
+        }
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        imgListMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listModeEnabled){
+                    listModeEnabled=false;
+                    imgListMode.setImageResource(R.drawable.ic_tile);
+                }
+                else{
+                    listModeEnabled=true;
+                    imgListMode.setImageResource(R.drawable.ic_view_all);
+                }
+                initProgressBarAndTask();
+                PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
             }
         });
         initProgressBarAndTask();
@@ -64,7 +88,7 @@ public class ActivityPeriods extends AppCompatActivity {
         },500);
     }
 
-    void initProgressBarAndTask(){
+    private void initProgressBarAndTask(){
         final RecyclerView recyclerView=findViewById(R.id.recyclerView);
         final ProgressBar progressBar=new ProgressBar(context);
         progressBar.setIndeterminate(true);
@@ -77,9 +101,15 @@ public class ActivityPeriods extends AppCompatActivity {
         relativeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final GridLayoutManager gridLayoutManager=new GridLayoutManager(context,3);
-                recyclerView.setLayoutManager(gridLayoutManager);
-                final PeriodsAdapter periodsAdapter=new PeriodsAdapter(context);
+                final GridLayoutManager layoutManager;
+                if(listModeEnabled){
+                    layoutManager=new GridLayoutManager(context,2);
+                }
+                else{
+                    layoutManager=new GridLayoutManager(context,3);
+                }
+                recyclerView.setLayoutManager(layoutManager);
+                final PeriodsAdapter periodsAdapter=new PeriodsAdapter(context,listModeEnabled);
                 recyclerView.setAdapter(periodsAdapter);
                 relativeLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();

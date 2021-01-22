@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,16 +13,17 @@ import java.util.ArrayList;
 
 public class ActivityGerceklesenler extends AppCompatActivity {
 
-    SQLiteDatabaseHelper databaseHelper;
-    ArrayList<DataModel> dataModelArrayList;
-    FrameLayout fragment_container;
-    final Context context=this;
+    private SQLiteDatabaseHelper databaseHelper;
+    private ArrayList<DataModel> dataModelArrayList;
+    private FrameLayout fragment_container;
+    private final Context context=this;
+    private boolean listModeEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gerceklesenler);
-        final ImageView cross=findViewById(R.id.iptal);
+        final ImageView cross=findViewById(R.id.iptal), imgListMode=findViewById(R.id.listMode);
         fragment_container=findViewById(R.id.fragment_container);
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +33,34 @@ public class ActivityGerceklesenler extends AppCompatActivity {
         });
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         dataModelArrayList=databaseHelper.getSimpleData("dogum_grcklsti=1",null);
+        if(dataModelArrayList.isEmpty()){
+            imgListMode.setVisibility(View.INVISIBLE);
+        }
+        else{
+            listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
+            if(listModeEnabled){
+                imgListMode.setImageResource(R.drawable.ic_view_all);
+            }
+            else{
+                imgListMode.setImageResource(R.drawable.ic_tile);
+            }
+            imgListMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listModeEnabled){
+                        listModeEnabled=false;
+                        imgListMode.setImageResource(R.drawable.ic_tile);
+                    }
+                    else{
+                        listModeEnabled=true;
+                        imgListMode.setImageResource(R.drawable.ic_view_all);
+                    }
+                    Log.e("HEEY","this section is running");
+                    onStart();
+                    PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
+                }
+            });
+        }
     }
 
     @Override
