@@ -65,13 +65,24 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_kategori_1"
         android:layout_below="@id/toolbar_layout"
-        android:layout_above="@id/ad_view_container"/>
+        android:layout_above="@id/edit_periods"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_periods"
+        android:text="@string/edit_periods"
+        android:layout_above="@id/ad_view_container"
+        android:layout_centerHorizontal="true"
+        android:elevation="@dimen/margin_kategori_1"
+        android:layout_marginBottom="@dimen/margin_kategori_1"
+        app:icon="@drawable/ic_edit"
+        style="@style/FilterButtonStyle"/>
 
     <FrameLayout
         android:id="@+id/ad_view_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

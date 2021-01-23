@@ -163,5 +163,6 @@
     <string name="textsizeSmall">Small-12pt</string>
     <string name="title_others">Other Options</string>
     <string name="switch_cleaner_on">Auto cache cleaner</string>
+    <string name="edit_periods">Edit Periods</string>
     <!-- Strings used for fragments for navigation -->
 </resources>

@@ -158,4 +158,5 @@
     <string name="textsizeSmall">Küçük-12pt</string>
     <string name="title_others">Diğer Seçenekler</string>
     <string name="switch_cleaner_on">Otomatik önbellek temizleyici</string>
+    <string name="edit_periods">Süreleri Düzenle</string>
 </resources>

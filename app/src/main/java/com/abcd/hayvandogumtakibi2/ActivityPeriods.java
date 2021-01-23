@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -40,6 +41,7 @@ public class ActivityPeriods extends AppCompatActivity {
         listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         relativeLayout=findViewById(R.id.parent_layout);
         adContainerView=findViewById(R.id.ad_view_container);
+        final Button edidPeriods = findViewById(R.id.edit_periods);
         final ImageView cross = findViewById(R.id.iptal);
         final ImageView imgListMode=findViewById(R.id.listMode);
         if(listModeEnabled){
@@ -67,6 +69,13 @@ public class ActivityPeriods extends AppCompatActivity {
                 }
                 initProgressBarAndTask();
                 PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
+            }
+        });
+        edidPeriods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditPeriodsBottomSheet editPeriodsBottomSheet=new EditPeriodsBottomSheet();
+                editPeriodsBottomSheet.show(getSupportFragmentManager(),null);
             }
         });
         initProgressBarAndTask();
