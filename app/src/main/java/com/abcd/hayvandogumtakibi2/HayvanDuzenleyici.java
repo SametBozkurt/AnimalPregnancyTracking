@@ -13,6 +13,7 @@ class HayvanDuzenleyici {
         final ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
         final ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
         final ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
+        final TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(context);
         switch(isPet){
             case 0: //hepsi
                 textView.setText(arrayList_all.get(tur_kodu));
@@ -26,39 +27,39 @@ class HayvanDuzenleyici {
             case 3: //Tüm türler-Diğer yok.
                 switch (tur_kodu){
                     case 0:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_COW))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_COW))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 1:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_SHEEP))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_SHEEP))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 2:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_GOAT))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_GOAT))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 3:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_CAT))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_CAT))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 4:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_DOG))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_DOG))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 5:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_HAMSTER))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_HAMSTER))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 6:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_HORSE))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_HORSE))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 7:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_DONKEY))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_DONKEY))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                     case 8:
-                        textView.setText(new StringBuilder(String.valueOf(TarihHesaplayici.DAY_CAMEL))
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_CAMEL))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                 }

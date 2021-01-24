@@ -1,35 +1,40 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.content.Context;
+
 import java.util.Calendar;
 import java.util.Date;
 
 public class TarihHesaplayici {
 
-    static final int DAY_COW = 283;
-    static final int DAY_SHEEP = 152;
-    static final int DAY_GOAT = 150;
-    static final int DAY_CAT = 65;
-    static final int DAY_DOG = 64;
-    static final int DAY_HAMSTER = 16;
-    static final int DAY_CAMEL = 390;
-    static final int DAY_DONKEY = 365;
-    static final int DAY_HORSE = 335;
-    static final int DAY_TO_NEXT_INS_COW = 64;
-    static final int DAY_TO_ABORT_MILKING_COW = -60;
+    public int DAY_COW;
+    public int DAY_SHEEP;
+    public int DAY_GOAT;
+    public int DAY_CAT;
+    public int DAY_DOG;
+    public int DAY_HAMSTER;
+    public int DAY_CAMEL;
+    public int DAY_DONKEY;
+    public int DAY_HORSE;
+    public static final int DAY_TO_NEXT_INS_COW = 64;
+    public static final int DAY_TO_ABORT_MILKING_COW = -60;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.FragmentTarihHesaplayici";
     private DateChangeListener dateChangeListener;
-    private static TarihHesaplayici tarihHesaplayici=null;
 
-    private TarihHesaplayici(){}
-
-    public static TarihHesaplayici getInstance(){
-        if(tarihHesaplayici==null){
-            tarihHesaplayici=new TarihHesaplayici();
-        }
-        return tarihHesaplayici;
+    public TarihHesaplayici(final Context context){
+        PeriodsHolder periodsHolder = PeriodsHolder.getInstance(context);
+        DAY_COW= periodsHolder.getPeriodCow();
+        DAY_SHEEP= periodsHolder.getPeriodSheep();
+        DAY_GOAT= periodsHolder.getPeriodGoat();
+        DAY_CAT= periodsHolder.getPeriodCat();
+        DAY_DOG= periodsHolder.getPeriodDog();
+        DAY_HAMSTER= periodsHolder.getPeriodHamster();
+        DAY_HORSE= periodsHolder.getPeriodHorse();
+        DAY_DONKEY= periodsHolder.getPeriodDonkey();
+        DAY_CAMEL= periodsHolder.getPeriodCamel();
     }
 
-    public static Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
+    public Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
         final Calendar calendar=Calendar.getInstance();
         calendar.setTime(tarih);
         if(class_name.equals(ActivityName)){
@@ -146,14 +151,14 @@ public class TarihHesaplayici {
     }
 
     public static long get_kizdirma_tarihi(long birth_date_in_millis){
-        final Calendar calendar=Calendar.getInstance();
+        Calendar calendar=Calendar.getInstance();
         calendar.setTimeInMillis(birth_date_in_millis);
         calendar.add(Calendar.DATE,DAY_TO_NEXT_INS_COW);
         return calendar.getTimeInMillis();
     }
 
-    static long get_kuruya_alma_tarihi(long birth_date_in_millis){
-        final Calendar calendar=Calendar.getInstance();
+    public static long get_kuruya_alma_tarihi(long birth_date_in_millis){
+        Calendar calendar=Calendar.getInstance();
         calendar.setTimeInMillis(birth_date_in_millis);
         calendar.add(Calendar.DATE,DAY_TO_ABORT_MILKING_COW);
         return calendar.getTimeInMillis();

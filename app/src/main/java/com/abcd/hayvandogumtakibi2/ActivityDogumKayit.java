@@ -68,7 +68,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
     private ImageView photo, iptal;
     private Spinner spinner_turler;
-    private final TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance();
+    private TarihHesaplayici tarihHesaplayici;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,8 @@ public class ActivityDogumKayit extends AppCompatActivity{
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
         date_dollenme=gecerli_takvim.getTime();
         _isPet=getIntent().getExtras().getInt("isPet");
-        ArrayAdapter<String> spinner_adapter;
+        tarihHesaplayici=new TarihHesaplayici(this);
+        final ArrayAdapter<String> spinner_adapter;
         switch (_isPet){
             case 1: //Evcil hayvan ise
                 spinner_adapter=new ArrayAdapter<>(context,R.layout.spinner_text,
@@ -239,7 +240,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
             @Override
             public void onNewDateSet() {
                 if(boolTarih){
-                    hesaplanan_tarih.setTime(TarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date_dollenme,getClass().getName()).getTime());
+                    hesaplanan_tarih.setTime(tarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date_dollenme,getClass().getName()).getTime());
                     date_dogum=hesaplanan_tarih.getTime();
                     btn_tarih_dogum.setText(dateFormat.format(date_dogum));
                     Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();

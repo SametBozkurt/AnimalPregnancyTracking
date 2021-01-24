@@ -31,13 +31,14 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
     private final int petCode=0;
     private Date date_dollenme=new Date();
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-    private final TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance();
+    private TarihHesaplayici tarihHesaplayici;
     private Context context;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context=context;
+        tarihHesaplayici=new TarihHesaplayici(context);
     }
 
     @Nullable
@@ -85,7 +86,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
             @Override
             public void onNewDateSet() {
                 if(boolTarih){
-                    final Date date_dogum = TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date_dollenme,getClass().getName()).getTime();
+                    final Date date_dogum = tarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date_dollenme,getClass().getName()).getTime();
                     btn_tarih_dogum.setText(dateFormat.format(date_dogum));
                 }
             }

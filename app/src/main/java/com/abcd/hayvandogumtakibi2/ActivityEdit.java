@@ -71,7 +71,7 @@ public class ActivityEdit extends AppCompatActivity {
     private Button kaydet;
     private Spinner tur_sec;
     private ImageView photo,iptal;
-    private final TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance();
+    private TarihHesaplayici tarihHesaplayici;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,8 @@ public class ActivityEdit extends AppCompatActivity {
         textInputLayout=findViewById(R.id.input_layout_tarih2);
         photo=findViewById(R.id.add_photo);
         final TextView txtOtherFields=findViewById(R.id.txt_other_details);
-        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(this);
+        tarihHesaplayici=new TarihHesaplayici(this);
         dataModel=databaseHelper.getDataById(getIntent().getExtras().getInt("kayit_id"));
         degerleri_yerlestir();
         txtOtherFields.setOnClickListener(new View.OnClickListener() {
@@ -332,7 +333,7 @@ public class ActivityEdit extends AppCompatActivity {
             @Override
             public void onNewDateSet() {
                 if(boolTarih){
-                    takvim2.setTime(TarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date1,getClass().getName()).getTime());
+                    takvim2.setTime(tarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date1,getClass().getName()).getTime());
                     date2=takvim2.getTime();
                     dogum_tarihi.setText(dateFormat.format(date2));
                     Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();

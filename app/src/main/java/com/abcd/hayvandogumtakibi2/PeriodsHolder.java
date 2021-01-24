@@ -17,8 +17,8 @@ public class PeriodsHolder {
     private static final String PERIOD_DONKEY = "periodDonkey";
     private static final String PERIOD_CAMEL = "periodCamel";
     private static PeriodsHolder periodsHolder=null;
-    final SharedPreferences sharedPref;
-    final SharedPreferences.Editor editor;
+    private final SharedPreferences sharedPref;
+    private final SharedPreferences.Editor editor;
 
     @SuppressLint("CommitPrefEdits")
     private PeriodsHolder(final Context context){
