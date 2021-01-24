@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent"
@@ -25,19 +26,18 @@
             android:gravity="center_horizontal"
             android:padding="@dimen/margin_kategori_3"/>
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:id="@+id/img_reset"
-            android:background="@drawable/ripple_effect"
-            android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/margin_kategori_1"
-            android:layout_marginEnd="@dimen/margin_kategori_1"
-            android:src="@drawable/ic_undo"
-            android:contentDescription="@null"
-            android:focusable="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_notify"
+            app:layout_constraintTop_toBottomOf="@id/title_text"
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginEnd="@dimen/margin_kategori_2"
+            android:text="@string/editPeriodsNotifyText"
+            android:gravity="center_horizontal"
+            android:textSize="15sp"
+            android:fontFamily="@font/open_sans"
+            android:textColor="#5e35b1"/>
 
         <LinearLayout
             android:id="@+id/lyt_period_cow"
@@ -45,7 +45,7 @@
             android:layout_height="80dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_text">
+            app:layout_constraintTop_toBottomOf="@id/text_notify">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
             android:layout_height="80dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_text">
+            app:layout_constraintTop_toBottomOf="@id/text_notify">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -336,17 +336,52 @@
 
         </LinearLayout>
 
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox_option"
+            android:text="@string/edit_period_option"
+            android:buttonTint="#5e35b1"
+            android:fontFamily="@font/open_sans"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/margin_kategori_1"
+            android:layout_marginEnd="@dimen/margin_kategori_1"
+            app:layout_constraintTop_toBottomOf="@id/lyt_period_camel"/>
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/save_periods"
-            android:text="@string/button_text_kaydet"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_camel"
+            android:layout_gravity="end"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_option"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/margin_kategori_3"
+            android:text="@string/button_text_kaydet"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:backgroundTint="#5e35b1"
+            app:icon="@drawable/ic_tick"
+            app:iconSize="22dp"
+            app:iconTint="#fff"
+            android:textColor="#fff"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_reset"
+            android:layout_gravity="start"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_option"
             app:layout_constraintEnd_toEndOf="parent"
-            android:elevation="@dimen/margin_kategori_1"
-            android:layout_marginBottom="@dimen/margin_kategori_1"
-            style="@style/FilterButtonStyle"/>
+            android:layout_marginEnd="@dimen/margin_kategori_3"
+            android:text="@string/btn_resetOrderPreferenes"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#5e35b1"
+            app:backgroundTint="#fff"
+            app:icon="@drawable/ic_undo"
+            app:iconSize="22dp"
+            app:iconTint="#5e35b1"
+            app:strokeColor="#5e35b1"
+            app:strokeWidth="2dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

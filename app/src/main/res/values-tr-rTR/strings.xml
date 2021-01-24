@@ -159,4 +159,6 @@
     <string name="title_others">Diğer Seçenekler</string>
     <string name="switch_cleaner_on">Otomatik önbellek temizleyici</string>
     <string name="edit_periods">Süreleri Düzenle</string>
+    <string name="edit_period_option">Kayıtların tahmini doğum tarihlerini ayrıca yeniden hesapla</string>
+    <string name="editPeriodsNotifyText">Otomatik yapılan tahmini doğum tarihi hesaplamaları bu değerlere dayanmaktadır. Dolayısıyla bu değerlerin değiştirilmesi yapılacak olan tarih hesaplamalarını etkileyecektir.</string>
 </resources>

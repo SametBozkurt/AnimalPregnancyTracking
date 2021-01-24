@@ -2,14 +2,15 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,13 +28,27 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        final BottomSheetDialog bottomSheetDialog=(BottomSheetDialog)super.onCreateDialog(savedInstanceState);
-        View view=View.inflate(getContext(), R.layout.dialog_edit_periods, null);
         final PeriodsHolder periodsHolder=PeriodsHolder.getInstance(getContext());
+        final BottomSheetDialog bottomSheetDialog=(BottomSheetDialog)super.onCreateDialog(savedInstanceState);
+        bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                ConstraintLayout constraintLayout = bottomSheetDialog.findViewById(R.id.parent);
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(constraintLayout);
+                ViewGroup.LayoutParams layoutParams = constraintLayout.getLayoutParams();
+                int windowHeight = getWindowHeight();
+                if (layoutParams != null) {
+                    layoutParams.height = windowHeight;
+                }
+                constraintLayout.setLayoutParams(layoutParams);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+        View view=View.inflate(getContext(), R.layout.dialog_edit_periods, null);
         bottomSheetDialog.setContentView(view);
-        Button save_periods=view.findViewById(R.id.save_periods);
-        ImageView imgUndo=view.findViewById(R.id.img_reset);
-        ConstraintLayout constraintLayout=view.findViewById(R.id.parent);
+        bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
+        Button save_periods=view.findViewById(R.id.save_periods), resetPeriods=view.findViewById(R.id.btn_reset);
+        final CheckBox checkBoxOptions=view.findViewById(R.id.checkbox_option);
         periodCow=view.findViewById(R.id.period_cow);
         periodSheep=view.findViewById(R.id.period_sheep);
         periodGoat=view.findViewById(R.id.period_goat);
@@ -57,25 +72,6 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                 periodCamel.setText(String.valueOf(periodsHolder.getPeriodCamel()));
             }
         },100);
-        BottomSheetBehavior bottomSheetBehavior=BottomSheetBehavior.from(constraintLayout);
-        ViewGroup.LayoutParams layoutParams=constraintLayout.getLayoutParams();
-        int windowHeight=getWindowHeight();
-        if(layoutParams!=null){
-            layoutParams.height=windowHeight;
-        }
-        constraintLayout.setLayoutParams(layoutParams);
-        bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if(newState==BottomSheetBehavior.STATE_HIDDEN){
-                    dismiss();
-                }
-            }
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
-        });
         save_periods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,11 +85,11 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                 bundle_periods.putString("horse",periodHorse.getText().toString());
                 bundle_periods.putString("donkey",periodDonkey.getText().toString());
                 bundle_periods.putString("camel",periodCamel.getText().toString());
-                saveAllInputs(periodsHolder,bundle_periods);
+                saveAllInputs(periodsHolder,bundle_periods,checkBoxOptions.isChecked());
                 bottomSheetDialog.dismiss();
             }
         });
-        imgUndo.setOnClickListener(new View.OnClickListener() {
+        resetPeriods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle_periods=new Bundle();
@@ -106,14 +102,14 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                 bundle_periods.putString("horse","335");
                 bundle_periods.putString("donkey","365");
                 bundle_periods.putString("camel","390");
-                saveAllInputs(periodsHolder,bundle_periods);
+                saveAllInputs(periodsHolder,bundle_periods,checkBoxOptions.isChecked());
                 bottomSheetDialog.dismiss();
             }
         });
         return bottomSheetDialog;
     }
 
-    private void saveAllInputs(final PeriodsHolder periodsHolder, final Bundle bundle){
+    private void saveAllInputs(final PeriodsHolder periodsHolder, final Bundle bundle, final boolean recalculateDates){
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
@@ -126,6 +122,10 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                 periodsHolder.setPeriodHorse(bundle.getString("horse"));
                 periodsHolder.setPeriodDonkey(bundle.getString("donkey"));
                 periodsHolder.setPeriodCamel(bundle.getString("camel"));
+                if(recalculateDates){
+                    SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(getContext());
+                    sqLiteDatabaseHelper.recalculateEstBirthDates(getContext());
+                }
             }
         });
         thread.start();
@@ -136,5 +136,7 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
+
+
 
 }

@@ -98,7 +98,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    ArrayList<DataModel> getSimpleData(@Nullable String selectionClause, @Nullable String orderClause){
+    protected ArrayList<DataModel> getSimpleData(@Nullable String selectionClause, @Nullable String orderClause){
         long date_in_millis;
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
@@ -129,7 +129,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getAllData(@Nullable String selectionClause, @Nullable String orderClause){
+    protected ArrayList<DataModel> getAllData(@Nullable String selectionClause, @Nullable String orderClause){
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7,SUTUN_8,SUTUN_9},
@@ -150,7 +150,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause, int range){
+    protected ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause, int range){
         long date_dogum_in_millis = 0;
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
@@ -186,7 +186,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return dataModelArrayList;
     }
 
-    DataModel getDataById(int id){
+    protected DataModel getDataById(int id){
         DataModel dataModel = null;
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.rawQuery("SELECT * FROM kayitlar WHERE ID='"+id+"'", null);
@@ -206,7 +206,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return dataModel;
     }
 
-    ArrayList<DataModel> getAramaSonuclari(@NonNull String selection,@NonNull String aranacak,@Nullable String orderBy){
+    protected ArrayList<DataModel> getAramaSonuclari(@NonNull String selection,@NonNull String aranacak,@Nullable String orderBy){
         final ArrayList<DataModel> hayvanVerilerArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
         final Cursor cursor=database.query(VERITABANI_ISIM,new String[]{"id",SUTUN_1,SUTUN_2,SUTUN_3,SUTUN_4,SUTUN_5,SUTUN_6,SUTUN_7},
@@ -226,7 +226,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return hayvanVerilerArrayList;
     }
 
-    ArrayList<DataModel> getEnYakinDogumlar(){
+    protected ArrayList<DataModel> getEnYakinDogumlar(){
         byte sayac=0;
         long date_dogum_in_millis = 0;
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
@@ -264,7 +264,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return dataModelArrayList;
     }
 
-    ArrayList<DataModel> getSonOlusturulanlar(){
+    protected ArrayList<DataModel> getSonOlusturulanlar(){
         byte sayac=0;
         final ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         final SQLiteDatabase database=this.getReadableDatabase();
@@ -382,4 +382,42 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return arrayList.size();
     }
 
+    protected void recalculateEstBirthDates(final Context context){
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(context);
+        SQLiteDatabase database=this.getReadableDatabase();
+        ContentValues newValues=new ContentValues();
+        Date date=new Date();
+        DataModel dataModel;
+        ArrayList<DataModel> dataModelArrayList;
+        long calculated_time_in_millis;
+        for(int y=0;y<3;y++){
+            dataModelArrayList=getSimpleData("dogum_grcklsti=0 AND evcil_hayvan="+y,null);
+            switch(y){
+                case 0:
+                    for(int x=0;x<dataModelArrayList.size();x++){
+                        dataModel=dataModelArrayList.get(x);
+                        if(!dataModel.getTur().equals("6")){
+                            date.setTime(Long.parseLong(dataModel.getTohumlama_tarihi()));
+                            calculated_time_in_millis=tarihHesaplayici.get_dogum_tarihi(dataModel.getIs_evcilhayvan(),
+                                    dataModel.getTur(),date,getClass().getName()).getTimeInMillis();
+                            newValues.put(SUTUN_5,String.valueOf(calculated_time_in_millis));
+                            database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(dataModel.getId())});
+                        }
+                    }
+                    break;
+                case 1: case 2:
+                    for(int x=0;x<dataModelArrayList.size();x++){
+                        dataModel=dataModelArrayList.get(x);
+                        if(!dataModel.getTur().equals("3")){
+                            date.setTime(Long.parseLong(dataModel.getTohumlama_tarihi()));
+                            calculated_time_in_millis=tarihHesaplayici.get_dogum_tarihi(dataModel.getIs_evcilhayvan(),
+                                    dataModel.getTur(),date,getClass().getName()).getTimeInMillis();
+                            newValues.put(SUTUN_5,String.valueOf(calculated_time_in_millis));
+                            database.update(VERITABANI_ISIM,newValues,"id=? ",new String[]{Integer.toString(dataModel.getId())});
+                        }
+                    }
+                    break;
+            }
+        }
+    }
 }

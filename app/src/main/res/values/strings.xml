@@ -164,5 +164,7 @@
     <string name="title_others">Other Options</string>
     <string name="switch_cleaner_on">Auto cache cleaner</string>
     <string name="edit_periods">Edit Periods</string>
+    <string name="edit_period_option">Recalculate also estimated birth dates of all records</string>
+    <string name="editPeriodsNotifyText">Estimated automatic birth date calculations are based on these values. Therefore, changing these values will affect the date calculations to be made.</string>
     <!-- Strings used for fragments for navigation -->
 </resources>
