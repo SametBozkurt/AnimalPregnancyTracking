@@ -3,6 +3,9 @@ package com.abcd.hayvandogumtakibi2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,48 +24,94 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class ActivityKayitDuzenle extends AppCompatActivity {
 
-    RelativeLayout relativeLayout;
-    final Context context=this;
-    RecyclerView recyclerView;
-    int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
-    String selection_gerceklesen_dogumlar=null, table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
-    boolean switchIsChecked=true;
-    BottomSheetDialog bottomSheetDialog;
-    RadioGroup radioGroupFilter,radioGroupOrder;
-    SwitchMaterial switchMaterial;
+    private RelativeLayout relativeLayout;
+    private final Context context=this;
+    private RecyclerView recyclerView;
+    private int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
+    private String selection_gerceklesen_dogumlar=null, table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
+    private boolean switchIsChecked=true;
+    private BottomSheetDialog bottomSheetDialog;
+    private RadioGroup radioGroupFilter,radioGroupOrder;
+    private SwitchMaterial switchMaterial;
+    private RelativeLayout.LayoutParams mLayoutParams;
+    private DuzenleAdapter duzenleAdapter;
+    private ProgressBar progressBar;
+    private GridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit_duzenle);
         relativeLayout=findViewById(R.id.main_layout);
+        recyclerView=findViewById(R.id.recyclerView);
         initProgressBarAndTask();
         bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
         initFilterMenu();
     }
 
-    public void initProgressBarAndTask(){
-        recyclerView=findViewById(R.id.recyclerView);
-        final GridLayoutManager layoutManager=new GridLayoutManager(context,3);
-        recyclerView.setLayoutManager(layoutManager);
-        final ProgressBar progressBar=new ProgressBar(this);
-        progressBar.setIndeterminate(true);
-        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        progressBar.setLayoutParams(mLayoutParams);
-        relativeLayout.addView(progressBar);
-        recyclerView.animate().alpha(0f).setDuration(200).start();
-        recyclerView.setAdapter(null);
-        relativeLayout.postDelayed(new Runnable() {
+    private void initProgressBarAndTask(){
+        taskPrePostOnUI();
+        doAsyncTaskAndPost();
+    }
+
+    private void taskPrePostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                relativeLayout.removeView(progressBar);
-                final DuzenleAdapter duzenleAdapter =new DuzenleAdapter(context,selection_code,selection_gerceklesen_dogumlar,orderBy);
+                progressBar=new ProgressBar(context);
+                progressBar.setIndeterminate(true);
+                if(mLayoutParams==null){
+                    mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                }
+                progressBar.setLayoutParams(mLayoutParams);
+                relativeLayout.addView(progressBar);
+                recyclerView.setAlpha(0f);
+            }
+        });
+    }
+
+    private void doAsyncTaskAndPost(){
+        HandlerThread handlerThread=new HandlerThread("AsyncTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                taskPostOnUI();
+            }
+        };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                duzenleAdapter =new DuzenleAdapter(context,selection_code,selection_gerceklesen_dogumlar,orderBy);
+                layoutManager=new GridLayoutManager(context,3);
+                try {
+                    Thread.sleep(500);
+                    Message message=new Message();
+                    message.obj="InitializeUIProcess";
+                    asyncHandler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        asyncHandler.post(runnable);
+    }
+
+    private void taskPostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(duzenleAdapter);
+                relativeLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
             }
-        },600);
+        });
     }
 
     public void initFilterMenu(){

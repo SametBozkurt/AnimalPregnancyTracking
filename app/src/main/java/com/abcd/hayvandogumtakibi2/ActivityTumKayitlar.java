@@ -3,6 +3,9 @@ package com.abcd.hayvandogumtakibi2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,15 +33,20 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     private BottomSheetDialog bottomSheetDialog;
     private RadioGroup radioGroupFilter,radioGroupOrder;
     private SwitchMaterial switchMaterial;
+    RecyclerView recyclerView;
+    RelativeLayout.LayoutParams mLayoutParams;
+    KayitlarAdapter kayitlarAdapter;
+    ProgressBar progressBar;
+    GridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tum_kayitlar);
-        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
-        relativeLayout=findViewById(R.id.parent);
-        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
         final ImageView imgListMode=findViewById(R.id.listMode);
+        recyclerView=findViewById(R.id.recyclerView);
+        relativeLayout=findViewById(R.id.parent);
+        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         if(listModeEnabled){
             imgListMode.setImageResource(R.drawable.ic_view_all);
         }
@@ -59,39 +68,9 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                 PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
             }
         });
+        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
         initProgressBarAndTask();
         initFilterMenu();
-    }
-
-    private void initProgressBarAndTask(){
-        final RecyclerView recyclerView=findViewById(R.id.recyclerView);
-        final GridLayoutManager layoutManager;
-        if(listModeEnabled){
-            layoutManager=new GridLayoutManager(context,2);
-        }
-        else{
-            layoutManager=new GridLayoutManager(context,3);
-        }
-        recyclerView.setLayoutManager(layoutManager);
-        final ProgressBar progressBar=new ProgressBar(this);
-        progressBar.setIndeterminate(true);
-        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        progressBar.setLayoutParams(mLayoutParams);
-        relativeLayout.addView(progressBar);
-        recyclerView.animate().alpha(0f).setDuration(200).start();
-        recyclerView.setAdapter(null);
-        relativeLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final KayitlarAdapter kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar,
-                        orderBy,listModeEnabled);
-                recyclerView.setAdapter(kayitlarAdapter);
-                relativeLayout.removeView(progressBar);
-                recyclerView.animate().alpha(1f).setDuration(200).start();
-            }
-        },600);
     }
 
     private void initFilterMenu(){
@@ -177,6 +156,77 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         });
     }
 
+    private void initProgressBarAndTask(){
+        taskPrePostOnUI();
+        doAsyncTaskAndPost();
+    }
+
+    private void taskPrePostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressBar=new ProgressBar(context);
+                progressBar.setIndeterminate(true);
+                if(mLayoutParams==null){
+                    mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                }
+                progressBar.setLayoutParams(mLayoutParams);
+                relativeLayout.addView(progressBar);
+                recyclerView.setAlpha(0f);
+            }
+        });
+    }
+
+    private void doAsyncTaskAndPost(){
+        HandlerThread handlerThread=new HandlerThread("AsyncTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                taskPostOnUI();
+            }
+        };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                kayitlarAdapter=new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar,
+                        orderBy,listModeEnabled);
+                if(listModeEnabled){
+                    layoutManager=new GridLayoutManager(context,2);
+                }
+                else{
+                    layoutManager=new GridLayoutManager(context,3);
+                }
+                try {
+                    Thread.sleep(500);
+                    Message message=new Message();
+                    message.obj="InitializeUIProcess";
+                    asyncHandler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        asyncHandler.post(runnable);
+    }
+
+    private void taskPostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(kayitlarAdapter);
+                relativeLayout.removeView(progressBar);
+                recyclerView.animate().alpha(1f).setDuration(200).start();
+            }
+        });
+    }
+
     @SuppressLint("NonConstantResourceId")
     public void viewClick(View view){
         switch (view.getId()){
@@ -193,4 +243,5 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                 break;
         }
     }
+
 }

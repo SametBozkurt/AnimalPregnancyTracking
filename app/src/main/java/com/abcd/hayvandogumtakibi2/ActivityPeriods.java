@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +37,11 @@ public class ActivityPeriods extends AppCompatActivity {
     private FrameLayout adContainerView;
     private RelativeLayout relativeLayout;
     private boolean listModeEnabled;
+    RecyclerView recyclerView;
+    RelativeLayout.LayoutParams mLayoutParams;
+    PeriodsAdapter periodsAdapter;
+    GridLayoutManager layoutManager;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,7 @@ public class ActivityPeriods extends AppCompatActivity {
         listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         relativeLayout=findViewById(R.id.parent_layout);
         adContainerView=findViewById(R.id.ad_view_container);
+        recyclerView=findViewById(R.id.recyclerView);
         final Button edidPeriods = findViewById(R.id.edit_periods);
         final ImageView cross = findViewById(R.id.iptal);
         final ImageView imgListMode=findViewById(R.id.listMode);
@@ -79,51 +89,123 @@ public class ActivityPeriods extends AppCompatActivity {
             }
         });
         initProgressBarAndTask();
-        adContainerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
-                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-                if(networkInfo!=null){
-                    if(networkInfo.isConnected()){
-                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
-                            @Override
-                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                        });
-                        loadBanner();
-                    }
-                }
-            }
-        },500);
+        initAdsTask();
     }
 
     private void initProgressBarAndTask(){
-        final RecyclerView recyclerView=findViewById(R.id.recyclerView);
-        final ProgressBar progressBar=new ProgressBar(context);
-        progressBar.setIndeterminate(true);
-        final RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        progressBar.setLayoutParams(mLayoutParams);
-        relativeLayout.addView(progressBar);
-        recyclerView.setAlpha(0f);
-        relativeLayout.postDelayed(new Runnable() {
+        taskPrePostOnUI();
+        doAsyncTaskAndPost();
+    }
+
+    private void taskPrePostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                final GridLayoutManager layoutManager;
+                progressBar=new ProgressBar(context);
+                progressBar.setIndeterminate(true);
+                if(mLayoutParams==null){
+                    mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    mLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                }
+                progressBar.setLayoutParams(mLayoutParams);
+                relativeLayout.addView(progressBar);
+                recyclerView.setAlpha(0f);
+            }
+        });
+    }
+
+    private void doAsyncTaskAndPost(){
+        HandlerThread handlerThread=new HandlerThread("AsyncTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                taskPostOnUI();
+            }
+        };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                periodsAdapter=new PeriodsAdapter(context,listModeEnabled);
                 if(listModeEnabled){
                     layoutManager=new GridLayoutManager(context,2);
                 }
                 else{
                     layoutManager=new GridLayoutManager(context,3);
                 }
+                try {
+                    Thread.sleep(500);
+                    Message message=new Message();
+                    message.obj="InitializeUIProcess";
+                    asyncHandler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        asyncHandler.post(runnable);
+    }
+
+    private void taskPostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
                 recyclerView.setLayoutManager(layoutManager);
-                final PeriodsAdapter periodsAdapter=new PeriodsAdapter(context,listModeEnabled);
                 recyclerView.setAdapter(periodsAdapter);
                 relativeLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
             }
-        },600);
+        });
+    }
+
+    private void initAdsTask(){
+        doAsyncAdsTask();
+    }
+
+    private void doAsyncAdsTask(){
+        HandlerThread handlerThread=new HandlerThread("AsyncAdsTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                Handler handler = new Handler(getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadBanner();
+                    }
+                });
+            }
+        };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                if(networkInfo!=null){
+                    if(networkInfo.isConnected()){
+                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
+                            @Override
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        try {
+                            Thread.sleep(500);
+                            Message message=new Message();
+                            message.obj="InitializeUIProcess";
+                            asyncHandler.sendMessage(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        };
+        asyncHandler.post(runnable);
     }
 
     private void loadBanner() {

@@ -5,6 +5,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +25,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
 
-    EditText periodCow, periodSheep, periodGoat, periodCat, periodDog, periodHamster, periodHorse, periodDonkey, periodCamel;
-    Handler dataBinder=new Handler();
+    private EditText periodCow, periodSheep, periodGoat, periodCat, periodDog, periodHamster, periodHorse, periodDonkey, periodCamel;
+    private PeriodsHolder periodsHolder;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        final PeriodsHolder periodsHolder=PeriodsHolder.getInstance(getContext());
         final BottomSheetDialog bottomSheetDialog=(BottomSheetDialog)super.onCreateDialog(savedInstanceState);
         bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -58,20 +60,7 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         periodHorse=view.findViewById(R.id.period_horse);
         periodDonkey=view.findViewById(R.id.period_donkey);
         periodCamel=view.findViewById(R.id.period_camel);
-        dataBinder.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                periodCow.setText(String.valueOf(periodsHolder.getPeriodCow()));
-                periodSheep.setText(String.valueOf(periodsHolder.getPeriodSheep()));
-                periodGoat.setText(String.valueOf(periodsHolder.getPeriodGoat()));
-                periodCat.setText(String.valueOf(periodsHolder.getPeriodCat()));
-                periodDog.setText(String.valueOf(periodsHolder.getPeriodDog()));
-                periodHamster.setText(String.valueOf(periodsHolder.getPeriodHamster()));
-                periodHorse.setText(String.valueOf(periodsHolder.getPeriodHorse()));
-                periodDonkey.setText(String.valueOf(periodsHolder.getPeriodDonkey()));
-                periodCamel.setText(String.valueOf(periodsHolder.getPeriodCamel()));
-            }
-        },100);
+        doBinderAsyncTaskAndPost();
         save_periods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +98,41 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         return bottomSheetDialog;
     }
 
+    private void doBinderAsyncTaskAndPost(){
+        HandlerThread handlerThread=new HandlerThread("BinderAsyncTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        periodCow.setText(String.valueOf(periodsHolder.getPeriodCow()));
+                        periodSheep.setText(String.valueOf(periodsHolder.getPeriodSheep()));
+                        periodGoat.setText(String.valueOf(periodsHolder.getPeriodGoat()));
+                        periodCat.setText(String.valueOf(periodsHolder.getPeriodCat()));
+                        periodDog.setText(String.valueOf(periodsHolder.getPeriodDog()));
+                        periodHamster.setText(String.valueOf(periodsHolder.getPeriodHamster()));
+                        periodHorse.setText(String.valueOf(periodsHolder.getPeriodHorse()));
+                        periodDonkey.setText(String.valueOf(periodsHolder.getPeriodDonkey()));
+                        periodCamel.setText(String.valueOf(periodsHolder.getPeriodCamel()));
+                    }
+                });
+            }
+        };
+        asyncHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                periodsHolder=PeriodsHolder.getInstance(getContext());
+                Message message=new Message();
+                message.obj="InitializeUIProcess";
+                asyncHandler.sendMessage(message);
+            }
+        });
+    }
+
     private void saveAllInputs(final PeriodsHolder periodsHolder, final Bundle bundle, final boolean recalculateDates){
         Thread thread=new Thread(new Runnable() {
             @Override
@@ -136,7 +160,5 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
-
-
 
 }

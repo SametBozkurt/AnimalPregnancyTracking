@@ -3,6 +3,9 @@ package com.abcd.hayvandogumtakibi2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,16 +24,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import static android.os.Looper.getMainLooper;
+
 public class FragmentYaklasanDogumlar extends Fragment {
 
     private Context context;
-    private RecyclerView recyclerView;
-    private CoordinatorLayout coordinatorLayout;
     private int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
     private String table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
     private BottomSheetDialog bottomSheetDialog;
     private RadioGroup radioGroupFilter,radioGroupOrder;
-    private boolean listModeEnabled;
+    private CoordinatorLayout.LayoutParams mLayoutParams;
+    private RecyclerView recyclerView;
+    private CoordinatorLayout coordinatorLayout;
+    private ProgressBar progressBar;
+    private KritiklerAdapter kritiklerAdapter;
+    private GridLayoutManager gridLayoutManager;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -46,18 +53,9 @@ public class FragmentYaklasanDogumlar extends Fragment {
         if(container!=null){
             container.clearDisappearingChildren();
         }
-        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         recyclerView=view.findViewById(R.id.recyclerView);
         coordinatorLayout=view.findViewById(R.id.parent_layout);
-        final Button btn_filter=view.findViewById(R.id.btn_filter);
-        final GridLayoutManager gridLayoutManager;
-        if(listModeEnabled){
-            gridLayoutManager=new GridLayoutManager(context,2);
-        }
-        else{
-            gridLayoutManager=new GridLayoutManager(context,3);
-        }
-        recyclerView.setLayoutManager(gridLayoutManager);
+        Button btn_filter=view.findViewById(R.id.btn_filter);
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,23 +73,74 @@ public class FragmentYaklasanDogumlar extends Fragment {
     }
 
     private void initProgressBarAndTask(){
-        final ProgressBar progressBar=new ProgressBar(context);
-        progressBar.setIndeterminate(true);
-        final CoordinatorLayout.LayoutParams mLayoutParams=new CoordinatorLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mLayoutParams.gravity=Gravity.CENTER;
-        progressBar.setLayoutParams(mLayoutParams);
-        coordinatorLayout.addView(progressBar);
-        recyclerView.setAlpha(0f);
-        coordinatorLayout.postDelayed(new Runnable() {
+        taskPrePostOnUI();
+        doAsyncTaskAndPost();
+    }
+
+    private void taskPrePostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                final KritiklerAdapter kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy,listModeEnabled);
+                progressBar=new ProgressBar(context);
+                progressBar.setIndeterminate(true);
+                if(mLayoutParams==null){
+                    mLayoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.WRAP_CONTENT,
+                            CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+                    mLayoutParams.gravity=Gravity.CENTER;
+                }
+                progressBar.setLayoutParams(mLayoutParams);
+                coordinatorLayout.addView(progressBar);
+                recyclerView.setAlpha(0f);
+            }
+        });
+    }
+
+    private void doAsyncTaskAndPost(){
+        HandlerThread handlerThread=new HandlerThread("AsyncTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                taskPostOnUI();
+            }
+        };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                boolean listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
+                kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy,listModeEnabled);
+                if(listModeEnabled){
+                    gridLayoutManager=new GridLayoutManager(context,2);
+                }
+                else{
+                    gridLayoutManager=new GridLayoutManager(context,3);
+                }
+                try {
+                    Thread.sleep(500);
+                    Message message=new Message();
+                    message.obj="InitializeUIProcess";
+                    asyncHandler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        asyncHandler.post(runnable);
+    }
+
+    private void taskPostOnUI(){
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setLayoutManager(gridLayoutManager);
                 recyclerView.setAdapter(kritiklerAdapter);
                 coordinatorLayout.removeView(progressBar);
                 recyclerView.animate().alpha(1f).setDuration(200).start();
             }
-        },600);
+        });
     }
 
     private void initFilterMenu(){
