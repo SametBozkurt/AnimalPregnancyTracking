@@ -36,7 +36,6 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     private RelativeLayout.LayoutParams mLayoutParams;
     private DuzenleAdapter duzenleAdapter;
     private ProgressBar progressBar;
-    private GridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +82,12 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                 taskPostOnUI();
             }
         };
-        Runnable runnable=new Runnable() {
+        asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                duzenleAdapter =new DuzenleAdapter(context,selection_code,selection_gerceklesen_dogumlar,orderBy);
-                layoutManager=new GridLayoutManager(context,3);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(400);
+                    duzenleAdapter=new DuzenleAdapter(context,selection_code,selection_gerceklesen_dogumlar,orderBy);
                     Message message=new Message();
                     message.obj="InitializeUIProcess";
                     asyncHandler.sendMessage(message);
@@ -97,8 +95,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        };
-        asyncHandler.post(runnable);
+        });
     }
 
     private void taskPostOnUI(){
@@ -106,10 +103,16 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                GridLayoutManager layoutManager=new GridLayoutManager(context,3);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(duzenleAdapter);
-                relativeLayout.removeView(progressBar);
-                recyclerView.animate().alpha(1f).setDuration(200).start();
+                try {
+                    Thread.sleep(200);
+                    relativeLayout.removeView(progressBar);
+                    recyclerView.animate().alpha(1f).setDuration(200).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -223,7 +226,6 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        recyclerView.setAdapter(null);
     }
 
 }

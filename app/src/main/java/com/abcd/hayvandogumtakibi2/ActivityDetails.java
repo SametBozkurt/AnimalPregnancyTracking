@@ -195,9 +195,10 @@ public class ActivityDetails extends AppCompatActivity {
                         final TextView txt_sperma=view.findViewById(R.id.txt_sperma);
                         final long date_in_millis=Long.parseLong(dataModel.getDogum_tarihi());
                         final Date date = new Date();
+                        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ActivityDetails.this);
                         date.setTime(TarihHesaplayici.get_kizdirma_tarihi(date_in_millis));
                         txt_kizidirma_tarihi.setText(dateFormat.format(date));
-                        date.setTime(TarihHesaplayici.get_kuruya_alma_tarihi(date_in_millis));
+                        date.setTime(tarihHesaplayici.get_kuruya_alma_tarihi(date_in_millis));
                         txt_kuruya_alma.setText(dateFormat.format(date));
                         if(dataModel.getSperma_kullanilan()==null||dataModel.getSperma_kullanilan().isEmpty()){
                             txt_sperma.setText(getString(R.string.kupe_no_yok));

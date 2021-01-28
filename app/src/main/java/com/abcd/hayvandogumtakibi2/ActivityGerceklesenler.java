@@ -27,7 +27,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gerceklesenler);
-        final ImageView cross=findViewById(R.id.iptal);
+        ImageView cross=findViewById(R.id.iptal);
         imgListMode=findViewById(R.id.listMode);
         fragment_container=findViewById(R.id.fragment_container);
         cross.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +53,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                 taskPostOnUI();
             }
         };
-        Runnable runnable=new Runnable() {
+        asyncHandler.post(new Runnable() {
             @Override
             public void run() {
                 databaseHelper=SQLiteDatabaseHelper.getInstance(context);
@@ -62,8 +62,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                 message.obj="InitializeUIProcess";
                 asyncHandler.sendMessage(message);
             }
-        };
-        asyncHandler.post(runnable);
+        });
     }
 
     private void taskPostOnUI(){

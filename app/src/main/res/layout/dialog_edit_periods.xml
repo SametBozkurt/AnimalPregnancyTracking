@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             android:text="@string/edit_periods"
             android:textColor="@android:color/black"
             android:textSize="24sp"
@@ -30,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/text_notify"
-            app:layout_constraintTop_toBottomOf="@id/title_text"
             android:layout_marginStart="@dimen/margin_kategori_2"
             android:layout_marginEnd="@dimen/margin_kategori_2"
             android:text="@string/editPeriodsNotifyText"
@@ -40,299 +39,366 @@
             android:textColor="#5e35b1"/>
 
         <LinearLayout
-            android:id="@+id/lyt_period_cow"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_notify">
+            android:baselineAligned="false">
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/lyt_period_cow"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:src="@mipmap/cow"/>
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_cow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:src="@mipmap/cow"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_cow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_period_sheep"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/sheep"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_sheep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lyt_period_sheep"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_notify">
+            android:baselineAligned="false">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/sheep"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"/>
+            <LinearLayout
+                android:id="@+id/lyt_period_goat"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_sheep"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/goat"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_goat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_period_cat"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/cat"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lyt_period_goat"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_cow">
+            android:baselineAligned="false">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/goat"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"/>
+            <LinearLayout
+                android:id="@+id/lyt_period_dog"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_goat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/dog"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_dog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_period_hamster"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/hamster"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_hamster"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lyt_period_cat"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_sheep">
+            android:baselineAligned="false">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/cat"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"/>
+            <LinearLayout
+                android:id="@+id/lyt_period_horse"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_cat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/horse"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_horse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_period_donkey"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/donkey"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_donkey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:maxLength="3"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lyt_period_dog"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_goat">
+            android:baselineAligned="false">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/dog"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null" />
+            <LinearLayout
+                android:id="@+id/lyt_period_camel"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_dog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/camel"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
 
-        </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_camel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
 
-        <LinearLayout
-            android:id="@+id/lyt_period_hamster"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_cat">
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/hamster"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"/>
+            <LinearLayout
+                android:id="@+id/lyt_period_abort_milking"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_hamster"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/abort_milking"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
 
-        </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_abort_milking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
 
-        <LinearLayout
-            android:id="@+id/lyt_period_horse"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_dog">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/horse"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_horse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lyt_period_donkey"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_hamster">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/donkey"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_donkey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:maxLength="3"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lyt_period_camel"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyt_period_horse">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/camel"
-                android:scaleType="fitCenter"
-                android:scaleX="@dimen/image_scale"
-                android:scaleY="@dimen/image_scale"
-                android:adjustViewBounds="true"
-                android:contentDescription="@null"/>
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/period_camel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:inputType="number"
-                android:maxLength="3"
-                android:paddingStart="@dimen/margin_kategori_4"
-                android:paddingEnd="@dimen/margin_kategori_4"
-                android:lines="1"
-                android:fontFamily="@font/comfortaa_bold"/>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -345,44 +411,46 @@
             android:fontFamily="@font/open_sans"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/margin_kategori_1"
-            android:layout_marginEnd="@dimen/margin_kategori_1"
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginEnd="@dimen/margin_kategori_2"
             app:layout_constraintTop_toBottomOf="@id/lyt_period_camel"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/save_periods"
-            android:layout_gravity="end"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_option"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/margin_kategori_3"
-            android:text="@string/button_text_kaydet"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:backgroundTint="#5e35b1"
-            app:icon="@drawable/ic_tick"
-            app:iconSize="22dp"
-            app:iconTint="#fff"
-            android:textColor="#fff"/>
+            android:layout_marginStart="@dimen/margin_kategori_2"
+            android:layout_marginEnd="@dimen/margin_kategori_2">
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_reset"
-            android:layout_gravity="start"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_option"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/margin_kategori_3"
-            android:text="@string/btn_resetOrderPreferenes"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="#5e35b1"
-            app:backgroundTint="#fff"
-            app:icon="@drawable/ic_undo"
-            app:iconSize="22dp"
-            app:iconTint="#5e35b1"
-            app:strokeColor="#5e35b1"
-            app:strokeWidth="2dp"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_periods"
+                android:layout_gravity="end"
+                android:text="@string/button_text_kaydet"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:backgroundTint="#5e35b1"
+                app:icon="@drawable/ic_tick"
+                app:iconSize="22dp"
+                app:iconTint="#fff"
+                android:textColor="#fff"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_reset"
+                android:layout_gravity="start"
+                android:text="@string/btn_resetOrderPreferenes"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#5e35b1"
+                app:backgroundTint="#fff"
+                app:icon="@drawable/ic_undo"
+                app:iconSize="22dp"
+                app:iconTint="#5e35b1"
+                app:strokeColor="#5e35b1"
+                app:strokeWidth="2dp"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

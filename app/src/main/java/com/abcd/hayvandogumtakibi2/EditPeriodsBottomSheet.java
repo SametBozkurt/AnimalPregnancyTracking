@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -25,8 +25,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
 
-    private EditText periodCow, periodSheep, periodGoat, periodCat, periodDog, periodHamster, periodHorse, periodDonkey, periodCamel;
+    private EditText periodCow, periodSheep, periodGoat, periodCat, periodDog, periodHamster, periodHorse, periodDonkey, periodCamel, period_abort_milking;
     private PeriodsHolder periodsHolder;
+    private MyBottomSheetCallback myBottomSheetCallback;
 
     @NonNull
     @Override
@@ -35,21 +36,21 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                ConstraintLayout constraintLayout = bottomSheetDialog.findViewById(R.id.parent);
-                BottomSheetBehavior behavior = BottomSheetBehavior.from(constraintLayout);
-                ViewGroup.LayoutParams layoutParams = constraintLayout.getLayoutParams();
+                LinearLayout linearLayout = bottomSheetDialog.findViewById(R.id.parent);
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(linearLayout);
+                ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
                 int windowHeight = getWindowHeight();
                 if (layoutParams != null) {
                     layoutParams.height = windowHeight;
                 }
-                constraintLayout.setLayoutParams(layoutParams);
+                linearLayout.setLayoutParams(layoutParams);
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
         View view=View.inflate(getContext(), R.layout.dialog_edit_periods, null);
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
-        Button save_periods=view.findViewById(R.id.save_periods), resetPeriods=view.findViewById(R.id.btn_reset);
+        final Button save_periods=view.findViewById(R.id.save_periods), resetPeriods=view.findViewById(R.id.btn_reset);
         final CheckBox checkBoxOptions=view.findViewById(R.id.checkbox_option);
         periodCow=view.findViewById(R.id.period_cow);
         periodSheep=view.findViewById(R.id.period_sheep);
@@ -60,39 +61,18 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         periodHorse=view.findViewById(R.id.period_horse);
         periodDonkey=view.findViewById(R.id.period_donkey);
         periodCamel=view.findViewById(R.id.period_camel);
+        period_abort_milking=view.findViewById(R.id.period_abort_milking);
         doBinderAsyncTaskAndPost();
         save_periods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle_periods=new Bundle();
-                bundle_periods.putString("cow",periodCow.getText().toString());
-                bundle_periods.putString("sheep",periodSheep.getText().toString());
-                bundle_periods.putString("goat",periodGoat.getText().toString());
-                bundle_periods.putString("cat",periodCat.getText().toString());
-                bundle_periods.putString("dog",periodDog.getText().toString());
-                bundle_periods.putString("hamster",periodHamster.getText().toString());
-                bundle_periods.putString("horse",periodHorse.getText().toString());
-                bundle_periods.putString("donkey",periodDonkey.getText().toString());
-                bundle_periods.putString("camel",periodCamel.getText().toString());
-                saveAllInputs(periodsHolder,bundle_periods,checkBoxOptions.isChecked());
-                bottomSheetDialog.dismiss();
+                savePeriods(bottomSheetDialog,checkBoxOptions,false);
             }
         });
         resetPeriods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle_periods=new Bundle();
-                bundle_periods.putString("cow","283");
-                bundle_periods.putString("sheep","152");
-                bundle_periods.putString("goat","150");
-                bundle_periods.putString("cat","65");
-                bundle_periods.putString("dog","64");
-                bundle_periods.putString("hamster","16");
-                bundle_periods.putString("horse","335");
-                bundle_periods.putString("donkey","365");
-                bundle_periods.putString("camel","390");
-                saveAllInputs(periodsHolder,bundle_periods,checkBoxOptions.isChecked());
-                bottomSheetDialog.dismiss();
+                savePeriods(bottomSheetDialog,checkBoxOptions,true);
             }
         });
         return bottomSheetDialog;
@@ -118,6 +98,7 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                         periodHorse.setText(String.valueOf(periodsHolder.getPeriodHorse()));
                         periodDonkey.setText(String.valueOf(periodsHolder.getPeriodDonkey()));
                         periodCamel.setText(String.valueOf(periodsHolder.getPeriodCamel()));
+                        period_abort_milking.setText(String.valueOf(periodsHolder.getPeriodAbortMilking()));
                     }
                 });
             }
@@ -146,6 +127,7 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                 periodsHolder.setPeriodHorse(bundle.getString("horse"));
                 periodsHolder.setPeriodDonkey(bundle.getString("donkey"));
                 periodsHolder.setPeriodCamel(bundle.getString("camel"));
+                periodsHolder.setPeriodAbortMilking(bundle.getString("abort_milking"));
                 if(recalculateDates){
                     SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(getContext());
                     sqLiteDatabaseHelper.recalculateEstBirthDates(getContext());
@@ -159,6 +141,50 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
+    }
+
+    private void savePeriods(final BottomSheetDialog bottomSheetDialog, final CheckBox checkBox, final boolean doesItReset){
+        Bundle bundle_periods=new Bundle();
+        if(doesItReset){
+            bundle_periods.putString("cow","283");
+            bundle_periods.putString("sheep","152");
+            bundle_periods.putString("goat","150");
+            bundle_periods.putString("cat","65");
+            bundle_periods.putString("dog","64");
+            bundle_periods.putString("hamster","16");
+            bundle_periods.putString("horse","335");
+            bundle_periods.putString("donkey","365");
+            bundle_periods.putString("camel","390");
+            bundle_periods.putString("abort_milking","60");
+        }
+        else{
+            bundle_periods.putString("cow",periodCow.getText().toString());
+            bundle_periods.putString("sheep",periodSheep.getText().toString());
+            bundle_periods.putString("goat",periodGoat.getText().toString());
+            bundle_periods.putString("cat",periodCat.getText().toString());
+            bundle_periods.putString("dog",periodDog.getText().toString());
+            bundle_periods.putString("hamster",periodHamster.getText().toString());
+            bundle_periods.putString("horse",periodHorse.getText().toString());
+            bundle_periods.putString("donkey",periodDonkey.getText().toString());
+            bundle_periods.putString("abort_milking",period_abort_milking.getText().toString());
+        }
+        saveAllInputs(periodsHolder,bundle_periods,checkBox.isChecked());
+        bottomSheetDialog.dismiss();
+        triggerCallback();
+    }
+
+    public interface MyBottomSheetCallback {
+        void onBottomSheetDismissed();
+    }
+
+    public void setBottomSheetCallback(MyBottomSheetCallback myBottomSheetCallback){
+        this.myBottomSheetCallback=myBottomSheetCallback;
+    }
+
+    public void triggerCallback(){
+        if(myBottomSheetCallback!=null){
+            myBottomSheetCallback.onBottomSheetDismissed();
+        }
     }
 
 }

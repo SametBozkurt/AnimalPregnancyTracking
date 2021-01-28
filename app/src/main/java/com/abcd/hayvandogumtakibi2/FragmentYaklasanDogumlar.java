@@ -38,7 +38,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
     private CoordinatorLayout coordinatorLayout;
     private ProgressBar progressBar;
     private KritiklerAdapter kritiklerAdapter;
-    private GridLayoutManager gridLayoutManager;
+    private boolean listModeEnabled;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -106,19 +106,13 @@ public class FragmentYaklasanDogumlar extends Fragment {
                 taskPostOnUI();
             }
         };
-        Runnable runnable=new Runnable() {
+        asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                boolean listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
-                kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy,listModeEnabled);
-                if(listModeEnabled){
-                    gridLayoutManager=new GridLayoutManager(context,2);
-                }
-                else{
-                    gridLayoutManager=new GridLayoutManager(context,3);
-                }
+                listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(400);
+                    kritiklerAdapter=new KritiklerAdapter(context,selection_code,orderBy,listModeEnabled);
                     Message message=new Message();
                     message.obj="InitializeUIProcess";
                     asyncHandler.sendMessage(message);
@@ -126,8 +120,7 @@ public class FragmentYaklasanDogumlar extends Fragment {
                     e.printStackTrace();
                 }
             }
-        };
-        asyncHandler.post(runnable);
+        });
     }
 
     private void taskPostOnUI(){
@@ -135,10 +128,22 @@ public class FragmentYaklasanDogumlar extends Fragment {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                GridLayoutManager gridLayoutManager;
+                if(listModeEnabled){
+                    gridLayoutManager=new GridLayoutManager(context,2);
+                }
+                else{
+                    gridLayoutManager=new GridLayoutManager(context,3);
+                }
                 recyclerView.setLayoutManager(gridLayoutManager);
                 recyclerView.setAdapter(kritiklerAdapter);
-                coordinatorLayout.removeView(progressBar);
-                recyclerView.animate().alpha(1f).setDuration(200).start();
+                try {
+                    Thread.sleep(200);
+                    coordinatorLayout.removeView(progressBar);
+                    recyclerView.animate().alpha(1f).setDuration(200).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

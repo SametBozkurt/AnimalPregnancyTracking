@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/image_cross_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:src="@mipmap/no_critical"
         android:contentDescription="@null"
@@ -24,11 +24,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_cross_line"
+        android:layout_marginStart="@dimen/margin_kategori_3"
+        android:layout_marginEnd="@dimen/margin_kategori_3"
         android:fontFamily="@font/comfortaa_bold"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
         android:text="@string/kayit_yok_uyari_kritikler"
-        android:textSize="18sp"
         style="@style/STYLE_WARNING_TEXT"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,8 +16,8 @@ public class TarihHesaplayici {
     public int DAY_CAMEL;
     public int DAY_DONKEY;
     public int DAY_HORSE;
+    public int DAY_TO_ABORT_MILKING_COW;
     public static final int DAY_TO_NEXT_INS_COW = 64;
-    public static final int DAY_TO_ABORT_MILKING_COW = -60;
     private static final String ActivityName = "com.abcd.hayvandogumtakibi2.FragmentTarihHesaplayici";
     private DateChangeListener dateChangeListener;
 
@@ -32,6 +32,7 @@ public class TarihHesaplayici {
         DAY_HORSE= periodsHolder.getPeriodHorse();
         DAY_DONKEY= periodsHolder.getPeriodDonkey();
         DAY_CAMEL= periodsHolder.getPeriodCamel();
+        DAY_TO_ABORT_MILKING_COW= periodsHolder.getPeriodAbortMilking();
     }
 
     public Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
@@ -157,10 +158,10 @@ public class TarihHesaplayici {
         return calendar.getTimeInMillis();
     }
 
-    public static long get_kuruya_alma_tarihi(long birth_date_in_millis){
+    public long get_kuruya_alma_tarihi(long birth_date_in_millis){
         Calendar calendar=Calendar.getInstance();
         calendar.setTimeInMillis(birth_date_in_millis);
-        calendar.add(Calendar.DATE,DAY_TO_ABORT_MILKING_COW);
+        calendar.add(Calendar.DATE,DAY_TO_ABORT_MILKING_COW*-1);
         return calendar.getTimeInMillis();
     }
 

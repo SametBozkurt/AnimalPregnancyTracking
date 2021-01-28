@@ -28,7 +28,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-public class ActivityPeriods extends AppCompatActivity {
+public class ActivityPeriods extends AppCompatActivity{
 
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
@@ -37,11 +37,11 @@ public class ActivityPeriods extends AppCompatActivity {
     private FrameLayout adContainerView;
     private RelativeLayout relativeLayout;
     private boolean listModeEnabled;
-    RecyclerView recyclerView;
-    RelativeLayout.LayoutParams mLayoutParams;
-    PeriodsAdapter periodsAdapter;
-    GridLayoutManager layoutManager;
-    ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private RelativeLayout.LayoutParams mLayoutParams;
+    private PeriodsAdapter periodsAdapter;
+    private GridLayoutManager layoutManager;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,12 @@ public class ActivityPeriods extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditPeriodsBottomSheet editPeriodsBottomSheet=new EditPeriodsBottomSheet();
+                editPeriodsBottomSheet.setBottomSheetCallback(new EditPeriodsBottomSheet.MyBottomSheetCallback() {
+                    @Override
+                    public void onBottomSheetDismissed() {
+                        initProgressBarAndTask();
+                    }
+                });
                 editPeriodsBottomSheet.show(getSupportFragmentManager(),null);
             }
         });
@@ -126,18 +132,12 @@ public class ActivityPeriods extends AppCompatActivity {
                 taskPostOnUI();
             }
         };
-        Runnable runnable=new Runnable() {
+        asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                periodsAdapter=new PeriodsAdapter(context,listModeEnabled);
-                if(listModeEnabled){
-                    layoutManager=new GridLayoutManager(context,2);
-                }
-                else{
-                    layoutManager=new GridLayoutManager(context,3);
-                }
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(400);
+                    periodsAdapter=new PeriodsAdapter(context,listModeEnabled);
                     Message message=new Message();
                     message.obj="InitializeUIProcess";
                     asyncHandler.sendMessage(message);
@@ -145,8 +145,7 @@ public class ActivityPeriods extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        };
-        asyncHandler.post(runnable);
+        });
     }
 
     private void taskPostOnUI(){
@@ -154,10 +153,21 @@ public class ActivityPeriods extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                if(listModeEnabled){
+                    layoutManager=new GridLayoutManager(context,2);
+                }
+                else{
+                    layoutManager=new GridLayoutManager(context,3);
+                }
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(periodsAdapter);
-                relativeLayout.removeView(progressBar);
-                recyclerView.animate().alpha(1f).setDuration(200).start();
+                try {
+                    Thread.sleep(200);
+                    relativeLayout.removeView(progressBar);
+                    recyclerView.animate().alpha(1f).setDuration(200).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -250,8 +260,8 @@ public class ActivityPeriods extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        if (adView != null) { adView.pause(); }
         super.onPause();
+        if (adView != null) { adView.pause(); }
     }
 
     @Override
@@ -259,5 +269,4 @@ public class ActivityPeriods extends AppCompatActivity {
         super.onResume();
         if (adView != null) { adView.resume(); }
     }
-
 }
