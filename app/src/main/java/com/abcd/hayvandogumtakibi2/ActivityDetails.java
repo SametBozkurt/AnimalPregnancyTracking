@@ -7,6 +7,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -37,17 +41,17 @@ import java.util.Locale;
 
 public class ActivityDetails extends AppCompatActivity {
 
-    private Boolean isOtherFieldsShown=false;
+    private Boolean isOtherFieldsShown=false,hasInternetConnection=false;
     private DataModel dataModel;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
-    int dogum_gerceklesti=0;
+    private int dogum_gerceklesti=0;
     private AdView adView;
     private TextView txtMarkIt;
     private FrameLayout adContainerView, other_fields_container;
     private LinearLayout linearLayout;
     private RelativeLayout parent_layout;
     private int screen_width=0;
-    SQLiteDatabaseHelper databaseHelper;
+    private SQLiteDatabaseHelper databaseHelper;
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
@@ -60,20 +64,20 @@ public class ActivityDetails extends AppCompatActivity {
         other_fields_container=findViewById(R.id.diger_detaylar_container);
         linearLayout=findViewById(R.id.linear_layout);
         txtMarkIt=findViewById(R.id.text_mark);
-        final LinearLayout layout_mark = findViewById(R.id.mark_layout);
+        LinearLayout layout_mark = findViewById(R.id.mark_layout);
         final ImageView imageView = findViewById(R.id.img_hayvan);
-        final ImageView cross = findViewById(R.id.iptal);
-        final TextView txt_isim = findViewById(R.id.txt_isim);
-        final TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
-        final TextView txt_tur = findViewById(R.id.txt_tur);
-        final TextView txt_tarih1 = findViewById(R.id.txt_tarih1);
+        ImageView cross = findViewById(R.id.iptal);
+        TextView txt_isim = findViewById(R.id.txt_isim);
+        TextView txt_kupe_no = findViewById(R.id.txt_kupe_no);
+        TextView txt_tur = findViewById(R.id.txt_tur);
+        TextView txt_tarih1 = findViewById(R.id.txt_tarih1);
         final TextView txt_tarih2 = findViewById(R.id.txt_tarih2);
         final TextView txt_tarih2_title = findViewById(R.id.txt_tarih2_title);
         final TextView txt_kalan = findViewById(R.id.txt_kalan_gun);
-        final ImageView icon_edit = findViewById(R.id.btn_edit);
-        final TextView txtOtherFields=findViewById(R.id.txt_other_details);
+        ImageView icon_edit = findViewById(R.id.btn_edit);
+        TextView txtOtherFields=findViewById(R.id.txt_other_details);
         final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-        final Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
         final Date date_dollenme=new Date(), date_dogum=new Date();
         dataModel=databaseHelper.getDataById(bundle.getInt("ID"));
@@ -131,8 +135,8 @@ public class ActivityDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(dogum_gerceklesti==0){
-                    final Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
-                    final Bundle veri_paketi=new Bundle();
+                    Intent data=new Intent(ActivityDetails.this,ActivityEdit.class);
+                    Bundle veri_paketi=new Bundle();
                     veri_paketi.putInt("kayit_id",dataModel.getId());
                     data.putExtras(veri_paketi);
                     startActivity(data);
@@ -145,7 +149,7 @@ public class ActivityDetails extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
+                File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
                 if(gorselFile.exists()&&gorselFile.isFile()){
                     show_image(gorselFile.getAbsolutePath());
                 }
@@ -163,11 +167,11 @@ public class ActivityDetails extends AppCompatActivity {
                 if(dogum_gerceklesti==0){
                     final Dialog dialog_warn=new Dialog(ActivityDetails.this,R.style.ImageDialogStyle);
                     dialog_warn.setContentView(R.layout.dialog_dogrulama_dgm_grcklsti);
-                    final Button btn_ok=dialog_warn.findViewById(R.id.btn_ok);
+                    Button btn_ok=dialog_warn.findViewById(R.id.btn_ok);
                     btn_ok.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            final long tahmini_dogum_tarihi=Long.parseLong(dataModel.getDogum_tarihi());
+                            long tahmini_dogum_tarihi=Long.parseLong(dataModel.getDogum_tarihi());
                             databaseHelper.isaretle_dogum_gerceklesti(dataModel.getId(),System.currentTimeMillis(),tahmini_dogum_tarihi);
                             dogum_gerceklesti=1;
                             txtMarkIt.setText(getString(R.string.happened_birth));
@@ -183,18 +187,18 @@ public class ActivityDetails extends AppCompatActivity {
             public void onClick(View v) {
                 if(!isOtherFieldsShown){
                     isOtherFieldsShown=true;
-                    final boolean a=dataModel.getIs_evcilhayvan()==2 && Integer.parseInt(dataModel.getTur())==0;
-                    final boolean b=dataModel.getIs_evcilhayvan()==0 && Integer.parseInt(dataModel.getTur())==0;
-                    final LayoutInflater inflater=LayoutInflater.from(ActivityDetails.this);
+                    boolean a=dataModel.getIs_evcilhayvan()==2 && Integer.parseInt(dataModel.getTur())==0;
+                    boolean b=dataModel.getIs_evcilhayvan()==0 && Integer.parseInt(dataModel.getTur())==0;
+                    LayoutInflater inflater=LayoutInflater.from(ActivityDetails.this);
                     other_fields_container.setAlpha(0f);
                     View view;
                     if(a||b){
                         view=inflater.inflate(R.layout.lyt_dgr_dtylar2,other_fields_container,false);
-                        final TextView txt_kizidirma_tarihi=view.findViewById(R.id.txt_tarih3);
-                        final TextView txt_kuruya_alma=view.findViewById(R.id.txt_tarih4);
-                        final TextView txt_sperma=view.findViewById(R.id.txt_sperma);
-                        final long date_in_millis=Long.parseLong(dataModel.getDogum_tarihi());
-                        final Date date = new Date();
+                        TextView txt_kizidirma_tarihi=view.findViewById(R.id.txt_tarih3);
+                        TextView txt_kuruya_alma=view.findViewById(R.id.txt_tarih4);
+                        TextView txt_sperma=view.findViewById(R.id.txt_sperma);
+                        long date_in_millis=Long.parseLong(dataModel.getDogum_tarihi());
+                        Date date = new Date();
                         TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ActivityDetails.this);
                         date.setTime(TarihHesaplayici.get_kizdirma_tarihi(date_in_millis));
                         txt_kizidirma_tarihi.setText(dateFormat.format(date));
@@ -209,7 +213,7 @@ public class ActivityDetails extends AppCompatActivity {
                     }
                     else{
                         view=inflater.inflate(R.layout.lyt_dgr_dtylar1,other_fields_container,false);
-                        final TextView txt_sperma=view.findViewById(R.id.txt_sperma);
+                        TextView txt_sperma=view.findViewById(R.id.txt_sperma);
                         if(dataModel.getSperma_kullanilan()==null||dataModel.getSperma_kullanilan().isEmpty()){
                             txt_sperma.setText(getString(R.string.kupe_no_yok));
                         }
@@ -222,32 +226,56 @@ public class ActivityDetails extends AppCompatActivity {
                 }
             }
         });
-        adContainerView.postDelayed(new Runnable() {
+        doAsyncAdsTask();
+    }
+
+    private void doAsyncAdsTask(){
+        HandlerThread handlerThread=new HandlerThread("AsyncAdsTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                Handler handler = new Handler(getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(hasInternetConnection){
+                            loadBanner();
+                        }
+                    }
+                });
+            }
+        };
+        asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                final ConnectivityManager connectivityManager=(ConnectivityManager)ActivityDetails.this.getSystemService(CONNECTIVITY_SERVICE);
-                final NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                get_width_pixels();
+                ConnectivityManager connectivityManager=(ConnectivityManager)ActivityDetails.this.getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
+                    hasInternetConnection=networkInfo.isConnected();
                     if(networkInfo.isConnected()){
                         MobileAds.initialize(ActivityDetails.this, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
-                        loadBanner();
+                        try {
+                            Thread.sleep(500);
+                            Message message=new Message();
+                            message.obj="InitializeUIProcess";
+                            asyncHandler.sendMessage(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        },500);
-        parent_layout.post(new Runnable() {
-            @Override
-            public void run() {
-                get_width_pixels();
             }
         });
     }
 
-    public int get_gun_sayisi(long dogum_tarihi_in_millis) {
-        final long gun=(dogum_tarihi_in_millis-System.currentTimeMillis())/DAY_IN_MILLIS;
+    private int get_gun_sayisi(long dogum_tarihi_in_millis) {
+        long gun=(dogum_tarihi_in_millis-System.currentTimeMillis())/DAY_IN_MILLIS;
         return (int)gun;
     }
 
@@ -259,20 +287,20 @@ public class ActivityDetails extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (adView != null) {
             adView.destroy();
             adContainerView.removeAllViews();
             linearLayout.removeAllViews();
         }
-        super.onDestroy();
     }
 
     @Override
     public void onPause() {
+        super.onPause();
         if (adView != null) {
             adView.pause();
         }
-        super.onPause();
     }
 
     @Override
@@ -288,30 +316,29 @@ public class ActivityDetails extends AppCompatActivity {
         adView.setAdUnitId(BANNER_TEST_ID);
         adContainerView.removeAllViews();
         adContainerView.addView(adView);
-        final AdSize adSize = getAdSize();
-        adView.setAdSize(adSize);
-        final AdRequest adRequest = new AdRequest.Builder().build();
+        adView.setAdSize(getAdSize());
+        AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }
 
     private AdSize getAdSize() {
-        final Display display = getWindowManager().getDefaultDisplay();
-        final DisplayMetrics outMetrics = new DisplayMetrics();
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
-        final float density = outMetrics.density;
+        float density = outMetrics.density;
         float adWidthPixels = adContainerView.getWidth();
         if (adWidthPixels == 0) {
             adWidthPixels = outMetrics.widthPixels;
         }
-        final int adWidth = (int) (adWidthPixels / density);
+        int adWidth = (int) (adWidthPixels / density);
         return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
     }
 
-    void show_image(String photo_address){
+    private void show_image(String photo_address){
         final Dialog dialog = new Dialog(this,R.style.ImageDialogStyle);
         dialog.setContentView(R.layout.image_dialog_layout);
-        final ImageView img_animal=dialog.findViewById(R.id.image_animal);
-        final FloatingActionButton fab_close=dialog.findViewById(R.id.fab_close);
+        ImageView img_animal=dialog.findViewById(R.id.image_animal);
+        FloatingActionButton fab_close=dialog.findViewById(R.id.fab_close);
         img_animal.setMinimumHeight(screen_width*3/4);  //Bu işlem dialog boyutunu yatay piksel sayısının
         img_animal.setMaxHeight(screen_width*4/5);      //%75-%80'i boyutunda tutarak dialog boyutunu stabil tutar.
         img_animal.setMinimumWidth(screen_width*3/4);
@@ -327,9 +354,9 @@ public class ActivityDetails extends AppCompatActivity {
         dialog.show();
     }
 
-    void get_width_pixels(){
-        final Display display = getWindowManager().getDefaultDisplay();
-        final DisplayMetrics displayMetrics = new DisplayMetrics();
+    private void get_width_pixels(){
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
         display.getMetrics(displayMetrics);
         screen_width=displayMetrics.widthPixels;
     }

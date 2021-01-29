@@ -7,6 +7,7 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -29,7 +30,7 @@ public class ActivityKayitAra extends AppCompatActivity {
     private final Context context=this;
     private RelativeLayout relativeLayout;
     private FrameLayout sonuc_container;
-    private String search_in=SQLiteDatabaseHelper.SUTUN_1, orderBy=search_in+" ASC";
+    private String search_in=SQLiteDatabaseHelper.SUTUN_1, orderBy=search_in+" ASC", toBeSearched;
     private final int RBIsimlerId=R.id.radio_button_isim, RBKupeNoId=R.id.radio_button_id, RBAtoZ=R.id.radio_button_AtoZ, RBZtoA=R.id.radio_button_ZtoA;
     private ProgressBar progressBar;
     private RelativeLayout.LayoutParams mLayoutParams;
@@ -37,7 +38,6 @@ public class ActivityKayitAra extends AppCompatActivity {
     private AramalarAdapter aramalarAdapter;
     private LayoutInflater layoutInflater;
     private SQLiteDatabaseHelper databaseHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,9 @@ public class ActivityKayitAra extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 sonuc_container.removeAllViews();
+                toBeSearched=charSequence.toString();
                 if(!charSequence.toString().isEmpty()){
+                    sonuc_container.removeAllViews();
                     initProgressBarAndTask(charSequence.toString());
                 }
             }
@@ -79,6 +81,11 @@ public class ActivityKayitAra extends AppCompatActivity {
                 else if(checkedId==RBKupeNoId){
                     search_in=SQLiteDatabaseHelper.SUTUN_3;
                 }
+                if(toBeSearched!=null&&!toBeSearched.isEmpty()){
+                    Log.e("LOGGER","abcd");
+                    sonuc_container.removeAllViews();
+                    initProgressBarAndTask(toBeSearched);
+                }
             }
         });
         radioGroup_OrderBy.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -89,6 +96,11 @@ public class ActivityKayitAra extends AppCompatActivity {
                 }
                 else if(checkedId==RBZtoA){
                     orderBy=search_in+" DESC";
+                }
+                if(toBeSearched!=null&&!toBeSearched.isEmpty()){
+                    Log.e("LOGGER","abcd");
+                    sonuc_container.removeAllViews();
+                    initProgressBarAndTask(toBeSearched);
                 }
             }
         });

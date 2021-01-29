@@ -33,6 +33,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private final int code;
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private final Date date=new Date();
+    private DataModel dataModel;
 
     DuzenleAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
         this.mContext=context;
@@ -50,7 +51,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
-        final DataModel dataModel=dataModelArrayList.get(position);
+        dataModel=dataModelArrayList.get(position);
         holder.textView.setText(new StringBuilder(dataModel.getIsim()));
         switch(code){
             case 0:
@@ -97,8 +98,8 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 notifyItemRangeChanged(position,dataModelArrayList.size());
             }
         });
-        final File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
-        final FrameLayout.LayoutParams imageView_layoutParams;
+        File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
+        FrameLayout.LayoutParams imageView_layoutParams;
         if(gorselFile.exists()&&gorselFile.isFile()){
             imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             holder.img_animal.setLayoutParams(imageView_layoutParams);
@@ -122,12 +123,11 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         return dataModelArrayList.size();
     }
 
-    static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView textView;
-        final FloatingActionButton button_duzenle;
-        final FloatingActionButton button_sil;
-        final ImageView img_animal;
+        TextView textView;
+        FloatingActionButton button_duzenle, button_sil;
+        ImageView img_animal;
 
         CustomViewHolder(View itemView) {
             super(itemView);

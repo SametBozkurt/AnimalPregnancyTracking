@@ -6,15 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
     private final Date date=new Date();
     private final String aranan,selection;
 
-    AramalarAdapter(Context context, ArrayList<DataModel> dataModelArrayList, @NonNull String selection,@NonNull String aranan){
+    public AramalarAdapter(Context context, ArrayList<DataModel> dataModelArrayList, @NonNull String selection,@NonNull String aranan){
         this.context=context;
         this.dataModel=dataModelArrayList;
         this.aranan=aranan;
@@ -45,15 +48,10 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.txt_tur.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
-        holder.txt_isim.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
-        holder.txt_tarih1.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
-        holder.txt_tarih2.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
-        holder.txt_kupe_no.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
         final DataModel dataModel1=dataModel.get(position);
         //final String replacedWith = "<font color='red'>" + aranan + "</font>";
-        final String replacedWith = "<span style='background-color:#00FEFE'>" + aranan + "</span>";
-        final String modifiedString;
+        String replacedWith = "<span style='background-color:#00FEFE'>" + aranan + "</span>";
+        String modifiedString;
         if(selection.contentEquals(SQLiteDatabaseHelper.SUTUN_1)){
             modifiedString = dataModel1.getIsim().replaceAll(aranan,replacedWith);
             holder.txt_isim.setText(Html.fromHtml(modifiedString));
@@ -79,17 +77,21 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         date.setTime(Long.parseLong(dataModel1.getDogum_tarihi()));
         holder.txt_tarih2.setText(dateFormat.format(date));
         HayvanDuzenleyici.set_text(context,dataModel1.getIs_evcilhayvan(),Integer.parseInt(dataModel1.getTur()),holder.txt_tur);
-        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel1.getFotograf_isim());
+        File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel1.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
-            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
+            holder.img_animal.setScaleX(1.0f);
+            holder.img_animal.setScaleY(1.0f);
+            Glide.with(context).load(Uri.fromFile(gorselFile)).apply(RequestOptions.circleCropTransform()).into(holder.img_animal);
         }
         else{
+            holder.img_animal.setScaleX(0.75f);
+            holder.img_animal.setScaleY(0.75f);
             HayvanDuzenleyici.set_img(context,dataModel1.getIs_evcilhayvan(),Integer.parseInt(dataModel1.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Bundle data=new Bundle();
+                Bundle data=new Bundle();
                 data.putInt("ID",dataModel1.getId());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
@@ -106,12 +108,8 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView txt_tur;
-        final TextView txt_isim;
-        final TextView txt_tarih1;
-        final TextView txt_tarih2;
-        final TextView txt_kupe_no;
-        final ImageView img_animal;
+        TextView txt_tur, txt_isim, txt_tarih1, txt_tarih2, txt_kupe_no;
+        ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);

@@ -219,26 +219,25 @@ public class ActivityPeriods extends AppCompatActivity{
     }
 
     private void loadBanner() {
+        adContainerView.removeAllViews();
         adView = new AdView(context);
         adView.setAdUnitId(BANNER_TEST_ID);
-        adContainerView.removeAllViews();
         adContainerView.addView(adView);
-        final AdSize adSize = getAdSize();
-        adView.setAdSize(adSize);
-        final AdRequest adRequest = new AdRequest.Builder().build();
+        adView.setAdSize(getAdSize());
+        AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }
 
     private AdSize getAdSize() {
-        final Display display = getWindowManager().getDefaultDisplay();
-        final DisplayMetrics outMetrics = new DisplayMetrics();
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
-        final float density = outMetrics.density;
+        float density = outMetrics.density;
         float adWidthPixels = adContainerView.getWidth();
         if (adWidthPixels == 0) {
             adWidthPixels = outMetrics.widthPixels;
         }
-        final int adWidth = (int) (adWidthPixels / density);
+        int adWidth = (int) (adWidthPixels / density);
         return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
     }
 

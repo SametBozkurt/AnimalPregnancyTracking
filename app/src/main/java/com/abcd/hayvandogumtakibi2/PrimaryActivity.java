@@ -28,15 +28,17 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 
 public class PrimaryActivity extends AppCompatActivity {
 
@@ -49,6 +51,7 @@ public class PrimaryActivity extends AppCompatActivity {
     private FrameLayout frameLayout;
     private final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
     private BottomSheetDialog bottomSheetDialog;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class PrimaryActivity extends AppCompatActivity {
         final Animation fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
         final Animation fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
         popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
+        initAdsTask();
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,7 +223,6 @@ public class PrimaryActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        initAdsTask();
         initBottomSheetDialog();
         frameLayout.removeAllViews();
         HandlerThread handlerThread=new HandlerThread("FragmentThread");
@@ -266,14 +269,17 @@ public class PrimaryActivity extends AppCompatActivity {
     }
 
     protected void show_ads(){
-        final InterstitialAd mInterstitialAd = new InterstitialAd(context);
-        AdRequest adRequest=new AdRequest.Builder().build();
-        mInterstitialAd.setAdUnitId(INTERSTITIAL_TEST_ID);
-        mInterstitialAd.loadAd(adRequest);
-        mInterstitialAd.setAdListener(new AdListener() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this,INTERSTITIAL_TEST_ID, adRequest, new InterstitialAdLoadCallback() {
             @Override
-            public void onAdLoaded() {
-                mInterstitialAd.show();
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                mInterstitialAd = interstitialAd;
+                mInterstitialAd.show(PrimaryActivity.this);
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                mInterstitialAd = null;
             }
         });
     }
@@ -376,4 +382,3 @@ public class PrimaryActivity extends AppCompatActivity {
     }
 
 }
-

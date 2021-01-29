@@ -42,6 +42,4 @@ public class DemoActivity extends AppCompatActivity {
         },1000);
     }
 
-
-
 }
