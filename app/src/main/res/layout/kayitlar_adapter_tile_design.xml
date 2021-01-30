@@ -12,29 +12,21 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/margin_kategori_1">
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/img_hayvan"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_gravity="center"
+        android:contentDescription="@null" />
 
-        <ImageView
-            android:id="@+id/img_hayvan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/test_number"
-            android:fontFamily="@font/comfortaa_bold"
-            android:layout_marginStart="@dimen/margin_kategori_2"
-            android:layout_marginBottom="@dimen/margin_kategori_2"
-            android:layout_gravity="bottom|start"/>
-
-    </FrameLayout>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:fontFamily="@font/comfortaa_bold"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:layout_gravity="top|start"/>
 
 </com.google.android.material.card.MaterialCardView>

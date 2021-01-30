@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -203,7 +204,13 @@ public class PrimaryActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.calculator:
-                final FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
+                FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
+                fragmentTarihHesaplayici.setDateCalculatedListener(new FragmentTarihHesaplayici.DateCalculatedListener() {
+                    @Override
+                    public void onDateCalculated() {
+                        Toast.makeText(PrimaryActivity.this,getString(R.string.otomatik_hesaplandi_bildirim),Toast.LENGTH_SHORT).show();
+                    }
+                });
                 fragmentTarihHesaplayici.show(getSupportFragmentManager(),null);
                 break;
             case R.id.summary:

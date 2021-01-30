@@ -26,7 +26,7 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view;
+        View view;
         if(isListedViewEnabled){
             view=LayoutInflater.from(context).inflate(R.layout.periods_adapter_list_design,parent,false);
         }
@@ -38,14 +38,6 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        if(isListedViewEnabled){
-            holder.img_animal.setScaleX(0.75f);
-            holder.img_animal.setScaleY(0.75f);
-        }
-        else{
-            holder.img_animal.setScaleX(1.0f);
-            holder.img_animal.setScaleY(1.0f);
-        }
         HayvanDuzenleyici.set_text(context,3,position,holder.txt_gun);
         HayvanDuzenleyici.set_img(context,3,position,holder.img_animal);
     }
@@ -57,8 +49,8 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView txt_gun;
-        final ImageView img_animal;
+        TextView txt_gun;
+        ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);

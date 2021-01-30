@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -29,20 +30,44 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
     private RecyclerView recyclerView;
     private int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
     private String selection_gerceklesen_dogumlar=null, table_name=SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
-    private boolean switchIsChecked=true;
+    private boolean switchIsChecked=true, listModeEnabled;
     private BottomSheetDialog bottomSheetDialog;
     private RadioGroup radioGroupFilter,radioGroupOrder;
     private SwitchMaterial switchMaterial;
     private RelativeLayout.LayoutParams mLayoutParams;
     private DuzenleAdapter duzenleAdapter;
     private ProgressBar progressBar;
+    private ImageView imgListMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit_duzenle);
+        imgListMode=findViewById(R.id.listMode);
         relativeLayout=findViewById(R.id.main_layout);
         recyclerView=findViewById(R.id.recyclerView);
+        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
+        if(listModeEnabled){
+            imgListMode.setImageResource(R.drawable.ic_view_all);
+        }
+        else{
+            imgListMode.setImageResource(R.drawable.ic_tile);
+        }
+        imgListMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listModeEnabled){
+                    listModeEnabled=false;
+                    imgListMode.setImageResource(R.drawable.ic_tile);
+                }
+                else{
+                    listModeEnabled=true;
+                    imgListMode.setImageResource(R.drawable.ic_view_all);
+                }
+                initProgressBarAndTask();
+                PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
+            }
+        });
         initProgressBarAndTask();
         bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
         initFilterMenu();
@@ -87,7 +112,7 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(400);
-                    duzenleAdapter=new DuzenleAdapter(context,selection_code,selection_gerceklesen_dogumlar,orderBy);
+                    duzenleAdapter=new DuzenleAdapter(context,selection_code,selection_gerceklesen_dogumlar,orderBy,listModeEnabled);
                     Message message=new Message();
                     message.obj="InitializeUIProcess";
                     asyncHandler.sendMessage(message);
@@ -103,8 +128,14 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                GridLayoutManager layoutManager=new GridLayoutManager(context,3);
-                recyclerView.setLayoutManager(layoutManager);
+                GridLayoutManager gridLayoutManager;
+                if(listModeEnabled){
+                     gridLayoutManager=new GridLayoutManager(context,2);
+                }
+                else{
+                    gridLayoutManager=new GridLayoutManager(context,3);
+                }
+                recyclerView.setLayoutManager(gridLayoutManager);
                 recyclerView.setAdapter(duzenleAdapter);
                 try {
                     Thread.sleep(200);

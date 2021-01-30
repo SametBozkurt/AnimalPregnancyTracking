@@ -37,6 +37,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -162,7 +163,7 @@ public class ActivityEdit extends AppCompatActivity {
                 if(f.exists()&&f.isFile()){
                     Glide.with(context)
                             .load(Uri.fromFile(new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),img_name)))
-                            .into(photo);
+                            .apply(RequestOptions.circleCropTransform()).into(photo);
                 }
                 else{
                     Glide.with(context).load(R.drawable.icon_photo_add).into(photo);
@@ -172,19 +173,15 @@ public class ActivityEdit extends AppCompatActivity {
         tur_sec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                /*
-                Activity her başladığında, yani onCreate() metodu çalıştığında, Spinner nesnesine/view'ine ait
-                onItemSelected metodu da çalışmakta ve oto_tarih_hesapla() metodu çalıştırılarak elle seçilmiş dogum
-                tarihlerinde sorunlara yol açmakta, bu yüzden calisma_sayaci ile onItemSelected() metodunun Activity
-                içinde kaç kez çalıştığı bilgisi tutulmaktadır.
-                */
                 if(calisma_sayaci>0){
                     secilen_tur=String.valueOf(position);
                     switch (petCode){
                         case 0://Önceki sürümler için
                             if(position!=6){
                                 textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                                tarihHesaplayici.sendDate();
+                                if(boolTarih){
+                                    tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date1,getClass().getName());
+                                }
                             }
                             else{
                                 textInputLayout.setHelperText("");
@@ -193,7 +190,9 @@ public class ActivityEdit extends AppCompatActivity {
                         case 1: case 2: //Evcil & çiftlik hayvan ise
                             if(position!=3){
                                 textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                                tarihHesaplayici.sendDate();
+                                if(boolTarih){
+                                    tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date1,getClass().getName());
+                                }
                             }
                             else{
                                 textInputLayout.setHelperText("");
@@ -224,12 +223,12 @@ public class ActivityEdit extends AppCompatActivity {
                         switch (petCode){
                             case 0://Önceki sürümler için
                                 if(!secilen_tur.equals("6")){
-                                    tarihHesaplayici.sendDate();
+                                    tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date1,getClass().getName());
                                 }
                                 break;
                             case 1: case 2: //Evcil kodu //Besi kodu
                                 if(!secilen_tur.equals("3")){
-                                    tarihHesaplayici.sendDate();
+                                    tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date1,getClass().getName());
                                 }
                                 break;
                         }
@@ -329,15 +328,13 @@ public class ActivityEdit extends AppCompatActivity {
                 popupMenu.show();
             }
         });
+
         tarihHesaplayici.setDateChangeListener(new TarihHesaplayici.DateChangeListener() {
             @Override
-            public void onNewDateSet() {
-                if(boolTarih){
-                    takvim2.setTime(tarihHesaplayici.get_dogum_tarihi(petCode,secilen_tur,date1,getClass().getName()).getTime());
-                    date2=takvim2.getTime();
-                    dogum_tarihi.setText(dateFormat.format(date2));
-                    Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
-                }
+            public void onNewDateCalculated(Date dateCalculated) {
+                date2=dateCalculated;
+                dogum_tarihi.setText(dateFormat.format(dateCalculated));
+                Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -361,7 +358,7 @@ public class ActivityEdit extends AppCompatActivity {
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                     final CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if(resultCode==RESULT_OK){
-                        Glide.with(context).load(result.getUri()).into(photo);
+                        Glide.with(context).load(result.getUri()).apply(RequestOptions.circleCropTransform()).into(photo);
                         try {
                             final Bitmap photoBitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),result.getUri());
                             save_photo(photoBitmap);

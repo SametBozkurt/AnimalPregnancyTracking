@@ -7,13 +7,13 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class HayvanDuzenleyici {
+public class HayvanDuzenleyici {
 
     protected static void set_text(final Context context, final int isPet, final int tur_kodu, final TextView textView){
-        final ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
-        final ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
-        final ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
-        final TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(context);
+        ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
+        ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
+        ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
+        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(context);
         switch(isPet){
             case 0: //hepsi
                 textView.setText(arrayList_all.get(tur_kodu));

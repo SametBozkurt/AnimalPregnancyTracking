@@ -1,6 +1,7 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -59,8 +61,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
     private int _isPet;
     private boolean boolTarih=false, otherFieldsIsShown=false;
     private final Calendar gecerli_takvim=Calendar.getInstance(), hesaplanan_tarih=Calendar.getInstance();
-    private final Context context=this;
-    private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(context);
+    private final SQLiteDatabaseHelper dbYoneticisi=SQLiteDatabaseHelper.getInstance(this);
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private Date date_dollenme, date_dogum;
     private RelativeLayout main_Layout;
@@ -89,16 +90,16 @@ public class ActivityDogumKayit extends AppCompatActivity{
         date_dollenme=gecerli_takvim.getTime();
         _isPet=getIntent().getExtras().getInt("isPet");
         tarihHesaplayici=new TarihHesaplayici(this);
-        final ArrayAdapter<String> spinner_adapter;
+        ArrayAdapter<String> spinner_adapter;
         switch (_isPet){
             case 1: //Evcil hayvan ise
-                spinner_adapter=new ArrayAdapter<>(context,R.layout.spinner_text,
+                spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
                         getResources().getStringArray(R.array.animal_list_pet));
                 spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
                 spinner_turler.setAdapter(spinner_adapter);
                 break;
             case 2: //Besi hayvanı ise
-                spinner_adapter=new ArrayAdapter<>(context,R.layout.spinner_text,
+                spinner_adapter=new ArrayAdapter<>(this,R.layout.spinner_text,
                         getResources().getStringArray(R.array.animal_list_barn));
                 spinner_adapter.setDropDownViewResource(R.layout.spinner_text);
                 spinner_turler.setAdapter(spinner_adapter);
@@ -110,7 +111,9 @@ public class ActivityDogumKayit extends AppCompatActivity{
                 secilen_tur=String.valueOf(position);
                 if(position!=3){
                     textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
-                    tarihHesaplayici.sendDate();
+                    if(boolTarih){
+                        tarihHesaplayici.dogum_tarihi_hesapla(_isPet,secilen_tur,date_dollenme,getClass().getName());
+                    }
                 }
                 else{
                     textInputLayout.setHelperText("");
@@ -124,7 +127,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
         btn_tarih_dollenme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog=new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog=new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         gecerli_takvim.set(year,month,dayOfMonth);
@@ -132,7 +135,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
                         btn_tarih_dollenme.setText(dateFormat.format(date_dollenme));
                         boolTarih=true;
                         if(!secilen_tur.equals("3")){
-                            tarihHesaplayici.sendDate();
+                            tarihHesaplayici.dogum_tarihi_hesapla(_isPet,secilen_tur,date_dollenme,getClass().getName());
                         }
                     }
                 },gecerli_takvim.get(Calendar.YEAR),gecerli_takvim.get(Calendar.MONTH),gecerli_takvim.get(Calendar.DAY_OF_MONTH));
@@ -143,7 +146,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
         btn_tarih_dogum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog dialog = new DatePickerDialog(context, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(ActivityDogumKayit.this, R.style.PickerTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         hesaplanan_tarih.set(year,month,dayOfMonth);
@@ -170,14 +173,14 @@ public class ActivityDogumKayit extends AppCompatActivity{
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu=new PopupMenu(context,photo);
+                PopupMenu popupMenu=new PopupMenu(ActivityDogumKayit.this,photo);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_photo_picker,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId()==R.id.camera){
                             if(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1){
-                                if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)==PackageManager.PERMISSION_DENIED){
+                                if(ContextCompat.checkSelfPermission(ActivityDogumKayit.this, Manifest.permission.CAMERA)==PackageManager.PERMISSION_DENIED){
                                     ActivityCompat.requestPermissions(ActivityDogumKayit.this,new String[]{Manifest.permission.CAMERA}, PERMISSION_REQ_CODE);
                                 }
                                 else{
@@ -201,7 +204,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
                             if(img_exists){
                                 f.delete();
                             }
-                            Glide.with(context).load(R.drawable.icon_photo_add).into(photo);
+                            Glide.with(ActivityDogumKayit.this).load(R.drawable.icon_photo_add).into(photo);
                         }
                         return true;
                     }
@@ -213,11 +216,11 @@ public class ActivityDogumKayit extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(!otherFieldsIsShown){
-                    final LayoutInflater inflater=LayoutInflater.from(context);
-                    final FrameLayout container=findViewById(R.id.other_fields_container);
+                    LayoutInflater inflater=LayoutInflater.from(ActivityDogumKayit.this);
+                    FrameLayout container=findViewById(R.id.other_fields_container);
                     container.setAlpha(0f);
-                    final View view=inflater.inflate(R.layout.kayitlar_dgr_dtylr,container,false);
-                    final EditText edit_sperma=view.findViewById(R.id.sperma_name);
+                    View view=inflater.inflate(R.layout.kayitlar_dgr_dtylr,container,false);
+                    EditText edit_sperma=view.findViewById(R.id.sperma_name);
                     edit_sperma.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -238,15 +241,13 @@ public class ActivityDogumKayit extends AppCompatActivity{
         });
         tarihHesaplayici.setDateChangeListener(new TarihHesaplayici.DateChangeListener() {
             @Override
-            public void onNewDateSet() {
-                if(boolTarih){
-                    hesaplanan_tarih.setTime(tarihHesaplayici.get_dogum_tarihi(_isPet,secilen_tur,date_dollenme,getClass().getName()).getTime());
-                    date_dogum=hesaplanan_tarih.getTime();
-                    btn_tarih_dogum.setText(dateFormat.format(date_dogum));
-                    Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
-                }
+            public void onNewDateCalculated(Date dateCalculated) {
+                date_dogum=dateCalculated;
+                btn_tarih_dogum.setText(dateFormat.format(dateCalculated));
+                Snackbar.make(main_Layout,R.string.otomatik_hesaplandi_bildirim,Snackbar.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
@@ -261,14 +262,14 @@ public class ActivityDogumKayit extends AppCompatActivity{
                     break;
                 case CAMERA_REQ_CODE:
                     if(resultCode==RESULT_OK){
-                        final File file=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
+                        File file=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
                         launchImageCrop(Uri.fromFile(file));
                     }
                     break;
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                    final CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if(resultCode==RESULT_OK){
-                        Glide.with(context).load(result.getUri()).into(photo);
+                        Glide.with(ActivityDogumKayit.this).load(result.getUri()).apply(RequestOptions.circleCropTransform()).into(photo);
                         try {
                             final Bitmap photoBitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),result.getUri());
                             save_photo(photoBitmap);
@@ -284,25 +285,25 @@ public class ActivityDogumKayit extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        final Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                GarbageCleaner.clean_redundants(context);
+                GarbageCleaner.clean_redundants(ActivityDogumKayit.this);
             }
         });
         thread.start();
         finish();
     }
 
-    public void kayit_gir(final View snackbar_view){
+    private void kayit_gir(final View snackbar_view){
         if (edit_isim.getText().toString().isEmpty()||
                 btn_tarih_dollenme.getText().toString().isEmpty()||
                 btn_tarih_dogum.getText().toString().isEmpty()){
             Snackbar.make(snackbar_view,getString(R.string.deger_yok_uyari),Snackbar.LENGTH_SHORT).show();
         }
         else{
-            final File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
-            final DataModel dataModel;
+            File f=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),gorsel_ad);
+            DataModel dataModel;
             if(f.exists()&&f.isFile()){
                 dataModel=new DataModel(0,edit_isim.getText().toString(),secilen_tur,edit_kupe_no.getText().toString(),
                         String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),gorsel_ad,_isPet,0,sperma_name);
@@ -316,7 +317,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
         }
     }
 
-    public void launchImageCrop(final Uri uri){
+    private void launchImageCrop(final Uri uri){
         CropImage.activity(uri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1,1)
@@ -325,9 +326,9 @@ public class ActivityDogumKayit extends AppCompatActivity{
                 .start(this);
     }
 
-    public File getImageFile() {
-        final File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
-        final File eski_dosya=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad);
+    private File getImageFile() {
+        File imgFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ANM_" + System.currentTimeMillis() +".jpg");
+        File eski_dosya=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), gorsel_ad);
         if(eski_dosya.exists()&&eski_dosya.isFile()){
             eski_dosya.delete();
         }
@@ -335,19 +336,19 @@ public class ActivityDogumKayit extends AppCompatActivity{
         return imgFile;
     }
 
-    public void save_photo(@NonNull final Bitmap bitmap){
+    private void save_photo(@NonNull final Bitmap bitmap){
         int cropped_width=bitmap.getWidth();
         int cropped_height=bitmap.getHeight();
         while(cropped_width>1000){
-            final double target_resolution=cropped_width/1.1;
+            double target_resolution=cropped_width/1.1;
             cropped_width=(int)target_resolution;
             cropped_height=(int)target_resolution;
             /**Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
              ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
         }
         try{
-            final FileOutputStream fileOutputStream=new FileOutputStream(getImageFile());
-            final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,cropped_width,cropped_height,true);
+            FileOutputStream fileOutputStream=new FileOutputStream(getImageFile());
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,cropped_width,cropped_height,true);
             Bitmap.createBitmap(scaledBitmap,0,0,cropped_width,cropped_height,null,true).
                     compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
@@ -361,12 +362,12 @@ public class ActivityDogumKayit extends AppCompatActivity{
         }
     }
 
-    public void open_cam(){
-        final Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    private void open_cam(){
+        Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (camera_intent.resolveActivity(getPackageManager())!=null) {
-            final File photoFile=getImageFile();
+            File photoFile=getImageFile();
             if (photoFile != null) {
-                final Uri photoURI= FileProvider.getUriForFile(context,getPackageName(),photoFile);
+                Uri photoURI= FileProvider.getUriForFile(this,getPackageName(),photoFile);
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(camera_intent, CAMERA_REQ_CODE);
             }
@@ -376,7 +377,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(ActivityDogumKayit.this,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED){
             open_cam();
         }
     }

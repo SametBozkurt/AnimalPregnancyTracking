@@ -19,16 +19,15 @@
         android:layout_marginBottom="70dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/comfortaa_bold"
         app:layout_constraintTop_toBottomOf="@id/image_cross_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/margin_kategori_3"
-        android:layout_marginEnd="@dimen/margin_kategori_3"
+        android:layout_marginStart="@dimen/margin_kategori_4"
+        android:layout_marginEnd="@dimen/margin_kategori_4"
         android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
         android:text="@string/gerceklesen_dogum_yok_uyari"
         android:textSize="18sp"
         style="@style/STYLE_WARNING_TEXT"/>

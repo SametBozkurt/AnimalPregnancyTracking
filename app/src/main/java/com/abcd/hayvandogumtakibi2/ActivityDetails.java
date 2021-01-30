@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -92,9 +94,15 @@ public class ActivityDetails extends AppCompatActivity {
                 }
                 final File gorselFile=new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
                 if(gorselFile.exists()&&gorselFile.isFile()){
-                    Glide.with(ActivityDetails.this).load(Uri.fromFile(gorselFile)).into(imageView);
+                    imageView.setColorFilter(Color.TRANSPARENT);
+                    imageView.setScaleX(1.0f);
+                    imageView.setScaleY(1.0f);
+                    Glide.with(ActivityDetails.this).load(Uri.fromFile(gorselFile)).apply(RequestOptions.circleCropTransform()).into(imageView);
                 }
                 else{
+                    imageView.setColorFilter(Color.parseColor("#37474f"));
+                    imageView.setScaleX(.75f);
+                    imageView.setScaleY(.75f);
                     HayvanDuzenleyici.set_img(ActivityDetails.this,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()), imageView);
                 }
             }

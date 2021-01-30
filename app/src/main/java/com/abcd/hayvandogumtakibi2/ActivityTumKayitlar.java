@@ -37,12 +37,13 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     private RelativeLayout.LayoutParams mLayoutParams;
     private KayitlarAdapter kayitlarAdapter;
     private ProgressBar progressBar;
+    private ImageView imgListMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tum_kayitlar);
-        final ImageView imgListMode=findViewById(R.id.listMode);
+        imgListMode=findViewById(R.id.listMode);
         recyclerView=findViewById(R.id.recyclerView);
         relativeLayout=findViewById(R.id.parent);
         listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);

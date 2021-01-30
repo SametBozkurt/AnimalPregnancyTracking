@@ -3,22 +3,23 @@ package com.abcd.hayvandogumtakibi2;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -33,25 +34,32 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
     private final int code;
     private final DateFormat dateFormat=DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     private final Date date=new Date();
-    private DataModel dataModel;
+    private final boolean isListedViewEnabled;
 
-    DuzenleAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause){
+    public DuzenleAdapter(final Context context, int code, @Nullable String selectionClause, @Nullable String orderClause, boolean isListed){
         this.mContext=context;
         databaseHelper=SQLiteDatabaseHelper.getInstance(context);
         this.dataModelArrayList=databaseHelper.getAllData(selectionClause,orderClause);
         this.code=code;
+        this.isListedViewEnabled=isListed;
     }
 
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.duzenle_adapter,parent,false);
-        return new CustomViewHolder(view);
+        View view;
+        if(isListedViewEnabled){
+            view=LayoutInflater.from(mContext).inflate(R.layout.duzenle_adapter_list_design,parent,false);
+        }
+        else{
+            view=LayoutInflater.from(mContext).inflate(R.layout.duzenle_adapter_tile_design,parent,false);
+        }
+        return new DuzenleAdapter.CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
-        dataModel=dataModelArrayList.get(position);
+        final DataModel dataModel=dataModelArrayList.get(position);
         holder.textView.setText(new StringBuilder(dataModel.getIsim()));
         switch(code){
             case 0:
@@ -74,12 +82,21 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 holder.textView.setText(dateFormat.format(date));
                 break;
         }
+        File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
+        if(gorselFile.exists()&&gorselFile.isFile()){
+            holder.img_animal.setColorFilter(Color.TRANSPARENT);
+            Glide.with(mContext).load(gorselFile).apply(RequestOptions.circleCropTransform()).into(holder.img_animal);
+        }
+        else{
+            holder.img_animal.setColorFilter(Color.parseColor("#2979ff"));
+            HayvanDuzenleyici.set_img(mContext,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
+        }
         holder.button_duzenle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(dataModel.getDogum_grcklsti()==0){
-                    final Intent data=new Intent(mContext,ActivityEdit.class);
-                    final Bundle veri_paketi=new Bundle();
+                    Intent data=new Intent(mContext,ActivityEdit.class);
+                    Bundle veri_paketi=new Bundle();
                     veri_paketi.putInt("kayit_id",dataModel.getId());
                     data.putExtras(veri_paketi);
                     mContext.startActivity(data);
@@ -98,24 +115,6 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 notifyItemRangeChanged(position,dataModelArrayList.size());
             }
         });
-        File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
-        FrameLayout.LayoutParams imageView_layoutParams;
-        if(gorselFile.exists()&&gorselFile.isFile()){
-            imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            holder.img_animal.setLayoutParams(imageView_layoutParams);
-            holder.textView.setTextColor(Color.WHITE);
-            holder.img_animal.setColorFilter(Color.TRANSPARENT);
-            Glide.with(mContext).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
-        }
-        else{
-            imageView_layoutParams=new FrameLayout.LayoutParams(mContext.getResources().getDimensionPixelSize(R.dimen.image_size),
-                    mContext.getResources().getDimensionPixelSize(R.dimen.image_size));
-            imageView_layoutParams.gravity= Gravity.CENTER;
-            holder.img_animal.setLayoutParams(imageView_layoutParams);
-            holder.textView.setTextColor(Color.parseColor("#37474f"));
-            holder.img_animal.setColorFilter(Color.parseColor("#2196F3"));
-            HayvanDuzenleyici.set_img(mContext,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
-        }
     }
 
     @Override
@@ -129,7 +128,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         FloatingActionButton button_duzenle, button_sil;
         ImageView img_animal;
 
-        CustomViewHolder(View itemView) {
+        public CustomViewHolder(View itemView) {
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
             textView=itemView.findViewById(R.id.txt_isim);

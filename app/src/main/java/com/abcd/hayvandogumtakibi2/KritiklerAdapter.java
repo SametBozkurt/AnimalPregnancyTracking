@@ -7,11 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -91,40 +90,23 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
                 break;
         }
         final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
-        final FrameLayout.LayoutParams imageView_layoutParams;
         if(gorselFile.exists()&&gorselFile.isFile()){
             if(isListedViewEnabled){
                 holder.img_photo.setScaleX(1.0f);
                 holder.img_photo.setScaleY(1.0f);
             }
-            else{
-                imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                holder.img_photo.setLayoutParams(imageView_layoutParams);
-                holder.txt_durum.setTextColor(Color.WHITE);
-                holder.img_clock.setColorFilter(Color.WHITE);
-                holder.textView.setTextColor(Color.WHITE);
-            }
             holder.img_photo.setColorFilter(Color.TRANSPARENT);
-            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_photo);
+            Glide.with(context).load(Uri.fromFile(gorselFile)).apply(RequestOptions.circleCropTransform()).into(holder.img_photo);
         }
         else{
             if(isListedViewEnabled){
                 holder.img_photo.setScaleX(0.75f);
                 holder.img_photo.setScaleY(0.75f);
             }
-            else{
-                imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
-                        context.getResources().getDimensionPixelSize(R.dimen.image_size));
-                imageView_layoutParams.gravity= Gravity.CENTER;
-                holder.img_photo.setLayoutParams(imageView_layoutParams);
-                holder.txt_durum.setTextColor(Color.parseColor("#37474f"));
-                holder.img_clock.setColorFilter(Color.parseColor("#37474f"));
-                holder.textView.setTextColor(Color.parseColor("#37474f"));
-            }
             holder.img_photo.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_photo);
         }
-        if(dataModel.getDogum_tarihi().length()!=0){
+        if(!dataModel.getDogum_tarihi().isEmpty()){
             if(get_gun_sayisi(Long.parseLong(dataModel.getDogum_tarihi()))>=0){
                 holder.txt_durum.setText(new StringBuilder(String.valueOf(get_gun_sayisi(Long.parseLong(dataModel.getDogum_tarihi()))))
                         .append(" ")
@@ -140,9 +122,9 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Bundle data=new Bundle();
+                Bundle data=new Bundle();
                 data.putInt("ID",dataModel.getId());
-                final Intent intent=new Intent(context,ActivityDetails.class);
+                Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);
                 context.startActivity(intent);
             }
@@ -154,12 +136,12 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         return dataModelArrayList.size();
     }
 
-    static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView textView,txt_durum;
-        final ImageView img_photo,img_clock;
+        TextView textView,txt_durum;
+        ImageView img_photo,img_clock;
 
-        CustomViewHolder(View itemView) {
+        public CustomViewHolder(View itemView) {
             super(itemView);
             textView=itemView.findViewById(R.id.txt_isim);
             txt_durum=itemView.findViewById(R.id.txt_durum);

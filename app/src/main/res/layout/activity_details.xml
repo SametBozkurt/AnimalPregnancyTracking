@@ -78,7 +78,7 @@
                 android:layout_marginTop="@dimen/margin_kategori_2"
                 android:layout_marginBottom="@dimen/margin_kategori_1">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/img_hayvan"
@@ -87,10 +87,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:civ_circle_background_color="@color/image_background"
-                    app:civ_border_width="2dp"
-                    android:src="@mipmap/dog"
-                    app:civ_border_color="#DCDCDC" />
+                    android:src="@mipmap/dog" />
 
                 <View
                     android:layout_width="2dp"

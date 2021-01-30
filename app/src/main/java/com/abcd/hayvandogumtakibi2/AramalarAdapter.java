@@ -42,7 +42,7 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view=LayoutInflater.from(context).inflate(R.layout.arama_sonuclari_adapter,parent,false);
+        View view=LayoutInflater.from(context).inflate(R.layout.arama_sonuclari_adapter,parent,false);
         return new CustomViewHolder(view);
     }
 

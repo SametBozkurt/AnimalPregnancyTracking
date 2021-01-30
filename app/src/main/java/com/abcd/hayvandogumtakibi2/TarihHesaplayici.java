@@ -35,8 +35,8 @@ public class TarihHesaplayici {
         DAY_TO_ABORT_MILKING_COW= periodsHolder.getPeriodAbortMilking();
     }
 
-    public Calendar get_dogum_tarihi(final int isPet,final String tur_isim,final Date tarih,final String class_name){
-        final Calendar calendar=Calendar.getInstance();
+    public void dogum_tarihi_hesapla(final int isPet,final String tur_isim,final Date tarih,final String class_name){
+        Calendar calendar=Calendar.getInstance();
         calendar.setTime(tarih);
         if(class_name.equals(ActivityName)){
             switch(tur_isim){
@@ -148,7 +148,7 @@ public class TarihHesaplayici {
                     break;
             }
         }
-        return calendar;
+        triggerListener(calendar.getTime());
     }
 
     public static long get_kizdirma_tarihi(long birth_date_in_millis){
@@ -166,16 +166,16 @@ public class TarihHesaplayici {
     }
 
     public interface DateChangeListener{
-        void onNewDateSet();
+        void onNewDateCalculated(Date dateCalculated);
     }
 
     public void setDateChangeListener(final DateChangeListener dateChangeListener){
         this.dateChangeListener=dateChangeListener;
     }
 
-    public void sendDate(){
+    public void triggerListener(Date date){
         if(dateChangeListener!=null){
-            dateChangeListener.onNewDateSet();
+            dateChangeListener.onNewDateCalculated(date);
         }
     }
 

@@ -6,11 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -52,7 +51,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view;
+        View view;
         if(isListedViewEnabled){
             view=LayoutInflater.from(context).inflate(R.layout.kayitlar_adapter_list_design,parent,false);
         }
@@ -87,32 +86,19 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
                 holder.textView.setText(dateFormat.format(date));
                 break;
         }
-        final File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
-        final FrameLayout.LayoutParams imageView_layoutParams;
+        File gorselFile=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
             if(isListedViewEnabled){
                 holder.img_animal.setScaleX(1.0f);
                 holder.img_animal.setScaleY(1.0f);
             }
-            else{
-                imageView_layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                holder.img_animal.setLayoutParams(imageView_layoutParams);
-                holder.textView.setTextColor(Color.WHITE);
-            }
             holder.img_animal.setColorFilter(Color.TRANSPARENT);
-            Glide.with(context).load(gorselFile).into(holder.img_animal);
+            Glide.with(context).load(gorselFile).apply(RequestOptions.circleCropTransform()).into(holder.img_animal);
         }
         else{
             if(isListedViewEnabled){
                 holder.img_animal.setScaleX(0.75f);
                 holder.img_animal.setScaleY(0.75f);
-            }
-            else{
-                imageView_layoutParams=new FrameLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.image_size),
-                        context.getResources().getDimensionPixelSize(R.dimen.image_size));
-                imageView_layoutParams.gravity= Gravity.CENTER;
-                holder.img_animal.setLayoutParams(imageView_layoutParams);
-                holder.textView.setTextColor(Color.parseColor("#37474f"));
             }
             holder.img_animal.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
@@ -120,7 +106,7 @@ public class KayitlarAdapter extends RecyclerView.Adapter<KayitlarAdapter.Custom
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Bundle data=new Bundle();
+                Bundle data=new Bundle();
                 data.putInt("ID",dataModel.getId());
                 Intent intent=new Intent(context,ActivityDetails.class);
                 intent.putExtras(data);

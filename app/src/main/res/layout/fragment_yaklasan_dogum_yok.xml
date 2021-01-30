@@ -19,16 +19,15 @@
         android:layout_marginBottom="70dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_cross_line"
-        android:layout_marginStart="@dimen/margin_kategori_3"
-        android:layout_marginEnd="@dimen/margin_kategori_3"
+        android:layout_marginStart="@dimen/margin_kategori_4"
+        android:layout_marginEnd="@dimen/margin_kategori_4"
         android:fontFamily="@font/comfortaa_bold"
         android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
         android:text="@string/kayit_yok_uyari_kritikler"
         style="@style/STYLE_WARNING_TEXT"/>
 
