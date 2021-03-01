@@ -30,6 +30,7 @@
     <string name="tur_7">Horse</string>
     <string name="tur_8">Donkey</string>
     <string name="tur_9">Camel</string>
+    <string name="tur_10">Pig</string>
     <string name="hint_isim">Name</string>
     <string name="hint_bul">Search</string>
     <string name="hint_kupe_no">ID no(Optional)</string>
@@ -66,6 +67,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Cat</item>
@@ -81,6 +83,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="all_species">
         <item>Cow</item>
@@ -92,6 +95,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string name="spinner_description">Show that:</string>
     <string name="photo_picker_item_gallery">From gallery</string>

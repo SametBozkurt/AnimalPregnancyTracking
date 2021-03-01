@@ -62,6 +62,10 @@ public class HayvanDuzenleyici {
                         textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_CAMEL))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
+                    case 9:
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_PIG))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
+                        break;
                 }
                 break;
         }
@@ -99,6 +103,9 @@ public class HayvanDuzenleyici {
                         break;
                     case 9:
                         Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        break;
+                    case 10:
+                        Glide.with(context).load(R.mipmap.pig).into(imgView);
                         break;
                 }
                 break;
@@ -141,6 +148,9 @@ public class HayvanDuzenleyici {
                     case 6:
                         Glide.with(context).load(R.mipmap.camel).into(imgView);
                         break;
+                    case 7:
+                        Glide.with(context).load(R.mipmap.pig).into(imgView);
+                        break;
                 }
                 break;
             case 3: //Tüm türler-Diğer yok.
@@ -171,6 +181,9 @@ public class HayvanDuzenleyici {
                         break;
                     case 8:
                         Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        break;
+                    case 9:
+                        Glide.with(context).load(R.mipmap.pig).into(imgView);
                         break;
                 }
         }

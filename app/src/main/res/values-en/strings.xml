@@ -55,6 +55,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Cat</item>
@@ -70,6 +71,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="all_species">
         <item>Cow</item>
@@ -81,6 +83,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string name="photo_picker_item_camera">Open camera</string>
     <string name="photo_picker_item_gallery">From gallery</string>
@@ -161,4 +164,5 @@
     <string name="edit_periods">Edit Periods</string>
     <string name="edit_period_option">Recalculate also estimated birth dates of all records</string>
     <string name="editPeriodsNotifyText">Estimated automatic birth date calculations are based on these values. Therefore, changing these values will affect the date calculations to be made.</string>
+    <string name="tur_10">Pig</string>
 </resources>
