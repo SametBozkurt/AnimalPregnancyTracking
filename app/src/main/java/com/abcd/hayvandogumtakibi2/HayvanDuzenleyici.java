@@ -24,7 +24,7 @@ public class HayvanDuzenleyici {
             case 2: //sadece besi hayvanları
                 textView.setText(arrayList_barn.get(tur_kodu));
                 break;
-            case 3: //Tüm türler-Diğer yok.
+            case 3: //Tüm türler-Diğer yok-PeriodsAdapter içidir.
                 switch (tur_kodu){
                     case 0:
                         textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_COW))
