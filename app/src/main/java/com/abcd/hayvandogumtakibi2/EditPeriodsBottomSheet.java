@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
 
-    private EditText periodCow, periodSheep, periodGoat, periodCat, periodDog, periodHamster, periodHorse, periodDonkey, periodCamel, periodPig, period_abort_milking;
+    private EditText periodCow, periodSheep, periodGoat, periodCat, periodDog, periodHamster, periodHorse, periodDonkey, periodCamel, period_abort_milking;
     private PeriodsHolder periodsHolder;
     private MyBottomSheetCallback myBottomSheetCallback;
 
@@ -61,7 +61,6 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
         periodHorse=view.findViewById(R.id.period_horse);
         periodDonkey=view.findViewById(R.id.period_donkey);
         periodCamel=view.findViewById(R.id.period_camel);
-        periodPig=view.findViewById(R.id.period_pig);
         period_abort_milking=view.findViewById(R.id.period_abort_milking);
         doBinderAsyncTaskAndPost();
         save_periods.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +98,6 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                         periodHorse.setText(String.valueOf(periodsHolder.getPeriodHorse()));
                         periodDonkey.setText(String.valueOf(periodsHolder.getPeriodDonkey()));
                         periodCamel.setText(String.valueOf(periodsHolder.getPeriodCamel()));
-                        periodPig.setText(String.valueOf(periodsHolder.getPeriodPig()));
                         period_abort_milking.setText(String.valueOf(periodsHolder.getPeriodAbortMilking()));
                     }
                 });
@@ -129,7 +127,6 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
                 periodsHolder.setPeriodHorse(bundle.getString("horse"));
                 periodsHolder.setPeriodDonkey(bundle.getString("donkey"));
                 periodsHolder.setPeriodCamel(bundle.getString("camel"));
-                periodsHolder.setPeriodPig(bundle.getString("pig"));
                 periodsHolder.setPeriodAbortMilking(bundle.getString("abort_milking"));
                 if(recalculateDates){
                     SQLiteDatabaseHelper sqLiteDatabaseHelper=SQLiteDatabaseHelper.getInstance(getContext());
@@ -158,7 +155,6 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
             bundle_periods.putString("horse","335");
             bundle_periods.putString("donkey","365");
             bundle_periods.putString("camel","390");
-            bundle_periods.putString("pig","114");
             bundle_periods.putString("abort_milking","60");
         }
         else{
@@ -170,15 +166,11 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
             bundle_periods.putString("hamster",periodHamster.getText().toString());
             bundle_periods.putString("horse",periodHorse.getText().toString());
             bundle_periods.putString("donkey",periodDonkey.getText().toString());
-            bundle_periods.putString("camel",periodCamel.getText().toString());
-            bundle_periods.putString("pig",periodPig.getText().toString());
             bundle_periods.putString("abort_milking",period_abort_milking.getText().toString());
         }
         saveAllInputs(periodsHolder,bundle_periods,checkBox.isChecked());
         bottomSheetDialog.dismiss();
-        if(myBottomSheetCallback!=null){
-            myBottomSheetCallback.onBottomSheetDismissed();
-        }
+        triggerCallback();
     }
 
     public interface MyBottomSheetCallback {
@@ -187,6 +179,12 @@ public class EditPeriodsBottomSheet extends BottomSheetDialogFragment {
 
     public void setBottomSheetCallback(MyBottomSheetCallback myBottomSheetCallback){
         this.myBottomSheetCallback=myBottomSheetCallback;
+    }
+
+    public void triggerCallback(){
+        if(myBottomSheetCallback!=null){
+            myBottomSheetCallback.onBottomSheetDismissed();
+        }
     }
 
 }
