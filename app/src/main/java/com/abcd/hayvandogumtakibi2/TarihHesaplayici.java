@@ -1,7 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,10 +16,9 @@ public class TarihHesaplayici {
     public int DAY_CAMEL;
     public int DAY_DONKEY;
     public int DAY_HORSE;
-    public int DAY_PIG;
     public int DAY_TO_ABORT_MILKING_COW;
     public static final int DAY_TO_NEXT_INS_COW = 64;
-    private static final String ActivityName = "FragmentTarihHesaplayici";
+    private static final String ActivityName = "com.abcd.hayvandogumtakibi2.FragmentTarihHesaplayici";
     private DateChangeListener dateChangeListener;
 
     public TarihHesaplayici(final Context context){
@@ -34,14 +32,12 @@ public class TarihHesaplayici {
         DAY_HORSE= periodsHolder.getPeriodHorse();
         DAY_DONKEY= periodsHolder.getPeriodDonkey();
         DAY_CAMEL= periodsHolder.getPeriodCamel();
-        DAY_PIG= periodsHolder.getPeriodPig();
         DAY_TO_ABORT_MILKING_COW= periodsHolder.getPeriodAbortMilking();
     }
 
     public void dogum_tarihi_hesapla(final int isPet,final String tur_isim,final Date tarih,final String class_name){
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(tarih);
-        Log.e("DOMUZCUK",class_name);
         if(class_name.equals(ActivityName)){
             switch(tur_isim){
                 case "0":
@@ -70,9 +66,6 @@ public class TarihHesaplayici {
                     break;
                 case "8":
                     calendar.add(Calendar.DATE,DAY_CAMEL);
-                    break;
-                case "9":
-                    calendar.add(Calendar.DATE,DAY_PIG);
                     break;
             }
         }
@@ -109,9 +102,6 @@ public class TarihHesaplayici {
                             break;
                         case "9":
                             calendar.add(Calendar.DATE,DAY_CAMEL);
-                            break;
-                        case "10":
-                            calendar.add(Calendar.DATE,DAY_PIG);
                             break;
                     }
                     break;
@@ -153,9 +143,6 @@ public class TarihHesaplayici {
                             break;
                         case "6":
                             calendar.add(Calendar.DATE,DAY_CAMEL);
-                            break;
-                        case "7":
-                            calendar.add(Calendar.DATE,DAY_PIG);
                             break;
                     }
                     break;

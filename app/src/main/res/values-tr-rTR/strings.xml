@@ -55,7 +55,6 @@
         <item>At</item>
         <item>Eşek</item>
         <item>Deve</item>
-        <item>Domuz</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Kedi</item>
@@ -71,7 +70,6 @@
         <item>At</item>
         <item>Eşek</item>
         <item>Deve</item>
-        <item>Domuz</item>
     </string-array>
     <string-array name="all_species">
         <item>İnek</item>
@@ -83,7 +81,6 @@
         <item>At</item>
         <item>Eşek</item>
         <item>Deve</item>
-        <item>Domuz</item>
     </string-array>
     <string name="photo_picker_item_camera">Kamerayı aç</string>
     <string name="photo_picker_item_gallery">Galeriden seç</string>
@@ -164,5 +161,4 @@
     <string name="edit_periods">Süreleri Düzenle</string>
     <string name="edit_period_option">Kayıtların tahmini doğum tarihlerini ayrıca yeniden hesapla</string>
     <string name="editPeriodsNotifyText">Otomatik yapılan tahmini doğum tarihi hesaplamaları bu değerlere dayanmaktadır. Dolayısıyla bu değerlerin değiştirilmesi yapılacak olan tarih hesaplamalarını etkileyecektir.</string>
-    <string name="tur_10">Domuz</string>
 </resources>

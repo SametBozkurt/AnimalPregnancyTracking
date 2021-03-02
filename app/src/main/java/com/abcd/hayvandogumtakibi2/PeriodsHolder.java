@@ -16,7 +16,6 @@ public class PeriodsHolder {
     private static final String PERIOD_HORSE = "periodHorse";
     private static final String PERIOD_DONKEY = "periodDonkey";
     private static final String PERIOD_CAMEL = "periodCamel";
-    private static final String PERIOD_PIG = "periodPig";
     private static final String PERIOD_ABORT_MILKING = "periodAbortMilking";
     private static PeriodsHolder periodsHolder=null;
     private final SharedPreferences sharedPref;
@@ -69,10 +68,6 @@ public class PeriodsHolder {
 
     public int getPeriodCamel(){
         return sharedPref.getInt(PERIOD_CAMEL, 390);
-    }
-
-    public int getPeriodPig(){
-        return sharedPref.getInt(PERIOD_PIG, 114);
     }
 
     public int getPeriodAbortMilking(){
@@ -138,13 +133,6 @@ public class PeriodsHolder {
     public void setPeriodCamel(String day){
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_CAMEL, Integer.parseInt(day));
-            editor.apply();
-        }
-    }
-
-    public void setPeriodPig(String day){
-        if(day!=null&&!day.isEmpty()){
-            editor.putInt(PERIOD_PIG, Integer.parseInt(day));
             editor.apply();
         }
     }

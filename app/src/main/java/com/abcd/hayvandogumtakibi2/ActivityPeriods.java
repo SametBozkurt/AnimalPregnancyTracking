@@ -1,5 +1,6 @@
 package com.abcd.hayvandogumtakibi2;
 
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class ActivityPeriods extends AppCompatActivity{
 
     //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
+    private final Context context=this;
     private AdView adView;
     private FrameLayout adContainerView;
     private RelativeLayout relativeLayout;
@@ -45,7 +47,7 @@ public class ActivityPeriods extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_periods);
-        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(this);
+        listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         relativeLayout=findViewById(R.id.parent_layout);
         adContainerView=findViewById(R.id.ad_view_container);
         recyclerView=findViewById(R.id.recyclerView);
@@ -76,7 +78,7 @@ public class ActivityPeriods extends AppCompatActivity{
                     imgListMode.setImageResource(R.drawable.ic_view_all);
                 }
                 initProgressBarAndTask();
-                PreferencesHolder.setIsListedViewEnabled(ActivityPeriods.this,listModeEnabled);
+                PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
             }
         });
         edidPeriods.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +108,7 @@ public class ActivityPeriods extends AppCompatActivity{
         handler.post(new Runnable() {
             @Override
             public void run() {
-                progressBar=new ProgressBar(ActivityPeriods.this);
+                progressBar=new ProgressBar(context);
                 progressBar.setIndeterminate(true);
                 if(mLayoutParams==null){
                     mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -135,7 +137,7 @@ public class ActivityPeriods extends AppCompatActivity{
             public void run() {
                 try {
                     Thread.sleep(400);
-                    periodsAdapter=new PeriodsAdapter(ActivityPeriods.this,listModeEnabled);
+                    periodsAdapter=new PeriodsAdapter(context,listModeEnabled);
                     Message message=new Message();
                     message.obj="InitializeUIProcess";
                     asyncHandler.sendMessage(message);
@@ -152,10 +154,10 @@ public class ActivityPeriods extends AppCompatActivity{
             @Override
             public void run() {
                 if(listModeEnabled){
-                    layoutManager=new GridLayoutManager(ActivityPeriods.this,2);
+                    layoutManager=new GridLayoutManager(context,2);
                 }
                 else{
-                    layoutManager=new GridLayoutManager(ActivityPeriods.this,3);
+                    layoutManager=new GridLayoutManager(context,3);
                 }
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(periodsAdapter);
@@ -193,11 +195,11 @@ public class ActivityPeriods extends AppCompatActivity{
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
-                ConnectivityManager connectivityManager=(ConnectivityManager)ActivityPeriods.this.getSystemService(CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
                     if(networkInfo.isConnected()){
-                        MobileAds.initialize(ActivityPeriods.this, new OnInitializationCompleteListener() {
+                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
@@ -218,7 +220,7 @@ public class ActivityPeriods extends AppCompatActivity{
 
     private void loadBanner() {
         adContainerView.removeAllViews();
-        adView = new AdView(ActivityPeriods.this);
+        adView = new AdView(context);
         adView.setAdUnitId(BANNER_TEST_ID);
         adContainerView.addView(adView);
         adView.setAdSize(getAdSize());
@@ -236,7 +238,7 @@ public class ActivityPeriods extends AppCompatActivity{
             adWidthPixels = outMetrics.widthPixels;
         }
         int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(ActivityPeriods.this,adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
     }
 
     @Override
