@@ -34,6 +34,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
     private TarihHesaplayici tarihHesaplayici;
     private Context context;
     private DateCalculatedListener dateCalculatedListener;
+    private static final String ActivityName = "FragmentTarihHesaplayici";
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -50,7 +51,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
         btn_tarih_dollenme=view.findViewById(R.id.dollenme_tarihi);
         btn_tarih_dogum=view.findViewById(R.id.dogum_tarihi);
         final Calendar gecerli_takvim=Calendar.getInstance();
-        ArrayList<String> _turler_list=new ArrayList<>(9);
+        ArrayList<String> _turler_list=new ArrayList<>(10);
         loadArrayElements(_turler_list);
         date_dollenme=gecerli_takvim.getTime();
         ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<>(context,R.layout.spinner_text,_turler_list);
@@ -61,7 +62,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 secilen_tur=String.valueOf(position);
                 if(boolTarih){
-                    tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date_dollenme,getClass().getName());
+                    tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date_dollenme,ActivityName);
                 }
             }
             @Override
@@ -77,7 +78,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
                         date_dollenme=gecerli_takvim.getTime();
                         btn_tarih_dollenme.setText(dateFormat.format(date_dollenme));
                         boolTarih=true;
-                        tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date_dollenme,getClass().getName());
+                        tarihHesaplayici.dogum_tarihi_hesapla(petCode,secilen_tur,date_dollenme,ActivityName);
                     }
                 },gecerli_takvim.get(Calendar.YEAR),gecerli_takvim.get(Calendar.MONTH),gecerli_takvim.get(Calendar.DAY_OF_MONTH));
                 dialog.show();
@@ -103,6 +104,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
         turler_list.add(getString(R.string.tur_7));
         turler_list.add(getString(R.string.tur_8));
         turler_list.add(getString(R.string.tur_9));
+        turler_list.add(getString(R.string.tur_10));
     }
 
     public interface DateCalculatedListener{

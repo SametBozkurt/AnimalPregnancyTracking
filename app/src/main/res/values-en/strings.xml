@@ -26,7 +26,7 @@
     <string name="bildirim_baslik">Incoming Birth Remainder</string>
     <string name="duzenle_button_text">Edit</string>
     <string name="kayit_yok_uyari">There is no pregnancy record yet; to create a record, click the button right below.</string>
-    <string name="kayit_yok_uyari_kritikler">Do/doesn\'t seem(s) any incoming birth in a month.</string>
+    <string name="kayit_yok_uyari_kritikler">Don\'t/doesn\'t seem(s) any incoming birth in a month.</string>
     <string name="activity_kayit_ekle_title">New Record</string>
     <string name="deger_yok_uyari">Please, fill the inputs to create a record.</string>
     <string name="bildirim_govde_text">There will be some births in a month.</string>
@@ -55,6 +55,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Cat</item>
@@ -70,6 +71,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="all_species">
         <item>Cow</item>
@@ -81,6 +83,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string name="photo_picker_item_camera">Open camera</string>
     <string name="photo_picker_item_gallery">From gallery</string>
@@ -90,6 +93,7 @@
     <string name="tur_7">Horse</string>
     <string name="tur_8">Donkey</string>
     <string name="tur_9">Camel</string>
+    <string name="tur_10">Pig</string>
     <string name="txt_day">Day(s) to birth</string>
     <string name="txt_day_2">Day(s)</string>
     <string name="nav_period">Gestation Periods</string>

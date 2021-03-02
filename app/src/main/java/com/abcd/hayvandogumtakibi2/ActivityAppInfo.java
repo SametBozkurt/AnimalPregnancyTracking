@@ -15,9 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class ActivityAppInfo extends AppCompatActivity {
 
-    final String appVer=BuildConfig.VERSION_NAME;
-    ConstraintLayout constraintLayout;
-    LinearLayout layout_policy, layout_vote, layout_version;
+    private ConstraintLayout constraintLayout;
+    private LinearLayout layout_policy, layout_vote, layout_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +26,9 @@ public class ActivityAppInfo extends AppCompatActivity {
         layout_policy = findViewById(R.id.lyt_policy);
         layout_vote = findViewById(R.id.lyt_vote);
         layout_version = findViewById(R.id.lyt_version);
-        final TextView textView_version = findViewById(R.id.txt_version);
-        final TextView txt_attribution1=findViewById(R.id.attribution1);
-        final TextView txt_attribution2=findViewById(R.id.attribution2);
+        TextView textView_version = findViewById(R.id.txt_version);
+        TextView txt_attribution1=findViewById(R.id.attribution1);
+        TextView txt_attribution2=findViewById(R.id.attribution2);
         layout_policy.setAlpha(0f);
         layout_vote.setAlpha(0f);
         layout_version.setAlpha(0f);
@@ -47,7 +46,8 @@ public class ActivityAppInfo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        final StringBuilder ver=new StringBuilder();
+        StringBuilder ver=new StringBuilder();
+        String appVer = BuildConfig.VERSION_NAME;
         ver.append(getString(R.string.version)).append(" ").append(appVer);
         textView_version.setText(ver);
         txt_attribution1.setMovementMethod(LinkMovementMethod.getInstance());
@@ -59,7 +59,7 @@ public class ActivityAppInfo extends AppCompatActivity {
         animate_containers();
     }
 
-    void animate_containers(){
+    private void animate_containers(){
         constraintLayout.postDelayed(new Runnable() {
             @Override
             public void run() {

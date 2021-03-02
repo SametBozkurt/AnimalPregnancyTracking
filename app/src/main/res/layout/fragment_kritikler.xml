@@ -20,10 +20,6 @@
         style="@style/FilterButtonStyle"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="@dimen/margin_kategori_1"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         app:icon="@drawable/ic_sort"
         android:elevation="@dimen/margin_kategori_1"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>

@@ -2,14 +2,19 @@ package com.abcd.hayvandogumtakibi2;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -20,11 +25,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class ActivityTumKayitlar extends AppCompatActivity {
 
+    private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
+    private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
     private RelativeLayout relativeLayout;
     private final Context context=this;
     private int selection_code=0, selectedRadioButtonFilter=R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
@@ -38,6 +51,9 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     private KayitlarAdapter kayitlarAdapter;
     private ProgressBar progressBar;
     private ImageView imgListMode;
+    private AdView adView;
+    private FrameLayout adContainerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +62,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         imgListMode=findViewById(R.id.listMode);
         recyclerView=findViewById(R.id.recyclerView);
         relativeLayout=findViewById(R.id.parent);
+        adContainerView=findViewById(R.id.ad_view_container);
         listModeEnabled=PreferencesHolder.getIsListedViewEnabled(context);
         if(listModeEnabled){
             imgListMode.setImageResource(R.drawable.ic_view_all);
@@ -70,7 +87,36 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         });
         bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
         initProgressBarAndTask();
+        doAsyncAdsTask();
         initFilterMenu();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (adView != null) {
+            adView.destroy();
+            adContainerView.removeAllViews();
+            relativeLayout.removeAllViews();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) { adView.pause(); }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) { adView.resume(); }
     }
 
     private void initFilterMenu(){
@@ -232,6 +278,48 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         });
     }
 
+    private void doAsyncAdsTask(){
+        HandlerThread handlerThread=new HandlerThread("AsyncAdsTasks");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                Handler handler = new Handler(getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadBanner();
+                    }
+                });
+            }
+        };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                if(networkInfo!=null){
+                    if(networkInfo.isConnected()){
+                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
+                            @Override
+                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                        });
+                        try {
+                            Thread.sleep(500);
+                            Message message=new Message();
+                            message.obj="InitializeUIProcess";
+                            asyncHandler.sendMessage(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        };
+        asyncHandler.post(runnable);
+    }
+
     @SuppressLint("NonConstantResourceId")
     public void viewClick(View view){
         switch (view.getId()){
@@ -247,6 +335,29 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void loadBanner() {
+        adContainerView.removeAllViews();
+        adView = new AdView(context);
+        adView.setAdUnitId(BANNER_TEST_ID);
+        adContainerView.addView(adView);
+        adView.setAdSize(getAdSize());
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float density = outMetrics.density;
+        float adWidthPixels = adContainerView.getWidth();
+        if (adWidthPixels == 0) {
+            adWidthPixels = outMetrics.widthPixels;
+        }
+        int adWidth = (int) (adWidthPixels / density);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
     }
 
 }

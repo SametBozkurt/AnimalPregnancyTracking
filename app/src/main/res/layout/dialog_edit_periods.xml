@@ -369,6 +369,47 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lyt_period_pig"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="50"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/pig"
+                    android:scaleType="fitCenter"
+                    android:scaleX="@dimen/image_scale"
+                    android:scaleY="@dimen/image_scale"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/period_pig"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:paddingStart="@dimen/margin_kategori_4"
+                    android:paddingEnd="@dimen/margin_kategori_4"
+                    android:lines="1"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
                 android:id="@+id/lyt_period_abort_milking"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
@@ -401,6 +442,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:layout_width="wrap_content"

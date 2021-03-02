@@ -1,13 +1,16 @@
 package com.abcd.hayvandogumtakibi2;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,6 +41,7 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        holder.txt_gun.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
         HayvanDuzenleyici.set_text(context,3,position,holder.txt_gun);
         HayvanDuzenleyici.set_img(context,3,position,holder.img_animal);
     }

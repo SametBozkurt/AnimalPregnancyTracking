@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,11 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        holder.txt_tur.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
+        holder.txt_isim.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
+        holder.txt_tarih1.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
+        holder.txt_tarih2.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
+        holder.txt_kupe_no.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(context));
         final DataModel dataModel1=dataModel.get(position);
         //final String replacedWith = "<font color='red'>" + aranan + "</font>";
         String replacedWith = "<span style='background-color:#00FEFE'>" + aranan + "</span>";

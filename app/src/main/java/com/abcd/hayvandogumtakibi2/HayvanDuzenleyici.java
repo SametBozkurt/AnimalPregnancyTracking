@@ -24,7 +24,7 @@ public class HayvanDuzenleyici {
             case 2: //sadece besi hayvanları
                 textView.setText(arrayList_barn.get(tur_kodu));
                 break;
-            case 3: //Tüm türler-Diğer yok.
+            case 3: //Tüm türler-Diğer yok-PeriodsAdapter içidir.
                 switch (tur_kodu){
                     case 0:
                         textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_COW))
@@ -60,6 +60,10 @@ public class HayvanDuzenleyici {
                         break;
                     case 8:
                         textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_CAMEL))
+                                .append(" ").append(context.getString(R.string.txt_day_2)));
+                        break;
+                    case 9:
+                        textView.setText(new StringBuilder(String.valueOf(tarihHesaplayici.DAY_PIG))
                                 .append(" ").append(context.getString(R.string.txt_day_2)));
                         break;
                 }
@@ -99,6 +103,9 @@ public class HayvanDuzenleyici {
                         break;
                     case 9:
                         Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        break;
+                    case 10:
+                        Glide.with(context).load(R.mipmap.pig).into(imgView);
                         break;
                 }
                 break;
@@ -141,9 +148,12 @@ public class HayvanDuzenleyici {
                     case 6:
                         Glide.with(context).load(R.mipmap.camel).into(imgView);
                         break;
+                    case 7:
+                        Glide.with(context).load(R.mipmap.pig).into(imgView);
+                        break;
                 }
                 break;
-            case 3: //Tüm türler-Diğer yok.
+            case 3: //Tüm türler-Diğer yok-PeriodsAdapter içidir.
                 switch (tur_kodu){
                     case 0:
                         Glide.with(context).load(R.mipmap.cow).into(imgView);
@@ -171,6 +181,9 @@ public class HayvanDuzenleyici {
                         break;
                     case 8:
                         Glide.with(context).load(R.mipmap.camel).into(imgView);
+                        break;
+                    case 9:
+                        Glide.with(context).load(R.mipmap.pig).into(imgView);
                         break;
                 }
         }

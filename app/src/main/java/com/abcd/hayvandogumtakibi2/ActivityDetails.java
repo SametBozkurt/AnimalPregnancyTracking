@@ -43,6 +43,8 @@ import java.util.Locale;
 
 public class ActivityDetails extends AppCompatActivity {
 
+    private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
+    private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
     private Boolean isOtherFieldsShown=false,hasInternetConnection=false;
     private DataModel dataModel;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
@@ -54,8 +56,6 @@ public class ActivityDetails extends AppCompatActivity {
     private RelativeLayout parent_layout;
     private int screen_width=0;
     private SQLiteDatabaseHelper databaseHelper;
-    //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
-    private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,14 +11,14 @@ import java.util.TimerTask;
 
 public class DemoActivity extends AppCompatActivity {
 
-    final Context context=this;
+    private final Context context=this;
     private static final String THREAD_CLEANER_NAME = "CleanerThread";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        final Thread copcuThread = new Thread(new Runnable() {
+        Thread copcuThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 if(PreferencesHolder.getIsCacheCleanerEnabled(context)){

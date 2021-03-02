@@ -38,7 +38,7 @@
     <string name="bildirim_baslik">Incoming Birth Remainder</string>
     <string name="duzenle_button_text">Edit</string>
     <string name="kayit_yok_uyari">There is no pregnancy record yet; to create a record, click the button right below.</string>
-    <string name="kayit_yok_uyari_kritikler">Do/doesn\'t seem(s) any incoming birth in a month.</string>
+    <string name="kayit_yok_uyari_kritikler">Don\'t/doesn\'t seem(s) any incoming birth in a month.</string>
     <string name="gerceklesen_dogum_yok_uyari">There\'s no happened birth yet.</string>
     <string name="activity_kayit_ekle_title">New Record</string>
     <string name="deger_yok_uyari">Please, fill the inputs to create a record.</string>
@@ -66,6 +66,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="animal_list_pet">
         <item>Cat</item>
@@ -81,6 +82,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string-array name="all_species">
         <item>Cow</item>
@@ -92,6 +94,7 @@
         <item>Horse</item>
         <item>Donkey</item>
         <item>Camel</item>
+        <item>Pig</item>
     </string-array>
     <string name="spinner_description">Show that:</string>
     <string name="photo_picker_item_gallery">From gallery</string>
@@ -166,5 +169,5 @@
     <string name="edit_periods">Edit Periods</string>
     <string name="edit_period_option">Recalculate also estimated birth dates of all records</string>
     <string name="editPeriodsNotifyText">Estimated automatic birth date calculations are based on these values. Therefore, changing these values will affect the date calculations to be made.</string>
-    <!-- Strings used for fragments for navigation -->
+    <string name="tur_10">Pig</string>
 </resources>

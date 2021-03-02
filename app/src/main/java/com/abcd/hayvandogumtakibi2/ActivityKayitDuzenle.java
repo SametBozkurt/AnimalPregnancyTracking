@@ -53,6 +53,9 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
         else{
             imgListMode.setImageResource(R.drawable.ic_tile);
         }
+        initProgressBarAndTask();
+        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
+        initFilterMenu();
         imgListMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,9 +71,6 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                 PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
             }
         });
-        initProgressBarAndTask();
-        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
-        initFilterMenu();
     }
 
     private void initProgressBarAndTask(){
@@ -246,12 +246,6 @@ public class ActivityKayitDuzenle extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        initProgressBarAndTask();
     }
 
     @Override

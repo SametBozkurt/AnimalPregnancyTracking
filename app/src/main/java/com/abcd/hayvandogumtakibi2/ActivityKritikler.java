@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class ActivityKritikler extends AppCompatActivity {
 
-    //private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
+    private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
     private SQLiteDatabaseHelper databaseHelper;
     private ArrayList<DataModel> dataModelArrayList;
@@ -48,18 +48,14 @@ public class ActivityKritikler extends AppCompatActivity {
         final ImageView cross=findViewById(R.id.iptal);
         imgListMode=findViewById(R.id.listMode);
         fragment_container=findViewById(R.id.fragment_container);
-        initTask();
-        initAdsTask();
+        doAsyncTaskAndPost();
+        doAsyncAdsTask();
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-    }
-
-    private void initTask(){
-        doAsyncTaskAndPost();
     }
 
     private void doAsyncTaskAndPost(){
@@ -112,17 +108,13 @@ public class ActivityKritikler extends AppCompatActivity {
                                 listModeEnabled=true;
                                 imgListMode.setImageResource(R.drawable.ic_view_all);
                             }
-                            onStart();
+                            doAsyncFragmentTaskAndPost();
                             PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
                         }
                     });
                 }
             }
         });
-    }
-
-    private void initAdsTask(){
-        doAsyncAdsTask();
     }
 
     private void doAsyncAdsTask(){
@@ -167,6 +159,41 @@ public class ActivityKritikler extends AppCompatActivity {
         asyncHandler.post(runnable);
     }
 
+    private void doAsyncFragmentTaskAndPost(){
+        fragment_container.removeAllViews();
+        HandlerThread handlerThread=new HandlerThread("FragmentThread");
+        handlerThread.start();
+        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                Handler uiHandler = new Handler(getMainLooper());
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(dataModelArrayList.isEmpty()){
+                            FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
+                        }
+                        else{
+                            FragmentYaklasanDogumlar fragmentYaklasanDogumlar=new FragmentYaklasanDogumlar();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumlar).commitAllowingStateLoss();
+                        }
+                    }
+                });
+            }
+        };
+        asyncHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                dataModelArrayList=databaseHelper.getKritikOlanlar(null, 30);
+                Message message=new Message();
+                message.obj="InitializeUIProcess";
+                asyncHandler.sendMessage(message);
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -183,38 +210,7 @@ public class ActivityKritikler extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        fragment_container.removeAllViews();
-        HandlerThread handlerThread=new HandlerThread("FragmentThread");
-        handlerThread.start();
-        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                Handler uiHandler = new Handler(getMainLooper());
-                uiHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(dataModelArrayList.isEmpty()){
-                            final FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
-                        }
-                        else{
-                            final FragmentYaklasanDogumlar fragmentYaklasanDogumlar=new FragmentYaklasanDogumlar();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumlar).commitAllowingStateLoss();
-                        }
-                    }
-                });
-            }
-        };
-        asyncHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                dataModelArrayList=databaseHelper.getKritikOlanlar(null, 30);
-                Message message=new Message();
-                message.obj="InitializeUIProcess";
-                asyncHandler.sendMessage(message);
-            }
-        });
+        doAsyncFragmentTaskAndPost();
     }
 
     @Override

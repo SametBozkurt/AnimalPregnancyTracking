@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
+        holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,PreferencesHolder.getCardTextSize(mContext));
         final DataModel dataModel=dataModelArrayList.get(position);
         holder.textView.setText(new StringBuilder(dataModel.getIsim()));
         switch(code){

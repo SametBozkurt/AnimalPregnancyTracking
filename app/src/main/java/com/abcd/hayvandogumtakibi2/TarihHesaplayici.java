@@ -16,9 +16,10 @@ public class TarihHesaplayici {
     public int DAY_CAMEL;
     public int DAY_DONKEY;
     public int DAY_HORSE;
+    public int DAY_PIG;
     public int DAY_TO_ABORT_MILKING_COW;
     public static final int DAY_TO_NEXT_INS_COW = 64;
-    private static final String ActivityName = "com.abcd.hayvandogumtakibi2.FragmentTarihHesaplayici";
+    private static final String ActivityName = "FragmentTarihHesaplayici";
     private DateChangeListener dateChangeListener;
 
     public TarihHesaplayici(final Context context){
@@ -32,6 +33,7 @@ public class TarihHesaplayici {
         DAY_HORSE= periodsHolder.getPeriodHorse();
         DAY_DONKEY= periodsHolder.getPeriodDonkey();
         DAY_CAMEL= periodsHolder.getPeriodCamel();
+        DAY_PIG= periodsHolder.getPeriodPig();
         DAY_TO_ABORT_MILKING_COW= periodsHolder.getPeriodAbortMilking();
     }
 
@@ -66,6 +68,9 @@ public class TarihHesaplayici {
                     break;
                 case "8":
                     calendar.add(Calendar.DATE,DAY_CAMEL);
+                    break;
+                case "9":
+                    calendar.add(Calendar.DATE,DAY_PIG);
                     break;
             }
         }
@@ -102,6 +107,9 @@ public class TarihHesaplayici {
                             break;
                         case "9":
                             calendar.add(Calendar.DATE,DAY_CAMEL);
+                            break;
+                        case "10":
+                            calendar.add(Calendar.DATE,DAY_PIG);
                             break;
                     }
                     break;
@@ -144,11 +152,14 @@ public class TarihHesaplayici {
                         case "6":
                             calendar.add(Calendar.DATE,DAY_CAMEL);
                             break;
+                        case "7":
+                            calendar.add(Calendar.DATE,DAY_PIG);
+                            break;
                     }
                     break;
             }
         }
-        triggerListener(calendar.getTime());
+        notifyListener(calendar.getTime());
     }
 
     public static long get_kizdirma_tarihi(long birth_date_in_millis){
@@ -169,11 +180,11 @@ public class TarihHesaplayici {
         void onNewDateCalculated(Date dateCalculated);
     }
 
-    public void setDateChangeListener(final DateChangeListener dateChangeListener){
+    public void setDateChangeListener(DateChangeListener dateChangeListener){
         this.dateChangeListener=dateChangeListener;
     }
 
-    public void triggerListener(Date date){
+    public void notifyListener(Date date){
         if(dateChangeListener!=null){
             dateChangeListener.onNewDateCalculated(date);
         }

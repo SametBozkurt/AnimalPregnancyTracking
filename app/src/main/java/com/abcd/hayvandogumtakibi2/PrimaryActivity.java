@@ -44,7 +44,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class PrimaryActivity extends AppCompatActivity {
 
     private static final String INTERSTITIAL_TEST_ID = "ca-app-pub-3940256099942544/1033173712";
-    //private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
+    private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     private int database_size;
     private boolean is_opened = false, hasInternetConnection=false;
     private final Context context=this;
@@ -368,19 +368,19 @@ public class PrimaryActivity extends AppCompatActivity {
                 NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
                     hasInternetConnection=networkInfo.isConnected();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     if(networkInfo.isConnected()){
                         MobileAds.initialize(context, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
-                        try {
-                            Thread.sleep(500);
-                            Message message=new Message();
-                            message.obj="InitializeAdProcess";
-                            asyncHandler.sendMessage(message);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Message message=new Message();
+                        message.obj="InitializeAdProcess";
+                        asyncHandler.sendMessage(message);
                     }
                 }
             }
