@@ -82,7 +82,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(dataModelArrayList.isEmpty()){
+                        if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
                             imgListMode.setVisibility(View.INVISIBLE);
                         }
                         else{
@@ -163,12 +163,12 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(dataModelArrayList.isEmpty()){
-                            final FragmentGerceklesenDogumYok fragmentGerceklesenDogumYok=new FragmentGerceklesenDogumYok();
+                        if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
+                            FragmentGerceklesenDogumYok fragmentGerceklesenDogumYok=new FragmentGerceklesenDogumYok();
                             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumYok).commitAllowingStateLoss();
                         }
                         else{
-                            final FragmentGerceklesenDogumlar fragmentGerceklesenDogumlar=new FragmentGerceklesenDogumlar();
+                            FragmentGerceklesenDogumlar fragmentGerceklesenDogumlar=new FragmentGerceklesenDogumlar();
                             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumlar).commitAllowingStateLoss();
                         }
                     }
@@ -178,7 +178,6 @@ public class ActivityGerceklesenler extends AppCompatActivity {
         asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                dataModelArrayList=databaseHelper.getSimpleData("dogum_grcklsti=1",null);
                 Message message=new Message();
                 message.obj="InitializeUIProcess";
                 asyncHandler.sendMessage(message);

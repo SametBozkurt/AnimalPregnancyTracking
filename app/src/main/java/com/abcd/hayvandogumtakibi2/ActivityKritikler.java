@@ -86,7 +86,7 @@ public class ActivityKritikler extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(dataModelArrayList.isEmpty()){
+                if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
                     imgListMode.setVisibility(View.INVISIBLE);
                 }
                 else{
@@ -171,7 +171,7 @@ public class ActivityKritikler extends AppCompatActivity {
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(dataModelArrayList.isEmpty()){
+                        if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
                             FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
                         }
@@ -186,7 +186,6 @@ public class ActivityKritikler extends AppCompatActivity {
         asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                dataModelArrayList=databaseHelper.getKritikOlanlar(null, 30);
                 Message message=new Message();
                 message.obj="InitializeUIProcess";
                 asyncHandler.sendMessage(message);
