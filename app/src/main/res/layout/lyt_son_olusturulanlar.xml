@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:text="@string/sonOlusturulanlar"
         android:textColor="@android:color/white"
-        android:fontFamily="@font/josefin_sans_semibold"
+        android:fontFamily="@font/comfortaa_bold"
         android:padding="@dimen/margin_kategori_3"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

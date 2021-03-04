@@ -5,7 +5,7 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.abcd.hayvandogumtakibi2.ActivityDetails">
+    tools:context="com.abcd.hayvandogumtakibi2.Activity.ActivityDetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
@@ -37,7 +37,7 @@
             android:textColor="#37474f"
             android:textSize="@dimen/title_size"
             android:layout_gravity="center_vertical"
-            android:fontFamily="@font/josefin_sans_semibold"
+            android:fontFamily="@font/comfortaa_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
             android:layout_height="match_parent"
             android:id="@+id/linear_layout"
             android:orientation="vertical"
-            tools:context="com.abcd.hayvandogumtakibi2.ActivityDetails">
+            tools:context="com.abcd.hayvandogumtakibi2.Activity.ActivityDetails">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

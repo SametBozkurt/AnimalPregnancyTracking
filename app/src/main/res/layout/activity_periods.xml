@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ActivityPeriods">
+    tools:context=".Activity.ActivityPeriods">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar_layout"
@@ -38,7 +38,7 @@
             android:textColor="#000"
             android:textSize="@dimen/title_size"
             android:layout_gravity="center_vertical"
-            android:fontFamily="@font/josefin_sans_semibold"
+            android:fontFamily="@font/comfortaa_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

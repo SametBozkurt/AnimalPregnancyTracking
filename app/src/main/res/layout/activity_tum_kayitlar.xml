@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent"
-    tools:context="com.abcd.hayvandogumtakibi2.ActivityTumKayitlar">
+    tools:context="com.abcd.hayvandogumtakibi2.Activity.ActivityTumKayitlar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="@string/nav_all_recs"
             android:textColor="#000"
-            android:fontFamily="@font/josefin_sans_semibold"
+            android:fontFamily="@font/comfortaa_bold"
             android:textSize="@dimen/title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

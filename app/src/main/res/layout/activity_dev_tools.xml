@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent"
-    tools:context="com.abcd.hayvandogumtakibi2.ActivityDevTools">
+    tools:context="com.abcd.hayvandogumtakibi2.Activity.ActivityDevTools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:id="@+id/ana_katman"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityDogumKayit">
+    tools:context=".Activity.ActivityDogumKayit">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
