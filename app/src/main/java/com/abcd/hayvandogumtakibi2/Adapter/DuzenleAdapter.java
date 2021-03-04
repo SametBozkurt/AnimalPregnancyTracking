@@ -20,10 +20,9 @@ import com.abcd.hayvandogumtakibi2.Activity.ActivityEdit;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
+import com.abcd.hayvandogumtakibi2.R;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -90,12 +89,17 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                 holder.textView.setText(dateFormat.format(date));
                 break;
         }
+        HayvanDuzenleyici.set_text(mContext,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.textViewTur);
         File gorselFile=new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),dataModel.getFotograf_isim());
         if(gorselFile.exists()&&gorselFile.isFile()){
+            holder.img_animal.setScaleX(1.0f);
+            holder.img_animal.setScaleY(1.0f);
             holder.img_animal.setColorFilter(Color.TRANSPARENT);
-            Glide.with(mContext).load(gorselFile).apply(RequestOptions.circleCropTransform()).into(holder.img_animal);
+            Glide.with(mContext).load(gorselFile).into(holder.img_animal);
         }
         else{
+            holder.img_animal.setScaleX(0.5f);
+            holder.img_animal.setScaleY(0.5f);
             holder.img_animal.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(mContext,dataModel.getIs_evcilhayvan(),Integer.parseInt(dataModel.getTur()),holder.img_animal);
         }
@@ -132,7 +136,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        TextView textView,textViewTur;
         FloatingActionButton button_duzenle, button_sil;
         ImageView img_animal;
 
@@ -140,6 +144,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
             super(itemView);
             img_animal=itemView.findViewById(R.id.img_hayvan);
             textView=itemView.findViewById(R.id.txt_isim);
+            textViewTur=itemView.findViewById(R.id.txt_tur);
             button_duzenle=itemView.findViewById(R.id.button_edit);
             button_sil=itemView.findViewById(R.id.button_del);
         }

@@ -21,10 +21,9 @@ import com.abcd.hayvandogumtakibi2.Activity.ActivityDetails;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
+import com.abcd.hayvandogumtakibi2.R;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -101,7 +100,7 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
             holder.img_photo.setScaleX(1.0f);
             holder.img_photo.setScaleY(1.0f);
             holder.img_photo.setColorFilter(Color.TRANSPARENT);
-            Glide.with(context).load(Uri.fromFile(gorselFile)).apply(RequestOptions.circleCropTransform()).into(holder.img_photo);
+            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_photo);
         }
         else{
             holder.img_photo.setScaleX(0.5f);

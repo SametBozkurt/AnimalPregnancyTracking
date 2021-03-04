@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     app:cardBackgroundColor="#fff"
-    app:cardCornerRadius="@dimen/card_corner_radius"
-    app:strokeWidth="2dp"
-    app:strokeColor="#BFBFBF"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/margin_kategori_1">
