@@ -34,9 +34,7 @@
                 android:id="@+id/txt_tur"
                 android:gravity="center"
                 android:layout_gravity="bottom"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"
-                android:background="#80FF9800"/>
+                style="@style/TurStyle"/>
 
         </androidx.cardview.widget.CardView>
 

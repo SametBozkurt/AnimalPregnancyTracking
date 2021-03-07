@@ -95,7 +95,7 @@ public class ActivityEdit extends AppCompatActivity {
         photo=findViewById(R.id.add_photo);
         final TextView txtOtherFields=findViewById(R.id.txt_other_details);
         databaseHelper=SQLiteDatabaseHelper.getInstance(this);
-        tarihHesaplayici=new TarihHesaplayici(this);
+        tarihHesaplayici=TarihHesaplayici.getInstance(this);
         dataModel=databaseHelper.getDataById(getIntent().getExtras().getInt("kayit_id"));
         degerleri_yerlestir();
         txtOtherFields.setOnClickListener(new View.OnClickListener() {

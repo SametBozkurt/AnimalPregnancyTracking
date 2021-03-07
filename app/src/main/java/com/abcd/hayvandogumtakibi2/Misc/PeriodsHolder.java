@@ -18,9 +18,21 @@ public class PeriodsHolder {
     private static final String PERIOD_CAMEL = "periodCamel";
     private static final String PERIOD_PIG = "periodPig";
     private static final String PERIOD_ABORT_MILKING = "periodAbortMilking";
+    public static final int CODE_COW=0;
+    public static final int CODE_SHEEP=1;
+    public static final int CODE_GOAT=2;
+    public static final int CODE_CAT=3;
+    public static final int CODE_DOG=4;
+    public static final int CODE_HAMSTER=5;
+    public static final int CODE_HORSE=6;
+    public static final int CODE_DONKEY=7;
+    public static final int CODE_CAMEL=8;
+    public static final int CODE_PIG=9;
+    public static final int CODE_ABORT_MILKING=10;
     private static PeriodsHolder periodsHolder=null;
     private final SharedPreferences sharedPref;
     private final SharedPreferences.Editor editor;
+    private PeriodUpdaterCallback periodUpdaterCallback;
 
     @SuppressLint("CommitPrefEdits")
     private PeriodsHolder(final Context context){
@@ -83,6 +95,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_COW, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_COW,Integer.parseInt(day));
+            }
         }
     }
 
@@ -90,6 +105,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_SHEEP, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_SHEEP,Integer.parseInt(day));
+            }
         }
     }
 
@@ -97,6 +115,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_GOAT, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_GOAT,Integer.parseInt(day));
+            }
         }
     }
 
@@ -104,6 +125,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_CAT, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_CAT,Integer.parseInt(day));
+            }
         }
     }
 
@@ -111,6 +135,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_DOG, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_DOG,Integer.parseInt(day));
+            }
         }
     }
 
@@ -118,6 +145,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_HAMSTER, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_HAMSTER,Integer.parseInt(day));
+            }
         }
     }
 
@@ -125,6 +155,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_HORSE, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_HORSE,Integer.parseInt(day));
+            }
         }
     }
 
@@ -132,6 +165,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_DONKEY, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_DONKEY,Integer.parseInt(day));
+            }
         }
     }
 
@@ -139,6 +175,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_CAMEL, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_CAMEL,Integer.parseInt(day));
+            }
         }
     }
 
@@ -146,6 +185,9 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_PIG, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_PIG,Integer.parseInt(day));
+            }
         }
     }
 
@@ -153,7 +195,18 @@ public class PeriodsHolder {
         if(day!=null&&!day.isEmpty()){
             editor.putInt(PERIOD_ABORT_MILKING, Integer.parseInt(day));
             editor.apply();
+            if(periodUpdaterCallback!=null){
+                periodUpdaterCallback.onPeriodUpdated(CODE_ABORT_MILKING,Integer.parseInt(day));
+            }
         }
+    }
+
+    public void setPeriodUpdaterCallback(PeriodUpdaterCallback periodUpdaterCallback){
+        this.periodUpdaterCallback=periodUpdaterCallback;
+    }
+
+    public interface PeriodUpdaterCallback{
+        void onPeriodUpdated(int whichOne,int newVal);
     }
 
 }

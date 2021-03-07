@@ -383,7 +383,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void recalculateEstBirthDates(final Context context){
-        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(context);
+        TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance(context);
         final SQLiteDatabase database=this.getReadableDatabase();
         final ContentValues newValues=new ContentValues();
         Date date=new Date();

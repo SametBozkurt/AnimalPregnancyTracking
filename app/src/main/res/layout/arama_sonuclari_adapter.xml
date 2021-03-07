@@ -5,11 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="3dp"
-    app:strokeWidth="2dp"
-    app:strokeColor="#BFBFBF"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#eeeeee"
-    app:cardCornerRadius="@dimen/card_corner_radius">
+    app:cardBackgroundColor="#eeeeee">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_alignStart="@id/img_hayvan"
+            android:layout_alignStart="@id/abcd"
             android:layout_marginStart="15dp"
             android:layout_marginTop="@dimen/margin_kategori_1"
             android:text="@string/hint_isim"
@@ -29,21 +26,10 @@
             android:fontFamily="@font/open_sans_bold"/>
 
         <TextView
-            android:id="@+id/txt_tur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_isim"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="@dimen/margin_kategori_1"
-            android:text="@string/tur"
-            android:fontFamily="@font/open_sans"
-            android:textColor="@color/listViewTextColor"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_kupe_no"
-            android:layout_below="@id/txt_tur"
+            android:layout_below="@id/txt_isim"
             android:textColor="@color/listViewTextColor"
             android:text="@string/kupe_no"
             android:layout_marginTop="@dimen/margin_kategori_1"
@@ -76,15 +62,33 @@
             android:textColor="@color/listViewTextColor"
             android:fontFamily="@font/open_sans"/>
 
-        <ImageView
-            android:id="@+id/img_hayvan"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/abcd"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/margin_kategori_3"
-            android:src="@mipmap/cat"
-            android:contentDescription="@null"/>
+            app:cardCornerRadius="40dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/img_hayvan"
+                android:contentDescription="@null"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/txt_tur"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                style="@style/TurStyle"/>
+
+        </androidx.cardview.widget.CardView>
+
 
     </RelativeLayout>
 

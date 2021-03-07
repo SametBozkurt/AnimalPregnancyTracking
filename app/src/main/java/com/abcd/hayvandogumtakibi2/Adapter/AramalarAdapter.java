@@ -2,6 +2,7 @@ package com.abcd.hayvandogumtakibi2.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,10 +21,9 @@ import com.abcd.hayvandogumtakibi2.Activity.ActivityDetails;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
+import com.abcd.hayvandogumtakibi2.R;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -93,11 +93,13 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         if(gorselFile.exists()&&gorselFile.isFile()){
             holder.img_animal.setScaleX(1.0f);
             holder.img_animal.setScaleY(1.0f);
-            Glide.with(context).load(Uri.fromFile(gorselFile)).apply(RequestOptions.circleCropTransform()).into(holder.img_animal);
+            holder.img_animal.setColorFilter(Color.TRANSPARENT);
+            Glide.with(context).load(Uri.fromFile(gorselFile)).into(holder.img_animal);
         }
         else{
-            holder.img_animal.setScaleX(0.75f);
-            holder.img_animal.setScaleY(0.75f);
+            holder.img_animal.setScaleX(0.5f);
+            holder.img_animal.setScaleY(0.5f);
+            holder.img_animal.setColorFilter(Color.parseColor("#2979ff"));
             HayvanDuzenleyici.set_img(context,dataModel1.getIs_evcilhayvan(),Integer.parseInt(dataModel1.getTur()),holder.img_animal);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +119,7 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
         return dataModel.size();
     }
 
-
-    static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_tur, txt_isim, txt_tarih1, txt_tarih2, txt_kupe_no;
         ImageView img_animal;

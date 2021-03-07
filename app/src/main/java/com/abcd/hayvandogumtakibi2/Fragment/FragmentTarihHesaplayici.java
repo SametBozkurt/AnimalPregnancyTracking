@@ -42,7 +42,7 @@ public class FragmentTarihHesaplayici extends BottomSheetDialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context=context;
-        tarihHesaplayici=new TarihHesaplayici(context);
+        tarihHesaplayici=TarihHesaplayici.getInstance(context);
     }
 
     @Nullable

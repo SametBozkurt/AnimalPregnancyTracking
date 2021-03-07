@@ -92,7 +92,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
         textInputLayout.setHelperText(getString(R.string.date_input_helper_text_2));
         date_dollenme=gecerli_takvim.getTime();
         _isPet=getIntent().getExtras().getInt("isPet");
-        tarihHesaplayici=new TarihHesaplayici(this);
+        tarihHesaplayici=TarihHesaplayici.getInstance(this);
         ArrayAdapter<String> spinner_adapter;
         switch (_isPet){
             case 1: //Evcil hayvan ise

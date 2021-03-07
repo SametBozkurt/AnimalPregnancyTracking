@@ -7,7 +7,6 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -42,6 +41,7 @@ public class ActivityKayitAra extends AppCompatActivity {
     private AramalarAdapter aramalarAdapter;
     private LayoutInflater layoutInflater;
     private SQLiteDatabaseHelper databaseHelper;
+    private final HandlerThread handlerThread=new HandlerThread("AsyncTasks");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +62,15 @@ public class ActivityKayitAra extends AppCompatActivity {
         inputAranacak.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(progressBar!=null){
+                    relativeLayout.removeView(progressBar);
+                }
                 sonuc_container.removeAllViews();
             }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                sonuc_container.removeAllViews();
                 toBeSearched=charSequence.toString();
                 if(!charSequence.toString().isEmpty()){
-                    sonuc_container.removeAllViews();
                     initProgressBarAndTask(charSequence.toString());
                 }
             }
@@ -86,7 +87,6 @@ public class ActivityKayitAra extends AppCompatActivity {
                     search_in=SQLiteDatabaseHelper.SUTUN_3;
                 }
                 if(toBeSearched!=null&&!toBeSearched.isEmpty()){
-                    Log.e("LOGGER","abcd");
                     sonuc_container.removeAllViews();
                     initProgressBarAndTask(toBeSearched);
                 }
@@ -102,7 +102,6 @@ public class ActivityKayitAra extends AppCompatActivity {
                     orderBy=search_in+" DESC";
                 }
                 if(toBeSearched!=null&&!toBeSearched.isEmpty()){
-                    Log.e("LOGGER","abcd");
                     sonuc_container.removeAllViews();
                     initProgressBarAndTask(toBeSearched);
                 }
@@ -134,8 +133,9 @@ public class ActivityKayitAra extends AppCompatActivity {
     }
 
     private void doAsyncTaskAndPost(final String aranacak){
-        HandlerThread handlerThread=new HandlerThread("AsyncTasks");
-        handlerThread.start();
+        if(!handlerThread.isAlive()){
+            handlerThread.start();
+        }
         final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {

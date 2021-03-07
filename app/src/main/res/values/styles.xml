@@ -140,4 +140,9 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
     </style>
+    <style name="TurStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:background">#99FB8C00</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

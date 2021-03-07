@@ -212,7 +212,7 @@ public class ActivityDetails extends AppCompatActivity {
                         TextView txt_sperma=view.findViewById(R.id.txt_sperma);
                         long date_in_millis=Long.parseLong(dataModel.getDogum_tarihi());
                         Date date = new Date();
-                        TarihHesaplayici tarihHesaplayici=new TarihHesaplayici(ActivityDetails.this);
+                        TarihHesaplayici tarihHesaplayici=TarihHesaplayici.getInstance(ActivityDetails.this);
                         date.setTime(TarihHesaplayici.get_kizdirma_tarihi(date_in_millis));
                         txt_kizidirma_tarihi.setText(dateFormat.format(date));
                         date.setTime(tarihHesaplayici.get_kuruya_alma_tarihi(date_in_millis));

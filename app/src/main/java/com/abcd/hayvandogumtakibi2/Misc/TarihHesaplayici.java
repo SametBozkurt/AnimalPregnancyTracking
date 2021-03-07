@@ -21,9 +21,10 @@ public class TarihHesaplayici {
     public static final int DAY_TO_NEXT_INS_COW = 64;
     private static final String ActivityName = "FragmentTarihHesaplayici";
     private DateChangeListener dateChangeListener;
+    private static TarihHesaplayici tarihHesaplayici=null;
 
-    public TarihHesaplayici(final Context context){
-        PeriodsHolder periodsHolder = PeriodsHolder.getInstance(context);
+    private TarihHesaplayici(final Context context){
+        final PeriodsHolder periodsHolder = PeriodsHolder.getInstance(context);
         DAY_COW= periodsHolder.getPeriodCow();
         DAY_SHEEP= periodsHolder.getPeriodSheep();
         DAY_GOAT= periodsHolder.getPeriodGoat();
@@ -35,6 +36,57 @@ public class TarihHesaplayici {
         DAY_CAMEL= periodsHolder.getPeriodCamel();
         DAY_PIG= periodsHolder.getPeriodPig();
         DAY_TO_ABORT_MILKING_COW= periodsHolder.getPeriodAbortMilking();
+        periodsHolder.setPeriodUpdaterCallback(new PeriodsHolder.PeriodUpdaterCallback() {
+            @Override
+            public void onPeriodUpdated(int whichOne, int newVal) {
+                reloadPeriods(whichOne,newVal);
+            }
+        });
+    }
+
+    public static TarihHesaplayici getInstance(final Context context){
+        if(tarihHesaplayici==null){
+            tarihHesaplayici=new TarihHesaplayici(context);
+        }
+        return tarihHesaplayici;
+    }
+
+    public void reloadPeriods(int whichPeriod,int newValue){
+        switch(whichPeriod){
+            case PeriodsHolder.CODE_COW:
+                DAY_COW=newValue;
+                break;
+            case PeriodsHolder.CODE_SHEEP:
+                DAY_SHEEP=newValue;
+                break;
+            case PeriodsHolder.CODE_GOAT:
+                DAY_GOAT=newValue;
+                break;
+            case PeriodsHolder.CODE_CAT:
+                DAY_CAT=newValue;
+                break;
+            case PeriodsHolder.CODE_DOG:
+                DAY_DOG=newValue;
+                break;
+            case PeriodsHolder.CODE_HAMSTER:
+                DAY_HAMSTER=newValue;
+                break;
+            case PeriodsHolder.CODE_HORSE:
+                DAY_HORSE=newValue;
+                break;
+            case PeriodsHolder.CODE_DONKEY:
+                DAY_DONKEY=newValue;
+                break;
+            case PeriodsHolder.CODE_CAMEL:
+                DAY_CAMEL=newValue;
+                break;
+            case PeriodsHolder.CODE_PIG:
+                DAY_PIG=newValue;
+                break;
+            case PeriodsHolder.CODE_ABORT_MILKING:
+                DAY_TO_ABORT_MILKING_COW=newValue;
+                break;
+        }
     }
 
     public void dogum_tarihi_hesapla(final int isPet,final String tur_isim,final Date tarih,final String class_name){
@@ -159,7 +211,9 @@ public class TarihHesaplayici {
                     break;
             }
         }
-        notifyListener(calendar.getTime());
+        if(dateChangeListener!=null){
+            dateChangeListener.onNewDateCalculated(calendar.getTime());
+        }
     }
 
     public static long get_kizdirma_tarihi(long birth_date_in_millis){
@@ -182,12 +236,6 @@ public class TarihHesaplayici {
 
     public void setDateChangeListener(DateChangeListener dateChangeListener){
         this.dateChangeListener=dateChangeListener;
-    }
-
-    public void notifyListener(Date date){
-        if(dateChangeListener!=null){
-            dateChangeListener.onNewDateCalculated(date);
-        }
     }
 
 }
