@@ -1,12 +1,12 @@
 package com.abcd.hayvandogumtakibi2.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.abcd.hayvandogumtakibi2.Misc.GarbageCleaner;
+import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
 import com.abcd.hayvandogumtakibi2.R;
 
@@ -15,7 +15,6 @@ import java.util.TimerTask;
 
 public class DemoActivity extends AppCompatActivity {
 
-    private final Context context=this;
     private static final String THREAD_CLEANER_NAME = "CleanerThread";
 
     @Override
@@ -25,14 +24,21 @@ public class DemoActivity extends AppCompatActivity {
         Thread copcuThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(PreferencesHolder.getIsCacheCleanerEnabled(context)){
-                    GarbageCleaner.clean_caches(context);
+                if(PreferencesHolder.getIsCacheCleanerEnabled(DemoActivity.this)){
+                    GarbageCleaner.clean_caches(DemoActivity.this);
                 }
-                GarbageCleaner.clean_redundants(context);
+                GarbageCleaner.clean_redundants(DemoActivity.this);
             }
         });
         copcuThread.setName(THREAD_CLEANER_NAME);
         copcuThread.start();
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HayvanDuzenleyici.load(DemoActivity.this);
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -41,7 +47,7 @@ public class DemoActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(context, PrimaryActivity.class));
+                startActivity(new Intent(DemoActivity.this, PrimaryActivity.class));
             }
         },1000);
     }

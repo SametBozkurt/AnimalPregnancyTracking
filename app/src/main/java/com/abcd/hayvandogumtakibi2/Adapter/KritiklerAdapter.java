@@ -140,8 +140,11 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView,txt_durum,textViewTur;
-        ImageView img_photo,img_clock;
+        final TextView textView;
+        final TextView txt_durum;
+        final TextView textViewTur;
+        final ImageView img_photo;
+        final ImageView img_clock;
 
         public CustomViewHolder(View itemView) {
             super(itemView);

@@ -136,9 +136,11 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView,textViewTur;
-        FloatingActionButton button_duzenle, button_sil;
-        ImageView img_animal;
+        final TextView textView;
+        final TextView textViewTur;
+        final FloatingActionButton button_duzenle;
+        final FloatingActionButton button_sil;
+        final ImageView img_animal;
 
         public CustomViewHolder(View itemView) {
             super(itemView);

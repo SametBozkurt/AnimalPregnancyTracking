@@ -38,7 +38,7 @@
             android:textColor="#37474f"
             android:textSize="@dimen/title_size"
             android:layout_gravity="center_vertical"
-            android:fontFamily="@font/josefin_sans_semibold"
+            android:fontFamily="@font/comfortaa_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

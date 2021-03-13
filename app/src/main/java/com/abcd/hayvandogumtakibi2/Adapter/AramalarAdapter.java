@@ -121,8 +121,12 @@ public class AramalarAdapter extends RecyclerView.Adapter<AramalarAdapter.Custom
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_tur, txt_isim, txt_tarih1, txt_tarih2, txt_kupe_no;
-        ImageView img_animal;
+        final TextView txt_tur;
+        final TextView txt_isim;
+        final TextView txt_tarih1;
+        final TextView txt_tarih2;
+        final TextView txt_kupe_no;
+        final ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);

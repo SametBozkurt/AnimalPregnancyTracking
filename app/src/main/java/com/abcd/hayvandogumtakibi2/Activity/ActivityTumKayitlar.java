@@ -1,7 +1,6 @@
 package com.abcd.hayvandogumtakibi2.Activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -43,7 +42,6 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     private static final String BANNER_AD_UNIT_ID = "ca-app-pub-9721232821183013/8246180827";
     private static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
     private RelativeLayout relativeLayout;
-    private final Context context=this;
     private int selection_code=0, selectedRadioButtonFilter= R.id.radio_button_isim, selectedRadioButtonOrder=R.id.radio_button_first;
     private String selection_gerceklesen_dogumlar=null, table_name= SQLiteDatabaseHelper.SUTUN_1, orderBy=null;
     private boolean switchIsChecked=true,listModeEnabled;
@@ -66,7 +64,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerView);
         relativeLayout=findViewById(R.id.parent);
         adContainerView=findViewById(R.id.ad_view_container);
-        listModeEnabled= PreferencesHolder.getIsListedViewEnabled(context);
+        listModeEnabled= PreferencesHolder.getIsListedViewEnabled(this);
         if(listModeEnabled){
             imgListMode.setImageResource(R.drawable.ic_view_all);
         }
@@ -85,10 +83,10 @@ public class ActivityTumKayitlar extends AppCompatActivity {
                     imgListMode.setImageResource(R.drawable.ic_view_all);
                 }
                 initProgressBarAndTask();
-                PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
+                PreferencesHolder.setIsListedViewEnabled(ActivityTumKayitlar.this,listModeEnabled);
             }
         });
-        bottomSheetDialog=new BottomSheetDialog(context,R.style.FilterDialogTheme);
+        bottomSheetDialog=new BottomSheetDialog(this,R.style.FilterDialogTheme);
         initProgressBarAndTask();
         doAsyncAdsTask();
         initFilterMenu();
@@ -123,7 +121,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
     }
 
     private void initFilterMenu(){
-        final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
+        final View view = LayoutInflater.from(this).inflate(R.layout.layout_filter_and_sort,(RelativeLayout)findViewById(R.id.parent_layout));
         bottomSheetDialog.setContentView(view);
         final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);
         radioGroupFilter=view.findViewById(R.id.radio_group_filter);
@@ -215,7 +213,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                progressBar=new ProgressBar(context);
+                progressBar=new ProgressBar(ActivityTumKayitlar.this);
                 progressBar.setIndeterminate(true);
                 if(mLayoutParams==null){
                     mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -244,7 +242,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(400);
-                    kayitlarAdapter =new KayitlarAdapter(context,selection_code,selection_gerceklesen_dogumlar, orderBy,listModeEnabled);
+                    kayitlarAdapter =new KayitlarAdapter(ActivityTumKayitlar.this,selection_code,selection_gerceklesen_dogumlar, orderBy,listModeEnabled);
                     Message message=new Message();
                     message.obj="InitializeUIProcess";
                     asyncHandler.sendMessage(message);
@@ -262,10 +260,10 @@ public class ActivityTumKayitlar extends AppCompatActivity {
             public void run() {
                 GridLayoutManager layoutManager;
                 if(listModeEnabled){
-                    layoutManager=new GridLayoutManager(context,2);
+                    layoutManager=new GridLayoutManager(ActivityTumKayitlar.this,2);
                 }
                 else{
-                    layoutManager=new GridLayoutManager(context,3);
+                    layoutManager=new GridLayoutManager(ActivityTumKayitlar.this,3);
                 }
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(kayitlarAdapter);
@@ -299,11 +297,11 @@ public class ActivityTumKayitlar extends AppCompatActivity {
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
-                ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager=(ConnectivityManager)ActivityTumKayitlar.this.getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
                     if(networkInfo.isConnected()){
-                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
+                        MobileAds.initialize(ActivityTumKayitlar.this, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
@@ -341,7 +339,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
 
     private void loadBanner() {
         adContainerView.removeAllViews();
-        adView = new AdView(context);
+        adView = new AdView(this);
         adView.setAdUnitId(BANNER_TEST_ID);
         adContainerView.addView(adView);
         adView.setAdSize(getAdSize());
@@ -359,7 +357,7 @@ public class ActivityTumKayitlar extends AppCompatActivity {
             adWidthPixels = outMetrics.widthPixels;
         }
         int adWidth = (int) (adWidthPixels / density);
-        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
+        return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
     }
 
 }

@@ -9,6 +9,7 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -17,12 +18,12 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentYaklasanDogumYok;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentYaklasanDogumlar;
+import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
+import com.abcd.hayvandogumtakibi2.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -54,6 +55,21 @@ public class ActivityKritikler extends AppCompatActivity {
         final ImageView cross=findViewById(R.id.iptal);
         imgListMode=findViewById(R.id.listMode);
         fragment_container=findViewById(R.id.fragment_container);
+        databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+        databaseHelper.setBirthTimeOutCallback(new SQLiteDatabaseHelper.BirthTimeoutCallback() {
+            @Override
+            public void onBirthTimeOut(int howMany) {
+                relativeLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        FrameLayout frameLayout=findViewById(R.id.timeoutTextView);
+                        LayoutInflater layoutInflater=LayoutInflater.from(ActivityKritikler.this);
+                        View view=layoutInflater.inflate(R.layout.timeout_info_layout,frameLayout,false);
+                        frameLayout.addView(view);
+                    }
+                },2000);
+            }
+        });
         doAsyncTaskAndPost();
         doAsyncAdsTask();
         cross.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +93,6 @@ public class ActivityKritikler extends AppCompatActivity {
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
-                databaseHelper=SQLiteDatabaseHelper.getInstance(context);
                 dataModelArrayList=databaseHelper.getKritikOlanlar(null,30);
                 Message message=new Message();
                 message.obj="InitializeUIProcess";

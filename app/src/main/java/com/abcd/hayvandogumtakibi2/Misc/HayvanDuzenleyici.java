@@ -11,15 +11,19 @@ import java.util.Arrays;
 
 public class HayvanDuzenleyici {
 
-    static TarihHesaplayici tarihHesaplayici;
+    private static TarihHesaplayici tarihHesaplayici;
+    private static ArrayList<String> arrayList_all;
+    private static ArrayList<String> arrayList_pet;
+    private static ArrayList<String> arrayList_barn;
+
+    public static void load(final Context context){
+        tarihHesaplayici = TarihHesaplayici.getInstance(context);
+        arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
+        arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
+        arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
+    }
 
     public static void set_text(final Context context, final int isPet, final int tur_kodu, final TextView textView){
-        ArrayList<String> arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
-        ArrayList<String> arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
-        ArrayList<String> arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
-        if(tarihHesaplayici==null){
-            tarihHesaplayici=TarihHesaplayici.getInstance(context);
-        }
         switch(isPet){
             case 0: //hepsi
                 textView.setText(arrayList_all.get(tur_kodu));

@@ -165,4 +165,6 @@
     <string name="edit_periods">Edit Periods</string>
     <string name="edit_period_option">Recalculate also estimated birth dates of all records</string>
     <string name="editPeriodsNotifyText">Estimated automatic birth date calculations are based on these values. Therefore, changing these values will affect the date calculations to be made.</string>
+    <string name="ad_show_warning">Ad will be shown after 5 seconds...</string>
+    <string name="birth_timeout_info">Looks like there are some pregnancies that are out of time.</string>
 </resources>

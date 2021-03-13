@@ -36,9 +36,9 @@ import androidx.core.content.FileProvider;
 
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.GarbageCleaner;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
 import com.abcd.hayvandogumtakibi2.Misc.TarihHesaplayici;
+import com.abcd.hayvandogumtakibi2.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -47,7 +47,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -70,8 +69,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
     private RelativeLayout main_Layout;
     private TextInputLayout textInputLayout;
     private EditText edit_isim,edit_kupe_no,btn_tarih_dogum,btn_tarih_dollenme;
-    private ImageView photo, iptal;
-    private Spinner spinner_turler;
+    private ImageView photo;
     private TarihHesaplayici tarihHesaplayici;
 
     @Override
@@ -81,9 +79,9 @@ public class ActivityDogumKayit extends AppCompatActivity{
         photo=findViewById(R.id.add_photo);
         edit_isim=findViewById(R.id.isim);
         edit_kupe_no=findViewById(R.id.kupe_no);
-        spinner_turler=findViewById(R.id.spinner);
+        Spinner spinner_turler = findViewById(R.id.spinner);
         final Button kaydet=findViewById(R.id.kaydet);
-        iptal=findViewById(R.id.iptal);
+        ImageView iptal = findViewById(R.id.iptal);
         btn_tarih_dollenme=findViewById(R.id.dollenme_tarihi);
         btn_tarih_dogum=findViewById(R.id.dogum_tarihi);
         main_Layout=findViewById(R.id.ana_katman);
@@ -346,7 +344,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
             double target_resolution=cropped_width/1.1;
             cropped_width=(int)target_resolution;
             cropped_height=(int)target_resolution;
-            /**Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
+            /*Bu işlemle kaydedilecek fotoğraf adım adım küçültülerek piksel sayısı 1000'in altında
              ve olabildiğince 1000'e yakın tutularak fotoğrafın netliği çok bozulmadan depolamanın ve belleğin şişmesi önlenir.*/
         }
         try{
@@ -356,11 +354,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
                     compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
