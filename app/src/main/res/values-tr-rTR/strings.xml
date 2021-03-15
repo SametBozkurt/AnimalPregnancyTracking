@@ -166,5 +166,4 @@
     <string name="editPeriodsNotifyText">Otomatik yapılan tahmini doğum tarihi hesaplamaları bu değerlere dayanmaktadır. Dolayısıyla bu değerlerin değiştirilmesi yapılacak olan tarih hesaplamalarını etkileyecektir.</string>
     <string name="tur_10">Domuz</string>
     <string name="ad_show_warning">5 sn sonra reklam gösterilecek...</string>
-    <string name="birth_timeout_info">Görünüşe göre bazı süresi dolan gebelikler var.</string>
 </resources>

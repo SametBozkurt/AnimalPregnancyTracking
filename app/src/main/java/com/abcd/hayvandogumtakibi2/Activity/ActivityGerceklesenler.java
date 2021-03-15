@@ -209,6 +209,12 @@ public class ActivityGerceklesenler extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        dataModelArrayList=databaseHelper.getSimpleData("dogum_grcklsti=1",null);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         if (adView != null) { adView.pause(); }

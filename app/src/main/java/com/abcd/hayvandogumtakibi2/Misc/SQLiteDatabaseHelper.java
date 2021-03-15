@@ -17,7 +17,6 @@ import java.util.Date;
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     private static SQLiteDatabaseHelper databaseHelper=null;
-    private BirthTimeoutCallback birthTimeoutCallback;
     private static final long DAY_IN_MILLIS = 1000*60*60*24;
     private static final String VERITABANI_ISIM="kayitlar";
     public static final String SUTUN_0="id";
@@ -152,7 +151,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<DataModel> getKritikOlanlar(@Nullable String orderClause, int range){
-        int numberOfTimeouts = 0;
         long date_dogum_in_millis = 0;
         ArrayList<DataModel> dataModelArrayList=new ArrayList<>();
         SQLiteDatabase database=this.getReadableDatabase();
@@ -180,17 +178,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                                 CONVERTED_DATE2,
                                 cursor.getString(6),
                                 cursor.getInt(7),0,null));
-                        if(get_gun_sayisi(date_dogum_in_millis)<0){
-                            numberOfTimeouts+=1;
-                        }
                     }
                 }
             }
         }
         cursor.close();
-        if(birthTimeoutCallback!=null){
-            birthTimeoutCallback.onBirthTimeOut(numberOfTimeouts);
-        }
         return dataModelArrayList;
     }
 
@@ -433,13 +425,5 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                     break;
             }
         }
-    }
-
-    public interface BirthTimeoutCallback{
-        void onBirthTimeOut(int howMany);
-    }
-
-    public void setBirthTimeOutCallback(BirthTimeoutCallback birthTimeoutCallback){
-        this.birthTimeoutCallback=birthTimeoutCallback;
     }
 }

@@ -57,8 +57,8 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView txt_gun;
-        final ImageView img_animal;
+        TextView txt_gun;
+        ImageView img_animal;
 
         private CustomViewHolder(View itemView) {
             super(itemView);
