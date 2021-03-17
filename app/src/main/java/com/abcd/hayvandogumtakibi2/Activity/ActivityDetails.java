@@ -25,11 +25,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.abcd.hayvandogumtakibi2.Misc.ActivityInteractor;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
 import com.abcd.hayvandogumtakibi2.Misc.TarihHesaplayici;
+import com.abcd.hayvandogumtakibi2.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.ads.AdRequest;
@@ -191,6 +192,7 @@ public class ActivityDetails extends AppCompatActivity {
                             databaseHelper.isaretle_dogum_gerceklesti(dataModel.getId(),System.currentTimeMillis(),tahmini_dogum_tarihi);
                             dogum_gerceklesti=1;
                             txtMarkIt.setText(getString(R.string.happened_birth));
+                            ActivityInteractor.getInstance().changeSomething(null);
                             dialog_warn.dismiss();
                         }
                     });

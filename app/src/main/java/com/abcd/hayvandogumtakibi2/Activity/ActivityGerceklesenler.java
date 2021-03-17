@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentGerceklesenDogumYok;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentGerceklesenDogumlar;
+import com.abcd.hayvandogumtakibi2.Misc.ListModeCallback;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
 import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
@@ -42,6 +43,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
     private boolean listModeEnabled;
     private ImageView imgListMode;
     private AdView adView;
+    private ListModeCallback listModeCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,6 @@ public class ActivityGerceklesenler extends AppCompatActivity {
         fragment_container=findViewById(R.id.fragment_container);
         adContainerView=findViewById(R.id.ad_view_container);
         doAsyncTaskAndPost();
-        doAsyncFragmentTasksAndPost();
         doAsyncAdsTask();
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +72,9 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                     listModeEnabled=true;
                     imgListMode.setImageResource(R.drawable.ic_view_all);
                 }
-                doAsyncFragmentTasksAndPost();
+                if(listModeCallback!=null){
+                    listModeCallback.onListModeChanged(listModeEnabled);
+                }
                 PreferencesHolder.setIsListedViewEnabled(context,listModeEnabled);
             }
         });
@@ -100,6 +103,7 @@ public class ActivityGerceklesenler extends AppCompatActivity {
                                 imgListMode.setImageResource(R.drawable.ic_tile);
                             }
                         }
+                        initFragment();
                     }
                 });
             }
@@ -157,38 +161,16 @@ public class ActivityGerceklesenler extends AppCompatActivity {
         });
     }
 
-    private void doAsyncFragmentTasksAndPost(){
+    private void initFragment(){
         fragment_container.removeAllViews();
-        HandlerThread handlerThread=new HandlerThread("FragmentThread");
-        handlerThread.start();
-        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                Handler uiHandler = new Handler(getMainLooper());
-                uiHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
-                            FragmentGerceklesenDogumYok fragmentGerceklesenDogumYok=new FragmentGerceklesenDogumYok();
-                            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumYok).commitAllowingStateLoss();
-                        }
-                        else{
-                            FragmentGerceklesenDogumlar fragmentGerceklesenDogumlar=new FragmentGerceklesenDogumlar();
-                            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumlar).commitAllowingStateLoss();
-                        }
-                    }
-                });
-            }
-        };
-        asyncHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Message message=new Message();
-                message.obj="InitializeUIProcess";
-                asyncHandler.sendMessage(message);
-            }
-        });
+        if(dataModelArrayList.isEmpty()){
+            FragmentGerceklesenDogumYok fragmentGerceklesenDogumYok=new FragmentGerceklesenDogumYok();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumYok).commitAllowingStateLoss();
+        }
+        else{
+            FragmentGerceklesenDogumlar fragmentGerceklesenDogumlar=new FragmentGerceklesenDogumlar();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,fragmentGerceklesenDogumlar).commitAllowingStateLoss();
+        }
     }
 
     @Override
@@ -206,12 +188,6 @@ public class ActivityGerceklesenler extends AppCompatActivity {
             adContainerView.removeAllViews();
             fragment_container.removeAllViews();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        dataModelArrayList=databaseHelper.getSimpleData("dogum_grcklsti=1",null);
     }
 
     @Override
@@ -248,4 +224,9 @@ public class ActivityGerceklesenler extends AppCompatActivity {
         int adWidth = (int) (adWidthPixels / density);
         return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(context,adWidth);
     }
+
+    public void setListModeCallback(ListModeCallback listModeCallback){
+        this.listModeCallback=listModeCallback;
+    }
+
 }

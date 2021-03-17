@@ -21,10 +21,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abcd.hayvandogumtakibi2.Activity.ActivityKritikler;
 import com.abcd.hayvandogumtakibi2.Adapter.KritiklerAdapter;
+import com.abcd.hayvandogumtakibi2.Misc.ListModeCallback;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
+import com.abcd.hayvandogumtakibi2.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -68,6 +70,15 @@ public class FragmentYaklasanDogumlar extends Fragment {
                     radioGroupOrder.check(selectedRadioButtonOrder);
                     bottomSheetDialog.show();
                 }
+            }
+        });
+        //noinspection ConstantConditions
+        ((ActivityKritikler)getActivity()).setListModeCallback(new ListModeCallback() {
+            @Override
+            public void onListModeChanged(boolean b) {
+                //Bu callback fonksiyon ile listeleme modu değiştiğinde Fragment yenilemeye gerek kalmayacak.
+                listModeEnabled=b;
+                initProgressBarAndTask();
             }
         });
         initProgressBarAndTask();

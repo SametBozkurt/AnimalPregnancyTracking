@@ -21,10 +21,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abcd.hayvandogumtakibi2.Activity.ActivityGerceklesenler;
 import com.abcd.hayvandogumtakibi2.Adapter.KayitlarAdapter;
+import com.abcd.hayvandogumtakibi2.Misc.ListModeCallback;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
-import com.abcd.hayvandogumtakibi2.R;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
+import com.abcd.hayvandogumtakibi2.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -68,6 +70,15 @@ public class FragmentGerceklesenDogumlar extends Fragment {
                     radioGroupOrder.check(selectedRadioButtonOrder);
                     bottomSheetDialog.show();
                 }
+            }
+        });
+        //noinspection ConstantConditions
+        ((ActivityGerceklesenler)getActivity()).setListModeCallback(new ListModeCallback() {
+            @Override
+            public void onListModeChanged(boolean b) {
+                //Bu callback fonksiyon ile listeleme modu değiştiğinde Fragment yenilemeye gerek kalmayacak.
+                listModeEnabled=b;
+                initProgressBarAndTask();
             }
         });
         initProgressBarAndTask();
@@ -153,7 +164,7 @@ public class FragmentGerceklesenDogumlar extends Fragment {
     }
 
     private void initFilterMenu(){
-        @SuppressLint("InflateParams") final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,null);
+        @SuppressLint("InflateParams")final View view = LayoutInflater.from(context).inflate(R.layout.layout_filter_and_sort,null);
         bottomSheetDialog.setContentView(view);
         final Button buttonApply=view.findViewById(R.id.btn_apply), buttonReset=view.findViewById(R.id.btn_reset);
         radioGroupFilter=view.findViewById(R.id.radio_group_filter);

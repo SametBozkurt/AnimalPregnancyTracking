@@ -14,12 +14,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentYaklasanDogumYok;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentYaklasanDogumlar;
+import com.abcd.hayvandogumtakibi2.Misc.ActivityInteractor;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
+import com.abcd.hayvandogumtakibi2.Misc.ListModeCallback;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
 import com.abcd.hayvandogumtakibi2.R;
@@ -43,6 +46,7 @@ public class ActivityKritikler extends AppCompatActivity {
     private ImageView imgListMode;
     private RelativeLayout relativeLayout;
     private boolean listModeEnabled;
+    private ListModeCallback listModeCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,35 @@ public class ActivityKritikler extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        imgListMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listModeEnabled){
+                    listModeEnabled=false;
+                    imgListMode.setImageResource(R.drawable.ic_tile);
+                }
+                else{
+                    listModeEnabled=true;
+                    imgListMode.setImageResource(R.drawable.ic_view_all);
+                }
+                if(listModeCallback!=null){
+                    listModeCallback.onListModeChanged(listModeEnabled);
+                }
+                PreferencesHolder.setIsListedViewEnabled(ActivityKritikler.this,listModeEnabled);
+            }
+        });
+        ActivityInteractor.getInstance().setActivityInteractorCallback(new ActivityInteractor.ActivityInteractorCallback() {
+            @Override
+            public void onSomethingsChanged(@Nullable Bundle whatChanged) {
+                /*Olası bir gerçekleşen doğum işaretlemesine karşı aktiviteyi sürekli yenilemek gereklidir. Daha önce
+                * bunun için onRestart metodunda bazı işlemler yapılıyordu ve bu zamanla belleğin şişmesine ve işlemcinin sürekli çalışır durumda
+                * olmasına neden oluyordu. Ancak ActivityInteractor sınıfı bünyesindeki callback metodu sayesinde bahsedilen gereksiz yenilemeye
+                * son veriyor. Çünkü artık sadece bir değişim olduğunda yenileme yapılacak, çoğunlukla gereksiz olan işlemlere gerek kalmayacak.
+                * */
+                dataModelArrayList=databaseHelper.getKritikOlanlar(null,30);
+                initFragment();
             }
         });
     }
@@ -105,22 +138,8 @@ public class ActivityKritikler extends AppCompatActivity {
                     else{
                         imgListMode.setImageResource(R.drawable.ic_tile);
                     }
-                    imgListMode.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(listModeEnabled){
-                                listModeEnabled=false;
-                                imgListMode.setImageResource(R.drawable.ic_tile);
-                            }
-                            else{
-                                listModeEnabled=true;
-                                imgListMode.setImageResource(R.drawable.ic_view_all);
-                            }
-                            doAsyncFragmentTaskAndPost();
-                            PreferencesHolder.setIsListedViewEnabled(ActivityKritikler.this,listModeEnabled);
-                        }
-                    });
                 }
+                initFragment();
             }
         });
     }
@@ -167,62 +186,22 @@ public class ActivityKritikler extends AppCompatActivity {
         asyncHandler.post(runnable);
     }
 
-    private void doAsyncFragmentTaskAndPost(){
+    private void initFragment(){
         fragment_container.removeAllViews();
-        HandlerThread handlerThread=new HandlerThread("FragmentThread");
-        handlerThread.start();
-        final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                Handler uiHandler = new Handler(getMainLooper());
-                uiHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
-                            FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
-                        }
-                        else{
-                            FragmentYaklasanDogumlar fragmentYaklasanDogumlar=new FragmentYaklasanDogumlar();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumlar).commitAllowingStateLoss();
-                        }
-                    }
-                });
-            }
-        };
-        asyncHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Message message=new Message();
-                message.obj="InitializeUIProcess";
-                asyncHandler.sendMessage(message);
-            }
-        });
+        if(dataModelArrayList==null||dataModelArrayList.isEmpty()){
+            FragmentYaklasanDogumYok fragmentYaklasanDogumYok=new FragmentYaklasanDogumYok();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumYok).commitAllowingStateLoss();
+        }
+        else{
+            FragmentYaklasanDogumlar fragmentYaklasanDogumlar=new FragmentYaklasanDogumlar();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentYaklasanDogumlar).commitAllowingStateLoss();
+        }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        fragment_container.removeAllViews();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        dataModelArrayList=databaseHelper.getKritikOlanlar(null,30);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        doAsyncFragmentTaskAndPost();
     }
 
     @Override
@@ -270,6 +249,10 @@ public class ActivityKritikler extends AppCompatActivity {
         }
         int adWidth = (int) (adWidthPixels / density);
         return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(this,adWidth);
+    }
+
+    public void setListModeCallback(ListModeCallback listModeCallback){
+        this.listModeCallback=listModeCallback;
     }
 
 }
