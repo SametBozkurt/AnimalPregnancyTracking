@@ -1,5 +1,6 @@
 package com.abcd.hayvandogumtakibi2.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -121,10 +123,20 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
         holder.button_sil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.girdiSil(dataModel.getId());
-                dataModelArrayList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position,dataModelArrayList.size());
+                final Dialog dialog_warn=new Dialog(mContext,R.style.ImageDialogStyle);
+                dialog_warn.setContentView(R.layout.layout_confirm_deletion);
+                Button btn_ok=dialog_warn.findViewById(R.id.btn_ok);
+                btn_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        databaseHelper.girdiSil(dataModel.getId());
+                        dataModelArrayList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position,dataModelArrayList.size());
+                        dialog_warn.dismiss();
+                    }
+                });
+                dialog_warn.show();
             }
         });
     }

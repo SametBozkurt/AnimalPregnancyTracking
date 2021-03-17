@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -66,14 +67,9 @@
             android:layout_below="@id/per_explanation"
             android:layout_centerHorizontal="true"
             android:text="@string/im_sure"
-            android:textColor="#000"
-            app:strokeColor="#000000"
-            app:strokeWidth="2dp"
             android:layout_marginTop="@dimen/margin_kategori_1"
             android:layout_marginBottom="@dimen/margin_kategori_3"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:fontFamily="@font/comfortaa_bold"
-            style="@style/OkButtonStyle" />
+            style="@style/DialogButtonStyle" />
 
     </RelativeLayout>
 

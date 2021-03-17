@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1E88E5"
+        android:id="@+id/frame_layout">
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_kategori_2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_warn"
+                android:contentDescription="@null"
+                app:tint="#fff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_kategori_4"
+                android:fontFamily="@font/comfortaa_bold"
+                android:text="@string/title_dlg_isaretle"
+                android:textColor="#fff"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/per_explanation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frame_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/margin_kategori_2"
+        android:layout_marginTop="@dimen/margin_kategori_2"
+        android:layout_marginEnd="@dimen/margin_kategori_2"
+        android:layout_marginBottom="@dimen/margin_kategori_2"
+        android:fontFamily="@font/comfortaa_bold"
+        android:gravity="center"
+        android:text="@string/dlg_deletion_body"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/per_explanation"
+        android:layout_centerHorizontal="true"
+        android:text="@string/im_sure"
+        android:layout_marginBottom="@dimen/margin_kategori_3"
+        style="@style/DialogButtonStyle" />
+
+</RelativeLayout>

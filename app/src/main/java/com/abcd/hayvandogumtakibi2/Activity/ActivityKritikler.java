@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentYaklasanDogumYok;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentYaklasanDogumlar;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
+import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
 import com.abcd.hayvandogumtakibi2.R;
@@ -46,6 +47,9 @@ public class ActivityKritikler extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!HayvanDuzenleyici.isLoaded) {
+            HayvanDuzenleyici.load(this);
+        }
         setContentView(R.layout.activity_kritikler);
         relativeLayout=findViewById(R.id.parent);
         adContainerView=findViewById(R.id.ad_view_container);

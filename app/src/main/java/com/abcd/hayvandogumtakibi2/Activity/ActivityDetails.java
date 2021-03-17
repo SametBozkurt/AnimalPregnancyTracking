@@ -65,6 +65,9 @@ public class ActivityDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!HayvanDuzenleyici.isLoaded) {
+            HayvanDuzenleyici.load(this);
+        }
         setContentView(R.layout.activity_details);
         parent_layout=findViewById(R.id.parent_layout);
         adContainerView=findViewById(R.id.ad_view_container);

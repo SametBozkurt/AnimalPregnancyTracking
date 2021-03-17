@@ -117,7 +117,7 @@
     <string name="happened_birth">Bu doğum gerçekleşmiş</string>
     <string name="title_dlg_isaretle">Bir dakika…</string>
     <string name="body_dlg_isaretle">Bu işlem kalıcı olup geri alınamaz. Ayrıca kaydı artık düzenleyemezsiniz. Yine de işaretlemek istediğinizden emin misiniz?</string>
-    <string name="im_sure">Eminim</string>
+    <string name="im_sure">Evet eminim</string>
     <string name="nav_all_recs">Tüm Kayıtlar</string>
     <string name="cat_name">İsim</string>
     <string name="cat_id">Küpe Numarası</string>
@@ -165,5 +165,6 @@
     <string name="edit_period_option">Kayıtların tahmini doğum tarihlerini ayrıca yeniden hesapla</string>
     <string name="editPeriodsNotifyText">Otomatik yapılan tahmini doğum tarihi hesaplamaları bu değerlere dayanmaktadır. Dolayısıyla bu değerlerin değiştirilmesi yapılacak olan tarih hesaplamalarını etkileyecektir.</string>
     <string name="tur_10">Domuz</string>
-    <string name="ad_show_warning">5 sn sonra reklam gösterilecek...</string>
+    <string name="ad_show_warning">5 sn sonra reklam gösterilecek…</string>
+    <string name="dlg_deletion_body">Bu kaydı kalıcı olarak silmek üzeresiniz. Emin misiniz?</string>
 </resources>

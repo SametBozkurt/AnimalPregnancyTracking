@@ -15,12 +15,14 @@ public class HayvanDuzenleyici {
     private static ArrayList<String> arrayList_all;
     private static ArrayList<String> arrayList_pet;
     private static ArrayList<String> arrayList_barn;
+    public static boolean isLoaded=false;
 
     public static void load(final Context context){
         tarihHesaplayici = TarihHesaplayici.getInstance(context);
         arrayList_all = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list)));
         arrayList_pet = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_pet)));
         arrayList_barn = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.animal_list_barn)));
+        isLoaded=true;
     }
 
     public static void set_text(final Context context, final int isPet, final int tur_kodu, final TextView textView){

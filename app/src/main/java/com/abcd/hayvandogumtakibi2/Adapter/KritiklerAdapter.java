@@ -45,12 +45,18 @@ public class KritiklerAdapter extends RecyclerView.Adapter<KritiklerAdapter.Cust
         this.dataModelArrayList= SQLiteDatabaseHelper.getInstance(context).getKritikOlanlar(orderClause,30);
         this.code=code;
         this.isListedViewEnabled=isListed;
+        if(!HayvanDuzenleyici.isLoaded){
+            HayvanDuzenleyici.load(context);
+        }
     }
 
     public KritiklerAdapter(final Context context){
         this.context=context;
         this.dataModelArrayList=SQLiteDatabaseHelper.getInstance(context).getEnYakinDogumlar();
         this.code=0;
+        if(!HayvanDuzenleyici.isLoaded){
+            HayvanDuzenleyici.load(context);
+        }
         //Bu constructor en yakın doğumlar için oluşturuldu.
     }
 
