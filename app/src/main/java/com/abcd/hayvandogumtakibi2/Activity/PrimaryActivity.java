@@ -1,7 +1,6 @@
 package com.abcd.hayvandogumtakibi2.Activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -55,10 +54,9 @@ public class PrimaryActivity extends AppCompatActivity {
     private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9721232821183013/5088109999";
     private int database_size;
     private boolean is_opened = false, hasInternetConnection=false;
-    private final Context context=this;
     private RelativeLayout relativeLayout;
     private FrameLayout frameLayout;
-    private final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(context);
+    private final SQLiteDatabaseHelper databaseHelper=SQLiteDatabaseHelper.getInstance(this);
     private BottomSheetDialog bottomSheetDialog;
     private InterstitialAd mInterstitialAd;
 
@@ -74,11 +72,11 @@ public class PrimaryActivity extends AppCompatActivity {
         final TextView txt_pet = findViewById(R.id.text_pet);
         final TextView txt_barn = findViewById(R.id.text_barn);
         frameLayout=findViewById(R.id.no_rec_msg_container);
-        final PopupMenu popupMenu=new PopupMenu(context,img_menu);
-        final Animation fab_open=AnimationUtils.loadAnimation(context,R.anim.fab_on);
-        final Animation fab_close=AnimationUtils.loadAnimation(context,R.anim.fab_off);
-        final Animation fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
-        final Animation fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
+        final PopupMenu popupMenu=new PopupMenu(this,img_menu);
+        final Animation fab_open=AnimationUtils.loadAnimation(this,R.anim.fab_on);
+        final Animation fab_close=AnimationUtils.loadAnimation(this,R.anim.fab_off);
+        final Animation fab_clock=AnimationUtils.loadAnimation(this,R.anim.rotation_clock);
+        final Animation fab_anticlock=AnimationUtils.loadAnimation(this,R.anim.rotation_anticlock);
         popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
         initViewTask();
         initBottomSheetDialog();
@@ -87,6 +85,7 @@ public class PrimaryActivity extends AppCompatActivity {
             @Override
             public void onSomethingsChanged(@Nullable Bundle whatChanged) {
                 initViewTask();
+                initBottomSheetDialog();
             }
         });
         new Thread(new Runnable() {
@@ -94,7 +93,7 @@ public class PrimaryActivity extends AppCompatActivity {
             public void run() {
                 if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
                     String INTENT_ACTION= "SET_AN_ALARM" ;
-                    sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
+                    sendBroadcast(new Intent(PrimaryActivity.this, AlarmLauncher.class).setAction(INTENT_ACTION));
                 }
             }
         }).start();
@@ -109,15 +108,15 @@ public class PrimaryActivity extends AppCompatActivity {
                                 Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                             }
                             else{
-                                startActivity(new Intent(context,ActivityKayitAra.class));
+                                startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
                             }
                         }
                         else if(item.getItemId()==R.id.app_info)
-                            startActivity(new Intent(context, ActivityAppInfo.class));
+                            startActivity(new Intent(PrimaryActivity.this, ActivityAppInfo.class));
                         else if(item.getItemId()==R.id.dev_tools)
-                            startActivity(new Intent(context,ActivityDevTools.class));
+                            startActivity(new Intent(PrimaryActivity.this,ActivityDevTools.class));
                         else if(item.getItemId()==R.id.settings)
-                            startActivity(new Intent(context,ActivityAyarlar.class));
+                            startActivity(new Intent(PrimaryActivity.this,ActivityAyarlar.class));
                         return true;
                     }
                 });
@@ -162,7 +161,7 @@ public class PrimaryActivity extends AppCompatActivity {
         btn_pet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bundle_intent=new Intent(context,ActivityDogumKayit.class);
+                Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
                 Bundle datas=new Bundle();
                 datas.putInt("isPet",1);
                 bundle_intent.putExtras(datas);
@@ -173,7 +172,7 @@ public class PrimaryActivity extends AppCompatActivity {
         btn_barn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bundle_intent=new Intent(context,ActivityDogumKayit.class);
+                Intent bundle_intent=new Intent(PrimaryActivity.this,ActivityDogumKayit.class);
                 Bundle datas=new Bundle();
                 datas.putInt("isPet",2);
                 bundle_intent.putExtras(datas);
@@ -190,7 +189,7 @@ public class PrimaryActivity extends AppCompatActivity {
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(context,ActivityKayitDuzenle.class));
+                    startActivity(new Intent(PrimaryActivity.this,ActivityKayitDuzenle.class));
                 }
                 break;
             case R.id.incoming:
@@ -198,7 +197,7 @@ public class PrimaryActivity extends AppCompatActivity {
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(context,ActivityKritikler.class));
+                    startActivity(new Intent(PrimaryActivity.this,ActivityKritikler.class));
                 }
                 break;
             case R.id.happened:
@@ -206,7 +205,7 @@ public class PrimaryActivity extends AppCompatActivity {
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(context,ActivityGerceklesenler.class));
+                    startActivity(new Intent(PrimaryActivity.this,ActivityGerceklesenler.class));
                 }
                 break;
             case R.id.search:
@@ -214,18 +213,18 @@ public class PrimaryActivity extends AppCompatActivity {
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(context,ActivityKayitAra.class));
+                    startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
                 }
                 break;
             case R.id.periods:
-                startActivity(new Intent(context,ActivityPeriods.class));
+                startActivity(new Intent(PrimaryActivity.this,ActivityPeriods.class));
                 break;
             case R.id.all_recs:
                 if(database_size==0){
                     Snackbar.make(relativeLayout,getString(R.string.kayit_yok_uyari2),Snackbar.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(context,ActivityTumKayitlar.class));
+                    startActivity(new Intent(PrimaryActivity.this,ActivityTumKayitlar.class));
                 }
                 break;
             case R.id.calculator:
@@ -265,7 +264,7 @@ public class PrimaryActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(database_size==0){
-                            LayoutInflater layoutInflater=LayoutInflater.from(context);
+                            LayoutInflater layoutInflater=LayoutInflater.from(PrimaryActivity.this);
                             View view=layoutInflater.inflate(R.layout.layout_no_record,frameLayout,false);
                             frameLayout.addView(view);
                         }
@@ -279,7 +278,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 database_size=databaseHelper.getSize();
                 if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
                     String INTENT_ACTION= "SET_AN_ALARM" ;
-                    sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
+                    sendBroadcast(new Intent(PrimaryActivity.this, AlarmLauncher.class).setAction(INTENT_ACTION));
                 }
                 Message message=new Message();
                 message.obj="InitializeUIProcess";
@@ -320,7 +319,7 @@ public class PrimaryActivity extends AppCompatActivity {
     }
 
     protected void show_enYakinDogumlar(final FrameLayout yakinDogumlarContainer,final BottomSheetDialog bottomSheetDialog){
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
         View view = layoutInflater.inflate(R.layout.lyt_en_yakin_dogumlar,yakinDogumlarContainer,false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewYakinDogumlar);
         LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
@@ -328,18 +327,18 @@ public class PrimaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bottomSheetDialog.dismiss();
-                startActivity(new Intent(context,ActivityKritikler.class));
+                startActivity(new Intent(PrimaryActivity.this,ActivityKritikler.class));
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-        KritiklerAdapter kritiklerAdapter = new KritiklerAdapter(context);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        KritiklerAdapter kritiklerAdapter = new KritiklerAdapter(this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(kritiklerAdapter);
         yakinDogumlarContainer.addView(view);
     }
 
     protected void show_sonOlusturulanlar(final FrameLayout sonOlusturulanlarContainer,final BottomSheetDialog bottomSheetDialog){
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
         View view = layoutInflater.inflate(R.layout.lyt_son_olusturulanlar,sonOlusturulanlarContainer,false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSonOlusturulanlar);
         LinearLayout tumunu_goster= view.findViewById(R.id.showAll);
@@ -347,19 +346,19 @@ public class PrimaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bottomSheetDialog.dismiss();
-                startActivity(new Intent(context,ActivityTumKayitlar.class));
+                startActivity(new Intent(PrimaryActivity.this,ActivityTumKayitlar.class));
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-        KayitlarAdapter kayitlarAdapter = new KayitlarAdapter(context);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        KayitlarAdapter kayitlarAdapter = new KayitlarAdapter(this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(kayitlarAdapter);
         sonOlusturulanlarContainer.addView(view);
     }
 
     protected void initBottomSheetDialog(){
-        bottomSheetDialog=new BottomSheetDialog(context,R.style.SummaryDialogTheme);
-        View view1 = LayoutInflater.from(context).inflate(R.layout.lyt_dialog_summary, (RelativeLayout) findViewById(R.id.parent_layout));
+        bottomSheetDialog=new BottomSheetDialog(this,R.style.SummaryDialogTheme);
+        View view1 = LayoutInflater.from(this).inflate(R.layout.lyt_dialog_summary, (RelativeLayout) findViewById(R.id.parent_layout));
         bottomSheetDialog.setContentView(view1);
         show_sonOlusturulanlar((FrameLayout)view1.findViewById(R.id.son_olusturulanlar),bottomSheetDialog);
         if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
@@ -392,7 +391,7 @@ public class PrimaryActivity extends AppCompatActivity {
         asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager=(ConnectivityManager)PrimaryActivity.this.getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
                 if(networkInfo!=null){
                     hasInternetConnection=networkInfo.isConnected();
@@ -402,7 +401,7 @@ public class PrimaryActivity extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        MobileAds.initialize(context, new OnInitializationCompleteListener() {
+                        MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
                             @Override
                             public void onInitializationComplete(InitializationStatus initializationStatus) {}
                         });
