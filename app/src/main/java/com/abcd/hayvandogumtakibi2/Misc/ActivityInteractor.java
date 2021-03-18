@@ -7,7 +7,8 @@ import androidx.annotation.Nullable;
 public class ActivityInteractor {
 
     private static ActivityInteractor activityInteractor=null;
-    private ActivityInteractorCallback activityInteractorCallback;
+    private ActivityKritiklerCallback activityKritiklerCallback;
+    private PrimaryActivityCallback primaryActivityCallback;
 
     private ActivityInteractor(){}
 
@@ -18,17 +19,31 @@ public class ActivityInteractor {
         return activityInteractor;
     }
 
-    public interface ActivityInteractorCallback{
+    public interface ActivityKritiklerCallback{
         void onSomethingsChanged(@Nullable Bundle whatChanged);
     }
 
-    public void setActivityInteractorCallback(ActivityInteractorCallback activityInteractorCallback){
-        this.activityInteractorCallback=activityInteractorCallback;
+    public interface PrimaryActivityCallback{
+        void onSomethingsChanged(@Nullable Bundle whatChanged);
     }
 
-    public void changeSomething(@Nullable Bundle bundle){
-        if(activityInteractorCallback!=null){
-            activityInteractorCallback.onSomethingsChanged(bundle);
+    public void setActivityKritiklerCallback(ActivityKritiklerCallback activityKritiklerCallback){
+        this.activityKritiklerCallback=activityKritiklerCallback;
+    }
+
+    public void setPrimaryActivityCallback(PrimaryActivityCallback primaryActivityCallback){
+        this.primaryActivityCallback=primaryActivityCallback;
+    }
+
+    public void notifyActivityKritikler(@Nullable Bundle bundle){
+        if(activityKritiklerCallback!=null){
+            activityKritiklerCallback.onSomethingsChanged(bundle);
+        }
+    }
+
+    public void notifyPrimaryActivity(@Nullable Bundle bundle){
+        if(primaryActivityCallback!=null){
+            primaryActivityCallback.onSomethingsChanged(bundle);
         }
     }
 

@@ -192,7 +192,7 @@ public class ActivityDetails extends AppCompatActivity {
                             databaseHelper.isaretle_dogum_gerceklesti(dataModel.getId(),System.currentTimeMillis(),tahmini_dogum_tarihi);
                             dogum_gerceklesti=1;
                             txtMarkIt.setText(getString(R.string.happened_birth));
-                            ActivityInteractor.getInstance().changeSomething(null);
+                            ActivityInteractor.getInstance().notifyActivityKritikler(null);
                             dialog_warn.dismiss();
                         }
                     });

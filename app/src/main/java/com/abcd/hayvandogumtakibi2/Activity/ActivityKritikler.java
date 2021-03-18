@@ -85,14 +85,9 @@ public class ActivityKritikler extends AppCompatActivity {
                 PreferencesHolder.setIsListedViewEnabled(ActivityKritikler.this,listModeEnabled);
             }
         });
-        ActivityInteractor.getInstance().setActivityInteractorCallback(new ActivityInteractor.ActivityInteractorCallback() {
+        ActivityInteractor.getInstance().setActivityKritiklerCallback(new ActivityInteractor.ActivityKritiklerCallback() {
             @Override
             public void onSomethingsChanged(@Nullable Bundle whatChanged) {
-                /*Olası bir gerçekleşen doğum işaretlemesine karşı aktiviteyi sürekli yenilemek gereklidir. Daha önce
-                * bunun için onRestart metodunda bazı işlemler yapılıyordu ve bu zamanla belleğin şişmesine ve işlemcinin sürekli çalışır durumda
-                * olmasına neden oluyordu. Ancak ActivityInteractor sınıfı bünyesindeki callback metodu sayesinde bahsedilen gereksiz yenilemeye
-                * son veriyor. Çünkü artık sadece bir değişim olduğunda yenileme yapılacak, çoğunlukla gereksiz olan işlemlere gerek kalmayacak.
-                * */
                 dataModelArrayList=databaseHelper.getKritikOlanlar(null,30);
                 initFragment();
             }

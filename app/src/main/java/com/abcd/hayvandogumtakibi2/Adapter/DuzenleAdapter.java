@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abcd.hayvandogumtakibi2.Activity.ActivityEdit;
+import com.abcd.hayvandogumtakibi2.Misc.ActivityInteractor;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.HayvanDuzenleyici;
 import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
@@ -133,6 +134,7 @@ public class DuzenleAdapter extends RecyclerView.Adapter<DuzenleAdapter.CustomVi
                         dataModelArrayList.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position,dataModelArrayList.size());
+                        ActivityInteractor.getInstance().notifyPrimaryActivity(null);
                         dialog_warn.dismiss();
                     }
                 });

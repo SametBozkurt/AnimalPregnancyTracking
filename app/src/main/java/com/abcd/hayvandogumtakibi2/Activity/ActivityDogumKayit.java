@@ -34,6 +34,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.abcd.hayvandogumtakibi2.Misc.ActivityInteractor;
 import com.abcd.hayvandogumtakibi2.Misc.DataModel;
 import com.abcd.hayvandogumtakibi2.Misc.GarbageCleaner;
 import com.abcd.hayvandogumtakibi2.R;
@@ -316,6 +317,7 @@ public class ActivityDogumKayit extends AppCompatActivity{
                         String.valueOf(date_dollenme.getTime()),String.valueOf(date_dogum.getTime()),"",_isPet,0,sperma_name);
             }
             dbYoneticisi.kayit_ekle(dataModel);
+            ActivityInteractor.getInstance().notifyPrimaryActivity(null);
             finish();
         }
     }

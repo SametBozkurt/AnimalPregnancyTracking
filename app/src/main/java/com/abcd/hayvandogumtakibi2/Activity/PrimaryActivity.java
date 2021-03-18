@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.abcd.hayvandogumtakibi2.Adapter.KayitlarAdapter;
 import com.abcd.hayvandogumtakibi2.Adapter.KritiklerAdapter;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentTarihHesaplayici;
+import com.abcd.hayvandogumtakibi2.Misc.ActivityInteractor;
 import com.abcd.hayvandogumtakibi2.Misc.AlarmLauncher;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
 import com.abcd.hayvandogumtakibi2.R;
@@ -78,7 +80,24 @@ public class PrimaryActivity extends AppCompatActivity {
         final Animation fab_clock=AnimationUtils.loadAnimation(context,R.anim.rotation_clock);
         final Animation fab_anticlock=AnimationUtils.loadAnimation(context,R.anim.rotation_anticlock);
         popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
+        initViewTask();
+        initBottomSheetDialog();
         initAdsTask();
+        ActivityInteractor.getInstance().setPrimaryActivityCallback(new ActivityInteractor.PrimaryActivityCallback() {
+            @Override
+            public void onSomethingsChanged(@Nullable Bundle whatChanged) {
+                initViewTask();
+            }
+        });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && database_size!=0){
+                    String INTENT_ACTION= "SET_AN_ALARM" ;
+                    sendBroadcast(new Intent(context, AlarmLauncher.class).setAction(INTENT_ACTION));
+                }
+            }
+        }).start();
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,12 +252,9 @@ public class PrimaryActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initBottomSheetDialog();
+    public void initViewTask(){
         frameLayout.removeAllViews();
-        HandlerThread handlerThread=new HandlerThread("FragmentThread");
+        HandlerThread handlerThread=new HandlerThread("HandlerThread");
         handlerThread.start();
         final Handler asyncHandler = new Handler(handlerThread.getLooper()) {
             @Override

@@ -28,6 +28,9 @@ public class PeriodsAdapter extends RecyclerView.Adapter<PeriodsAdapter.CustomVi
         this.context=context;
         arrayList_all_species = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.all_species)));
         this.isListedViewEnabled=isListed;
+        if(!HayvanDuzenleyici.isLoaded){
+            HayvanDuzenleyici.load(context);
+        }
     }
 
     @NonNull
