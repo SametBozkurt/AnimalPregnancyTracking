@@ -12,6 +12,7 @@ public class PreferencesHolder {
     private static final String CONF_KEY_TEXT_SIZE_OF_CARDS = "text_size_of_cards";
     private static final String CONF_KEY_CACHE_CLEANER = "is_cache_cleaner_enabled";
     private static final String CONF_KEY_IS_LISTED = "is_listed_view_enabled";
+    private static final String CONF_KEY_LAST_AD_SHOW_TIME = "last_ad_show_time";
 
     public static int getAlarmHour(final Context context){
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
@@ -82,6 +83,18 @@ public class PreferencesHolder {
         final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(CONF_KEY_IS_LISTED, preference);
+        editor.apply();
+    }
+
+    public static long getLastAdShowTime(final Context context){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        return sharedPref.getLong(CONF_KEY_LAST_AD_SHOW_TIME, 0);
+    }
+
+    public static void setLastAdShowTime(final Context context, long newTime){
+        final SharedPreferences sharedPref = context.getSharedPreferences(PREF_CONF_FILE_NAME,Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(CONF_KEY_LAST_AD_SHOW_TIME, newTime);
         editor.apply();
     }
 

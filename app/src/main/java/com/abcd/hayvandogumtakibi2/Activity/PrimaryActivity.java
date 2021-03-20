@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,9 +35,11 @@ import com.abcd.hayvandogumtakibi2.Adapter.KritiklerAdapter;
 import com.abcd.hayvandogumtakibi2.Fragment.FragmentTarihHesaplayici;
 import com.abcd.hayvandogumtakibi2.Misc.ActivityInteractor;
 import com.abcd.hayvandogumtakibi2.Misc.AlarmLauncher;
+import com.abcd.hayvandogumtakibi2.Misc.PreferencesHolder;
 import com.abcd.hayvandogumtakibi2.Misc.SQLiteDatabaseHelper;
 import com.abcd.hayvandogumtakibi2.R;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -80,7 +83,7 @@ public class PrimaryActivity extends AppCompatActivity {
         popupMenu.getMenuInflater().inflate(R.menu.primary_activity_menu,popupMenu.getMenu());
         initViewTask();
         initBottomSheetDialog();
-        initAdsTask();
+        doAsyncAdsTask();
         ActivityInteractor.getInstance().setPrimaryActivityCallback(new ActivityInteractor.PrimaryActivityCallback() {
             @Override
             public void onSomethingsChanged(@Nullable Bundle whatChanged) {
@@ -166,6 +169,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 datas.putInt("isPet",1);
                 bundle_intent.putExtras(datas);
                 startActivity(bundle_intent);
+                showAd();
                 //Evcil hayvan ise 1
             }
         });
@@ -177,6 +181,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 datas.putInt("isPet",2);
                 bundle_intent.putExtras(datas);
                 startActivity(bundle_intent);
+                showAd();
                 //Besi hayvanı ise 2
             }
         });
@@ -191,6 +196,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKayitDuzenle.class));
                 }
+                showAd();
                 break;
             case R.id.incoming:
                 if(database_size==0){
@@ -199,6 +205,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKritikler.class));
                 }
+                showAd();
                 break;
             case R.id.happened:
                 if(database_size==0){
@@ -207,6 +214,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityGerceklesenler.class));
                 }
+                showAd();
                 break;
             case R.id.search:
                 if(database_size==0){
@@ -215,6 +223,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityKayitAra.class));
                 }
+                showAd();
                 break;
             case R.id.periods:
                 startActivity(new Intent(PrimaryActivity.this,ActivityPeriods.class));
@@ -226,6 +235,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 else{
                     startActivity(new Intent(PrimaryActivity.this,ActivityTumKayitlar.class));
                 }
+                showAd();
                 break;
             case R.id.calculator:
                 FragmentTarihHesaplayici fragmentTarihHesaplayici=new FragmentTarihHesaplayici();
@@ -251,7 +261,7 @@ public class PrimaryActivity extends AppCompatActivity {
         }
     }
 
-    public void initViewTask(){
+    private void initViewTask(){
         frameLayout.removeAllViews();
         HandlerThread handlerThread=new HandlerThread("HandlerThread");
         handlerThread.start();
@@ -296,21 +306,22 @@ public class PrimaryActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    protected void show_ads(){
+    private void load_ad(){
         AdRequest adRequest = new AdRequest.Builder().build();
-        Snackbar.make(relativeLayout,getString(R.string.ad_show_warning),Snackbar.LENGTH_INDEFINITE).setDuration(5000).show();
         InterstitialAd.load(this,INTERSTITIAL_TEST_ID, adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                try {
-                    Thread.sleep(3000);
-                    mInterstitialAd = interstitialAd;
-                    mInterstitialAd.show(PrimaryActivity.this);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+                mInterstitialAd = interstitialAd;
+                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        super.onAdDismissedFullScreenContent();
+                        mInterstitialAd = null;
+                        Log.e("WARN","onAdDismissedFullScreenContent");
+                    }
+                });
 
+            }
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 mInterstitialAd = null;
@@ -318,7 +329,15 @@ public class PrimaryActivity extends AppCompatActivity {
         });
     }
 
-    protected void show_enYakinDogumlar(final FrameLayout yakinDogumlarContainer,final BottomSheetDialog bottomSheetDialog){
+    private void showAd(){
+        if(mInterstitialAd!=null){
+            PreferencesHolder.setLastAdShowTime(this,System.currentTimeMillis());
+            Log.e("WARN","Time writing....");
+            mInterstitialAd.show(PrimaryActivity.this);
+        }
+    }
+
+    private void show_enYakinDogumlar(final FrameLayout yakinDogumlarContainer,final BottomSheetDialog bottomSheetDialog){
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View view = layoutInflater.inflate(R.layout.lyt_en_yakin_dogumlar,yakinDogumlarContainer,false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewYakinDogumlar);
@@ -337,7 +356,7 @@ public class PrimaryActivity extends AppCompatActivity {
         yakinDogumlarContainer.addView(view);
     }
 
-    protected void show_sonOlusturulanlar(final FrameLayout sonOlusturulanlarContainer,final BottomSheetDialog bottomSheetDialog){
+    private void show_sonOlusturulanlar(final FrameLayout sonOlusturulanlarContainer,final BottomSheetDialog bottomSheetDialog){
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View view = layoutInflater.inflate(R.layout.lyt_son_olusturulanlar,sonOlusturulanlarContainer,false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSonOlusturulanlar);
@@ -356,7 +375,7 @@ public class PrimaryActivity extends AppCompatActivity {
         sonOlusturulanlarContainer.addView(view);
     }
 
-    protected void initBottomSheetDialog(){
+    private void initBottomSheetDialog(){
         bottomSheetDialog=new BottomSheetDialog(this,R.style.SummaryDialogTheme);
         View view1 = LayoutInflater.from(this).inflate(R.layout.lyt_dialog_summary, (RelativeLayout) findViewById(R.id.parent_layout));
         bottomSheetDialog.setContentView(view1);
@@ -364,10 +383,6 @@ public class PrimaryActivity extends AppCompatActivity {
         if(!databaseHelper.getEnYakinDogumlar().isEmpty()){
             show_enYakinDogumlar((FrameLayout)view1.findViewById(R.id.en_yakin_dogumlar),bottomSheetDialog);
         }
-    }
-
-    private void initAdsTask(){
-        doAsyncAdsTask();
     }
 
     private void doAsyncAdsTask(){
@@ -382,7 +397,7 @@ public class PrimaryActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(hasInternetConnection){
-                            show_ads();
+                            load_ad();
                         }
                     }
                 });
@@ -391,24 +406,33 @@ public class PrimaryActivity extends AppCompatActivity {
         asyncHandler.post(new Runnable() {
             @Override
             public void run() {
-                ConnectivityManager connectivityManager=(ConnectivityManager)PrimaryActivity.this.getSystemService(CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-                if(networkInfo!=null){
-                    hasInternetConnection=networkInfo.isConnected();
-                    if(networkInfo.isConnected()){
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                final long latestAdShowTime=PreferencesHolder.getLastAdShowTime(PrimaryActivity.this);
+                final long period=2*60*60*1000; //2 saat
+                final long nextAdShowTime=latestAdShowTime+period;
+                if(latestAdShowTime==0||System.currentTimeMillis()>=nextAdShowTime){
+                    Log.e("WARN","Preparing for ads");
+                    ConnectivityManager connectivityManager=(ConnectivityManager)PrimaryActivity.this.getSystemService(CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+                    if(networkInfo!=null){
+                        hasInternetConnection=networkInfo.isConnected();
+                        if(networkInfo.isConnected()){
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
+                                @Override
+                                public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                            });
+                            Message message=new Message();
+                            message.obj="InitializeAdProcess";
+                            asyncHandler.sendMessage(message);
                         }
-                        MobileAds.initialize(PrimaryActivity.this, new OnInitializationCompleteListener() {
-                            @Override
-                            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                        });
-                        Message message=new Message();
-                        message.obj="InitializeAdProcess";
-                        asyncHandler.sendMessage(message);
                     }
+                }
+                else{
+                    Log.e("WARN","Not preparing for ads");
                 }
             }
         });

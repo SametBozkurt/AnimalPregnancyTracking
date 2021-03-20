@@ -8,8 +8,8 @@ android {
         applicationId "com.sariyazilim.hayvangebeliktakibi"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 53
-        versionName '1.5.1-190321-hazirlik'
+        versionCode 56
+        versionName '1.5.1-200321'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
